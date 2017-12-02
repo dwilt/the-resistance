@@ -1,4 +1,4 @@
-package com.invertase.rnfirebasestarter;
+package com.64interactivellc.theresistance;
 
 import android.app.Application;
 
@@ -50,7 +50,7 @@ public class MainApplication extends Application implements ReactApplication {
         new RNFirebaseStoragePackage()
       );
     }
-    
+
     @Override
     protected String getJSMainModuleName() {
       return "index";
