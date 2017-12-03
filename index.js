@@ -1,3 +1,5 @@
 import { AppRegistry } from 'react-native';
-import App from './App';
-AppRegistry.registerComponent('TheResistance', () => App);
+
+import TheResistance from './src/TheResistance';
+
+AppRegistry.registerComponent('TheResistance', () => TheResistance);

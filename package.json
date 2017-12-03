@@ -23,6 +23,10 @@
     "fbjs": "^0.8.16",
     "react": "^16.0.0",
     "react-native": "^0.50.3",
-    "react-native-firebase": "^3.1.1"
+    "react-native-firebase": "^3.1.1",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-persist": "^5.4.0",
+    "redux-saga": "^0.16.0"
   }
 }
