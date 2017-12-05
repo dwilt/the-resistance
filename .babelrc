@@ -8,5 +8,11 @@
         "transform-react-jsx-source"
       ]
     }
-  }
+  },
+  "plugins": [
+    ["babel-plugin-root-import", {
+      "rootPathPrefix": "/",
+      "rootPathSuffix": "src"
+    }]
+  ]
 }

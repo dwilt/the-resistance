@@ -6,7 +6,6 @@ import {
     gutter,
     centerChildren,
     minTouchSize,
-    blue,
 } from '/styles';
 
 export default StyleSheet.create({
@@ -17,6 +16,6 @@ export default StyleSheet.create({
         paddingRight: gutter,
     },
     text: {
-        color: blue,
+        color: `blue`,
     },
 });

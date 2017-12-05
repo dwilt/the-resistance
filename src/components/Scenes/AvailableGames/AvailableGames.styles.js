@@ -3,10 +3,11 @@ import {
 } from 'react-native';
 
 import {
+    getUniversalFont,
     centerChildren,
+    gutter,
     white,
     windowWidth,
-    gutter,
 } from '/styles';
 
 export default StyleSheet.create({
@@ -14,15 +15,7 @@ export default StyleSheet.create({
         paddingTop: 60,
         backgroundColor: white,
     },
-    wrapper: {
-        ...centerChildren(true),
-    },
-    innerContainer: {
-        width: windowWidth,
-    },
-    error: {
-        textAlign: `center`,
-        padding: gutter,
-        color: `red`,
+    title: {
+        ...getUniversalFont(1.5)
     }
 });

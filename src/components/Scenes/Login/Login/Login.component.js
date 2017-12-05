@@ -1,63 +1,120 @@
 import React, {
-    PureComponent,
+    Component,
 } from 'react';
 
 import {
     KeyboardAvoidingView,
-    Image,
     View,
 } from 'react-native';
 
 import {
     DismissKeyboardView,
-    LoginEmail,
-    LoginError,
-    LoginForgotPasswordLink,
-    LoginPassword,
-    LoginButton,
-    LoginRegisterButton,
-    Scene,
+    TextInput,
+    ActionButton,
+    TextButton,
+    Text
 } from '/components';
 
-const logo = require(`../../../../assets/images/dropcountr-logo.png`);
+import {
+    firebase
+} from '/services';
 
 import styles from './Login.styles';
 
-export default class Login extends PureComponent {
+class Login extends Component {
+    state = {
+        password: ``,
+        email: ``,
+        showRegister: true,
+        isRegistering: false,
+        error: null,
+    };
+
+    setEmail = (email) => this.setState({
+        email
+    })
+
+    setPassword = (password) => this.setState({
+        password
+    })
+
+    submitForm = async () => {
+        const { email, password, showRegister } = this.state;
+
+        try {
+            this.setState({
+                error: null,
+                isRegistering: true
+            });
+
+            if(showRegister) {
+                await firebase.auth().createUserWithEmailAndPassword(email, password);
+            } else {
+                await firebase.auth().signInWithEmailAndPassword(email, password);
+            }
+        } catch ({ message }) {
+            this.setState({
+                error: message
+            })
+        } finally {
+            this.setState({
+                isRegistering: false
+            });
+        }
+    };
+
+    toggleForm = () => {
+        this.setState(state => ({
+            showRegister: !state.showRegister
+        }))
+    }
+
     render() {
+        const { password, email, isRegistering,showRegister, error } = this.state;
+        const errorEl = error && (
+            <Text style={styles.error}>
+                {error}
+            </Text>
+        )
+
         return (
-            <Scene
-                title={`Login`}
-                compact={true}
-                whiteBg={true}
-                hideHeader={true}
-                scrollContent={false}
-                style={styles.container}
-            >
-                <DismissKeyboardView>
-                    <View style={styles.wrapper}>
-
-                        <KeyboardAvoidingView
-                            style={styles.innerContainer}
-                            behavior={`position`}
+            <DismissKeyboardView>
+                <View style={styles.container}>
+                    <KeyboardAvoidingView
+                        style={styles.innerContainer}
+                        behavior={`position`}
+                    >
+                        {errorEl}
+                        <TextInput
+                            label={`Email`}
+                            value={email}
+                            keyboardType={`email-address`}
+                            autoCapitalize={`none`}
+                            onChangeText={this.setEmail}
+                        />
+                        <TextInput
+                            label={`Password`}
+                            value={password}
+                            onChangeText={this.setPassword}
+                        />
+                        <ActionButton
+                            onPress={this.submitForm}
+                            isLoading={isRegistering}
                         >
-
-                            <View style={styles.logoContainer}>
-                                <Image
-                                    source={logo}
-                                    style={styles.logo}
-                                />
-                            </View>
-                            <LoginError/>
-                            <LoginEmail/>
-                            <LoginPassword/>
-                            <LoginForgotPasswordLink/>
-                            <LoginButton/>
-                            <LoginRegisterButton/>
-                        </KeyboardAvoidingView>
-                    </View>
-                </DismissKeyboardView>
-            </Scene>
+                            {showRegister ? `Register` : `Login`}
+                        </ActionButton>
+                        <TextButton
+                            onPress={this.toggleForm}
+                        >
+                            {showRegister ? `or Login` : `Back to Register`}
+                        </TextButton>
+                    </KeyboardAvoidingView>
+                </View>
+            </DismissKeyboardView>
         );
     }
 }
+
+Login.key = `LOGIN_KEY`;
+
+export default Login;
