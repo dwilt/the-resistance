@@ -10,6 +10,7 @@ import {
 
 import {
     AvailableGames,
+    Game,
     Login
 } from '/components';
 
@@ -48,6 +49,10 @@ export default class TheResistance extends PureComponent {
                     <Scene
                         key={AvailableGames.key}
                         component={AvailableGames}
+                    />
+                    <Scene
+                        key={Game.key}
+                        component={Game}
                     />
                 </Scene>
             </Router>
