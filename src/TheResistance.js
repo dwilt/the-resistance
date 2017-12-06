@@ -9,24 +9,25 @@ import {
 } from 'react-native-router-flux';
 
 import {
-    AvailableGames,
+    Lobby,
     Game,
     Login
 } from '/components';
 
 import {
-   firebase
+    firebase,
 } from '/services';
 
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-        Actions[AvailableGames.key]();
+        Actions[Lobby.key]();
     } else {
-        if(Actions.currentScene !== Login.key) {
+        if (Actions.currentScene !== Login.key) {
             Actions[Login.key]();
         }
     }
 });
+
 
 export default class TheResistance extends PureComponent {
     render() {
@@ -47,8 +48,8 @@ export default class TheResistance extends PureComponent {
                         component={Login}
                     />
                     <Scene
-                        key={AvailableGames.key}
-                        component={AvailableGames}
+                        key={Lobby.key}
+                        component={Lobby}
                     />
                     <Scene
                         key={Game.key}

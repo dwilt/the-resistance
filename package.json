@@ -14,7 +14,8 @@
     "ios": "react-native run-ios",
     "rename": "node ./bin/rename.js",
     "start": "react-native start",
-    "test": "node node_modules/jest/bin/jest.js --watch"
+    "test": "node node_modules/jest/bin/jest.js --watch",
+    "deploy-functions": "firebase deploy --only functions"
   },
   "jest": {
     "preset": "jest-expo"

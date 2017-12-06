@@ -6,7 +6,6 @@ import {
     centerChildren,
     white,
     windowWidth,
-    gutter,
 } from '/styles';
 
 export default StyleSheet.create({
@@ -20,9 +19,4 @@ export default StyleSheet.create({
     innerContainer: {
         width: windowWidth,
     },
-    error: {
-        textAlign: `center`,
-        padding: gutter,
-        color: `red`,
-    }
 });

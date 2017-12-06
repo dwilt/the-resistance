@@ -8,6 +8,7 @@ import {
     gutter,
     white,
     windowWidth,
+    darkGray
 } from '/styles';
 
 export default StyleSheet.create({
@@ -15,7 +16,10 @@ export default StyleSheet.create({
         paddingTop: 60,
         backgroundColor: white,
     },
-    title: {
-        ...getUniversalFont(1.5)
+    join: {
+        borderBottomWidth: 1,
+        borderBottomColor: darkGray,
+        paddingBottom: gutter * 2,
+        marginBottom: gutter * 2
     }
 });

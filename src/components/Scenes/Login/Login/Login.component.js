@@ -9,6 +9,7 @@ import {
 
 import {
     DismissKeyboardView,
+    ErrorMessage,
     TextInput,
     ActionButton,
     TextButton,
@@ -72,9 +73,9 @@ class Login extends Component {
     render() {
         const { password, email, isRegistering,showRegister, error } = this.state;
         const errorEl = error && (
-            <Text style={styles.error}>
-                {error}
-            </Text>
+            <ErrorMessage
+                error={error}
+            />
         )
 
         return (
