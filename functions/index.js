@@ -81,7 +81,10 @@ exports.quitGame = functions.https.onRequest((req, res) => {
                                 .ref
                                 .delete()
                                 .then(() => {
-                                    res.end()
+                                    res
+                                        .send({
+                                            success: true
+                                        })
                                 })
                         } else {
                             res

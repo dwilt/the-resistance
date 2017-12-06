@@ -17,7 +17,8 @@ import {
 } from 'react-native-router-flux';
 
 import {
-    firebase
+    firebase,
+    fireFetch,
 } from '/services';
 
 import styles from './Game.styles';
@@ -36,9 +37,11 @@ class Game extends Component {
             isQuitting: true
         })
 
-        await fetch(`https://us-central1-the-resistance-6d42d.cloudfunctions.net/quitGame?userId=${userId}&gameId=${gameId}`, {
-            method: `GET`,
-            mode: `cors`,
+        await fireFetch(`quitGame`, {
+            queryParams: {
+                userId,
+                gameId,
+            }
         });
 
         Actions.pop();

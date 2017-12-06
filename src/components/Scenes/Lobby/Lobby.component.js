@@ -21,6 +21,7 @@ import {
 
 import {
     firebase,
+    fireFetch,
     db
 } from '/services';
 
@@ -44,22 +45,16 @@ class Lobby extends Component {
                 isJoiningGame: true
             })
 
-            const res = await fetch(`https://us-central1-the-resistance-6d42d.cloudfunctions.net/joinGame?userId=${userId}&gameCode=${gameCode}`, {
-                method: `GET`,
-                mode: `cors`,
+            const { gameId } = await fireFetch(`joinGame`, {
+                queryParams: {
+                    gameCode,
+                    userId,
+                }
             });
 
-            const data = await res.json();
-
-            if (!res.ok) {
-                throw new Error(data.message);
-            } else {
-                const { gameId } = data;
-
-                Actions[Game.key]({
-                    gameId
-                })
-            }
+            Actions[Game.key]({
+                gameId
+            })
         } catch ({ message }) {
             this.setState({
                 error: message
@@ -79,10 +74,9 @@ class Lobby extends Component {
                 isCreatingGame: true
             })
 
-            const { gameCode } = await fetch(`https://us-central1-the-resistance-6d42d.cloudfunctions.net/createGame?userId=${userId}`, {
-                method: `GET`,
-                mode: `cors`,
-            }).then((res) => res.json());
+            const { gameCode } = await fireFetch(`createGame`, {
+                userId
+            });
 
             Actions[Game.key]({
                 gameCode

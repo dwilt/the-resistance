@@ -23,6 +23,7 @@
   "dependencies": {
     "babel-plugin-root-import": "^5.1.0",
     "fbjs": "^0.8.16",
+    "obj-to-query-string": "^1.1.1",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-native": "^0.50.3",

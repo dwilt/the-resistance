@@ -3200,6 +3200,10 @@ oauth-sign@~0.8.1, oauth-sign@~0.8.2:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
 
+obj-to-query-string@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/obj-to-query-string/-/obj-to-query-string-1.1.1.tgz#18b9af096a73aa308a104a3463abdc0869626649"
+
 object-assign@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-3.0.0.tgz#9bedd5ca0897949bca47e7ff408062d549f587f2"
