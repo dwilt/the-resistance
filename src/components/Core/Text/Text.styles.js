@@ -1,14 +1,10 @@
-import {
-    StyleSheet,
-} from 'react-native';
+import { StyleSheet } from "react-native";
 
-import {
-    getUniversalFont,
-} from '../../../styles';
+import { getUniversalFont } from "../../../styles";
 
 export default StyleSheet.create({
     text: {
         ...getUniversalFont(),
-        color: `black`,
-    },
+        color: `black`
+    }
 });

@@ -1,17 +1,15 @@
-import React, {
-    PureComponent,
-} from 'react';
+import React, { PureComponent } from "react";
 
 import {
     ActivityIndicator,
     TouchableOpacity,
     View,
-    ViewPropTypes,
-} from 'react-native';
+    ViewPropTypes
+} from "react-native";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import styles from './ActionButton.styles';
+import styles from "./ActionButton.styles";
 
 import { Text } from "../Text";
 
@@ -21,22 +19,26 @@ export default class ActionButton extends PureComponent {
         onPress: PropTypes.func.isRequired,
         children: PropTypes.node.isRequired,
         disabled: PropTypes.bool,
-        theme: PropTypes.oneOf([
-            `teal`,
-            `darkTeal`,
-        ]),
-        style: ViewPropTypes.style,
+        theme: PropTypes.oneOf([`teal`, `darkTeal`]),
+        style: ViewPropTypes.style
     };
 
     static defaultProps = {
         disabled: false,
         isLoading: false,
         theme: `teal`,
-        style: {},
+        style: {}
     };
 
     render() {
-        const { theme, onPress, children, isLoading, disabled, style } = this.props;
+        const {
+            theme,
+            onPress,
+            children,
+            isLoading,
+            disabled,
+            style
+        } = this.props;
 
         const textStyles = [styles.text];
         const buttonStyles = [styles.textContainer];
@@ -45,7 +47,7 @@ export default class ActionButton extends PureComponent {
 
         const isLoadingEl = isLoading && (
             <View style={styles.loader}>
-                <ActivityIndicator color={`white`}/>
+                <ActivityIndicator color={`white`} />
             </View>
         );
 

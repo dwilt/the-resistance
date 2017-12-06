@@ -1,33 +1,20 @@
-import React, {
-    Component,
-} from 'react';
+import React, { Component } from "react";
 
-import {
-    Alert,
-    View,
-} from 'react-native';
+import { Alert, View } from "react-native";
 
-import {
-    ActionButton,
-   Text
-} from '/components';
+import { ActionButton, Text } from "/components";
 
-import {
-    Actions
-} from 'react-native-router-flux';
+import { Actions } from "react-native-router-flux";
 
-import {
-    firebase,
-    fireFetch,
-} from '/services';
+import { firebase, fireFetch } from "/services";
 
-import styles from './Game.styles';
+import styles from "./Game.styles";
 
 class Game extends Component {
     state = {
         isQuitting: false,
         players: []
-    }
+    };
 
     quitGame = async () => {
         const { gameId } = this.props;
@@ -35,17 +22,17 @@ class Game extends Component {
 
         this.setState({
             isQuitting: true
-        })
+        });
 
         await fireFetch(`quitGame`, {
             queryParams: {
                 userId,
-                gameId,
+                gameId
             }
         });
 
         Actions.pop();
-    }
+    };
 
     render() {
         const { isQuitting } = this.state;
@@ -53,10 +40,7 @@ class Game extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>{`Players:`}</Text>
-                <ActionButton
-                    isLoading={isQuitting}
-                    onPress={this.quitGame}
-                >
+                <ActionButton isLoading={isQuitting} onPress={this.quitGame}>
                     {`Quit Game`}
                 </ActionButton>
             </View>

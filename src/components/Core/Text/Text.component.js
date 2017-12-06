@@ -1,20 +1,16 @@
-import React, {
-    PureComponent,
-} from 'react';
+import React, { PureComponent } from "react";
 
-import {
-    Text,
-} from 'react-native';
+import { Text } from "react-native";
 
-import styles from './Text.styles';
+import styles from "./Text.styles";
 
 export default class GJSText extends PureComponent {
     static propTypes = {
-        style: Text.propTypes.style,
+        style: Text.propTypes.style
     };
 
     static defaultProps = {
-        style: {},
+        style: {}
     };
 
     render() {
@@ -23,11 +19,6 @@ export default class GJSText extends PureComponent {
 
         textStyles.push(style);
 
-        return (
-            <Text
-                {...this.props}
-                style={textStyles}
-            />
-        );
+        return <Text {...this.props} style={textStyles} />;
     }
 }

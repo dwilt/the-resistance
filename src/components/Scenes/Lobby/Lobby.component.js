@@ -1,10 +1,6 @@
-import React, {
-    Component,
-} from 'react';
+import React, { Component } from "react";
 
-import {
-    View,
-} from 'react-native';
+import { View } from "react-native";
 
 import {
     ActionButton,
@@ -13,19 +9,13 @@ import {
     Text,
     Game,
     TextInput
-} from '/components';
+} from "/components";
 
-import {
-    Actions,
-} from 'react-native-router-flux';
+import { Actions } from "react-native-router-flux";
 
-import {
-    firebase,
-    fireFetch,
-    db
-} from '/services';
+import { firebase, fireFetch, db } from "/services";
 
-import styles from './Lobby.styles';
+import styles from "./Lobby.styles";
 
 class Lobby extends Component {
     state = {
@@ -43,28 +33,28 @@ class Lobby extends Component {
             this.setState({
                 error: null,
                 isJoiningGame: true
-            })
+            });
 
             const { gameId } = await fireFetch(`joinGame`, {
                 queryParams: {
                     gameCode,
-                    userId,
+                    userId
                 }
             });
 
             Actions[Game.key]({
                 gameId
-            })
+            });
         } catch ({ message }) {
             this.setState({
                 error: message
-            })
+            });
         } finally {
             this.setState({
                 isJoiningGame: false
-            })
+            });
         }
-    }
+    };
 
     createGame = async () => {
         const userId = firebase.auth().currentUser.uid;
@@ -72,7 +62,7 @@ class Lobby extends Component {
         try {
             this.setState({
                 isCreatingGame: true
-            })
+            });
 
             const { gameCode } = await fireFetch(`createGame`, {
                 userId
@@ -80,30 +70,26 @@ class Lobby extends Component {
 
             Actions[Game.key]({
                 gameCode
-            })
-
+            });
         } catch (error) {
             this.setState({
                 error: error.message
-            })
+            });
         } finally {
             this.setState({
                 isCreatingGame: false
-            })
+            });
         }
-    }
+    };
 
-    setGameCode = (gameCode) => this.setState({
-        gameCode
-    })
+    setGameCode = gameCode =>
+        this.setState({
+            gameCode
+        });
 
     render() {
         const { isCreatingGame, isJoiningGame, gameCode, error } = this.state;
-        const errorEl = error && (
-            <ErrorMessage
-                error={error}
-            />
-        )
+        const errorEl = error && <ErrorMessage error={error} />;
 
         return (
             <View style={styles.container}>
@@ -127,7 +113,7 @@ class Lobby extends Component {
                 >
                     {`Create Game`}
                 </ActionButton>
-                <LogoutButton/>
+                <LogoutButton />
             </View>
         );
     }

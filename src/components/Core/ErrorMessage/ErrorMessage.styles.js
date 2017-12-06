@@ -1,15 +1,11 @@
-import {
-    StyleSheet,
-} from 'react-native';
+import { StyleSheet } from "react-native";
 
-import {
-    gutter,
-} from '/styles';
+import { gutter } from "/styles";
 
 export default StyleSheet.create({
     error: {
         padding: gutter,
         textAlign: `center`,
-        color: `red`,
-    },
+        color: `red`
+    }
 });

@@ -1,19 +1,13 @@
-import {
-    Platform,
-} from 'react-native';
+import { Platform } from "react-native";
 
-import {
-    gutter,
-    viewSizes,
-    viewSize,
-} from './structure';
+import { gutter, viewSizes, viewSize } from "./structure";
 
 export const minTouchSize = gutter * 3.5;
 
 export const centerChildren = (vertically = false) => ({
     flexDirection: vertically ? `column` : `row`,
     alignItems: `center`,
-    justifyContent: `center`,
+    justifyContent: `center`
 });
 
 export const fullscreen = {
@@ -21,7 +15,7 @@ export const fullscreen = {
     left: 0,
     top: 0,
     bottom: 0,
-    right: 0,
+    right: 0
 };
 
 export const isAndroid = () => {
@@ -64,6 +58,6 @@ export const getUniversalFont = (fontSizeRatio = 1, lineHeightRatio = 1) => {
 
     return {
         fontSize,
-        lineHeight,
+        lineHeight
     };
 };

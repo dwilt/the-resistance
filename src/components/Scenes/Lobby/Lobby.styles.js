@@ -1,6 +1,4 @@
-import {
-    StyleSheet,
-} from 'react-native';
+import { StyleSheet } from "react-native";
 
 import {
     getUniversalFont,
@@ -9,12 +7,12 @@ import {
     white,
     windowWidth,
     darkGray
-} from '/styles';
+} from "/styles";
 
 export default StyleSheet.create({
     container: {
         paddingTop: 60,
-        backgroundColor: white,
+        backgroundColor: white
     },
     join: {
         borderBottomWidth: 1,

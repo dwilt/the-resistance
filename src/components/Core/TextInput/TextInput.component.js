@@ -1,28 +1,19 @@
-import React, {
-    PureComponent,
-} from 'react';
+import React, { PureComponent } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-    Icon,
-    Text,
-} from '/components';
+import { Icon, Text } from "/components";
 
 import {
     TextInput as RNTextInput,
     TouchableOpacity,
     ViewPropTypes,
-    View,
-} from 'react-native';
+    View
+} from "react-native";
 
-import styles, {
-    toggleIconSize,
-    toggleIconColor,
-} from './TextInput.styles';
+import styles, { toggleIconSize, toggleIconColor } from "./TextInput.styles";
 
 export default class TextInput extends PureComponent {
-
     static propTypes = {
         autoFocus: PropTypes.bool.isRequired,
         multiline: PropTypes.bool.isRequired,
@@ -30,7 +21,7 @@ export default class TextInput extends PureComponent {
         inputStyle: ViewPropTypes.style,
         label: PropTypes.string,
         onMount: PropTypes.func,
-        secureTextEntry: PropTypes.bool.isRequired,
+        secureTextEntry: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -40,20 +31,20 @@ export default class TextInput extends PureComponent {
         style: {},
         inputStyle: {},
         label: null,
-        secureTextEntry: false,
+        secureTextEntry: false
     };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            showPassword: !props.secureTextEntry,
+            showPassword: !props.secureTextEntry
         };
     }
 
     toggleShowPassword = () => {
-        this.setState((previousState) => ({
-            showPassword: !previousState.showPassword,
+        this.setState(previousState => ({
+            showPassword: !previousState.showPassword
         }));
     };
 
@@ -74,13 +65,17 @@ export default class TextInput extends PureComponent {
     }
 
     render() {
-        const { style, multiline, label, inputStyle, secureTextEntry } = this.props;
+        const {
+            style,
+            multiline,
+            label,
+            inputStyle,
+            secureTextEntry
+        } = this.props;
         const { showPassword } = this.state;
 
         const inputStyles = [styles.input];
-        const labelEl = label && (
-            <Text style={styles.label}>{label}</Text>
-        );
+        const labelEl = label && <Text style={styles.label}>{label}</Text>;
 
         if (multiline) {
             inputStyles.push(styles.multilineInput);
