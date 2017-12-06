@@ -1,21 +1,15 @@
-import {
-    StyleSheet,
-} from 'react-native';
+import { StyleSheet } from "react-native";
 
-import {
-    centerChildren,
-    white,
-    windowWidth,
-} from '/styles';
+import { centerChildren, white, windowWidth } from "/styles";
 
 export default StyleSheet.create({
     container: {
-        paddingTop: 60,
+        paddingTop: 60
     },
     wrapper: {
-        ...centerChildren(true),
+        ...centerChildren(true)
     },
     innerContainer: {
-        width: windowWidth,
-    },
+        width: windowWidth
+    }
 });

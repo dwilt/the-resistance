@@ -1,11 +1,6 @@
-import React, {
-    Component,
-} from 'react';
+import React, { Component } from "react";
 
-import {
-    KeyboardAvoidingView,
-    View,
-} from 'react-native';
+import { KeyboardAvoidingView, View } from "react-native";
 
 import {
     DismissKeyboardView,
@@ -14,33 +9,39 @@ import {
     ActionButton,
     TextButton,
     Text
-} from '/components';
+} from "/components";
 
-import {
-    firebase
-} from '/services';
+import { firebase, db } from "/services";
 
-import styles from './Login.styles';
+import styles from "./Login.styles";
 
 class Login extends Component {
     state = {
         password: ``,
         email: ``,
+        name: ``,
         showRegister: true,
         isRegistering: false,
-        error: null,
+        error: null
     };
 
-    setEmail = (email) => this.setState({
-        email
-    })
+    setName = name =>
+        this.setState({
+            name
+        });
 
-    setPassword = (password) => this.setState({
-        password
-    })
+    setEmail = email =>
+        this.setState({
+            email
+        });
+
+    setPassword = password =>
+        this.setState({
+            password
+        });
 
     submitForm = async () => {
-        const { email, password, showRegister } = this.state;
+        const { email, password, showRegister, name } = this.state;
 
         try {
             this.setState({
@@ -48,15 +49,28 @@ class Login extends Component {
                 isRegistering: true
             });
 
-            if(showRegister) {
-                await firebase.auth().createUserWithEmailAndPassword(email, password);
+            if (showRegister) {
+                await firebase
+                    .auth()
+                    .createUserWithEmailAndPassword(email, password);
+
+                const userId = firebase.auth().currentUser.uid;
+
+                await db
+                    .collection(`users`)
+                    .doc(userId)
+                    .set({
+                        name
+                    });
             } else {
-                await firebase.auth().signInWithEmailAndPassword(email, password);
+                await firebase
+                    .auth()
+                    .signInWithEmailAndPassword(email, password);
             }
         } catch ({ message }) {
             this.setState({
                 error: message
-            })
+            });
         } finally {
             this.setState({
                 isRegistering: false
@@ -67,16 +81,27 @@ class Login extends Component {
     toggleForm = () => {
         this.setState(state => ({
             showRegister: !state.showRegister
-        }))
-    }
+        }));
+    };
 
     render() {
-        const { password, email, isRegistering,showRegister, error } = this.state;
-        const errorEl = error && (
-            <ErrorMessage
-                error={error}
+        const {
+            password,
+            email,
+            isRegistering,
+            showRegister,
+            error,
+            name
+        } = this.state;
+        const errorEl = error && <ErrorMessage error={error} />;
+
+        const nameInputEl = showRegister && (
+            <TextInput
+                label={`Name`}
+                value={name}
+                onChangeText={this.setName}
             />
-        )
+        );
 
         return (
             <DismissKeyboardView>
@@ -98,15 +123,14 @@ class Login extends Component {
                             value={password}
                             onChangeText={this.setPassword}
                         />
+                        {nameInputEl}
                         <ActionButton
                             onPress={this.submitForm}
                             isLoading={isRegistering}
                         >
                             {showRegister ? `Register` : `Login`}
                         </ActionButton>
-                        <TextButton
-                            onPress={this.toggleForm}
-                        >
+                        <TextButton onPress={this.toggleForm}>
                             {showRegister ? `or Login` : `Back to Register`}
                         </TextButton>
                     </KeyboardAvoidingView>

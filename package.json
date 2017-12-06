@@ -21,6 +21,7 @@
     "rename": "node ./bin/rename.js",
     "start": "react-native start",
     "test": "node node_modules/jest/bin/jest.js --watch",
+    "pretty": "yarn run prettier -- --write 'src/**/*.js'",
     "login": "firebase login",
     "preserve": "yarn package:functions",
     "serve": "firebase serve --only functions",
