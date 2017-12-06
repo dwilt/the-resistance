@@ -14,7 +14,8 @@ import styles from "./Game.styles";
 
 class Game extends Component {
     static defaultProps = {
-        gameId: PropTypes.string.isRequired
+        gameId: PropTypes.string.isRequired,
+        gameCode: PropTypes.string
     };
 
     state = {
@@ -23,7 +24,11 @@ class Game extends Component {
     };
 
     componentDidMount() {
-        const { gameId } = this.props;
+        const { gameId, gameCode } = this.props;
+
+        if(gameCode) {
+            Alert.alert(`Game Created!`, `Your game has been created and the code is ${gameCode}`);
+        }
 
         db
             .collection(`games`)
