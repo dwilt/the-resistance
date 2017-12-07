@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createGame = exports.createGameErrors = exports.quitGame = exports.quitGameErrors = exports.joinGame = exports.joinGameErrors = void 0;
+exports.startGame = exports.startGameErrors = exports.createGame = exports.createGameErrors = exports.quitGame = exports.quitGameErrors = exports.joinGame = exports.joinGameErrors = void 0;
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } } function _next(value) { step("next", value); } function _throw(err) { step("throw", err); } _next(); }); }; }
 
@@ -143,3 +143,26 @@ let createGame =
 })();
 
 exports.createGame = createGame;
+const startGameErrors = {
+  CANNOT_START_GAME: {
+    code: `CANNOT_START_GAME`,
+    message: `Shit. We're having trouble starting the game at the moment.`
+  }
+};
+exports.startGameErrors = startGameErrors;
+
+let startGame =
+/*#__PURE__*/
+(() => {
+  var _ref4 = _asyncToGenerator(function* (gameId) {
+    yield admin.firestore().collection(`games`).doc(gameId).update({
+      state: `STARTED`
+    });
+  });
+
+  return function startGame(_x6) {
+    return _ref4.apply(this, arguments);
+  };
+})();
+
+exports.startGame = startGame;

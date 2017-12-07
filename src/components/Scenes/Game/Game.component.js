@@ -19,11 +19,13 @@ class Game extends Component {
     };
 
     state = {
+        state: `OPEN`,
+        isStarting: false,
         isQuitting: false,
         players: []
     };
 
-    componentDidMount() {
+    async componentDidMount() {
         const { gameId, gameCode } = this.props;
 
         if (gameCode) {
@@ -42,10 +44,26 @@ class Game extends Component {
                     players: snapshot.docs.map(doc => doc.data())
                 });
             });
+
+        this.gameListener = db
+            .collection(`games`)
+            .doc(gameId)
+            .onSnapshot(snapshot => {
+                const data = snapshot.data();
+
+                if (data) {
+                    const { state } = data;
+
+                    this.setState({
+                        state
+                    })
+                }
+            });
     }
 
     componentWillUnmount() {
         this.playersListener();
+        this.gameListener();
     }
 
     quitGame = async () => {
@@ -76,18 +94,55 @@ class Game extends Component {
         }
     };
 
+    startGame = async () => {
+        const { gameId } = this.props;
+
+        try {
+            this.setState({
+                isStarting: true
+            });
+
+            await fireFetch(`startGame`, {
+                queryParams: {
+                    gameId
+                }
+            });
+        } catch ({ message }) {
+            this.setState({
+                error: message
+            });
+        } finally {
+            this.setState({
+                isStarting: false
+            });
+        }
+    };
+
     render() {
-        const { isQuitting, players } = this.state;
+        const { isQuitting, players, isStarting, state } = this.state;
+        const startGameButtonEl = state === `OPEN` && (
+            <ActionButton
+                isLoading={isStarting}
+                onPress={this.startGame}
+            >
+                {`Start Game`}
+            </ActionButton>
+        );
 
         return (
             <View style={styles.container}>
+                <Text style={styles.title}>{`Game State: ${state}`}</Text>
                 <Text style={styles.title}>{`Players:`}</Text>
-                {players.map(({ name, id }) => (
+                {players.map(({ name, id }, i) => (
                     <View key={id}>
-                        <Text>{name}</Text>
+                        <Text>{`${i + 1}. ${name}`}</Text>
                     </View>
                 ))}
-                <ActionButton isLoading={isQuitting} onPress={this.quitGame}>
+                {startGameButtonEl}
+                <ActionButton
+                    isLoading={isQuitting}
+                    onPress={this.quitGame}
+                >
                     {`Quit Game`}
                 </ActionButton>
             </View>

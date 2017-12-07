@@ -16,23 +16,22 @@ function handleError(error = {}, errors = {}, res) {
   console.log(`error`, error);
   console.log(`errors`, errors);
   const knownError = errors[error.code];
-  const status = knownError || 500;
+  const statusCode = knownError || 500;
   const resError = knownError ? error : {
     code: `STANDARD_ERROR`,
     message: `Fuck. There was some kind of unexpected error and we're not sure why. But we're on it!`
   };
-  res.type(`json`).status(status).send(resError);
+  res.type(`json`).status(statusCode).send(resError);
 }
 
 exports.createGame = functions.https.onRequest(
 /*#__PURE__*/
 (() => {
   var _ref = _asyncToGenerator(function* (req, res) {
-    const {
-      userId
-    } = req.query;
-
     try {
+      const {
+        userId
+      } = req.query;
       const {
         gameCode,
         gameId
@@ -56,12 +55,11 @@ exports.joinGame = functions.https.onRequest(
 /*#__PURE__*/
 (() => {
   var _ref2 = _asyncToGenerator(function* (req, res) {
-    const {
-      gameCode,
-      userId
-    } = req.query;
-
     try {
+      const {
+        gameCode,
+        userId
+      } = req.query;
       const gameId = yield (0, _games.joinGame)(userId, parseInt(gameCode));
       sendSuccessfulResponse(res, {
         gameId
@@ -81,12 +79,11 @@ exports.quitGame = functions.https.onRequest(
 /*#__PURE__*/
 (() => {
   var _ref3 = _asyncToGenerator(function* (req, res) {
-    const {
-      gameId,
-      userId
-    } = req.query;
-
     try {
+      const {
+        gameId,
+        userId
+      } = req.query;
       yield (0, _games.quitGame)(userId, gameId);
       sendSuccessfulResponse(res);
     } catch (error) {
@@ -99,5 +96,26 @@ exports.quitGame = functions.https.onRequest(
 
   return function (_x5, _x6) {
     return _ref3.apply(this, arguments);
+  };
+})());
+exports.startGame = functions.https.onRequest(
+/*#__PURE__*/
+(() => {
+  var _ref4 = _asyncToGenerator(function* (req, res) {
+    try {
+      const {
+        gameId
+      } = req.query;
+      yield (0, _games.startGame)(gameId);
+      sendSuccessfulResponse(res);
+    } catch (error) {
+      handleError(error, {
+        [_games.startGameErrors.CANNOT_START_GAME.code]: 500
+      }, res);
+    }
+  });
+
+  return function (_x7, _x8) {
+    return _ref4.apply(this, arguments);
   };
 })());

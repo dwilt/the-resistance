@@ -6,7 +6,9 @@ import {
     createGame,
     createGameErrors,
     joinGame,
-    joinGameErrors
+    joinGameErrors,
+    startGame,
+    startGameErrors
 } from "./games";
 
 function sendSuccessfulResponse(
@@ -89,6 +91,24 @@ exports.quitGame = functions.https.onRequest(async (req, res) => {
             {
                 [quitGameErrors.GAME_DOES_NOT_EXIST.code]: 404,
                 [quitGameErrors.PLAYER_DOES_NOT_EXIST.code]: 404
+            },
+            res
+        );
+    }
+});
+
+exports.startGame = functions.https.onRequest(async (req, res) => {
+    try {
+        const { gameId } = req.query;
+
+        await startGame(gameId);
+
+        sendSuccessfulResponse(res);
+    } catch (error) {
+        handleError(
+            error,
+            {
+                [startGameErrors.CANNOT_START_GAME.code]: 500
             },
             res
         );

@@ -132,3 +132,20 @@ export async function createGame(userId) {
         return Promise.reject(createGameErrors.CANNOT_CREATE_GAME);
     }
 }
+
+export const startGameErrors = {
+    CANNOT_START_GAME: {
+        code: `CANNOT_START_GAME`,
+        message: `Shit. We're having trouble starting the game at the moment.`
+    }
+};
+
+export async function startGame(gameId) {
+    await admin
+        .firestore()
+        .collection(`games`)
+        .doc(gameId)
+        .update({
+            state: `STARTED`
+        });
+}
