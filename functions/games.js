@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createGame = exports.quitGame = exports.quitGameErrors = exports.joinGame = exports.joinGameErrors = void 0;
+exports.createGame = exports.createGameErrors = exports.quitGame = exports.quitGameErrors = exports.joinGame = exports.joinGameErrors = void 0;
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } } function _next(value) { step("next", value); } function _throw(err) { step("throw", err); } _next(); }); }; }
 
@@ -48,6 +48,7 @@ let joinGame =
 
       return gameId;
     } else {
+      // TODO: Track/log this error somehow
       return Promise.reject(joinGameErrors.GAME_DOES_NOT_EXIST);
     }
   });
@@ -77,15 +78,23 @@ let quitGame =
     const gameDoc = yield admin.firestore().collection(`games`).doc(gameId).get();
 
     if (gameDoc.exists) {
-      const querySnapshot = yield gameDoc.ref.collection(`players`).where(`id`, `==`, userId).get();
+      const playerQuerySnapshot = yield gameDoc.ref.collection(`players`).where(`id`, `==`, userId).get();
 
-      if (querySnapshot.docs.length) {
-        const player = querySnapshot.docs[0];
-        yield player.ref.delete();
+      if (playerQuerySnapshot.docs.length) {
+        const player = playerQuerySnapshot.docs[0];
+        yield player.ref.delete(); // not returning because this is a server-job and client shouldn't wait for it to complete
+
+        gameDoc.ref.collection(`players`).get().then(allPlayersQuerySnapshot => {
+          if (!allPlayersQuerySnapshot.docs.length) {
+            return gameDoc.ref.delete();
+          }
+        });
       } else {
+        // TODO: Track/log this error somehow
         return Promise.reject(quitGameErrors.PLAYER_DOES_NOT_EXIST);
       }
     } else {
+      // TODO: Track/log this error somehow
       return Promise.reject(quitGameErrors.GAME_DOES_NOT_EXIST);
     }
   });
@@ -96,23 +105,35 @@ let quitGame =
 })();
 
 exports.quitGame = quitGame;
+const createGameErrors = {
+  CANNOT_CREATE_GAME: {
+    code: `CANNOT_CREATE_GAME`,
+    message: `Shit. We're having trouble creating a game at the moment.`
+  }
+};
+exports.createGameErrors = createGameErrors;
 
 let createGame =
 /*#__PURE__*/
 (() => {
   var _ref3 = _asyncToGenerator(function* (userId) {
-    const gameCode = Math.floor(Math.random() * 900000) + 100000;
-    const newGame = {
-      gameCode,
-      host: userId,
-      state: `OPEN`
-    };
-    yield admin.firestore().collection(`games`).add(newGame);
-    const gameId = yield joinGame(userId, gameCode);
-    return {
-      gameCode,
-      gameId
-    };
+    try {
+      const gameCode = Math.floor(Math.random() * 900000) + 100000;
+      const newGame = {
+        gameCode,
+        host: userId,
+        state: `OPEN`
+      };
+      yield admin.firestore().collection(`games`).add(newGame);
+      const gameId = yield joinGame(userId, gameCode);
+      return {
+        gameCode,
+        gameId
+      };
+    } catch (e) {
+      // TODO: Track/log this error somehow
+      return Promise.reject(createGameErrors.CANNOT_CREATE_GAME);
+    }
   });
 
   return function createGame(_x5) {

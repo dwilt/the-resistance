@@ -44,6 +44,7 @@ export async function joinGame(userId, gameCode) {
 
         return gameId;
     } else {
+        // TODO: Track/log this error somehow
         return Promise.reject(joinGameErrors.GAME_DOES_NOT_EXIST);
     }
 }
@@ -67,41 +68,66 @@ export async function quitGame(userId, gameId) {
         .get();
 
     if (gameDoc.exists) {
-        const querySnapshot = await gameDoc.ref
+        const playerQuerySnapshot = await gameDoc.ref
             .collection(`players`)
             .where(`id`, `==`, userId)
             .get();
 
-        if (querySnapshot.docs.length) {
-            const player = querySnapshot.docs[0];
+        if (playerQuerySnapshot.docs.length) {
+            const player = playerQuerySnapshot.docs[0];
 
             await player.ref.delete();
+
+            // check if player was last player in game - if so, delete game
+            // not returning because this is a server-job and client shouldn't wait for it to complete
+            gameDoc.ref
+                .collection(`players`)
+                .get()
+                .then(allPlayersQuerySnapshot => {
+                    if (!allPlayersQuerySnapshot.docs.length) {
+                        return gameDoc.ref.delete();
+                    }
+                });
         } else {
+            // TODO: Track/log this error somehow
             return Promise.reject(quitGameErrors.PLAYER_DOES_NOT_EXIST);
         }
     } else {
+        // TODO: Track/log this error somehow
         return Promise.reject(quitGameErrors.GAME_DOES_NOT_EXIST);
     }
 }
 
+export const createGameErrors = {
+    CANNOT_CREATE_GAME: {
+        code: `CANNOT_CREATE_GAME`,
+        message: `Shit. We're having trouble creating a game at the moment.`
+    }
+};
+
 export async function createGame(userId) {
-    const gameCode = Math.floor(Math.random() * 900000) + 100000;
+    try {
+        const gameCode = Math.floor(Math.random() * 900000) + 100000;
 
-    const newGame = {
-        gameCode,
-        host: userId,
-        state: `OPEN`
-    };
+        const newGame = {
+            gameCode,
+            host: userId,
+            state: `OPEN`
+        };
 
-    await admin
-        .firestore()
-        .collection(`games`)
-        .add(newGame);
+        await admin
+            .firestore()
+            .collection(`games`)
+            .add(newGame);
 
-    const gameId = await joinGame(userId, gameCode);
+        const gameId = await joinGame(userId, gameCode);
 
-    return {
-        gameCode,
-        gameId
-    };
+        return {
+            gameCode,
+            gameId
+        };
+    } catch (e) {
+        // TODO: Track/log this error somehow
+        return Promise.reject(createGameErrors.CANNOT_CREATE_GAME);
+    }
 }

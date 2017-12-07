@@ -25,18 +25,16 @@ class Lobby extends Component {
         gameCode: ``
     };
 
-    // async componentDidMount() {
-    //     const userId = firebase.auth().currentUser.uid;
-    //
-    //     const docs = await db
-    //         .collection(`games`)
-    //         .doc(`qlguHPyTJD8RN12ExEBx`)
-    //         .collection(`players`)
-    //         .where(`id`, `==`, userId)
-    //         .get();
-    //
-    //     console.log(docs);
-    // }
+    async componentDidMount() {
+        // const userId = firebase.auth().currentUser.uid;
+
+        const deleted = await db
+            .collection(`games`)
+            .doc(`aitX7gHEKZlzLY6uwL3I`)
+            .delete();
+
+        console.log(deleted);
+    }
 
     joinGame = async () => {
         const { gameCode } = this.state;
@@ -87,9 +85,9 @@ class Lobby extends Component {
                 gameId,
                 gameCode
             });
-        } catch (error) {
+        } catch ({ message }) {
             this.setState({
-                error: error.message
+                error: message
             });
         } finally {
             this.setState({
@@ -105,7 +103,7 @@ class Lobby extends Component {
 
     render() {
         const { isCreatingGame, isJoiningGame, gameCode, error } = this.state;
-        const errorEl = error && <ErrorMessage error={error} />;
+        const errorEl = error && <ErrorMessage error={error}/>;
 
         return (
             <View style={styles.container}>
@@ -129,7 +127,7 @@ class Lobby extends Component {
                 >
                     {`Create Game`}
                 </ActionButton>
-                <LogoutButton />
+                <LogoutButton/>
             </View>
         );
     }

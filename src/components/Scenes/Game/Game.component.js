@@ -52,18 +52,28 @@ class Game extends Component {
         const { gameId } = this.props;
         const userId = firebase.auth().currentUser.uid;
 
-        this.setState({
-            isQuitting: true
-        });
+        try {
+            this.setState({
+                isQuitting: true
+            });
 
-        await fireFetch(`quitGame`, {
-            queryParams: {
-                userId,
-                gameId
-            }
-        });
+            await fireFetch(`quitGame`, {
+                queryParams: {
+                    userId,
+                    gameId
+                }
+            });
 
-        Actions.pop();
+            Actions.pop();
+        } catch ({ message }) {
+            this.setState({
+                error: message
+            });
+        } finally {
+            this.setState({
+                isQuitting: true
+            });
+        }
     };
 
     render() {

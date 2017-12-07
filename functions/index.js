@@ -6,6 +6,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 const functions = require("firebase-functions");
 
+function handleError(error = {}, errors = {}, res) {
+  const status = errors[error.code] || 500;
+  const resError = errors[error.code] || {
+    code: `STANDARD_ERROR`,
+    message: `Fuck. There was some kind of unexpected error and we're not sure why. But we're on it!`
+  };
+  res.type(`json`).status(status).send(resError);
+}
+
 exports.createGame = functions.https.onRequest(
 /*#__PURE__*/
 (() => {
@@ -13,14 +22,21 @@ exports.createGame = functions.https.onRequest(
     const {
       userId
     } = req.query;
-    const {
-      gameCode,
-      gameId
-    } = yield (0, _games.createGame)(userId);
-    res.type("json").send({
-      gameCode,
-      gameId
-    });
+
+    try {
+      const {
+        gameCode,
+        gameId
+      } = yield (0, _games.createGame)(userId);
+      res.type("json").send({
+        gameCode,
+        gameId
+      });
+    } catch (error) {
+      handleError(error, {
+        [_games.createGameErrors.CANNOT_CREATE_GAME.code]: 500
+      }, res);
+    }
   });
 
   return function (_x, _x2) {
@@ -41,16 +57,10 @@ exports.joinGame = functions.https.onRequest(
       res.type(`json`).send({
         gameId
       });
-    } catch ({
-      code,
-      message
-    }) {
-      switch (code) {
-        case _games.joinGameErrors.GAME_DOES_NOT_EXIST:
-          res.type(`json`).status(404).send({
-            message
-          });
-      }
+    } catch (error) {
+      handleError(error, {
+        [_games.joinGameErrors.GAME_DOES_NOT_EXIST.code]: 404
+      }, res);
     }
   });
 
@@ -72,17 +82,11 @@ exports.quitGame = functions.https.onRequest(
       res.type(`json`).send({
         success: true
       });
-    } catch ({
-      code,
-      message
-    }) {
-      switch (code) {
-        case _games.quitGameErrors.PLAYER_DOES_NOT_EXIST:
-        case _games.quitGameErrors.GAME_DOES_NOT_EXIST:
-          res.type(`json`).status(404).send({
-            message
-          });
-      }
+    } catch (error) {
+      handleError(error, {
+        [_games.quitGameErrors.GAME_DOES_NOT_EXIST.code]: 404,
+        [_games.quitGameErrors.PLAYER_DOES_NOT_EXIST.code]: 404
+      }, res);
     }
   });
 
