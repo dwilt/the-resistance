@@ -1,62 +1,17 @@
 const functions = require("firebase-functions");
-const admin = require("firebase-admin");
 
-admin.initializeApp(functions.config().firebase);
-
-async function joinGame(userId, gameCode) {
-    const { docs: gameDocs } = await admin
-        .firestore()
-        .collection(`games`)
-        .where(`gameCode`, `==`, parseInt(gameCode))
-        .where(`state`, `==`, `OPEN`)
-        .get();
-
-    if (gameDocs.length) {
-        const game = gameDocs[0];
-        const gameId = game.id;
-
-        const { docs: existingUserDoc } = await game.ref
-            .collection(`players`)
-            .where(`id`, `==`, userId)
-            .get();
-
-        if (!existingUserDoc.length) {
-            const userDoc = await admin
-                .firestore()
-                .collection(`users`)
-                .doc(userId)
-                .get();
-
-            const { name } = userDoc.data();
-
-            await game.ref.collection(`players`).add({
-                name,
-                id: userId
-            });
-        }
-
-        return gameId;
-    } else {
-        return Promise.reject(`No open game exists with that code`);
-    }
-}
+import {
+    quitGame,
+    quitGameErrors,
+    createGame,
+    joinGame,
+    joinGameErrors
+} from "./games";
 
 exports.createGame = functions.https.onRequest(async (req, res) => {
     const { userId } = req.query;
-    const gameCode = Math.floor(Math.random() * 900000) + 100000;
 
-    const newGame = {
-        gameCode,
-        host: userId,
-        state: `OPEN`
-    };
-
-    await admin
-        .firestore()
-        .collection(`games`)
-        .add(newGame);
-
-    const gameId = await joinGame(userId, gameCode);
+    const { gameCode, gameId } = await createGame(userId);
 
     res.type("json").send({
         gameCode,
@@ -73,53 +28,38 @@ exports.joinGame = functions.https.onRequest(async (req, res) => {
         res.type(`json`).send({
             gameId
         });
-    } catch (error) {
-        res
-            .type(`json`)
-            .status(404)
-            .send({
-                message: error
-            });
+    } catch ({ code, message }) {
+        switch (code) {
+            case joinGameErrors.GAME_DOES_NOT_EXIST:
+                res
+                    .type(`json`)
+                    .status(404)
+                    .send({
+                        message
+                    });
+        }
     }
 });
 
 exports.quitGame = functions.https.onRequest(async (req, res) => {
     const { gameId, userId } = req.query;
 
-    const gameDoc = await admin
-        .firestore()
-        .collection(`games`)
-        .doc(gameId)
-        .get();
+    try {
+        await quitGame(userId, gameId);
 
-    if (gameDoc.exists) {
-        const querySnapshot = await gameDoc.ref
-            .collection(`players`)
-            .where(`id`, `==`, userId)
-            .get();
-
-        if (querySnapshot.docs.length) {
-            const player = querySnapshot.docs[0];
-
-            await player.ref.delete();
-
-            res.send({
-                success: true
-            });
-        } else {
-            res
-                .type(`json`)
-                .status(404)
-                .send({
-                    message: `Player (${userId}) doesn't exist in this game`
-                });
+        res.type(`json`).send({
+            success: true
+        });
+    } catch ({ code, message }) {
+        switch (code) {
+            case quitGameErrors.PLAYER_DOES_NOT_EXIST:
+            case quitGameErrors.GAME_DOES_NOT_EXIST:
+                res
+                    .type(`json`)
+                    .status(404)
+                    .send({
+                        message
+                    });
         }
-    } else {
-        res
-            .type(`json`)
-            .status(404)
-            .send({
-                message: `This game doesn't exist`
-            });
     }
 });

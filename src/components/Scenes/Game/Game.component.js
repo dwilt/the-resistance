@@ -15,7 +15,7 @@ import styles from "./Game.styles";
 class Game extends Component {
     static propTypes = {
         gameId: PropTypes.string.isRequired,
-        gameCode: PropTypes.string,
+        gameCode: PropTypes.number
     };
 
     state = {
@@ -26,8 +26,11 @@ class Game extends Component {
     componentDidMount() {
         const { gameId, gameCode } = this.props;
 
-        if(gameCode) {
-            Alert.alert(`Game Created!`, `Your game has been created and the code is ${gameCode}`);
+        if (gameCode) {
+            Alert.alert(
+                `Game Created!`,
+                `Your game has been created and the code is ${gameCode}`
+            );
         }
 
         this.playersListener = db
@@ -42,7 +45,7 @@ class Game extends Component {
     }
 
     componentWillUnmount() {
-        this.playersListener()
+        this.playersListener();
     }
 
     quitGame = async () => {

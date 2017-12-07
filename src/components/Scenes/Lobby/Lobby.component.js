@@ -105,7 +105,7 @@ class Lobby extends Component {
 
     render() {
         const { isCreatingGame, isJoiningGame, gameCode, error } = this.state;
-        const errorEl = error && <ErrorMessage error={error}/>;
+        const errorEl = error && <ErrorMessage error={error} />;
 
         return (
             <View style={styles.container}>
@@ -129,7 +129,7 @@ class Lobby extends Component {
                 >
                     {`Create Game`}
                 </ActionButton>
-                <LogoutButton/>
+                <LogoutButton />
             </View>
         );
     }
