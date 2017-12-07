@@ -27,6 +27,7 @@ export async function joinGame(userId, gameCode) {
             .where(`id`, `==`, userId)
             .get();
 
+        // if the user isn't already in the game, add them
         if (!existingUserDoc.length) {
             const userDoc = await admin
                 .firestore()

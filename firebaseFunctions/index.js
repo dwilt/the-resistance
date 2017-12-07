@@ -9,29 +9,42 @@ import {
     joinGameErrors
 } from "./games";
 
+function sendSuccessfulResponse(
+    res,
+    payload = {
+        success: true
+    }
+) {
+    res.type(`json`).send(payload);
+}
+
 function handleError(error = {}, errors = {}, res) {
+    console.log(`error`, error);
+    console.log(`errors`, errors);
+
     const knownError = errors[error.code];
-    const status = knownError || 500;
-    const resError = knownError || {
-        code: `STANDARD_ERROR`,
-        message: `Fuck. There was some kind of unexpected error and we're not sure why. But we're on it!`
-    };
+    const statusCode = knownError || 500;
+    const resError = knownError
+        ? error
+        : {
+              code: `STANDARD_ERROR`,
+              message: `Fuck. There was some kind of unexpected error and we're not sure why. But we're on it!`
+          };
 
     res
         .type(`json`)
-        .status(status)
+        .status(statusCode)
         .send(resError);
 }
 
 exports.createGame = functions.https.onRequest(async (req, res) => {
-    const { userId } = req.query;
-
     try {
+        const { userId } = req.query;
         const { gameCode, gameId } = await createGame(userId);
 
-        res.type("json").send({
-            gameCode,
-            gameId
+        sendSuccessfulResponse(res, {
+            gameId,
+            gameCode
         });
     } catch (error) {
         handleError(
@@ -45,12 +58,11 @@ exports.createGame = functions.https.onRequest(async (req, res) => {
 });
 
 exports.joinGame = functions.https.onRequest(async (req, res) => {
-    const { gameCode, userId } = req.query;
-
     try {
+        const { gameCode, userId } = req.query;
         const gameId = await joinGame(userId, parseInt(gameCode));
 
-        res.type(`json`).send({
+        sendSuccessfulResponse(res, {
             gameId
         });
     } catch (error) {
@@ -65,14 +77,12 @@ exports.joinGame = functions.https.onRequest(async (req, res) => {
 });
 
 exports.quitGame = functions.https.onRequest(async (req, res) => {
-    const { gameId, userId } = req.query;
-
     try {
+        const { gameId, userId } = req.query;
+
         await quitGame(userId, gameId);
 
-        res.type(`json`).send({
-            success: true
-        });
+        sendSuccessfulResponse(res);
     } catch (error) {
         handleError(
             error,

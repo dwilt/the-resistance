@@ -33,7 +33,7 @@ let joinGame =
       const gameId = game.id;
       const {
         docs: existingUserDoc
-      } = yield game.ref.collection(`players`).where(`id`, `==`, userId).get();
+      } = yield game.ref.collection(`players`).where(`id`, `==`, userId).get(); // if the user isn't already in the game, add them
 
       if (!existingUserDoc.length) {
         const userDoc = yield admin.firestore().collection(`users`).doc(userId).get();
@@ -82,7 +82,8 @@ let quitGame =
 
       if (playerQuerySnapshot.docs.length) {
         const player = playerQuerySnapshot.docs[0];
-        yield player.ref.delete(); // not returning because this is a server-job and client shouldn't wait for it to complete
+        yield player.ref.delete(); // check if player was last player in game - if so, delete game
+        // not returning because this is a server-job and client shouldn't wait for it to complete
 
         gameDoc.ref.collection(`players`).get().then(allPlayersQuerySnapshot => {
           if (!allPlayersQuerySnapshot.docs.length) {

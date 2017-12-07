@@ -24,17 +24,17 @@ class Lobby extends Component {
         isJoiningGame: false,
         gameCode: ``
     };
-
-    async componentDidMount() {
-        // const userId = firebase.auth().currentUser.uid;
-
-        const deleted = await db
-            .collection(`games`)
-            .doc(`aitX7gHEKZlzLY6uwL3I`)
-            .delete();
-
-        console.log(deleted);
-    }
+    //
+    // async componentDidMount() {
+    //     // const userId = firebase.auth().currentUser.uid;
+    //
+    //     const deleted = await db
+    //         .collection(`games`)
+    //         .doc(`aitX7gHEKZlzLY6uwL3I`)
+    //         .delete();
+    //
+    //     console.log(deleted);
+    // }
 
     joinGame = async () => {
         const { gameCode } = this.state;

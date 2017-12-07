@@ -6,9 +6,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 const functions = require("firebase-functions");
 
+function sendSuccessfulResponse(res, payload = {
+  success: true
+}) {
+  res.type(`json`).send(payload);
+}
+
 function handleError(error = {}, errors = {}, res) {
-  const status = errors[error.code] || 500;
-  const resError = errors[error.code] || {
+  console.log(`error`, error);
+  console.log(`errors`, errors);
+  const knownError = errors[error.code];
+  const status = knownError || 500;
+  const resError = knownError ? error : {
     code: `STANDARD_ERROR`,
     message: `Fuck. There was some kind of unexpected error and we're not sure why. But we're on it!`
   };
@@ -28,9 +37,9 @@ exports.createGame = functions.https.onRequest(
         gameCode,
         gameId
       } = yield (0, _games.createGame)(userId);
-      res.type("json").send({
-        gameCode,
-        gameId
+      sendSuccessfulResponse(res, {
+        gameId,
+        gameCode
       });
     } catch (error) {
       handleError(error, {
@@ -54,7 +63,7 @@ exports.joinGame = functions.https.onRequest(
 
     try {
       const gameId = yield (0, _games.joinGame)(userId, parseInt(gameCode));
-      res.type(`json`).send({
+      sendSuccessfulResponse(res, {
         gameId
       });
     } catch (error) {
@@ -79,9 +88,7 @@ exports.quitGame = functions.https.onRequest(
 
     try {
       yield (0, _games.quitGame)(userId, gameId);
-      res.type(`json`).send({
-        success: true
-      });
+      sendSuccessfulResponse(res);
     } catch (error) {
       handleError(error, {
         [_games.quitGameErrors.GAME_DOES_NOT_EXIST.code]: 404,

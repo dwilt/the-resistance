@@ -24,7 +24,7 @@ export async function fireFetch(
     const data = await res.json();
 
     if (!res.ok) {
-        return Promise.reject(data.message);
+        return Promise.reject(data);
     } else {
         return data;
     }
