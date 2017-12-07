@@ -13,9 +13,9 @@ import { firebase, fireFetch, db } from "/services";
 import styles from "./Game.styles";
 
 class Game extends Component {
-    static defaultProps = {
+    static propTypes = {
         gameId: PropTypes.string.isRequired,
-        gameCode: PropTypes.string
+        gameCode: PropTypes.string,
     };
 
     state = {
@@ -30,16 +30,19 @@ class Game extends Component {
             Alert.alert(`Game Created!`, `Your game has been created and the code is ${gameCode}`);
         }
 
-        db
+        this.playersListener = db
             .collection(`games`)
             .doc(gameId)
             .collection(`players`)
             .onSnapshot(snapshot => {
-                console.log(snapshot);
                 this.setState({
                     players: snapshot.docs.map(doc => doc.data())
                 });
             });
+    }
+
+    componentWillUnmount() {
+        this.playersListener()
     }
 
     quitGame = async () => {

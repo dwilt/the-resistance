@@ -55,8 +55,6 @@ class Lobby extends Component {
                 }
             });
 
-            console.log(gameId);
-
             Actions[Game.key]({
                 gameId
             });
