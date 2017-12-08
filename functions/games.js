@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.startGame = exports.startGameErrors = exports.createGame = exports.createGameErrors = exports.quitGame = exports.quitGameErrors = exports.joinGame = exports.joinGameErrors = void 0;
 
+var _helpers = require("./helpers");
+
+var _gameStructure = require("./gameStructure");
+
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } } function _next(value) { step("next", value); } function _throw(err) { step("throw", err); } _next(); }); }; }
 
 const functions = require("firebase-functions");
@@ -155,9 +159,14 @@ let startGame =
 /*#__PURE__*/
 (() => {
   var _ref4 = _asyncToGenerator(function* (gameId) {
-    yield admin.firestore().collection(`games`).doc(gameId).update({
+    const [playersSnapshot] = yield Promise.all([admin.firestore().collection(`games`).doc(gameId).collection(`players`).get(), admin.firestore().collection(`games`).doc(gameId).update({
       state: `STARTED`
-    });
+    })]);
+    const totalSpies = _gameStructure.spyCount[playersSnapshot.docs.length];
+    const spies = (0, _helpers.getRandomElementsFromArray)(playersSnapshot.docs, totalSpies);
+    return Promise.all(playersSnapshot.docs.map(doc => doc.ref.update({
+      isSpy: spies.indexOf(doc) !== -1
+    })));
   });
 
   return function startGame(_x6) {

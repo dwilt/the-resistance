@@ -56,7 +56,7 @@ class Game extends Component {
 
                     this.setState({
                         state
-                    })
+                    });
                 }
             });
     }
@@ -121,10 +121,7 @@ class Game extends Component {
     render() {
         const { isQuitting, players, isStarting, state } = this.state;
         const startGameButtonEl = state === `OPEN` && (
-            <ActionButton
-                isLoading={isStarting}
-                onPress={this.startGame}
-            >
+            <ActionButton isLoading={isStarting} onPress={this.startGame}>
                 {`Start Game`}
             </ActionButton>
         );
@@ -133,16 +130,13 @@ class Game extends Component {
             <View style={styles.container}>
                 <Text style={styles.title}>{`Game State: ${state}`}</Text>
                 <Text style={styles.title}>{`Players:`}</Text>
-                {players.map(({ name, id }, i) => (
+                {players.map(({ name, id, isSpy }, i) => (
                     <View key={id}>
-                        <Text>{`${i + 1}. ${name}`}</Text>
+                        <Text>{`${i + 1}. ${name} ${isSpy ? `(spy)` : ``}`}</Text>
                     </View>
                 ))}
                 {startGameButtonEl}
-                <ActionButton
-                    isLoading={isQuitting}
-                    onPress={this.quitGame}
-                >
+                <ActionButton isLoading={isQuitting} onPress={this.quitGame}>
                     {`Quit Game`}
                 </ActionButton>
             </View>

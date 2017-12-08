@@ -1,3 +1,6 @@
+import { getRandomElementsFromArray } from "./helpers";
+import { spyCount } from "./gameStructure";
+
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 
@@ -141,11 +144,31 @@ export const startGameErrors = {
 };
 
 export async function startGame(gameId) {
-    await admin
-        .firestore()
-        .collection(`games`)
-        .doc(gameId)
-        .update({
-            state: `STARTED`
-        });
+    const [playersSnapshot] = await Promise.all([
+        admin
+            .firestore()
+            .collection(`games`)
+            .doc(gameId)
+            .collection(`players`)
+            .get(),
+        admin
+            .firestore()
+            .collection(`games`)
+            .doc(gameId)
+            .update({
+                state: `STARTED`
+            })
+    ]);
+
+    const totalSpies = spyCount[playersSnapshot.docs.length];
+
+    const spies = getRandomElementsFromArray(playersSnapshot.docs, totalSpies);
+
+    return Promise.all(
+        playersSnapshot.docs.map(doc =>
+            doc.ref.update({
+                isSpy: spies.indexOf(doc) !== -1
+            })
+        )
+    );
 }
