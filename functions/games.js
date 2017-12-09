@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.voteForMissionTeam = exports.setMissionTeam = exports.startGame = exports.createGame = exports.quitGame = exports.joinGame = exports.joinGameErrors = void 0;
+exports.voteForMission = exports.voteForMissionTeam = exports.setMissionTeam = exports.startGame = exports.createGame = exports.quitGame = exports.joinGame = exports.joinGameErrors = void 0;
 
 var _gameStructure = require("./gameStructure");
 
@@ -93,8 +93,7 @@ let joinGame =
   return function joinGame(_x2, _x3) {
     return _ref2.apply(this, arguments);
   };
-})(); //TODO: optimize these gets
-
+})();
 
 exports.joinGame = joinGame;
 
@@ -102,17 +101,14 @@ let quitGame =
 /*#__PURE__*/
 (() => {
   var _ref3 = _asyncToGenerator(function* (userId, gameId) {
-    const gameDoc = yield admin.firestore().collection(`games`).doc(gameId).get();
-    const playerQuerySnapshot = yield gameDoc.ref.collection(`players`).where(`id`, `==`, userId).get();
+    const playerQuerySnapshot = yield admin.firestore().collection(`games`).doc(gameId).collection(`players`).where(`id`, `==`, userId).get();
     const player = playerQuerySnapshot.docs[0];
     yield player.ref.delete(); // check if player was last player in game - if so, delete game
     // not returning because this is a server-job and client shouldn't wait for it to complete
 
-    gameDoc.ref.collection(`players`).get().then(allPlayersQuerySnapshot => {
-      if (!allPlayersQuerySnapshot.docs.length) {
-        return gameDoc.ref.delete();
-      }
-    });
+    if (playerQuerySnapshot.docs.length === 1) {
+      admin.firestore().collection(`games`).doc(gameId).delete();
+    }
   });
 
   return function quitGame(_x4, _x5) {
@@ -156,14 +152,11 @@ let startGame =
     })]);
     const totalSpies = _gameStructure.spyCount[playersSnapshot.docs.length];
     const spies = (0, _lodash.sampleSize)(playersSnapshot.docs, totalSpies);
-    const leader = (0, _lodash.sampleSize)(playersSnapshot.docs, 1)[0];
     return Promise.all([admin.firestore().collection(`games`).doc(gameId).update({
-      previousLeaders: [leader.id],
-      state: _gameStructure.gameStates.PLAYER_REVEAL,
-      leader: leader.id
+      state: _gameStructure.gameStates.PLAYER_REVEAL
     }), ...playersSnapshot.docs.map(doc => doc.ref.update({
       isSpy: spies.indexOf(doc) !== -1
-    }))]);
+    }), setNewLeader(gameId))]);
   });
 
   return function startGame(_x7) {
@@ -176,7 +169,9 @@ exports.startGame = startGame;
 let setMissionTeam =
 /*#__PURE__*/
 (() => {
-  var _ref6 = _asyncToGenerator(function* (gameId, missionTeam = []) {
+  var _ref6 = _asyncToGenerator(function* (gameId, missionTeamIds = []) {
+    const missionTeam = {};
+    missionTeamIds.forEach(id => missionTeam[id] = null);
     yield admin.firestore().collection(`games`).doc(gameId).update({
       state: _gameStructure.gameStates.MISSION_TEAM_VOTE,
       missionTeam
@@ -259,3 +254,30 @@ let voteForMissionTeam =
 })();
 
 exports.voteForMissionTeam = voteForMissionTeam;
+
+let voteForMission =
+/*#__PURE__*/
+(() => {
+  var _ref8 = _asyncToGenerator(function* ({
+    gameId,
+    userId,
+    succeeds
+  }) {
+    yield admin.firestore().collection(`games`).doc(gameId).update({
+      [`missionTeam.${userId}`]: succeeds
+    });
+    const gameDoc = yield admin.firestore().collection(`games`).doc(gameId).get();
+    const {
+      missionTeam
+    } = gameDoc.data();
+    const nonVoters = Object.keys(missionTeam).filter(userId => missionTeam[userId] === null);
+
+    if (nonVoters.length) {}
+  });
+
+  return function voteForMission(_x10) {
+    return _ref8.apply(this, arguments);
+  };
+})();
+
+exports.voteForMission = voteForMission;

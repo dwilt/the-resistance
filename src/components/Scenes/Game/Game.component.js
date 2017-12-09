@@ -46,32 +46,28 @@ class Game extends Component {
             );
         }
 
-        // const gameDoc = await db
-        //     .collection(`games`)
-        //     .doc(gameId)
-        //     .get();
-        //
-        // const { leader, missionTeam, missionTeamVotes } = gameDoc.data();
-        //
-        // console.log({
-        //     leader,
-        //     missionTeam,
-        //     missionTeamVotes
-        // });
-        //
-        // await gameDoc.ref.collection(`failedTeamAssembles`).add({
-        //     leader: `234234`,
-        //     missionTeam: [1,3,4],
-        //     missionTeamVotes: {
-        //         someGuy: false
-        //     }
-        // });
+        await fireFetch(`setMissionTeam`, {
+            gameId,
+            missionTeam: [`vOG98CWSuNMHpiHDSydP1mCrnin2`,`9sdfg8743tsdfg`,`asdf8asdf6asdf6`]
+        });
 
-        // await fireFetch(`voteForMissionTeam`, {
-        //     userId,
-        //     gameId,
-        //     approves: false
-        // });
+        await db
+            .collection(`games`)
+            .doc(gameId)
+            .update({
+                [`missionTeam.${userId}`]: false
+            });
+
+        const gameDoc = await db
+            .collection(`games`)
+            .doc(gameId)
+            .get()
+
+        const { missionTeam } = gameDoc.data();
+        const nonVoters = Object.keys(missionTeam).filter((userId) => missionTeam[userId] === null);
+
+        console.log(missionTeam);
+        console.log(nonVoters);
 
         this.playersListener = db
             .collection(`games`)

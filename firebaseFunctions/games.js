@@ -94,15 +94,11 @@ export async function joinGame(userId, gameCode) {
     }
 }
 
-//TODO: optimize these gets
 export async function quitGame(userId, gameId) {
-    const gameDoc = await admin
+    const playerQuerySnapshot = await admin
         .firestore()
         .collection(`games`)
         .doc(gameId)
-        .get();
-
-    const playerQuerySnapshot = await gameDoc.ref
         .collection(`players`)
         .where(`id`, `==`, userId)
         .get();
@@ -113,14 +109,13 @@ export async function quitGame(userId, gameId) {
 
     // check if player was last player in game - if so, delete game
     // not returning because this is a server-job and client shouldn't wait for it to complete
-    gameDoc.ref
-        .collection(`players`)
-        .get()
-        .then(allPlayersQuerySnapshot => {
-            if (!allPlayersQuerySnapshot.docs.length) {
-                return gameDoc.ref.delete();
-            }
-        });
+    if (playerQuerySnapshot.docs.length === 1) {
+        admin
+            .firestore()
+            .collection(`games`)
+            .doc(gameId)
+            .delete();
+    }
 }
 
 export async function createGame(userId) {
@@ -166,27 +161,29 @@ export async function startGame(gameId) {
 
     const spies = sampleSize(playersSnapshot.docs, totalSpies);
 
-    const leader = sampleSize(playersSnapshot.docs, 1)[0];
-
     return Promise.all([
         admin
             .firestore()
             .collection(`games`)
             .doc(gameId)
             .update({
-                previousLeaders: [leader.id],
-                state: gameStates.PLAYER_REVEAL,
-                leader: leader.id
+                state: gameStates.PLAYER_REVEAL
             }),
-        ...playersSnapshot.docs.map(doc =>
-            doc.ref.update({
-                isSpy: spies.indexOf(doc) !== -1
-            })
+        ...playersSnapshot.docs.map(
+            doc =>
+                doc.ref.update({
+                    isSpy: spies.indexOf(doc) !== -1
+                }),
+            setNewLeader(gameId)
         )
     ]);
 }
 
-export async function setMissionTeam(gameId, missionTeam = []) {
+export async function setMissionTeam(gameId, missionTeamIds = []) {
+    const missionTeam = {};
+
+    missionTeamIds.forEach(id => (missionTeam[id] = null));
+
     await admin
         .firestore()
         .collection(`games`)
@@ -296,5 +293,29 @@ export async function voteForMissionTeam({ gameId, userId, approves }) {
                 setNewLeader(gameId)
             ]);
         }
+    }
+}
+
+export async function voteForMission({ gameId, userId, succeeds }) {
+    await admin
+        .firestore()
+        .collection(`games`)
+        .doc(gameId)
+        .update({
+            [`missionTeam.${userId}`]: succeeds
+        });
+
+    const gameDoc = await admin
+        .firestore()
+        .collection(`games`)
+        .doc(gameId)
+        .get();
+
+    const { missionTeam } = gameDoc.data();
+    const nonVoters = Object.keys(missionTeam).filter(
+        userId => missionTeam[userId] === null
+    );
+
+    if (nonVoters.length) {
     }
 }
