@@ -12,13 +12,19 @@ import { firebase, fireFetch, db } from "/services";
 
 import styles from "./Game.styles";
 
+import { gameStates } from "../../../../assets/gameStructure";
+
+import { sampleSize, difference } from "lodash";
+
 class Game extends Component {
     static propTypes = {
         gameId: PropTypes.string.isRequired,
+        hostId: PropTypes.string,
         gameCode: PropTypes.number
     };
 
     state = {
+        isHost: false,
         state: `OPEN`,
         isStarting: false,
         isQuitting: false,
@@ -27,13 +33,45 @@ class Game extends Component {
 
     async componentDidMount() {
         const { gameId, gameCode } = this.props;
+        const userId = firebase.auth().currentUser.uid;
 
         if (gameCode) {
+            this.setState({
+                isHost: true
+            });
+
             Alert.alert(
                 `Game Created!`,
                 `Your game has been created and the code is ${gameCode}`
             );
         }
+
+        // const gameDoc = await db
+        //     .collection(`games`)
+        //     .doc(gameId)
+        //     .get();
+        //
+        // const { leader, missionTeam, missionTeamVotes } = gameDoc.data();
+        //
+        // console.log({
+        //     leader,
+        //     missionTeam,
+        //     missionTeamVotes
+        // });
+        //
+        // await gameDoc.ref.collection(`failedTeamAssembles`).add({
+        //     leader: `234234`,
+        //     missionTeam: [1,3,4],
+        //     missionTeamVotes: {
+        //         someGuy: false
+        //     }
+        // });
+
+        // await fireFetch(`voteForMissionTeam`, {
+        //     userId,
+        //     gameId,
+        //     approves: false
+        // });
 
         this.playersListener = db
             .collection(`games`)
@@ -52,9 +90,10 @@ class Game extends Component {
                 const data = snapshot.data();
 
                 if (data) {
-                    const { state } = data;
+                    const { state, host } = data;
 
                     this.setState({
+                        isHost: userId === host,
                         state
                     });
                 }
@@ -76,10 +115,8 @@ class Game extends Component {
             });
 
             await fireFetch(`quitGame`, {
-                queryParams: {
-                    userId,
-                    gameId
-                }
+                userId,
+                gameId
             });
 
             Actions.pop();
@@ -103,9 +140,7 @@ class Game extends Component {
             });
 
             await fireFetch(`startGame`, {
-                queryParams: {
-                    gameId
-                }
+                gameId
             });
         } catch ({ message }) {
             this.setState({
@@ -119,20 +154,22 @@ class Game extends Component {
     };
 
     render() {
-        const { isQuitting, players, isStarting, state } = this.state;
-        const startGameButtonEl = state === `OPEN` && (
-            <ActionButton isLoading={isStarting} onPress={this.startGame}>
-                {`Start Game`}
-            </ActionButton>
-        );
+        const { isQuitting, players, isStarting, state, isHost } = this.state;
+
+        const startGameButtonEl = state === gameStates.LOBBY &&
+            isHost && (
+                <ActionButton isLoading={isStarting} onPress={this.startGame}>
+                    {`Start Game`}
+                </ActionButton>
+            );
 
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>{`Game State: ${state}`}</Text>
                 <Text style={styles.title}>{`Players:`}</Text>
-                {players.map(({ name, id, isSpy }, i) => (
+                {players.map(({ name, id }, i) => (
                     <View key={id}>
-                        <Text>{`${i + 1}. ${name} ${isSpy ? `(spy)` : ``}`}</Text>
+                        <Text>{`${i + 1}. ${name}`}</Text>
                     </View>
                 ))}
                 {startGameButtonEl}

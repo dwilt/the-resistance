@@ -4,7 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getMissionMembersCount = getMissionMembersCount;
-exports.spyCount = void 0;
+exports.spyCount = exports.gameStates = void 0;
+const gameStates = {
+  LOBBY: `LOBBY`,
+  PLAYER_REVEAL: `PLAYER_REVEAL`,
+  LEADER_ASSEMBLE_TEAM: `LEADER_ASSEMBLE_TEAM`,
+  MISSION_TEAM_VOTE: `MISSION_TEAM_VOTE`,
+  CONDUCT_MISSION: `CONDUCT_MISSION`,
+  COMPLETED: `COMPLETED`
+};
+exports.gameStates = gameStates;
 const spyCount = {
   5: 2,
   6: 2,

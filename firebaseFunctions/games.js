@@ -1,10 +1,52 @@
-import { getRandomElementsFromArray } from "./helpers";
-import { spyCount } from "./gameStructure";
+import { spyCount, gameStates } from "./gameStructure";
+
+import { sampleSize, difference } from "lodash";
 
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 
 admin.initializeApp(functions.config().firebase);
+
+async function setNewLeader(gameId) {
+    const [gameDoc, playersSnapshot] = await Promise.all([
+        admin
+            .firestore()
+            .collection(`games`)
+            .doc(gameId)
+            .get(),
+        admin
+            .firestore()
+            .collection(`games`)
+            .doc(gameId)
+            .collection(`players`)
+            .get()
+    ]);
+
+    const players = playersSnapshot.docs.map(doc => doc.data().id);
+    const { previousLeaders = [] } = gameDoc.data();
+
+    let leader = null;
+
+    if (previousLeaders.length === players.length) {
+        leader = sampleSize(players, 1)[0];
+
+        await gameDoc.ref.update({
+            previousLeaders: [leader]
+        });
+    } else {
+        const remainingPotentialLeaders = difference(players, previousLeaders);
+
+        leader = sampleSize(remainingPotentialLeaders, 1)[0];
+
+        await gameDoc.ref.update({
+            previousLeaders: [...previousLeaders, leader]
+        });
+    }
+
+    gameDoc.ref.update({
+        leader
+    });
+}
 
 export const joinGameErrors = {
     GAME_DOES_NOT_EXIST: {
@@ -18,7 +60,7 @@ export async function joinGame(userId, gameCode) {
         .firestore()
         .collection(`games`)
         .where(`gameCode`, `==`, parseInt(gameCode))
-        .where(`state`, `==`, `OPEN`)
+        .where(`state`, `==`, gameStates.LOBBY)
         .get();
 
     if (gameDocs.length) {
@@ -48,22 +90,11 @@ export async function joinGame(userId, gameCode) {
 
         return gameId;
     } else {
-        // TODO: Track/log this error somehow
         return Promise.reject(joinGameErrors.GAME_DOES_NOT_EXIST);
     }
 }
 
-export const quitGameErrors = {
-    PLAYER_DOES_NOT_EXIST: {
-        code: `PLAYER_DOES_NOT_EXIST`,
-        message: `Player doesn't exist in this game`
-    },
-    GAME_DOES_NOT_EXIST: {
-        code: `GAME_DOES_NOT_EXIST`,
-        message: `This game doesn't exist`
-    }
-};
-
+//TODO: optimize these gets
 export async function quitGame(userId, gameId) {
     const gameDoc = await admin
         .firestore()
@@ -71,77 +102,48 @@ export async function quitGame(userId, gameId) {
         .doc(gameId)
         .get();
 
-    if (gameDoc.exists) {
-        const playerQuerySnapshot = await gameDoc.ref
-            .collection(`players`)
-            .where(`id`, `==`, userId)
-            .get();
+    const playerQuerySnapshot = await gameDoc.ref
+        .collection(`players`)
+        .where(`id`, `==`, userId)
+        .get();
 
-        if (playerQuerySnapshot.docs.length) {
-            const player = playerQuerySnapshot.docs[0];
+    const player = playerQuerySnapshot.docs[0];
 
-            await player.ref.delete();
+    await player.ref.delete();
 
-            // check if player was last player in game - if so, delete game
-            // not returning because this is a server-job and client shouldn't wait for it to complete
-            gameDoc.ref
-                .collection(`players`)
-                .get()
-                .then(allPlayersQuerySnapshot => {
-                    if (!allPlayersQuerySnapshot.docs.length) {
-                        return gameDoc.ref.delete();
-                    }
-                });
-        } else {
-            // TODO: Track/log this error somehow
-            return Promise.reject(quitGameErrors.PLAYER_DOES_NOT_EXIST);
-        }
-    } else {
-        // TODO: Track/log this error somehow
-        return Promise.reject(quitGameErrors.GAME_DOES_NOT_EXIST);
-    }
+    // check if player was last player in game - if so, delete game
+    // not returning because this is a server-job and client shouldn't wait for it to complete
+    gameDoc.ref
+        .collection(`players`)
+        .get()
+        .then(allPlayersQuerySnapshot => {
+            if (!allPlayersQuerySnapshot.docs.length) {
+                return gameDoc.ref.delete();
+            }
+        });
 }
-
-export const createGameErrors = {
-    CANNOT_CREATE_GAME: {
-        code: `CANNOT_CREATE_GAME`,
-        message: `Shit. We're having trouble creating a game at the moment.`
-    }
-};
 
 export async function createGame(userId) {
-    try {
-        const gameCode = Math.floor(Math.random() * 900000) + 100000;
+    const gameCode = Math.floor(Math.random() * 900000) + 100000;
 
-        const newGame = {
-            gameCode,
-            host: userId,
-            state: `OPEN`
-        };
+    const newGame = {
+        gameCode,
+        host: userId,
+        state: gameStates.LOBBY
+    };
 
-        await admin
-            .firestore()
-            .collection(`games`)
-            .add(newGame);
+    await admin
+        .firestore()
+        .collection(`games`)
+        .add(newGame);
 
-        const gameId = await joinGame(userId, gameCode);
+    const gameId = await joinGame(userId, gameCode);
 
-        return {
-            gameCode,
-            gameId
-        };
-    } catch (e) {
-        // TODO: Track/log this error somehow
-        return Promise.reject(createGameErrors.CANNOT_CREATE_GAME);
-    }
+    return {
+        gameCode,
+        gameId
+    };
 }
-
-export const startGameErrors = {
-    CANNOT_START_GAME: {
-        code: `CANNOT_START_GAME`,
-        message: `Shit. We're having trouble starting the game at the moment.`
-    }
-};
 
 export async function startGame(gameId) {
     const [playersSnapshot] = await Promise.all([
@@ -156,19 +158,143 @@ export async function startGame(gameId) {
             .collection(`games`)
             .doc(gameId)
             .update({
-                state: `STARTED`
+                state: `PLAYER_REVEAL`
             })
     ]);
 
     const totalSpies = spyCount[playersSnapshot.docs.length];
 
-    const spies = getRandomElementsFromArray(playersSnapshot.docs, totalSpies);
+    const spies = sampleSize(playersSnapshot.docs, totalSpies);
 
-    return Promise.all(
-        playersSnapshot.docs.map(doc =>
+    const leader = sampleSize(playersSnapshot.docs, 1)[0];
+
+    return Promise.all([
+        admin
+            .firestore()
+            .collection(`games`)
+            .doc(gameId)
+            .update({
+                previousLeaders: [leader.id],
+                state: gameStates.PLAYER_REVEAL,
+                leader: leader.id
+            }),
+        ...playersSnapshot.docs.map(doc =>
             doc.ref.update({
                 isSpy: spies.indexOf(doc) !== -1
             })
         )
-    );
+    ]);
+}
+
+export async function setMissionTeam(gameId, missionTeam = []) {
+    await admin
+        .firestore()
+        .collection(`games`)
+        .doc(gameId)
+        .update({
+            state: gameStates.MISSION_TEAM_VOTE,
+            missionTeam
+        });
+}
+
+export async function voteForMissionTeam({ gameId, userId, approves }) {
+    await admin
+        .firestore()
+        .collection(`games`)
+        .doc(gameId)
+        .update({
+            [`missionTeamVotes.${userId}`]: approves
+        });
+
+    const [playersSnapshot, gameDoc] = await Promise.all([
+        admin
+            .firestore()
+            .collection(`games`)
+            .doc(gameId)
+            .collection(`players`)
+            .get(),
+        admin
+            .firestore()
+            .collection(`games`)
+            .doc(gameId)
+            .get()
+    ]);
+
+    const totalPlayers = playersSnapshot.docs.length;
+    const { missionTeamVotes } = gameDoc.data();
+    const majority =
+        totalPlayers % 2 === 0
+            ? totalPlayers / 2 + 1
+            : Math.ceil(totalPlayers / 2);
+
+    let approvedVotes = 0;
+    let rejectedVotes = 0;
+
+    Object.keys(missionTeamVotes).forEach(userId => {
+        const approved = missionTeamVotes[userId];
+
+        if (approved) {
+            approvedVotes += 1;
+        } else {
+            rejectedVotes += 1;
+        }
+    });
+
+    const isTied =
+        approvedVotes + rejectedVotes === totalPlayers &&
+        approvedVotes === rejectedVotes;
+
+    if (approvedVotes >= majority) {
+        await admin
+            .firestore()
+            .collection(`games`)
+            .doc(gameId)
+            .update({
+                state: gameStates.CONDUCT_MISSION
+            });
+    } else if (rejectedVotes >= majority || isTied) {
+        const gameDoc = await admin
+            .firestore()
+            .collection(`games`)
+            .doc(gameId)
+            .get();
+
+        const { leader, missionTeam } = gameDoc.data();
+
+        await gameDoc.ref.collection(`failedTeamAssembles`).add({
+            leader,
+            missionTeam,
+            missionTeamVotes
+        });
+
+        const updatedGameDoc = await admin
+            .firestore()
+            .collection(`games`)
+            .doc(gameId)
+            .get();
+
+        const { failedTeamAssembles = [] } = updatedGameDoc.data();
+
+        if (failedTeamAssembles.length >= 5) {
+            await admin
+                .firestore()
+                .collection(`games`)
+                .doc(gameId)
+                .update({
+                    state: gameStates.COMPLETED
+                });
+        } else {
+            await Promise.all([
+                admin
+                    .firestore()
+                    .collection(`games`)
+                    .doc(gameId)
+                    .update({
+                        state: gameStates.LEADER_ASSEMBLE_TEAM,
+                        missionTeamVotes: {}
+                    }),
+                setNewLeader(gameId)
+            ]);
+        }
+    }
 }

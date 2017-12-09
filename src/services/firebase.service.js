@@ -1,25 +1,23 @@
 import firebase from "react-native-firebase";
 
-import toQueryString from "obj-to-query-string";
-
 export const db = firebase.firestore();
 
-export async function fireFetch(
-    url,
-    config = {
-        queryParams: {}
-    }
-) {
+export async function fireFetch(url, body = {}) {
+    const headers = new Headers();
+
+    const fetchParams = {
+        method: `POST`,
+        headers
+    };
+
     let baseUrl = `https://us-central1-the-resistance-6d42d.cloudfunctions.net/${url}`;
 
-    if (Object.keys(config.queryParams).length) {
-        baseUrl += `?${toQueryString(config.queryParams)}`;
+    if (Object.keys(body).length) {
+        fetchParams.body = JSON.stringify(body);
+        headers.append(`Content-Type`, `application/json`);
     }
 
-    const res = await fetch(baseUrl, {
-        method: `GET`,
-        mode: `cors`
-    });
+    const res = await fetch(baseUrl, fetchParams);
 
     const data = await res.json();
 

@@ -37,6 +37,7 @@
   "dependencies": {
     "babel-preset-env": "^1.6.1",
     "fbjs": "^0.8.16",
+    "lodash": "^4.17.4",
     "obj-to-query-string": "^1.1.1",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",

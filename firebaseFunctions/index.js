@@ -2,27 +2,24 @@ const functions = require("firebase-functions");
 
 import {
     quitGame,
-    quitGameErrors,
     createGame,
-    createGameErrors,
     joinGame,
     joinGameErrors,
     startGame,
-    startGameErrors
+    setMissionTeam,
+    voteForMissionTeam
 } from "./games";
 
-function sendSuccessfulResponse(
-    res,
-    payload = {
-        success: true
-    }
-) {
-    res.type(`json`).send(payload);
+function sendSuccessfulResponse(res, payload) {
+    res.type(`json`).send(
+        payload || {
+            success: true
+        }
+    );
 }
 
-function handleError(error = {}, errors = {}, res) {
+function handleError(res, error = {}, errors = {}) {
     console.log(`error`, error);
-    console.log(`errors`, errors);
 
     const knownError = errors[error.code];
     const statusCode = knownError || 500;
@@ -41,7 +38,7 @@ function handleError(error = {}, errors = {}, res) {
 
 exports.createGame = functions.https.onRequest(async (req, res) => {
     try {
-        const { userId } = req.query;
+        const { userId } = req.body;
         const { gameCode, gameId } = await createGame(userId);
 
         sendSuccessfulResponse(res, {
@@ -49,68 +46,72 @@ exports.createGame = functions.https.onRequest(async (req, res) => {
             gameCode
         });
     } catch (error) {
-        handleError(
-            error,
-            {
-                [createGameErrors.CANNOT_CREATE_GAME.code]: 500
-            },
-            res
-        );
+        handleError(res, error);
     }
 });
 
 exports.joinGame = functions.https.onRequest(async (req, res) => {
     try {
-        const { gameCode, userId } = req.query;
+        console.log(req);
+        const { gameCode, userId } = req.body;
         const gameId = await joinGame(userId, parseInt(gameCode));
 
         sendSuccessfulResponse(res, {
             gameId
         });
     } catch (error) {
-        handleError(
-            error,
-            {
-                [joinGameErrors.GAME_DOES_NOT_EXIST.code]: 404
-            },
-            res
-        );
+        handleError(res, error, {
+            [joinGameErrors.GAME_DOES_NOT_EXIST.code]: 404
+        });
     }
 });
 
 exports.quitGame = functions.https.onRequest(async (req, res) => {
     try {
-        const { gameId, userId } = req.query;
+        const { gameId, userId } = req.body;
 
         await quitGame(userId, gameId);
 
         sendSuccessfulResponse(res);
     } catch (error) {
-        handleError(
-            error,
-            {
-                [quitGameErrors.GAME_DOES_NOT_EXIST.code]: 404,
-                [quitGameErrors.PLAYER_DOES_NOT_EXIST.code]: 404
-            },
-            res
-        );
+        handleError(res, error);
     }
 });
 
 exports.startGame = functions.https.onRequest(async (req, res) => {
     try {
-        const { gameId } = req.query;
+        const { gameId } = req.body;
 
         await startGame(gameId);
 
         sendSuccessfulResponse(res);
     } catch (error) {
-        handleError(
-            error,
-            {
-                [startGameErrors.CANNOT_START_GAME.code]: 500
-            },
-            res
-        );
+        handleError(res, error);
+    }
+});
+
+exports.setMissionTeam = functions.https.onRequest(async (req, res) => {
+    try {
+        const { gameId, missionTeam } = req.body;
+
+        console.log(gameId, missionTeam);
+
+        await setMissionTeam(gameId, missionTeam);
+
+        sendSuccessfulResponse(res);
+    } catch (error) {
+        handleError(res, error);
+    }
+});
+
+exports.voteForMissionTeam = functions.https.onRequest(async (req, res) => {
+    try {
+        const { gameId, userId, approves } = req.body;
+
+        await voteForMissionTeam({ gameId, userId, approves });
+
+        sendSuccessfulResponse(res);
+    } catch (error) {
+        handleError(res, error);
     }
 });

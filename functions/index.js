@@ -6,15 +6,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 const functions = require("firebase-functions");
 
-function sendSuccessfulResponse(res, payload = {
-  success: true
-}) {
-  res.type(`json`).send(payload);
+function sendSuccessfulResponse(res, payload) {
+  res.type(`json`).send(payload || {
+    success: true
+  });
 }
 
-function handleError(error = {}, errors = {}, res) {
+function handleError(res, error = {}, errors = {}) {
   console.log(`error`, error);
-  console.log(`errors`, errors);
   const knownError = errors[error.code];
   const statusCode = knownError || 500;
   const resError = knownError ? error : {
@@ -31,7 +30,7 @@ exports.createGame = functions.https.onRequest(
     try {
       const {
         userId
-      } = req.query;
+      } = req.body;
       const {
         gameCode,
         gameId
@@ -41,9 +40,7 @@ exports.createGame = functions.https.onRequest(
         gameCode
       });
     } catch (error) {
-      handleError(error, {
-        [_games.createGameErrors.CANNOT_CREATE_GAME.code]: 500
-      }, res);
+      handleError(res, error);
     }
   });
 
@@ -56,18 +53,19 @@ exports.joinGame = functions.https.onRequest(
 (() => {
   var _ref2 = _asyncToGenerator(function* (req, res) {
     try {
+      console.log(req);
       const {
         gameCode,
         userId
-      } = req.query;
+      } = req.body;
       const gameId = yield (0, _games.joinGame)(userId, parseInt(gameCode));
       sendSuccessfulResponse(res, {
         gameId
       });
     } catch (error) {
-      handleError(error, {
+      handleError(res, error, {
         [_games.joinGameErrors.GAME_DOES_NOT_EXIST.code]: 404
-      }, res);
+      });
     }
   });
 
@@ -83,14 +81,11 @@ exports.quitGame = functions.https.onRequest(
       const {
         gameId,
         userId
-      } = req.query;
+      } = req.body;
       yield (0, _games.quitGame)(userId, gameId);
       sendSuccessfulResponse(res);
     } catch (error) {
-      handleError(error, {
-        [_games.quitGameErrors.GAME_DOES_NOT_EXIST.code]: 404,
-        [_games.quitGameErrors.PLAYER_DOES_NOT_EXIST.code]: 404
-      }, res);
+      handleError(res, error);
     }
   });
 
@@ -105,17 +100,61 @@ exports.startGame = functions.https.onRequest(
     try {
       const {
         gameId
-      } = req.query;
+      } = req.body;
       yield (0, _games.startGame)(gameId);
       sendSuccessfulResponse(res);
     } catch (error) {
-      handleError(error, {
-        [_games.startGameErrors.CANNOT_START_GAME.code]: 500
-      }, res);
+      handleError(res, error);
     }
   });
 
   return function (_x7, _x8) {
     return _ref4.apply(this, arguments);
+  };
+})());
+exports.setMissionTeam = functions.https.onRequest(
+/*#__PURE__*/
+(() => {
+  var _ref5 = _asyncToGenerator(function* (req, res) {
+    try {
+      const {
+        gameId,
+        missionTeam
+      } = req.body;
+      console.log(gameId, missionTeam);
+      yield (0, _games.setMissionTeam)(gameId, missionTeam);
+      sendSuccessfulResponse(res);
+    } catch (error) {
+      handleError(res, error);
+    }
+  });
+
+  return function (_x9, _x10) {
+    return _ref5.apply(this, arguments);
+  };
+})());
+exports.voteForMissionTeam = functions.https.onRequest(
+/*#__PURE__*/
+(() => {
+  var _ref6 = _asyncToGenerator(function* (req, res) {
+    try {
+      const {
+        gameId,
+        userId,
+        approves
+      } = req.body;
+      yield (0, _games.voteForMissionTeam)({
+        gameId,
+        userId,
+        approves
+      });
+      sendSuccessfulResponse(res);
+    } catch (error) {
+      handleError(res, error);
+    }
+  });
+
+  return function (_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 })());

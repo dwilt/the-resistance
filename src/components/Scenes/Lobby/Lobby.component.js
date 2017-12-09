@@ -47,10 +47,8 @@ class Lobby extends Component {
             });
 
             const { gameId } = await fireFetch(`joinGame`, {
-                queryParams: {
-                    gameCode,
-                    userId
-                }
+                gameCode,
+                userId
             });
 
             Actions[Game.key]({
@@ -76,12 +74,11 @@ class Lobby extends Component {
             });
 
             const { gameCode, gameId } = await fireFetch(`createGame`, {
-                queryParams: {
-                    userId
-                }
+                userId
             });
 
             Actions[Game.key]({
+                hostId: userId,
                 gameId,
                 gameCode
             });
