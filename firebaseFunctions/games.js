@@ -1,50 +1,54 @@
-import { spyCount, gameStates } from "./gameStructure";
+import { gameStates, getSpyCount, totalRounds } from "./gameStructure";
 
 import { sampleSize, difference } from "lodash";
 
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+import {
+    addCompletedMission,
+    addGame,
+    addPlayer,
+    deleteGame,
+    deletePlayer,
+    getCompletedMissions,
+    getGame,
+    getOpenGameByCode,
+    getPlayer,
+    getPlayers,
+    getUser,
+    updateGame,
+    updatePlayer
+} from "./helpers";
 
-admin.initializeApp(functions.config().firebase);
+async function startNewRound(gameId) {
+    return Promise.all([
+        updateGame(gameId, {
+            state: gameStates.LEADER_ASSEMBLE_TEAM,
+            missionTeam: null,
+            missionTeamVotes: null
+        }),
+        setNewLeader(gameId)
+    ]);
+}
 
 async function setNewLeader(gameId) {
-    const [gameDoc, playersSnapshot] = await Promise.all([
-        admin
-            .firestore()
-            .collection(`games`)
-            .doc(gameId)
-            .get(),
-        admin
-            .firestore()
-            .collection(`games`)
-            .doc(gameId)
-            .collection(`players`)
-            .get()
+    const [game, playersDocs] = await Promise.all([
+        getGame(gameId),
+        getPlayers(gameId)
     ]);
 
-    const players = playersSnapshot.docs.map(doc => doc.data().id);
-    const { previousLeaders = [] } = gameDoc.data();
+    const players = playersDocs.map(doc => doc.id);
+    const { previousLeaders = [] } = game;
+    const refreshLeaders = previousLeaders.length === players.length;
+    const potentialLeaders = refreshLeaders
+        ? players
+        : difference(players, previousLeaders);
+    const leader = sampleSize(potentialLeaders, 1)[0];
+    const newPreviousLeaders = refreshLeaders
+        ? [leader]
+        : [...previousLeaders, leader];
 
-    let leader = null;
-
-    if (previousLeaders.length === players.length) {
-        leader = sampleSize(players, 1)[0];
-
-        await gameDoc.ref.update({
-            previousLeaders: [leader]
-        });
-    } else {
-        const remainingPotentialLeaders = difference(players, previousLeaders);
-
-        leader = sampleSize(remainingPotentialLeaders, 1)[0];
-
-        await gameDoc.ref.update({
-            previousLeaders: [...previousLeaders, leader]
-        });
-    }
-
-    gameDoc.ref.update({
-        leader
+    await updateGame(gameId, {
+        previousLeaders: newPreviousLeaders,
+        [`currentMission.leader`]: leader
     });
 }
 
@@ -56,36 +60,17 @@ export const joinGameErrors = {
 };
 
 export async function joinGame(userId, gameCode) {
-    const { docs: gameDocs } = await admin
-        .firestore()
-        .collection(`games`)
-        .where(`gameCode`, `==`, parseInt(gameCode))
-        .where(`state`, `==`, gameStates.LOBBY)
-        .get();
+    const game = await getOpenGameByCode(gameCode);
 
-    if (gameDocs.length) {
-        const game = gameDocs[0];
+    if (game) {
         const gameId = game.id;
+        const player = await getPlayer(gameId, userId);
 
-        const { docs: existingUserDoc } = await game.ref
-            .collection(`players`)
-            .where(`id`, `==`, userId)
-            .get();
-
-        // if the user isn't already in the game, add them
-        if (!existingUserDoc.length) {
-            const userDoc = await admin
-                .firestore()
-                .collection(`users`)
-                .doc(userId)
-                .get();
-
+        if (!player.exists) {
+            const userDoc = await getUser(userId);
             const { name } = userDoc.data();
 
-            await game.ref.collection(`players`).add({
-                name,
-                id: userId
-            });
+            await addPlayer(gameId, userId, name);
         }
 
         return gameId;
@@ -94,43 +79,25 @@ export async function joinGame(userId, gameCode) {
     }
 }
 
-export async function quitGame(userId, gameId) {
-    const playerQuerySnapshot = await admin
-        .firestore()
-        .collection(`games`)
-        .doc(gameId)
-        .collection(`players`)
-        .where(`id`, `==`, userId)
-        .get();
+export async function quitGame(gameId, playerId) {
+    await deletePlayer(gameId, playerId);
 
-    const player = playerQuerySnapshot.docs[0];
+    const players = await getPlayers(gameId);
 
-    await player.ref.delete();
-
-    // check if player was last player in game - if so, delete game
-    // not returning because this is a server-job and client shouldn't wait for it to complete
-    if (playerQuerySnapshot.docs.length === 1) {
-        admin
-            .firestore()
-            .collection(`games`)
-            .doc(gameId)
-            .delete();
+    if (!players.length) {
+        deleteGame(gameId);
     }
 }
 
 export async function createGame(userId) {
+    // TODO: come up with better, safer code generation lol
     const gameCode = Math.floor(Math.random() * 900000) + 100000;
 
-    const newGame = {
+    await addGame({
         gameCode,
         host: userId,
         state: gameStates.LOBBY
-    };
-
-    await admin
-        .firestore()
-        .collection(`games`)
-        .add(newGame);
+    });
 
     const gameId = await joinGame(userId, gameCode);
 
@@ -141,84 +108,52 @@ export async function createGame(userId) {
 }
 
 export async function startGame(gameId) {
-    const [playersSnapshot] = await Promise.all([
-        admin
-            .firestore()
-            .collection(`games`)
-            .doc(gameId)
-            .collection(`players`)
-            .get(),
-        admin
-            .firestore()
-            .collection(`games`)
-            .doc(gameId)
-            .update({
-                state: `PLAYER_REVEAL`
-            })
-    ]);
-
-    const totalSpies = spyCount[playersSnapshot.docs.length];
-
-    const spies = sampleSize(playersSnapshot.docs, totalSpies);
+    const playersDocs = await getPlayers(gameId);
+    const totalSpies = getSpyCount(playersDocs.length);
+    const spies = sampleSize(playersDocs, totalSpies);
 
     return Promise.all([
-        admin
-            .firestore()
-            .collection(`games`)
-            .doc(gameId)
-            .update({
-                state: gameStates.PLAYER_REVEAL
-            }),
-        ...playersSnapshot.docs.map(
-            doc =>
-                doc.ref.update({
-                    isSpy: spies.indexOf(doc) !== -1
-                }),
-            setNewLeader(gameId)
-        )
+        ...playersDocs.map(doc =>
+            updatePlayer(gameId, doc.id, {
+                isSpy: spies.indexOf(doc) !== -1
+            })
+        ),
+        startNewRound(gameId)
     ]);
 }
 
 export async function setMissionTeam(gameId, missionTeamIds = []) {
-    const missionTeam = {};
+    const missionTeam = missionTeamIds.reduce((team, id) => {
+        team[id] = null;
 
-    missionTeamIds.forEach(id => (missionTeam[id] = null));
+        return team;
+    }, {});
 
-    await admin
-        .firestore()
-        .collection(`games`)
-        .doc(gameId)
-        .update({
-            state: gameStates.MISSION_TEAM_VOTE,
-            missionTeam
-        });
+    await updateGame(gameId, {
+        state: gameStates.MISSION_TEAM_VOTE,
+        [`currentMission.missionTeam`]: missionTeam
+    });
 }
 
 export async function voteForMissionTeam({ gameId, userId, approves }) {
-    await admin
-        .firestore()
-        .collection(`games`)
-        .doc(gameId)
-        .update({
-            [`missionTeamVotes.${userId}`]: approves
-        });
+    await updateGame(gameId, {
+        [`currentMission.missionTeamVotes.${userId}`]: approves
+    });
 
-    const [playersSnapshot, gameDoc] = await Promise.all([
-        admin
-            .firestore()
-            .collection(`games`)
-            .doc(gameId)
-            .collection(`players`)
-            .get(),
-        admin
-            .firestore()
-            .collection(`games`)
-            .doc(gameId)
-            .get()
+    const [playersDocs, game] = await Promise.all([
+        getPlayers(gameId),
+        getGame(gameId)
     ]);
 
-    const totalPlayers = playersSnapshot.docs.length;
-    const { missionTeamVotes } = gameDoc.data();
+    const totalPlayers = playersDocs.length;
+    const {
+        currentMission: {
+            missionTeamVotes,
+            leader,
+            missionTeam,
+            failedTeams = []
+        }
+    } = game;
     const majority =
         totalPlayers % 2 === 0
             ? totalPlayers / 2 + 1
@@ -242,54 +177,27 @@ export async function voteForMissionTeam({ gameId, userId, approves }) {
         approvedVotes === rejectedVotes;
 
     if (approvedVotes >= majority) {
-        await admin
-            .firestore()
-            .collection(`games`)
-            .doc(gameId)
-            .update({
-                state: gameStates.CONDUCT_MISSION
-            });
-    } else if (rejectedVotes >= majority || isTied) {
-        const gameDoc = await admin
-            .firestore()
-            .collection(`games`)
-            .doc(gameId)
-            .get();
-
-        const { leader, missionTeam } = gameDoc.data();
-
-        await gameDoc.ref.collection(`failedTeamAssembles`).add({
-            leader,
-            missionTeam,
-            missionTeamVotes
+        await updateGame(gameId, {
+            state: gameStates.CONDUCT_MISSION
         });
-
-        const updatedGameDoc = await admin
-            .firestore()
-            .collection(`games`)
-            .doc(gameId)
-            .get();
-
-        const { failedTeamAssembles = [] } = updatedGameDoc.data();
-
-        if (failedTeamAssembles.length >= 5) {
-            await admin
-                .firestore()
-                .collection(`games`)
-                .doc(gameId)
-                .update({
-                    state: gameStates.COMPLETED
-                });
+    } else if (rejectedVotes >= majority || isTied) {
+        if (failedTeams.length >= 4) {
+            await updateGame(gameId, {
+                state: gameStates.COMPLETED
+            });
         } else {
+            const failedTeam = {
+                leader,
+                missionTeam,
+                missionTeamVotes
+            };
+
             await Promise.all([
-                admin
-                    .firestore()
-                    .collection(`games`)
-                    .doc(gameId)
-                    .update({
-                        state: gameStates.LEADER_ASSEMBLE_TEAM,
-                        missionTeamVotes: {}
-                    }),
+                updateGame(gameId, {
+                    state: gameStates.LEADER_ASSEMBLE_TEAM,
+                    [`currentMission.missionTeamVotes`]: null,
+                    [`currentMission.failedTeams`]: [...failedTeams, failedTeam]
+                }),
                 setNewLeader(gameId)
             ]);
         }
@@ -297,25 +205,52 @@ export async function voteForMissionTeam({ gameId, userId, approves }) {
 }
 
 export async function voteForMission({ gameId, userId, succeeds }) {
-    await admin
-        .firestore()
-        .collection(`games`)
-        .doc(gameId)
-        .update({
-            [`missionTeam.${userId}`]: succeeds
-        });
+    await updateGame(gameId, {
+        [`currentMission.missionTeam.${userId}`]: succeeds
+    });
 
-    const gameDoc = await admin
-        .firestore()
-        .collection(`games`)
-        .doc(gameId)
-        .get();
+    const { currentMission } = await getGame(gameId);
+    const { missionTeam } = currentMission;
 
-    const { missionTeam } = gameDoc.data();
     const nonVoters = Object.keys(missionTeam).filter(
         userId => missionTeam[userId] === null
     );
 
-    if (nonVoters.length) {
+    if (!nonVoters.length) {
+        const [completedMissionsDocs, playersDocs] = await Promise.all([
+            getCompletedMissions(gameId),
+            getPlayers(gameId)
+        ]);
+
+        const roundNumber = completedMissionsDocs.length;
+        const totalPlayers = playersDocs.length;
+        const failedVotes = Object.keys(missionTeam).filter(
+            userId => missionTeam[userId] === false
+        );
+
+        const missionFailed =
+            roundNumber === 4 && totalPlayers > 7
+                ? failedVotes.length > 1
+                : !!failedVotes.length;
+
+        // TODO: convert to spread when you figure out wtf is going on
+        await addCompletedMission(
+            gameId,
+            Object.assign(
+                {},
+                {
+                    missionFailed
+                },
+                currentMission
+            )
+        );
+
+        if (roundNumber === totalRounds) {
+            await updateGame(gameId, {
+                state: gameStates.COMPLETED
+            });
+        } else {
+            await startNewRound(gameId);
+        }
     }
 }

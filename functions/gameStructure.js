@@ -3,8 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getSpyCount = getSpyCount;
 exports.getMissionMembersCount = getMissionMembersCount;
-exports.spyCount = exports.gameStates = void 0;
+exports.totalRounds = exports.gameStates = void 0;
 const gameStates = {
   LOBBY: `LOBBY`,
   PLAYER_REVEAL: `PLAYER_REVEAL`,
@@ -14,15 +15,20 @@ const gameStates = {
   COMPLETED: `COMPLETED`
 };
 exports.gameStates = gameStates;
-const spyCount = {
-  5: 2,
-  6: 2,
-  7: 3,
-  8: 3,
-  9: 3,
-  10: 4
-};
-exports.spyCount = spyCount;
+const totalRounds = 5;
+exports.totalRounds = totalRounds;
+
+function getSpyCount(totalPlayers) {
+  const map = {
+    5: 2,
+    6: 2,
+    7: 3,
+    8: 3,
+    9: 3,
+    10: 4
+  };
+  return map[totalPlayers];
+}
 
 function getMissionMembersCount(roundNumber, totalPlayers) {
   const map = {

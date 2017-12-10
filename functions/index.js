@@ -82,7 +82,7 @@ exports.quitGame = functions.https.onRequest(
         gameId,
         userId
       } = req.body;
-      yield (0, _games.quitGame)(userId, gameId);
+      yield (0, _games.quitGame)(gameId, userId);
       sendSuccessfulResponse(res);
     } catch (error) {
       handleError(res, error);
@@ -156,5 +156,30 @@ exports.voteForMissionTeam = functions.https.onRequest(
 
   return function (_x11, _x12) {
     return _ref6.apply(this, arguments);
+  };
+})());
+exports.voteForMission = functions.https.onRequest(
+/*#__PURE__*/
+(() => {
+  var _ref7 = _asyncToGenerator(function* (req, res) {
+    try {
+      const {
+        gameId,
+        userId,
+        succeeds
+      } = req.body;
+      yield (0, _games.voteForMission)({
+        gameId,
+        userId,
+        succeeds
+      });
+      sendSuccessfulResponse(res);
+    } catch (error) {
+      handleError(res, error);
+    }
+  });
+
+  return function (_x13, _x14) {
+    return _ref7.apply(this, arguments);
   };
 })());

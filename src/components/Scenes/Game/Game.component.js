@@ -46,36 +46,16 @@ class Game extends Component {
             );
         }
 
-        await fireFetch(`setMissionTeam`, {
-            gameId,
-            missionTeam: [`vOG98CWSuNMHpiHDSydP1mCrnin2`,`9sdfg8743tsdfg`,`asdf8asdf6asdf6`]
-        });
-
-        await db
-            .collection(`games`)
-            .doc(gameId)
-            .update({
-                [`missionTeam.${userId}`]: false
-            });
-
-        const gameDoc = await db
-            .collection(`games`)
-            .doc(gameId)
-            .get()
-
-        const { missionTeam } = gameDoc.data();
-        const nonVoters = Object.keys(missionTeam).filter((userId) => missionTeam[userId] === null);
-
-        console.log(missionTeam);
-        console.log(nonVoters);
-
         this.playersListener = db
             .collection(`games`)
             .doc(gameId)
             .collection(`players`)
-            .onSnapshot(snapshot => {
+            .onSnapshot(({ docs }) => {
                 this.setState({
-                    players: snapshot.docs.map(doc => doc.data())
+                    players: docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }))
                 });
             });
 

@@ -7,7 +7,8 @@ import {
     joinGameErrors,
     startGame,
     setMissionTeam,
-    voteForMissionTeam
+    voteForMissionTeam,
+    voteForMission
 } from "./games";
 
 function sendSuccessfulResponse(res, payload) {
@@ -70,7 +71,7 @@ exports.quitGame = functions.https.onRequest(async (req, res) => {
     try {
         const { gameId, userId } = req.body;
 
-        await quitGame(userId, gameId);
+        await quitGame(gameId, userId);
 
         sendSuccessfulResponse(res);
     } catch (error) {
@@ -109,6 +110,18 @@ exports.voteForMissionTeam = functions.https.onRequest(async (req, res) => {
         const { gameId, userId, approves } = req.body;
 
         await voteForMissionTeam({ gameId, userId, approves });
+
+        sendSuccessfulResponse(res);
+    } catch (error) {
+        handleError(res, error);
+    }
+});
+
+exports.voteForMission = functions.https.onRequest(async (req, res) => {
+    try {
+        const { gameId, userId, succeeds } = req.body;
+
+        await voteForMission({ gameId, userId, succeeds });
 
         sendSuccessfulResponse(res);
     } catch (error) {

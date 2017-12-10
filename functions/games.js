@@ -9,47 +9,50 @@ var _gameStructure = require("./gameStructure");
 
 var _lodash = require("lodash");
 
-let setNewLeader =
+var _helpers = require("./helpers");
+
+let startNewRound =
 /*#__PURE__*/
 (() => {
   var _ref = _asyncToGenerator(function* (gameId) {
-    const [gameDoc, playersSnapshot] = yield Promise.all([admin.firestore().collection(`games`).doc(gameId).get(), admin.firestore().collection(`games`).doc(gameId).collection(`players`).get()]);
-    const players = playersSnapshot.docs.map(doc => doc.data().id);
+    return Promise.all([(0, _helpers.updateGame)(gameId, {
+      state: _gameStructure.gameStates.LEADER_ASSEMBLE_TEAM,
+      missionTeam: null,
+      missionTeamVotes: null
+    }), setNewLeader(gameId)]);
+  });
+
+  return function startNewRound(_x) {
+    return _ref.apply(this, arguments);
+  };
+})();
+
+let setNewLeader =
+/*#__PURE__*/
+(() => {
+  var _ref2 = _asyncToGenerator(function* (gameId) {
+    const [game, playersDocs] = yield Promise.all([(0, _helpers.getGame)(gameId), (0, _helpers.getPlayers)(gameId)]);
+    const players = playersDocs.map(doc => doc.id);
     const {
       previousLeaders = []
-    } = gameDoc.data();
-    let leader = null;
-
-    if (previousLeaders.length === players.length) {
-      leader = (0, _lodash.sampleSize)(players, 1)[0];
-      yield gameDoc.ref.update({
-        previousLeaders: [leader]
-      });
-    } else {
-      const remainingPotentialLeaders = (0, _lodash.difference)(players, previousLeaders);
-      leader = (0, _lodash.sampleSize)(remainingPotentialLeaders, 1)[0];
-      yield gameDoc.ref.update({
-        previousLeaders: [...previousLeaders, leader]
-      });
-    }
-
-    gameDoc.ref.update({
-      leader
+    } = game;
+    const refreshLeaders = previousLeaders.length === players.length;
+    const potentialLeaders = refreshLeaders ? players : (0, _lodash.difference)(players, previousLeaders);
+    const leader = (0, _lodash.sampleSize)(potentialLeaders, 1)[0];
+    const newPreviousLeaders = refreshLeaders ? [leader] : [...previousLeaders, leader];
+    yield (0, _helpers.updateGame)(gameId, {
+      previousLeaders: newPreviousLeaders,
+      [`currentMission.leader`]: leader
     });
   });
 
-  return function setNewLeader(_x) {
-    return _ref.apply(this, arguments);
+  return function setNewLeader(_x2) {
+    return _ref2.apply(this, arguments);
   };
 })();
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } } function _next(value) { step("next", value); } function _throw(err) { step("throw", err); } _next(); }); }; }
 
-const functions = require("firebase-functions");
-
-const admin = require("firebase-admin");
-
-admin.initializeApp(functions.config().firebase);
 const joinGameErrors = {
   GAME_DOES_NOT_EXIST: {
     code: `GAME_DOES_NOT_EXIST`,
@@ -61,27 +64,19 @@ exports.joinGameErrors = joinGameErrors;
 let joinGame =
 /*#__PURE__*/
 (() => {
-  var _ref2 = _asyncToGenerator(function* (userId, gameCode) {
-    const {
-      docs: gameDocs
-    } = yield admin.firestore().collection(`games`).where(`gameCode`, `==`, parseInt(gameCode)).where(`state`, `==`, _gameStructure.gameStates.LOBBY).get();
+  var _ref3 = _asyncToGenerator(function* (userId, gameCode) {
+    const game = yield (0, _helpers.getOpenGameByCode)(gameCode);
 
-    if (gameDocs.length) {
-      const game = gameDocs[0];
+    if (game) {
       const gameId = game.id;
-      const {
-        docs: existingUserDoc
-      } = yield game.ref.collection(`players`).where(`id`, `==`, userId).get(); // if the user isn't already in the game, add them
+      const player = yield (0, _helpers.getPlayer)(gameId, userId);
 
-      if (!existingUserDoc.length) {
-        const userDoc = yield admin.firestore().collection(`users`).doc(userId).get();
+      if (!player.exists) {
+        const userDoc = yield (0, _helpers.getUser)(userId);
         const {
           name
         } = userDoc.data();
-        yield game.ref.collection(`players`).add({
-          name,
-          id: userId
-        });
+        yield (0, _helpers.addPlayer)(gameId, userId, name);
       }
 
       return gameId;
@@ -90,8 +85,8 @@ let joinGame =
     }
   });
 
-  return function joinGame(_x2, _x3) {
-    return _ref2.apply(this, arguments);
+  return function joinGame(_x3, _x4) {
+    return _ref3.apply(this, arguments);
   };
 })();
 
@@ -100,19 +95,17 @@ exports.joinGame = joinGame;
 let quitGame =
 /*#__PURE__*/
 (() => {
-  var _ref3 = _asyncToGenerator(function* (userId, gameId) {
-    const playerQuerySnapshot = yield admin.firestore().collection(`games`).doc(gameId).collection(`players`).where(`id`, `==`, userId).get();
-    const player = playerQuerySnapshot.docs[0];
-    yield player.ref.delete(); // check if player was last player in game - if so, delete game
-    // not returning because this is a server-job and client shouldn't wait for it to complete
+  var _ref4 = _asyncToGenerator(function* (gameId, playerId) {
+    yield (0, _helpers.deletePlayer)(gameId, playerId);
+    const players = yield (0, _helpers.getPlayers)(gameId);
 
-    if (playerQuerySnapshot.docs.length === 1) {
-      admin.firestore().collection(`games`).doc(gameId).delete();
+    if (!players.length) {
+      (0, _helpers.deleteGame)(gameId);
     }
   });
 
-  return function quitGame(_x4, _x5) {
-    return _ref3.apply(this, arguments);
+  return function quitGame(_x5, _x6) {
+    return _ref4.apply(this, arguments);
   };
 })();
 
@@ -121,14 +114,14 @@ exports.quitGame = quitGame;
 let createGame =
 /*#__PURE__*/
 (() => {
-  var _ref4 = _asyncToGenerator(function* (userId) {
+  var _ref5 = _asyncToGenerator(function* (userId) {
+    // TODO: come up with better, safer code generation lol
     const gameCode = Math.floor(Math.random() * 900000) + 100000;
-    const newGame = {
+    yield (0, _helpers.addGame)({
       gameCode,
       host: userId,
       state: _gameStructure.gameStates.LOBBY
-    };
-    yield admin.firestore().collection(`games`).add(newGame);
+    });
     const gameId = yield joinGame(userId, gameCode);
     return {
       gameCode,
@@ -136,8 +129,8 @@ let createGame =
     };
   });
 
-  return function createGame(_x6) {
-    return _ref4.apply(this, arguments);
+  return function createGame(_x7) {
+    return _ref5.apply(this, arguments);
   };
 })();
 
@@ -146,21 +139,17 @@ exports.createGame = createGame;
 let startGame =
 /*#__PURE__*/
 (() => {
-  var _ref5 = _asyncToGenerator(function* (gameId) {
-    const [playersSnapshot] = yield Promise.all([admin.firestore().collection(`games`).doc(gameId).collection(`players`).get(), admin.firestore().collection(`games`).doc(gameId).update({
-      state: `PLAYER_REVEAL`
-    })]);
-    const totalSpies = _gameStructure.spyCount[playersSnapshot.docs.length];
-    const spies = (0, _lodash.sampleSize)(playersSnapshot.docs, totalSpies);
-    return Promise.all([admin.firestore().collection(`games`).doc(gameId).update({
-      state: _gameStructure.gameStates.PLAYER_REVEAL
-    }), ...playersSnapshot.docs.map(doc => doc.ref.update({
+  var _ref6 = _asyncToGenerator(function* (gameId) {
+    const playersDocs = yield (0, _helpers.getPlayers)(gameId);
+    const totalSpies = (0, _gameStructure.getSpyCount)(playersDocs.length);
+    const spies = (0, _lodash.sampleSize)(playersDocs, totalSpies);
+    return Promise.all([...playersDocs.map(doc => (0, _helpers.updatePlayer)(gameId, doc.id, {
       isSpy: spies.indexOf(doc) !== -1
-    }), setNewLeader(gameId))]);
+    })), startNewRound(gameId)]);
   });
 
-  return function startGame(_x7) {
-    return _ref5.apply(this, arguments);
+  return function startGame(_x8) {
+    return _ref6.apply(this, arguments);
   };
 })();
 
@@ -169,17 +158,19 @@ exports.startGame = startGame;
 let setMissionTeam =
 /*#__PURE__*/
 (() => {
-  var _ref6 = _asyncToGenerator(function* (gameId, missionTeamIds = []) {
-    const missionTeam = {};
-    missionTeamIds.forEach(id => missionTeam[id] = null);
-    yield admin.firestore().collection(`games`).doc(gameId).update({
+  var _ref7 = _asyncToGenerator(function* (gameId, missionTeamIds = []) {
+    const missionTeam = missionTeamIds.reduce((team, id) => {
+      team[id] = null;
+      return team;
+    }, {});
+    yield (0, _helpers.updateGame)(gameId, {
       state: _gameStructure.gameStates.MISSION_TEAM_VOTE,
-      missionTeam
+      [`currentMission.missionTeam`]: missionTeam
     });
   });
 
-  return function setMissionTeam(_x8) {
-    return _ref6.apply(this, arguments);
+  return function setMissionTeam(_x9) {
+    return _ref7.apply(this, arguments);
   };
 })();
 
@@ -188,19 +179,24 @@ exports.setMissionTeam = setMissionTeam;
 let voteForMissionTeam =
 /*#__PURE__*/
 (() => {
-  var _ref7 = _asyncToGenerator(function* ({
+  var _ref8 = _asyncToGenerator(function* ({
     gameId,
     userId,
     approves
   }) {
-    yield admin.firestore().collection(`games`).doc(gameId).update({
-      [`missionTeamVotes.${userId}`]: approves
+    yield (0, _helpers.updateGame)(gameId, {
+      [`currentMission.missionTeamVotes.${userId}`]: approves
     });
-    const [playersSnapshot, gameDoc] = yield Promise.all([admin.firestore().collection(`games`).doc(gameId).collection(`players`).get(), admin.firestore().collection(`games`).doc(gameId).get()]);
-    const totalPlayers = playersSnapshot.docs.length;
+    const [playersDocs, game] = yield Promise.all([(0, _helpers.getPlayers)(gameId), (0, _helpers.getGame)(gameId)]);
+    const totalPlayers = playersDocs.length;
     const {
-      missionTeamVotes
-    } = gameDoc.data();
+      currentMission: {
+        missionTeamVotes,
+        leader,
+        missionTeam,
+        failedTeams = []
+      }
+    } = game;
     const majority = totalPlayers % 2 === 0 ? totalPlayers / 2 + 1 : Math.ceil(totalPlayers / 2);
     let approvedVotes = 0;
     let rejectedVotes = 0;
@@ -216,40 +212,31 @@ let voteForMissionTeam =
     const isTied = approvedVotes + rejectedVotes === totalPlayers && approvedVotes === rejectedVotes;
 
     if (approvedVotes >= majority) {
-      yield admin.firestore().collection(`games`).doc(gameId).update({
+      yield (0, _helpers.updateGame)(gameId, {
         state: _gameStructure.gameStates.CONDUCT_MISSION
       });
     } else if (rejectedVotes >= majority || isTied) {
-      const gameDoc = yield admin.firestore().collection(`games`).doc(gameId).get();
-      const {
-        leader,
-        missionTeam
-      } = gameDoc.data();
-      yield gameDoc.ref.collection(`failedTeamAssembles`).add({
-        leader,
-        missionTeam,
-        missionTeamVotes
-      });
-      const updatedGameDoc = yield admin.firestore().collection(`games`).doc(gameId).get();
-      const {
-        failedTeamAssembles = []
-      } = updatedGameDoc.data();
-
-      if (failedTeamAssembles.length >= 5) {
-        yield admin.firestore().collection(`games`).doc(gameId).update({
+      if (failedTeams.length >= 4) {
+        yield (0, _helpers.updateGame)(gameId, {
           state: _gameStructure.gameStates.COMPLETED
         });
       } else {
-        yield Promise.all([admin.firestore().collection(`games`).doc(gameId).update({
+        const failedTeam = {
+          leader,
+          missionTeam,
+          missionTeamVotes
+        };
+        yield Promise.all([(0, _helpers.updateGame)(gameId, {
           state: _gameStructure.gameStates.LEADER_ASSEMBLE_TEAM,
-          missionTeamVotes: {}
+          [`currentMission.missionTeamVotes`]: null,
+          [`currentMission.failedTeams`]: [...failedTeams, failedTeam]
         }), setNewLeader(gameId)]);
       }
     }
   });
 
-  return function voteForMissionTeam(_x9) {
-    return _ref7.apply(this, arguments);
+  return function voteForMissionTeam(_x10) {
+    return _ref8.apply(this, arguments);
   };
 })();
 
@@ -258,25 +245,45 @@ exports.voteForMissionTeam = voteForMissionTeam;
 let voteForMission =
 /*#__PURE__*/
 (() => {
-  var _ref8 = _asyncToGenerator(function* ({
+  var _ref9 = _asyncToGenerator(function* ({
     gameId,
     userId,
     succeeds
   }) {
-    yield admin.firestore().collection(`games`).doc(gameId).update({
-      [`missionTeam.${userId}`]: succeeds
+    yield (0, _helpers.updateGame)(gameId, {
+      [`currentMission.missionTeam.${userId}`]: succeeds
     });
-    const gameDoc = yield admin.firestore().collection(`games`).doc(gameId).get();
+    const {
+      currentMission
+    } = yield (0, _helpers.getGame)(gameId);
     const {
       missionTeam
-    } = gameDoc.data();
+    } = currentMission;
     const nonVoters = Object.keys(missionTeam).filter(userId => missionTeam[userId] === null);
 
-    if (nonVoters.length) {}
+    if (!nonVoters.length) {
+      const [completedMissionsDocs, playersDocs] = yield Promise.all([(0, _helpers.getCompletedMissions)(gameId), (0, _helpers.getPlayers)(gameId)]);
+      const roundNumber = completedMissionsDocs.length;
+      const totalPlayers = playersDocs.length;
+      const failedVotes = Object.keys(missionTeam).filter(userId => missionTeam[userId] === false);
+      const missionFailed = roundNumber === 4 && totalPlayers > 7 ? failedVotes.length > 1 : !!failedVotes.length; // TODO: convert to spread when you figure out wtf is going on
+
+      yield (0, _helpers.addCompletedMission)(gameId, Object.assign({}, {
+        missionFailed
+      }, currentMission));
+
+      if (roundNumber === _gameStructure.totalRounds) {
+        yield (0, _helpers.updateGame)(gameId, {
+          state: _gameStructure.gameStates.COMPLETED
+        });
+      } else {
+        yield startNewRound(gameId);
+      }
+    }
   });
 
-  return function voteForMission(_x10) {
-    return _ref8.apply(this, arguments);
+  return function voteForMission(_x11) {
+    return _ref9.apply(this, arguments);
   };
 })();
 

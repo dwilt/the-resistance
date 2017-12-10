@@ -7,14 +7,20 @@ export const gameStates = {
     COMPLETED: `COMPLETED`
 };
 
-export const spyCount = {
-    5: 2,
-    6: 2,
-    7: 3,
-    8: 3,
-    9: 3,
-    10: 4
-};
+export const totalRounds = 5;
+
+export function getSpyCount(totalPlayers) {
+    const map = {
+        5: 2,
+        6: 2,
+        7: 3,
+        8: 3,
+        9: 3,
+        10: 4
+    };
+
+    return map[totalPlayers];
+}
 
 export function getMissionMembersCount(roundNumber, totalPlayers) {
     const map = {
