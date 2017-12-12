@@ -1,4 +1,9 @@
-import { gameStates, getSpyCount, totalRounds } from "./gameStructure";
+import {
+    gameStates,
+    getSpyCount,
+    singleMissionFailedMissionTeamsLimit,
+    totalRounds
+} from "./gameStructure";
 
 import { sampleSize, difference } from "lodash";
 
@@ -16,18 +21,7 @@ import {
     getUser,
     updateGame,
     updatePlayer
-} from "./helpers";
-
-async function startNewRound(gameId) {
-    return Promise.all([
-        updateGame(gameId, {
-            state: gameStates.LEADER_ASSEMBLE_TEAM,
-            missionTeam: null,
-            missionTeamVotes: null
-        }),
-        setNewLeader(gameId)
-    ]);
-}
+} from "./helpers/firestore";
 
 async function setNewLeader(gameId) {
     const [game, playersDocs] = await Promise.all([
@@ -50,6 +44,19 @@ async function setNewLeader(gameId) {
         previousLeaders: newPreviousLeaders,
         [`currentMission.leader`]: leader
     });
+}
+
+export async function startNewRound(gameId) {
+    return Promise.all([
+        updateGame(gameId, {
+            state: gameStates.BUILD_MISSION_TEAM,
+            currentMission: {
+                missionTeam: null,
+                missionTeamVotes: null
+            }
+        }),
+        setNewLeader(gameId)
+    ]);
 }
 
 export const joinGameErrors = {
@@ -118,7 +125,9 @@ export async function startGame(gameId) {
                 isSpy: spies.indexOf(doc) !== -1
             })
         ),
-        startNewRound(gameId)
+        updateGame(gameId, {
+            state: gameStates.PLAYER_REVEAL
+        })
     ]);
 }
 
@@ -135,17 +144,12 @@ export async function setMissionTeam(gameId, missionTeamIds = []) {
     });
 }
 
-export async function voteForMissionTeam({ gameId, userId, approves }) {
-    await updateGame(gameId, {
-        [`currentMission.missionTeamVotes.${userId}`]: approves
-    });
-
+export async function revealMissionTeamVote(gameId) {
     const [playersDocs, game] = await Promise.all([
         getPlayers(gameId),
         getGame(gameId)
     ]);
 
-    const totalPlayers = playersDocs.length;
     const {
         currentMission: {
             missionTeamVotes,
@@ -154,6 +158,9 @@ export async function voteForMissionTeam({ gameId, userId, approves }) {
             failedTeams = []
         }
     } = game;
+
+    const totalPlayers = playersDocs.length;
+
     const majority =
         totalPlayers % 2 === 0
             ? totalPlayers / 2 + 1
@@ -172,36 +179,40 @@ export async function voteForMissionTeam({ gameId, userId, approves }) {
         }
     });
 
-    const isTied =
-        approvedVotes + rejectedVotes === totalPlayers &&
-        approvedVotes === rejectedVotes;
+    const approved = approvedVotes >= majority;
 
-    if (approvedVotes >= majority) {
-        await updateGame(gameId, {
-            state: gameStates.CONDUCT_MISSION
-        });
-    } else if (rejectedVotes >= majority || isTied) {
-        if (failedTeams.length >= 4) {
-            await updateGame(gameId, {
-                state: gameStates.COMPLETED
-            });
-        } else {
-            const failedTeam = {
-                leader,
-                missionTeam,
-                missionTeamVotes
-            };
+    const updatedGame = {
+        state: gameStates.MISSION_TEAM_VOTE_REVEAL,
+        [`currentMission.missionTeamVotes.approved`]: approved
+    };
 
-            await Promise.all([
-                updateGame(gameId, {
-                    state: gameStates.LEADER_ASSEMBLE_TEAM,
-                    [`currentMission.missionTeamVotes`]: null,
-                    [`currentMission.failedTeams`]: [...failedTeams, failedTeam]
-                }),
-                setNewLeader(gameId)
-            ]);
-        }
+    if (!approved) {
+        const failedTeam = {
+            leader,
+            missionTeam,
+            missionTeamVotes
+        };
+
+        updatedGame[`currentMission.failedTeams`] = [
+            ...failedTeams,
+            failedTeam
+        ];
     }
+
+    if (
+        !approved &&
+        failedTeams.length >= singleMissionFailedMissionTeamsLimit - 1
+    ) {
+        updatedGame.state = gameStates.COMPLETED;
+    }
+
+    await updateGame(gameId, updatedGame);
+}
+
+export async function voteForMissionTeam({ gameId, userId, approves }) {
+    await updateGame(gameId, {
+        [`currentMission.missionTeamVotes.votes.${userId}`]: approves
+    });
 }
 
 export async function voteForMission({ gameId, userId, succeeds }) {
@@ -250,7 +261,9 @@ export async function voteForMission({ gameId, userId, succeeds }) {
                 state: gameStates.COMPLETED
             });
         } else {
-            await startNewRound(gameId);
+            await updateGame(gameId, {
+                state: gameStates.MISSION_OUTCOME_REVEAL
+            });
         }
     }
 }

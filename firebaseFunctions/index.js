@@ -1,3 +1,5 @@
+import { handleError, sendSuccessfulResponse } from "./helpers/responses";
+
 const functions = require("firebase-functions");
 
 import {
@@ -8,34 +10,10 @@ import {
     startGame,
     setMissionTeam,
     voteForMissionTeam,
-    voteForMission
+    voteForMission,
+    revealMissionTeamVote,
+    startNewRound
 } from "./games";
-
-function sendSuccessfulResponse(res, payload) {
-    res.type(`json`).send(
-        payload || {
-            success: true
-        }
-    );
-}
-
-function handleError(res, error = {}, errors = {}) {
-    console.log(`error`, error);
-
-    const knownError = errors[error.code];
-    const statusCode = knownError || 500;
-    const resError = knownError
-        ? error
-        : {
-              code: `STANDARD_ERROR`,
-              message: `Fuck. There was some kind of unexpected error and we're not sure why. But we're on it!`
-          };
-
-    res
-        .type(`json`)
-        .status(statusCode)
-        .send(resError);
-}
 
 exports.createGame = functions.https.onRequest(async (req, res) => {
     try {
@@ -122,6 +100,30 @@ exports.voteForMission = functions.https.onRequest(async (req, res) => {
         const { gameId, userId, succeeds } = req.body;
 
         await voteForMission({ gameId, userId, succeeds });
+
+        sendSuccessfulResponse(res);
+    } catch (error) {
+        handleError(res, error);
+    }
+});
+
+exports.revealMissionTeamVote = functions.https.onRequest(async (req, res) => {
+    try {
+        const { gameId } = req.body;
+
+        await revealMissionTeamVote(gameId);
+
+        sendSuccessfulResponse(res);
+    } catch (error) {
+        handleError(res, error);
+    }
+});
+
+exports.startNewRound = functions.https.onRequest(async (req, res) => {
+    try {
+        const { gameId } = req.body;
+
+        await startNewRound(gameId);
 
         sendSuccessfulResponse(res);
     } catch (error) {
