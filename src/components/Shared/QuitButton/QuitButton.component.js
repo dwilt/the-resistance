@@ -1,16 +1,16 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import { ActionButton } from '/components/index';
+import { ActionButton } from "/components/index";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { firebase } from '/services/index';
-import { Actions } from 'react-native-router-flux';
-import { fireFetch } from '../../../services';
+import { firebase } from "/services/index";
+import { Actions } from "react-native-router-flux";
+import { fireFetch } from "../../../services";
 
 export default class QuitButton extends PureComponent {
     static propTypes = {
-        gameId: PropTypes.string.isRequired,
+        gameId: PropTypes.string.isRequired
     };
 
     quitGame = async () => {
@@ -19,22 +19,22 @@ export default class QuitButton extends PureComponent {
 
         try {
             this.setState({
-                isQuitting: true,
+                isQuitting: true
             });
 
             await fireFetch(`quitGame`, {
                 userId,
-                gameId,
+                gameId
             });
 
             Actions.pop();
         } catch ({ message }) {
             this.setState({
-                error: message,
+                error: message
             });
         } finally {
             this.setState({
-                isQuitting: false,
+                isQuitting: false
             });
         }
     };

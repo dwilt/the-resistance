@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { Alert, View } from 'react-native';
+import { Alert, View } from "react-native";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { firebase, fireFetch, db } from '/services/index';
+import { firebase, fireFetch, db } from "/services/index";
 
-import { gameStates } from '../../../../../assets/gameStructure';
+import { gameStates } from "../../../../../assets/gameStructure";
 
-import { PlayerReveal } from '../PlayerReveal/index';
-import { Lobby } from '../Lobby';
-import { BuildMissionTeam } from '../BuildMissionTeam';
+import { PlayerReveal } from "../PlayerReveal/index";
+import { Lobby } from "../Lobby";
+import { BuildMissionTeam } from "../BuildMissionTeam";
 
 class Game extends Component {
     static propTypes = {
         gameId: PropTypes.string.isRequired,
         hostId: PropTypes.string,
-        gameCode: PropTypes.number,
+        gameCode: PropTypes.number
     };
 
     state = {
@@ -24,7 +24,7 @@ class Game extends Component {
         state: gameStates.Home,
         isQuitting: false,
         players: [],
-        roundNumber: 1,
+        roundNumber: 1
     };
 
     async componentDidMount() {
@@ -33,12 +33,12 @@ class Game extends Component {
 
         if (gameCode) {
             this.setState({
-                isHost: true,
+                isHost: true
             });
 
             Alert.alert(
                 `Game Created!`,
-                `Your game has been created and the code is ${gameCode}`,
+                `Your game has been created and the code is ${gameCode}`
             );
         }
 
@@ -50,8 +50,8 @@ class Game extends Component {
                 this.setState({
                     players: docs.map(doc => ({
                         id: doc.id,
-                        ...doc.data(),
-                    })),
+                        ...doc.data()
+                    }))
                 });
             });
 
@@ -68,7 +68,7 @@ class Game extends Component {
 
                     this.setState({
                         isHost: userId === host,
-                        state,
+                        state
                     });
                 }
             });
@@ -79,7 +79,7 @@ class Game extends Component {
             .collection(`completedMissions`)
             .onSnapshot(({ docs }) => {
                 this.setState({
-                    roundNumber: docs.length + 1,
+                    roundNumber: docs.length + 1
                 });
             });
     }

@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { Switch } from 'react-native';
+import { Switch } from "react-native";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { ActionButton } from '../../../Core/ActionButton';
+import { ActionButton } from "../../../Core/ActionButton";
 
-import { fireFetch } from '/services';
-import { View } from 'react-native';
-import { Text } from '../../../Core/Text';
-import styles from './BuildMissionTeam.styles';
-import { getMissionMembersCount } from '../../../../../assets/gameStructure';
+import { fireFetch } from "/services";
+import { View } from "react-native";
+import { Text } from "../../../Core/Text";
+import styles from "./BuildMissionTeam.styles";
+import { getMissionMembersCount } from "../../../../../assets/gameStructure";
 
 class BuildMissionTeam extends Component {
     static propTypes = {
@@ -20,19 +20,19 @@ class BuildMissionTeam extends Component {
         players: PropTypes.arrayOf(
             PropTypes.shape({
                 id: PropTypes.string.isRequired,
-                name: PropTypes.string.isRequired,
-            }),
-        ).isRequired,
+                name: PropTypes.string.isRequired
+            })
+        ).isRequired
     };
 
     static defaultProps = {
-        isHost: false,
+        isHost: false
     };
 
     state = {
         isConfirming: false,
         missionTeamFilled: false,
-        missionTeamIds: [],
+        missionTeamIds: []
     };
 
     onPlayerSelectedChange = (id, selected) => {
@@ -45,12 +45,12 @@ class BuildMissionTeam extends Component {
 
         const totalTeamCount = getMissionMembersCount(
             roundNumber,
-            players.length,
+            players.length
         );
 
         this.setState({
             missionTeamIds: newMissionIds,
-            missionTeamFilled: newMissionIds.length === totalTeamCount,
+            missionTeamFilled: newMissionIds.length === totalTeamCount
         });
     };
 
@@ -60,20 +60,20 @@ class BuildMissionTeam extends Component {
 
         try {
             this.setState({
-                isConfirming: true,
+                isConfirming: true
             });
 
             await fireFetch(`setMissionTeam`, {
                 missionTeamIds,
-                gameId,
+                gameId
             });
         } catch ({ message }) {
             this.setState({
-                error: message,
+                error: message
             });
         } finally {
             this.setState({
-                isConfirming: false,
+                isConfirming: false
             });
         }
     };

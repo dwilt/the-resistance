@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { ActionButton } from '../../../Core/ActionButton';
+import { ActionButton } from "../../../Core/ActionButton";
 
-import { firebase, fireFetch, db } from '/services';
+import { firebase, fireFetch, db } from "/services";
 
-import { View } from 'react-native';
+import { View } from "react-native";
 
-import { Text } from '../../../Core/Text';
+import { Text } from "../../../Core/Text";
 
-import styles from './Lobby.styles';
+import styles from "./Lobby.styles";
 
 class Lobby extends Component {
     static propTypes = {
@@ -18,18 +18,18 @@ class Lobby extends Component {
         players: PropTypes.arrayOf(
             PropTypes.shape({
                 id: PropTypes.string.isRequired,
-                name: PropTypes.string.isRequired,
-            }),
+                name: PropTypes.string.isRequired
+            })
         ).isRequired,
-        isHost: PropTypes.bool.isRequired,
+        isHost: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
-        isHost: false,
+        isHost: false
     };
 
     state = {
-        isStarting: false,
+        isStarting: false
     };
 
     startGame = async () => {
@@ -37,19 +37,19 @@ class Lobby extends Component {
 
         try {
             this.setState({
-                isStarting: true,
+                isStarting: true
             });
 
             await fireFetch(`startGame`, {
-                gameId,
+                gameId
             });
         } catch ({ message }) {
             this.setState({
-                error: message,
+                error: message
             });
         } finally {
             this.setState({
-                isStarting: false,
+                isStarting: false
             });
         }
     };

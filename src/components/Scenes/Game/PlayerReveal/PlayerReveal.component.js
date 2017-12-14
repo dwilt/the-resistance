@@ -1,29 +1,29 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { ActionButton } from '../../../Core/ActionButton';
+import { ActionButton } from "../../../Core/ActionButton";
 
-import { firebase, fireFetch } from '/services';
-import { View } from 'react-native';
-import { Text } from '../../../Core/Text';
-import styles from './PlayerReveal.styles';
+import { firebase, fireFetch } from "/services";
+import { View } from "react-native";
+import { Text } from "../../../Core/Text";
+import styles from "./PlayerReveal.styles";
 
 class PlayerReveal extends Component {
     static propTypes = {
         isSpy: PropTypes.bool.isRequired,
-        gameId: PropTypes.string.isRequired,
+        gameId: PropTypes.string.isRequired
     };
 
     state = {
         showingIdentity: false,
         isConfirming: false,
-        waitingForOthers: false,
+        waitingForOthers: false
     };
 
     showIdentity = () => {
         this.setState({
-            showingIdentity: true,
+            showingIdentity: true
         });
     };
 
@@ -33,26 +33,26 @@ class PlayerReveal extends Component {
 
         try {
             this.setState({
-                isConfirming: true,
+                isConfirming: true
             });
 
             const { showWaiting } = await fireFetch(`confirmPlayerIdentity`, {
                 userId,
-                gameId,
+                gameId
             });
 
             if (showWaiting) {
                 this.setState({
-                    showWaiting,
+                    showWaiting
                 });
             }
         } catch ({ message }) {
             this.setState({
-                error: message,
+                error: message
             });
         } finally {
             this.setState({
-                isConfirming: false,
+                isConfirming: false
             });
         }
     };
