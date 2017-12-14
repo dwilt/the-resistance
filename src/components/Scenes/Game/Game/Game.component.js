@@ -10,6 +10,7 @@ import { gameStates } from '../../../../../assets/gameStructure';
 
 import { PlayerReveal } from '../PlayerReveal/index';
 import { Lobby } from '../Lobby';
+import { BuildMissionTeam } from '../BuildMissionTeam';
 
 class Game extends Component {
     static propTypes = {
@@ -23,6 +24,7 @@ class Game extends Component {
         state: gameStates.Home,
         isQuitting: false,
         players: [],
+        roundNumber: 1,
     };
 
     async componentDidMount() {
@@ -62,11 +64,23 @@ class Game extends Component {
                 if (data) {
                     const { state, host } = data;
 
+                    console.log(state);
+
                     this.setState({
                         isHost: userId === host,
                         state,
                     });
                 }
+            });
+
+        this.gameListener = db
+            .collection(`games`)
+            .doc(gameId)
+            .collection(`completedMissions`)
+            .onSnapshot(({ docs }) => {
+                this.setState({
+                    roundNumber: docs.length + 1,
+                });
             });
     }
 
@@ -78,7 +92,7 @@ class Game extends Component {
     render() {
         const userId = firebase.auth().currentUser.uid;
         const { gameId } = this.props;
-        const { players, state, isHost } = this.state;
+        const { players, state, isHost, roundNumber } = this.state;
         const { isSpy } = players.find(player => player.id === userId) || {};
 
         const lobby = (
@@ -93,6 +107,16 @@ class Game extends Component {
                     return lobby;
                 }
             }
+
+            case gameStates.BUILD_MISSION_TEAM:
+                return (
+                    <BuildMissionTeam
+                        players={players}
+                        isHost={isHost}
+                        gameId={gameId}
+                        roundNumber={roundNumber}
+                    />
+                );
 
             default:
                 return lobby;

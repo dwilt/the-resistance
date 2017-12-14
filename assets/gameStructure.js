@@ -1,16 +1,30 @@
 export const gameStates = {
     LOBBY: `LOBBY`,
     PLAYER_REVEAL: `PLAYER_REVEAL`,
+    BUILD_MISSION_TEAM: `BUILD_MISSION_TEAM`,
+    MISSION_TEAM_VOTE: `MISSION_TEAM_VOTE`,
+    MISSION_TEAM_VOTE_REVEAL: `MISSION_TEAM_VOTE_REVEAL`,
+    CONDUCT_MISSION: `CONDUCT_MISSION`,
+    MISSION_OUTCOME_REVEAL: `MISSION_OUTCOME_REVEAL`,
+    COMPLETED: `COMPLETED`
 };
 
-export const spyCount = {
-    5: 2,
-    6: 2,
-    7: 3,
-    8: 3,
-    9: 3,
-    10: 4
-};
+export const singleMissionFailedMissionTeamsLimit = 5;
+
+export const totalRounds = 5;
+
+export function getSpyCount(totalPlayers) {
+    const map = {
+        5: 2,
+        6: 2,
+        7: 3,
+        8: 3,
+        9: 3,
+        10: 4
+    };
+
+    return map[totalPlayers];
+}
 
 export function getMissionMembersCount(roundNumber, totalPlayers) {
     const map = {
