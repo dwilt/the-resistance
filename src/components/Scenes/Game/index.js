@@ -1,1 +1,3 @@
-export { default as Game } from "./Game.component";
+export * from "./Game";
+export * from "./Lobby";
+export * from "./PlayerReveal";

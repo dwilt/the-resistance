@@ -23,7 +23,7 @@ import {
     updatePlayer
 } from "./helpers/firestore";
 
-async function setNewLeader(gameId) {
+async function setNewLeader({ gameId }) {
     const [game, playersDocs] = await Promise.all([
         getGame(gameId),
         getPlayers(gameId)
@@ -46,7 +46,7 @@ async function setNewLeader(gameId) {
     });
 }
 
-export async function startNewRound(gameId) {
+export async function startNewRound({ gameId }) {
     return Promise.all([
         updateGame(gameId, {
             state: gameStates.BUILD_MISSION_TEAM,
@@ -59,15 +59,8 @@ export async function startNewRound(gameId) {
     ]);
 }
 
-export const joinGameErrors = {
-    GAME_DOES_NOT_EXIST: {
-        code: `GAME_DOES_NOT_EXIST`,
-        message: `No open game exists with that code`
-    }
-};
-
-export async function joinGame(userId, gameCode) {
-    const game = await getOpenGameByCode(gameCode);
+export async function joinGame({ userId, gameCode }) {
+    const game = await getOpenGameByCode(parseInt(gameCode));
 
     if (game) {
         const gameId = game.id;
@@ -80,13 +73,18 @@ export async function joinGame(userId, gameCode) {
             await addPlayer(gameId, userId, name);
         }
 
-        return gameId;
+        return {
+            gameId
+        };
     } else {
-        return Promise.reject(joinGameErrors.GAME_DOES_NOT_EXIST);
+        return Promise.reject({
+            code: `GAME_DOES_NOT_EXIST`,
+            message: `No open game exists with that code`
+        });
     }
 }
 
-export async function quitGame(gameId, playerId) {
+export async function quitGame({ gameId, playerId }) {
     await deletePlayer(gameId, playerId);
 
     const players = await getPlayers(gameId);
@@ -96,7 +94,7 @@ export async function quitGame(gameId, playerId) {
     }
 }
 
-export async function createGame(userId) {
+export async function createGame({ userId }) {
     // TODO: come up with better, safer code generation lol
     const gameCode = Math.floor(Math.random() * 900000) + 100000;
 
@@ -106,7 +104,7 @@ export async function createGame(userId) {
         state: gameStates.LOBBY
     });
 
-    const gameId = await joinGame(userId, gameCode);
+    const { gameId } = await joinGame({ userId, gameCode });
 
     return {
         gameCode,
@@ -114,7 +112,7 @@ export async function createGame(userId) {
     };
 }
 
-export async function startGame(gameId) {
+export async function startGame({ gameId }) {
     const playersDocs = await getPlayers(gameId);
     const totalSpies = getSpyCount(playersDocs.length);
     const spies = sampleSize(playersDocs, totalSpies);
@@ -131,7 +129,7 @@ export async function startGame(gameId) {
     ]);
 }
 
-export async function setMissionTeam(gameId, missionTeamIds = []) {
+export async function setMissionTeam({ gameId, missionTeamIds = [] }) {
     const missionTeam = missionTeamIds.reduce((team, id) => {
         team[id] = null;
 
@@ -144,7 +142,7 @@ export async function setMissionTeam(gameId, missionTeamIds = []) {
     });
 }
 
-export async function revealMissionTeamVote(gameId) {
+export async function revealMissionTeamVote({ gameId }) {
     const [playersDocs, game] = await Promise.all([
         getPlayers(gameId),
         getGame(gameId)
@@ -213,6 +211,23 @@ export async function voteForMissionTeam({ gameId, userId, approves }) {
     await updateGame(gameId, {
         [`currentMission.missionTeamVotes.votes.${userId}`]: approves
     });
+}
+
+export async function confirmPlayerIdentity({ gameId, userId }) {
+    await updatePlayer(gameId, userId, {
+        confirmedIdentity: true
+    });
+
+    const playersDocs = await getPlayers(gameId);
+    const unconfirmedPlayers = playersDocs.filter(
+        doc => !doc.data().confirmedIdentity
+    );
+
+    if (unconfirmedPlayers.length) {
+        return !!unconfirmedPlayers.length;
+    } else {
+        return startNewRound({ gameId });
+    }
 }
 
 export async function voteForMission({ gameId, userId, succeeds }) {

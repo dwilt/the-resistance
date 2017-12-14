@@ -15,26 +15,15 @@ import { Actions } from "react-native-router-flux";
 
 import { firebase, fireFetch, db } from "/services";
 
-import styles from "./Lobby.styles";
+import styles from "./Home.styles";
 
-class Lobby extends Component {
+class Home extends Component {
     state = {
         error: null,
         isCreatingGame: false,
         isJoiningGame: false,
         gameCode: ``
     };
-    //
-    // async componentDidMount() {
-    //     // const userId = firebase.auth().currentUser.uid;
-    //
-    //     const deleted = await db
-    //         .collection(`games`)
-    //         .doc(`aitX7gHEKZlzLY6uwL3I`)
-    //         .delete();
-    //
-    //     console.log(deleted);
-    // }
 
     joinGame = async () => {
         const { gameCode } = this.state;
@@ -130,6 +119,6 @@ class Lobby extends Component {
     }
 }
 
-Lobby.key = `LOBBY_KEY`;
+Home.key = `Home_KEY`;
 
-export default Lobby;
+export default Home;

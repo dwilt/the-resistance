@@ -1,132 +1,75 @@
-import { handleError, sendSuccessfulResponse } from "./helpers/responses";
-
 const functions = require("firebase-functions");
 
 import {
     quitGame,
     createGame,
     joinGame,
-    joinGameErrors,
     startGame,
     setMissionTeam,
     voteForMissionTeam,
     voteForMission,
     revealMissionTeamVote,
-    startNewRound
+    startNewRound,
+    confirmPlayerIdentity
 } from "./games";
 
-exports.createGame = functions.https.onRequest(async (req, res) => {
-    try {
-        const { userId } = req.body;
-        const { gameCode, gameId } = await createGame(userId);
+function functionCreator(method) {
+    return async function(req, res) {
+        try {
+            const payload = await method(req.body);
 
-        sendSuccessfulResponse(res, {
-            gameId,
-            gameCode
-        });
-    } catch (error) {
-        handleError(res, error);
-    }
-});
+            res.type(`json`).send(
+                payload || {
+                    success: true
+                }
+            );
+        } catch (error) {
+            console.log(`error`, error);
 
-exports.joinGame = functions.https.onRequest(async (req, res) => {
-    try {
-        console.log(req);
-        const { gameCode, userId } = req.body;
-        const gameId = await joinGame(userId, parseInt(gameCode));
+            const resError =
+                error.code && error.message
+                    ? error
+                    : {
+                          code: `STANDARD_ERROR`,
+                          message: `Fuck. There was some kind of unexpected error and we're on it!`
+                      };
 
-        sendSuccessfulResponse(res, {
-            gameId
-        });
-    } catch (error) {
-        handleError(res, error, {
-            [joinGameErrors.GAME_DOES_NOT_EXIST.code]: 404
-        });
-    }
-});
+            res
+                .type(`json`)
+                .status(500)
+                .send(resError);
+        }
+    };
+}
 
-exports.quitGame = functions.https.onRequest(async (req, res) => {
-    try {
-        const { gameId, userId } = req.body;
+exports.createGame = functions.https.onRequest(functionCreator(createGame));
 
-        await quitGame(gameId, userId);
+exports.joinGame = functions.https.onRequest(functionCreator(joinGame));
 
-        sendSuccessfulResponse(res);
-    } catch (error) {
-        handleError(res, error);
-    }
-});
+exports.quitGame = functions.https.onRequest(functionCreator(quitGame));
 
-exports.startGame = functions.https.onRequest(async (req, res) => {
-    try {
-        const { gameId } = req.body;
+exports.startGame = functions.https.onRequest(functionCreator(startGame));
 
-        await startGame(gameId);
+exports.setMissionTeam = functions.https.onRequest(
+    functionCreator(setMissionTeam)
+);
 
-        sendSuccessfulResponse(res);
-    } catch (error) {
-        handleError(res, error);
-    }
-});
+exports.voteForMissionTeam = functions.https.onRequest(
+    functionCreator(voteForMissionTeam)
+);
 
-exports.setMissionTeam = functions.https.onRequest(async (req, res) => {
-    try {
-        const { gameId, missionTeam } = req.body;
+exports.voteForMission = functions.https.onRequest(
+    functionCreator(voteForMission)
+);
 
-        console.log(gameId, missionTeam);
+exports.revealMissionTeamVote = functions.https.onRequest(
+    functionCreator(revealMissionTeamVote)
+);
 
-        await setMissionTeam(gameId, missionTeam);
+exports.startNewRound = functions.https.onRequest(
+    functionCreator(startNewRound)
+);
 
-        sendSuccessfulResponse(res);
-    } catch (error) {
-        handleError(res, error);
-    }
-});
-
-exports.voteForMissionTeam = functions.https.onRequest(async (req, res) => {
-    try {
-        const { gameId, userId, approves } = req.body;
-
-        await voteForMissionTeam({ gameId, userId, approves });
-
-        sendSuccessfulResponse(res);
-    } catch (error) {
-        handleError(res, error);
-    }
-});
-
-exports.voteForMission = functions.https.onRequest(async (req, res) => {
-    try {
-        const { gameId, userId, succeeds } = req.body;
-
-        await voteForMission({ gameId, userId, succeeds });
-
-        sendSuccessfulResponse(res);
-    } catch (error) {
-        handleError(res, error);
-    }
-});
-
-exports.revealMissionTeamVote = functions.https.onRequest(async (req, res) => {
-    try {
-        const { gameId } = req.body;
-
-        await revealMissionTeamVote(gameId);
-
-        sendSuccessfulResponse(res);
-    } catch (error) {
-        handleError(res, error);
-    }
-});
-
-exports.startNewRound = functions.https.onRequest(async (req, res) => {
-    try {
-        const { gameId } = req.body;
-
-        await startNewRound(gameId);
-
-        sendSuccessfulResponse(res);
-    } catch (error) {
-        handleError(res, error);
-    }
-});
+exports.confirmPlayerIdentity = functions.https.onRequest(
+    functionCreator(confirmPlayerIdentity)
+);
