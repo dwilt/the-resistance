@@ -25,17 +25,17 @@ import {
 } from "./helpers/firestore";
 
 async function setNewLeader({ gameId }) {
-    const [game, playersDocs] = await Promise.all([
+    const [game, players] = await Promise.all([
         getGame(gameId),
         getPlayers(gameId)
     ]);
 
-    const players = playersDocs.map(doc => doc.id);
+    const playersIds = players.map(({ id }) => id);
     const { previousLeaders = [] } = game;
-    const refreshLeaders = previousLeaders.length === players.length;
+    const refreshLeaders = previousLeaders.length === playersIds.length;
     const potentialLeaders = refreshLeaders
-        ? players
-        : difference(players, previousLeaders);
+        ? playersIds
+        : difference(playersIds, previousLeaders);
     const leader = sampleSize(potentialLeaders, 1)[0];
     const newPreviousLeaders = refreshLeaders
         ? [leader]
@@ -50,7 +50,8 @@ async function setNewLeader({ gameId }) {
 export async function startNewRound({ gameId }) {
     return Promise.all([
         updateGame(gameId, {
-            state: gameStates.BUILD_MISSION_TEAM
+            state: gameStates.BUILD_MISSION_TEAM,
+            currentMission: null
         }),
         setNewLeader(gameId)
     ]);
@@ -110,14 +111,14 @@ export async function createGame({ userId }) {
 }
 
 export async function startGame({ gameId }) {
-    const playersDocs = await getPlayers(gameId);
-    const totalSpies = getSpyCount(playersDocs.length);
-    const spies = sampleSize(playersDocs, totalSpies);
+    const players = await getPlayers(gameId);
+    const totalSpies = getSpyCount(players.length);
+    const spies = sampleSize(players, totalSpies);
 
     return Promise.all([
-        ...playersDocs.map(doc =>
-            updatePlayer(gameId, doc.id, {
-                isSpy: spies.indexOf(doc) !== -1
+        ...players.map(player =>
+            updatePlayer(gameId, player.id, {
+                isSpy: spies.indexOf(player) !== -1
             })
         ),
         updateGame(gameId, {
@@ -127,11 +128,7 @@ export async function startGame({ gameId }) {
 }
 
 async function adjustMissionTeam({ gameId, userId, add = true }) {
-    const [
-        game,
-        playersDocs = [],
-        completedMissionDocs = []
-    ] = await Promise.all([
+    const [game, players = [], completedMissions = []] = await Promise.all([
         getGame(gameId),
         getPlayers(gameId),
         getCompletedMissions(gameId)
@@ -145,8 +142,8 @@ async function adjustMissionTeam({ gameId, userId, add = true }) {
         ? [...members, userId]
         : members.filter(missionMemberId => missionMemberId !== userId);
 
-    const totalPlayers = playersDocs.length;
-    const currentRound = completedMissionDocs.length + 1;
+    const totalPlayers = players.length;
+    const currentRound = completedMissions.length + 1;
 
     const filled =
         updatedMissionTeam.length ===
@@ -186,7 +183,7 @@ export async function confirmMissionTeam({ gameId }) {
 }
 
 export async function revealMissionTeamVote({ gameId }) {
-    const [playersDocs, game] = await Promise.all([
+    const [players, game] = await Promise.all([
         getPlayers(gameId),
         getGame(gameId)
     ]);
@@ -200,7 +197,7 @@ export async function revealMissionTeamVote({ gameId }) {
         }
     } = game;
 
-    const totalPlayers = playersDocs.length;
+    const totalPlayers = players.length;
 
     const majority =
         totalPlayers % 2 === 0
@@ -261,67 +258,75 @@ export async function confirmPlayerIdentity({ gameId, userId }) {
         confirmedIdentity: true
     });
 
-    const playersDocs = await getPlayers(gameId);
-    const unconfirmedPlayers = playersDocs.filter(
-        doc => !doc.data().confirmedIdentity
+    const players = await getPlayers(gameId);
+    const unconfirmedPlayers = players.filter(
+        ({ confirmedIdentity }) => confirmedIdentity
     );
 
     if (unconfirmedPlayers.length) {
         return !!unconfirmedPlayers.length;
     } else {
-        return startNewRound({ gameId });
+        return Promise.all([
+            updateGame(gameId, {
+                state: gameStates.BUILD_MISSION_TEAM
+            }),
+            setNewLeader(gameId)
+        ]);
     }
 }
 
 export async function voteForMission({ gameId, userId, succeeds }) {
-    await updateGame(gameId, {
+    const game = await updateGame(gameId, {
         [`currentMission.missionTeam.${userId}`]: succeeds
     });
 
-    const { currentMission } = await getGame(gameId);
-    const { missionTeam } = currentMission;
+    const { currentMission = {} } = game;
+    const { missionTeam = {} } = currentMission;
 
     const nonVoters = Object.keys(missionTeam).filter(
         userId => missionTeam[userId] === null
     );
 
     if (!nonVoters.length) {
-        const [completedMissionsDocs, playersDocs] = await Promise.all([
+        const [completedMissions, players] = await Promise.all([
             getCompletedMissions(gameId),
             getPlayers(gameId)
         ]);
 
-        const roundNumber = completedMissionsDocs.length;
-        const totalPlayers = playersDocs.length;
+        const totalPlayers = players.length;
+        const roundNumber = completedMissions.length;
         const failedVotes = Object.keys(missionTeam).filter(
-            userId => missionTeam[userId] === false
+            userId => !missionTeam[userId]
         );
 
-        const missionFailed =
+        const failed =
             roundNumber === 4 && totalPlayers > 7
                 ? failedVotes.length > 1
                 : !!failedVotes.length;
 
-        // TODO: convert to spread when you figure out wtf is going on
-        await addCompletedMission(
-            gameId,
-            Object.assign(
-                {},
-                {
-                    missionFailed
-                },
-                currentMission
-            )
-        );
+        const majority = Math.floor(totalRounds / 2);
 
-        if (roundNumber === totalRounds) {
-            await updateGame(gameId, {
-                state: gameStates.COMPLETED
-            });
-        } else {
-            await updateGame(gameId, {
-                state: gameStates.MISSION_OUTCOME_REVEAL
-            });
+        const failedMissions = completedMissions.filter(
+            ({ passed }) => !passed
+        );
+        const passedMissions = completedMissions.filter(({ passed }) => passed);
+
+        let state = gameStates.MISSION_OUTCOME_REVEAL;
+
+        if (
+            (failed && failedMissions.length + 1 > majority) ||
+            (!failed && passedMissions.length + 1 > majority)
+        ) {
+            state = gameStates.COMPLETED;
         }
+
+        currentMission.passed = !failed;
+
+        await addCompletedMission(gameId, currentMission);
+
+        await updateGame(gameId, {
+            state,
+            [`currentMission.passed`]: !failed
+        });
     }
 }

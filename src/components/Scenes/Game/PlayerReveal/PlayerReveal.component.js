@@ -33,7 +33,7 @@ class PlayerReveal extends Component {
 
         try {
             this.setState({
-                isConfirming: true
+                isSubmittingVote: true
             });
 
             const { showWaiting } = await fireFetch(`confirmPlayerIdentity`, {
@@ -52,7 +52,7 @@ class PlayerReveal extends Component {
             });
         } finally {
             this.setState({
-                isConfirming: false
+                isSubmittingVote: false
             });
         }
     };

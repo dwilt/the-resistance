@@ -16,7 +16,7 @@ class BuildMissionTeam extends Component {
         members: PropTypes.arrayOf(PropTypes.string).isRequired,
         filled: PropTypes.bool.isRequired,
         gameId: PropTypes.string.isRequired,
-        isHost: PropTypes.bool.isRequired,
+        isLeader: PropTypes.bool.isRequired,
         players: PropTypes.arrayOf(
             PropTypes.shape({
                 id: PropTypes.string.isRequired,
@@ -26,14 +26,13 @@ class BuildMissionTeam extends Component {
     };
 
     static defaultProps = {
-        isHost: false,
+        isLeader: false,
         filled: false,
         members: []
     };
 
     state = {
         members: [],
-        isUpdatingMissionTeam: false,
         isConfirming: false
     };
 
@@ -54,8 +53,7 @@ class BuildMissionTeam extends Component {
                     ? [...members, userId]
                     : members.filter(
                           missionMemberId => missionMemberId !== userId
-                      ),
-                isUpdatingMissionTeam: true
+                      )
             });
 
             const cloudFunction = selected
@@ -65,10 +63,6 @@ class BuildMissionTeam extends Component {
             await fireFetch(cloudFunction, {
                 gameId,
                 userId
-            });
-
-            this.setState({
-                isUpdatingMissionTeam: false
             });
         } catch (e) {
         } finally {
@@ -81,7 +75,7 @@ class BuildMissionTeam extends Component {
 
         try {
             this.setState({
-                isConfirming: true
+                isSubmittingVote: true
             });
 
             await fireFetch(`confirmMissionTeam`, {
@@ -93,27 +87,24 @@ class BuildMissionTeam extends Component {
             });
         } finally {
             this.setState({
-                isConfirming: false
+                isSubmittingVote: false
             });
         }
     };
 
     render() {
-        const { players, isHost, filled, members: propsMembers } = this.props;
-        const {
-            isUpdatingMissionTeam,
-            isConfirming,
-            members: stateMembers
-        } = this.state;
+        const { players, isLeader, filled, members: propsMembers } = this.props;
+
+        const { isConfirming, members: stateMembers } = this.state;
 
         const isSyncing = stateMembers.length !== propsMembers.length;
 
         const members = isSyncing ? stateMembers : propsMembers;
 
-        const confirmMissionTeamButton = isHost && (
+        const confirmMissionTeamButton = isLeader && (
             <ActionButton
                 onPress={this.confirmMissionTeam}
-                disabled={!filled || isUpdatingMissionTeam}
+                disabled={!filled || isConfirming || isSyncing}
                 isLoading={isConfirming}
             >
                 {`Confirm Selected Mission Team`}
@@ -126,11 +117,11 @@ class BuildMissionTeam extends Component {
                     const selected = members.indexOf(id) !== -1;
                     const disabled = isSyncing || (filled && !selected);
                     const selectedText = selected &&
-                        !isHost && <Text>{`(selected)`}</Text>;
+                        !isLeader && <Text>{`(selected)`}</Text>;
 
                     return (
                         <View style={styles.player} key={id}>
-                            {isHost ? (
+                            {isLeader ? (
                                 <Switch
                                     disabled={disabled}
                                     value={selected}

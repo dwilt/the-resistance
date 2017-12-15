@@ -2,6 +2,16 @@
 # yarn lockfile v1
 
 
+"@babel/plugin-proposal-object-rest-spread@^7.0.0-beta.35":
+  version "7.0.0-beta.35"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-object-rest-spread/-/plugin-proposal-object-rest-spread-7.0.0-beta.35.tgz#e5b4e4521bb847cd4931720b5f4472835b5e3c68"
+  dependencies:
+    "@babel/plugin-syntax-object-rest-spread" "7.0.0-beta.35"
+
+"@babel/plugin-syntax-object-rest-spread@7.0.0-beta.35":
+  version "7.0.0-beta.35"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-object-rest-spread/-/plugin-syntax-object-rest-spread-7.0.0-beta.35.tgz#da521551c5439fdd32025bd26299d99fd704df95"
+
 "@google-cloud/common-grpc@^0.4.0":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@google-cloud/common-grpc/-/common-grpc-0.4.3.tgz#83689591a1011fee57d32aa6a17fe2c5eb3a70bc"

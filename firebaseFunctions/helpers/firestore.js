@@ -22,12 +22,14 @@ export async function getGame(gameId) {
     return doc.data();
 }
 
-export function updateGame(gameId, props) {
-    return admin
+export async function updateGame(gameId, props) {
+    await admin
         .firestore()
         .collection(`games`)
         .doc(gameId)
         .update(props);
+
+    return getGame(gameId);
 }
 
 export async function deleteGame(gameId) {
@@ -46,7 +48,10 @@ export async function getPlayers(gameId) {
         .collection(`players`)
         .get();
 
-    return docs;
+    return docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+    }));
 }
 
 export async function addPlayer(gameId, userId, name) {
@@ -109,7 +114,10 @@ export async function getCompletedMissions(gameId) {
         .collection(`completedMissions`)
         .get();
 
-    return docs;
+    return docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+    }));
 }
 
 export async function getUser(userId) {

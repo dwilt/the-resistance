@@ -25,7 +25,7 @@
     "login": "firebase login",
     "preserve": "yarn package:functions",
     "serve": "firebase serve --only functions",
-    "deploy:functions": "yarn run format:functions; yarn run package:functions; firebase deploy",
+    "deploy:functions": "yarn run package:functions; firebase deploy",
     "format:functions": "yarn run prettier --write ./firebaseFunctions/*.js",
     "prepackage:functions": "rimraf functions",
     "package:functions": "babel firebaseFunctions --out-dir functions --copy-files --ignore firebaseFunctions/node_modules",

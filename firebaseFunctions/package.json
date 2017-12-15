@@ -9,6 +9,7 @@
     "logs": "firebase functions:log"
   },
   "dependencies": {
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.35",
     "firebase-admin": "~5.4.2",
     "firebase-functions": "^0.7.1",
     "lodash": "^4.17.4"

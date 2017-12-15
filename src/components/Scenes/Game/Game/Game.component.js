@@ -11,6 +11,7 @@ import { gameStates } from "../../../../../assets/gameStructure";
 import { PlayerReveal } from "../PlayerReveal/index";
 import { Lobby } from "../Lobby";
 import { BuildMissionTeam } from "../BuildMissionTeam";
+import { MissionVote } from "../MissionVote";
 
 class Game extends Component {
     static propTypes = {
@@ -81,8 +82,7 @@ class Game extends Component {
 
         const { gameId } = this.props;
         const { players = [], state, isHost, currentMission = {} } = this.state;
-        const { missionTeam = {} } = currentMission;
-        const { members, filled } = missionTeam;
+        const { missionTeam = {}, leader } = currentMission;
         const { isSpy } = players.find(player => player.id === userId) || {};
 
         const lobby = (
@@ -98,16 +98,35 @@ class Game extends Component {
                 }
             }
 
-            case gameStates.BUILD_MISSION_TEAM:
+            case gameStates.BUILD_MISSION_TEAM: {
+                const isLeader = leader === userId;
+                const { members, filled } = missionTeam;
+
                 return (
                     <BuildMissionTeam
                         players={players}
-                        isHost={isHost}
+                        isLeader={isLeader}
                         gameId={gameId}
                         members={members}
                         filled={filled}
                     />
                 );
+            }
+
+            case gameStates.MISSION_TEAM_VOTE: {
+                const isMember = typeof missionTeam[userId] !== `undefined`;
+                const voted =
+                    isMember && typeof missionTeam[userId] === `boolean`;
+
+                return (
+                    <MissionVote
+                        isSpy={isSpy}
+                        gameId={gameId}
+                        isMember={isMember}
+                        voted={voted}
+                    />
+                );
+            }
 
             default:
                 return lobby;
