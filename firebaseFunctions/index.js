@@ -5,12 +5,14 @@ import {
     createGame,
     joinGame,
     startGame,
-    setMissionTeam,
+    confirmMissionTeam,
     voteForMissionTeam,
     voteForMission,
     revealMissionTeamVote,
     startNewRound,
-    confirmPlayerIdentity
+    confirmPlayerIdentity,
+    removePlayerFromMissionTeam,
+    addPlayerToMissionTeam
 } from "./games";
 
 function functionCreator(method) {
@@ -50,8 +52,16 @@ exports.quitGame = functions.https.onRequest(functionCreator(quitGame));
 
 exports.startGame = functions.https.onRequest(functionCreator(startGame));
 
-exports.setMissionTeam = functions.https.onRequest(
-    functionCreator(setMissionTeam)
+exports.removePlayerFromMissionTeam = functions.https.onRequest(
+    functionCreator(removePlayerFromMissionTeam)
+);
+
+exports.addPlayerToMissionTeam = functions.https.onRequest(
+    functionCreator(addPlayerToMissionTeam)
+);
+
+exports.confirmMissionTeam = functions.https.onRequest(
+    functionCreator(confirmMissionTeam)
 );
 
 exports.voteForMissionTeam = functions.https.onRequest(

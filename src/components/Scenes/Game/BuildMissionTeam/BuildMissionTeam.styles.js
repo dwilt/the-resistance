@@ -13,7 +13,9 @@ export default StyleSheet.create({
         paddingTop: 60,
         backgroundColor: white
     },
-    title: {
-        ...getUniversalFont(1.5)
+    player: {
+        marginBottom: 20,
+        flexDirection: `row`,
+        alignItems: `center`
     }
 });

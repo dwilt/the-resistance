@@ -2,7 +2,7 @@ import firebase from "react-native-firebase";
 
 export const db = firebase.firestore();
 
-export async function fireFetch(url, body = {}) {
+export async function fireFetch(cloudFunctionName, body = {}) {
     const headers = new Headers();
 
     const fetchParams = {
@@ -10,7 +10,7 @@ export async function fireFetch(url, body = {}) {
         headers
     };
 
-    let baseUrl = `https://us-central1-the-resistance-6d42d.cloudfunctions.net/${url}`;
+    let baseUrl = `https://us-central1-the-resistance-6d42d.cloudfunctions.net/${cloudFunctionName}`;
 
     if (Object.keys(body).length) {
         fetchParams.body = JSON.stringify(body);

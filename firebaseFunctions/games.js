@@ -1,5 +1,6 @@
 import {
     gameStates,
+    getMissionMembersCount,
     getSpyCount,
     singleMissionFailedMissionTeamsLimit,
     totalRounds
@@ -49,11 +50,7 @@ async function setNewLeader({ gameId }) {
 export async function startNewRound({ gameId }) {
     return Promise.all([
         updateGame(gameId, {
-            state: gameStates.BUILD_MISSION_TEAM,
-            currentMission: {
-                missionTeam: null,
-                missionTeamVotes: null
-            }
+            state: gameStates.BUILD_MISSION_TEAM
         }),
         setNewLeader(gameId)
     ]);
@@ -129,16 +126,62 @@ export async function startGame({ gameId }) {
     ]);
 }
 
-export async function setMissionTeam({ gameId, missionTeamIds = [] }) {
-    const missionTeam = missionTeamIds.reduce((team, id) => {
-        team[id] = null;
+async function adjustMissionTeam({ gameId, userId, add = true }) {
+    const [
+        game,
+        playersDocs = [],
+        completedMissionDocs = []
+    ] = await Promise.all([
+        getGame(gameId),
+        getPlayers(gameId),
+        getCompletedMissions(gameId)
+    ]);
 
-        return team;
-    }, {});
+    const { currentMission = {} } = game;
+    const { missionTeam = {} } = currentMission;
+    const { members = [] } = missionTeam;
+
+    const updatedMissionTeam = add
+        ? [...members, userId]
+        : members.filter(missionMemberId => missionMemberId !== userId);
+
+    const totalPlayers = playersDocs.length;
+    const currentRound = completedMissionDocs.length + 1;
+
+    const filled =
+        updatedMissionTeam.length ===
+        getMissionMembersCount(currentRound, totalPlayers);
 
     await updateGame(gameId, {
+        [`currentMission.missionTeam.members`]: updatedMissionTeam,
+        [`currentMission.missionTeam.filled`]: filled
+    });
+}
+
+export async function removePlayerFromMissionTeam({ gameId, userId }) {
+    return adjustMissionTeam({ gameId, userId, add: false });
+}
+
+export async function addPlayerToMissionTeam({ gameId, userId }) {
+    return adjustMissionTeam({ gameId, userId });
+}
+
+export async function confirmMissionTeam({ gameId }) {
+    const game = await getGame(gameId);
+    const { currentMission = {} } = game;
+    const { missionTeam = {} } = currentMission;
+    const { members = [] } = missionTeam;
+
+    return updateGame(gameId, {
         state: gameStates.MISSION_TEAM_VOTE,
-        [`currentMission.missionTeam`]: missionTeam
+        [`currentMission.missionTeam`]: members.reduce(
+            (currentMissionTeam, userId) => {
+                currentMissionTeam[userId] = null;
+
+                return currentMissionTeam;
+            },
+            {}
+        )
     });
 }
 

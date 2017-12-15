@@ -23,8 +23,7 @@ class Game extends Component {
         isHost: false,
         state: gameStates.Home,
         isQuitting: false,
-        players: [],
-        roundNumber: 1
+        players: []
     };
 
     async componentDidMount() {
@@ -62,25 +61,13 @@ class Game extends Component {
                 const data = snapshot.data();
 
                 if (data) {
-                    const { state, host } = data;
-
-                    console.log(state);
+                    const { host, ...rest } = data;
 
                     this.setState({
-                        isHost: userId === host,
-                        state
+                        ...rest,
+                        isHost: userId === host
                     });
                 }
-            });
-
-        this.gameListener = db
-            .collection(`games`)
-            .doc(gameId)
-            .collection(`completedMissions`)
-            .onSnapshot(({ docs }) => {
-                this.setState({
-                    roundNumber: docs.length + 1
-                });
             });
     }
 
@@ -91,8 +78,11 @@ class Game extends Component {
 
     render() {
         const userId = firebase.auth().currentUser.uid;
+
         const { gameId } = this.props;
-        const { players, state, isHost, roundNumber } = this.state;
+        const { players = [], state, isHost, currentMission = {} } = this.state;
+        const { missionTeam = {} } = currentMission;
+        const { members, filled } = missionTeam;
         const { isSpy } = players.find(player => player.id === userId) || {};
 
         const lobby = (
@@ -114,7 +104,8 @@ class Game extends Component {
                         players={players}
                         isHost={isHost}
                         gameId={gameId}
-                        roundNumber={roundNumber}
+                        members={members}
+                        filled={filled}
                     />
                 );
 
