@@ -5,14 +5,15 @@ import {
     createGame,
     joinGame,
     startGame,
-    confirmMissionTeam,
-    voteForMissionTeam,
-    voteForMission,
-    revealMissionTeamVote,
-    startNewRound,
+    confirmProposedMissionTeam,
+    submitProposedMissionTeamApproval,
+    submitMissionSuccess,
+    revealProposedMissionTeamVote,
+    startNextRound,
     confirmPlayerIdentity,
     removePlayerFromMissionTeam,
-    addPlayerToMissionTeam
+    addPlayerToMissionTeam,
+    conductMission
 } from "./games";
 
 function functionCreator(method) {
@@ -60,26 +61,30 @@ exports.addPlayerToMissionTeam = functions.https.onRequest(
     functionCreator(addPlayerToMissionTeam)
 );
 
-exports.confirmMissionTeam = functions.https.onRequest(
-    functionCreator(confirmMissionTeam)
+exports.confirmProposedMissionTeam = functions.https.onRequest(
+    functionCreator(confirmProposedMissionTeam)
 );
 
-exports.voteForMissionTeam = functions.https.onRequest(
-    functionCreator(voteForMissionTeam)
+exports.submitProposedMissionTeamApproval = functions.https.onRequest(
+    functionCreator(submitProposedMissionTeamApproval)
 );
 
-exports.voteForMission = functions.https.onRequest(
-    functionCreator(voteForMission)
+exports.submitMissionSuccess = functions.https.onRequest(
+    functionCreator(submitMissionSuccess)
 );
 
-exports.revealMissionTeamVote = functions.https.onRequest(
-    functionCreator(revealMissionTeamVote)
+exports.revealProposedMissionTeamVote = functions.https.onRequest(
+    functionCreator(revealProposedMissionTeamVote)
 );
 
-exports.startNewRound = functions.https.onRequest(
-    functionCreator(startNewRound)
+exports.startNextRound = functions.https.onRequest(
+    functionCreator(startNextRound)
 );
 
 exports.confirmPlayerIdentity = functions.https.onRequest(
     functionCreator(confirmPlayerIdentity)
+);
+
+exports.conductMission = functions.https.onRequest(
+    functionCreator(conductMission)
 );

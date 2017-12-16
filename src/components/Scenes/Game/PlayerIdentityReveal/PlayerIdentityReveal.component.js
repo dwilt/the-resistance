@@ -7,9 +7,9 @@ import { ActionButton } from "../../../Core/ActionButton";
 import { firebase, fireFetch } from "/services";
 import { View } from "react-native";
 import { Text } from "../../../Core/Text";
-import styles from "./PlayerReveal.styles";
+import styles from "./PlayerIdentityReveal.styles";
 
-class PlayerReveal extends Component {
+class PlayerIdentityReveal extends Component {
     static propTypes = {
         isSpy: PropTypes.bool.isRequired,
         gameId: PropTypes.string.isRequired
@@ -33,26 +33,24 @@ class PlayerReveal extends Component {
 
         try {
             this.setState({
-                isSubmittingVote: true
+                isConfirming: true
             });
 
-            const { showWaiting } = await fireFetch(`confirmPlayerIdentity`, {
+            await fireFetch(`confirmPlayerIdentity`, {
                 userId,
                 gameId
             });
 
-            if (showWaiting) {
-                this.setState({
-                    showWaiting
-                });
-            }
+            this.setState({
+                showWaiting: true
+            });
         } catch ({ message }) {
             this.setState({
                 error: message
             });
         } finally {
             this.setState({
-                isSubmittingVote: false
+                isConfirming: false
             });
         }
     };
@@ -92,4 +90,4 @@ class PlayerReveal extends Component {
     }
 }
 
-export default PlayerReveal;
+export default PlayerIdentityReveal;

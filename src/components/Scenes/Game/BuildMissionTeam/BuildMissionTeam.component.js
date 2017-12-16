@@ -78,7 +78,7 @@ class BuildMissionTeam extends Component {
                 isSubmittingVote: true
             });
 
-            await fireFetch(`confirmMissionTeam`, {
+            await fireFetch(`confirmProposedMissionTeam`, {
                 gameId
             });
         } catch ({ message }) {

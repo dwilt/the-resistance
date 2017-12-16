@@ -24,7 +24,7 @@ import {
     updatePlayer
 } from "./helpers/firestore";
 
-async function setNewLeader({ gameId }) {
+export async function buildNewMissionTeam({ gameId }) {
     const [game, players] = await Promise.all([
         getGame(gameId),
         getPlayers(gameId)
@@ -41,20 +41,13 @@ async function setNewLeader({ gameId }) {
         ? [leader]
         : [...previousLeaders, leader];
 
-    await updateGame(gameId, {
+    return updateGame(gameId, {
+        state: gameStates.BUILD_MISSION_TEAM,
         previousLeaders: newPreviousLeaders,
-        [`currentMission.leader`]: leader
+        currentMission: {
+            leader
+        }
     });
-}
-
-export async function startNewRound({ gameId }) {
-    return Promise.all([
-        updateGame(gameId, {
-            state: gameStates.BUILD_MISSION_TEAM,
-            currentMission: null
-        }),
-        setNewLeader(gameId)
-    ]);
 }
 
 export async function joinGame({ userId, gameCode }) {
@@ -115,19 +108,36 @@ export async function startGame({ gameId }) {
     const totalSpies = getSpyCount(players.length);
     const spies = sampleSize(players, totalSpies);
 
-    return Promise.all([
+    await Promise.all([
         ...players.map(player =>
             updatePlayer(gameId, player.id, {
                 isSpy: spies.indexOf(player) !== -1
             })
-        ),
-        updateGame(gameId, {
-            state: gameStates.PLAYER_REVEAL
-        })
+        )
     ]);
+
+    return updateGame(gameId, {
+        state: gameStates.PLAYER_IDENTITY_REVEAL
+    });
 }
 
-async function adjustMissionTeam({ gameId, userId, add = true }) {
+export async function confirmPlayerIdentity({ gameId, userId }) {
+    await updatePlayer(gameId, userId, {
+        confirmedIdentity: true
+    });
+
+    const players = await getPlayers(gameId);
+    const unconfirmedPlayers = players.filter(
+        ({ confirmedIdentity }) => !confirmedIdentity
+    );
+
+    if (!unconfirmedPlayers.length) {
+        await buildNewMissionTeam({ gameId });
+    }
+}
+
+// building mission team
+async function adjustProposedMissionTeam({ gameId, userId, add = true }) {
     const [game, players = [], completedMissions = []] = await Promise.all([
         getGame(gameId),
         getPlayers(gameId),
@@ -135,10 +145,10 @@ async function adjustMissionTeam({ gameId, userId, add = true }) {
     ]);
 
     const { currentMission = {} } = game;
-    const { missionTeam = {} } = currentMission;
-    const { members = [] } = missionTeam;
+    const { proposedTeam = {} } = currentMission;
+    const { members = [] } = proposedTeam;
 
-    const updatedMissionTeam = add
+    const updatedProposedMissionTeam = add
         ? [...members, userId]
         : members.filter(missionMemberId => missionMemberId !== userId);
 
@@ -146,43 +156,55 @@ async function adjustMissionTeam({ gameId, userId, add = true }) {
     const currentRound = completedMissions.length + 1;
 
     const filled =
-        updatedMissionTeam.length ===
+        updatedProposedMissionTeam.length ===
         getMissionMembersCount(currentRound, totalPlayers);
 
     await updateGame(gameId, {
-        [`currentMission.missionTeam.members`]: updatedMissionTeam,
-        [`currentMission.missionTeam.filled`]: filled
+        [`currentMission.proposedTeam.members`]: updatedProposedMissionTeam,
+        [`currentMission.proposedTeam.filled`]: filled
     });
 }
 
 export async function removePlayerFromMissionTeam({ gameId, userId }) {
-    return adjustMissionTeam({ gameId, userId, add: false });
+    return adjustProposedMissionTeam({ gameId, userId, add: false });
 }
 
 export async function addPlayerToMissionTeam({ gameId, userId }) {
-    return adjustMissionTeam({ gameId, userId });
+    return adjustProposedMissionTeam({ gameId, userId });
 }
 
-export async function confirmMissionTeam({ gameId }) {
-    const game = await getGame(gameId);
-    const { currentMission = {} } = game;
-    const { missionTeam = {} } = currentMission;
-    const { members = [] } = missionTeam;
-
+export async function confirmProposedMissionTeam({ gameId }) {
     return updateGame(gameId, {
-        state: gameStates.MISSION_TEAM_VOTE,
-        [`currentMission.missionTeam`]: members.reduce(
-            (currentMissionTeam, userId) => {
-                currentMissionTeam[userId] = null;
-
-                return currentMissionTeam;
-            },
-            {}
-        )
+        state: gameStates.MISSION_TEAM_VOTE
     });
 }
 
-export async function revealMissionTeamVote({ gameId }) {
+// Vote for mission team
+export async function submitProposedMissionTeamApproval({
+    gameId,
+    userId,
+    approves
+}) {
+    const [players, game] = await Promise.all([
+        getPlayers(gameId),
+        getGame(gameId)
+    ]);
+
+    const { currentMission = {} } = game;
+    const { missionTeamVotes = {} } = currentMission;
+    const { votes = {} } = missionTeamVotes;
+
+    votes[userId] = approves;
+
+    missionTeamVotes.votingComplete =
+        Object.keys(missionTeamVotes).length === players.length;
+
+    await updateGame(gameId, {
+        [`currentMission.missionTeamVotes`]: missionTeamVotes
+    });
+}
+
+export async function revealProposedMissionTeamVote({ gameId }) {
     const [players, game] = await Promise.all([
         getPlayers(gameId),
         getGame(gameId)
@@ -192,7 +214,7 @@ export async function revealMissionTeamVote({ gameId }) {
         currentMission: {
             missionTeamVotes,
             leader,
-            missionTeam,
+            proposedTeam,
             failedTeams = []
         }
     } = game;
@@ -220,14 +242,14 @@ export async function revealMissionTeamVote({ gameId }) {
     const approved = approvedVotes >= majority;
 
     const updatedGame = {
-        state: gameStates.MISSION_TEAM_VOTE_REVEAL,
+        state: gameStates.MISSION_TEAM_VOTE_OUTCOME,
         [`currentMission.missionTeamVotes.approved`]: approved
     };
 
     if (!approved) {
         const failedTeam = {
             leader,
-            missionTeam,
+            proposedTeam,
             missionTeamVotes
         };
 
@@ -235,47 +257,22 @@ export async function revealMissionTeamVote({ gameId }) {
             ...failedTeams,
             failedTeam
         ];
-    }
 
-    if (
-        !approved &&
-        failedTeams.length >= singleMissionFailedMissionTeamsLimit - 1
-    ) {
-        updatedGame.state = gameStates.COMPLETED;
+        if (failedTeams.length >= singleMissionFailedMissionTeamsLimit - 1) {
+            updatedGame.state = gameStates.COMPLETED;
+        }
     }
 
     await updateGame(gameId, updatedGame);
 }
 
-export async function voteForMissionTeam({ gameId, userId, approves }) {
+export async function conductMission({ gameId }) {
     await updateGame(gameId, {
-        [`currentMission.missionTeamVotes.votes.${userId}`]: approves
+        state: gameStates.CONDUCT_MISSION
     });
 }
 
-export async function confirmPlayerIdentity({ gameId, userId }) {
-    await updatePlayer(gameId, userId, {
-        confirmedIdentity: true
-    });
-
-    const players = await getPlayers(gameId);
-    const unconfirmedPlayers = players.filter(
-        ({ confirmedIdentity }) => confirmedIdentity
-    );
-
-    if (unconfirmedPlayers.length) {
-        return !!unconfirmedPlayers.length;
-    } else {
-        return Promise.all([
-            updateGame(gameId, {
-                state: gameStates.BUILD_MISSION_TEAM
-            }),
-            setNewLeader(gameId)
-        ]);
-    }
-}
-
-export async function voteForMission({ gameId, userId, succeeds }) {
+export async function submitMissionSuccess({ gameId, userId, succeeds }) {
     const game = await updateGame(gameId, {
         [`currentMission.missionTeam.${userId}`]: succeeds
     });
@@ -304,6 +301,10 @@ export async function voteForMission({ gameId, userId, succeeds }) {
                 ? failedVotes.length > 1
                 : !!failedVotes.length;
 
+        currentMission.passed = !failed;
+
+        await addCompletedMission(gameId, currentMission);
+
         const majority = Math.floor(totalRounds / 2);
 
         const failedMissions = completedMissions.filter(
@@ -311,22 +312,18 @@ export async function voteForMission({ gameId, userId, succeeds }) {
         );
         const passedMissions = completedMissions.filter(({ passed }) => passed);
 
-        let state = gameStates.MISSION_OUTCOME_REVEAL;
-
         if (
             (failed && failedMissions.length + 1 > majority) ||
             (!failed && passedMissions.length + 1 > majority)
         ) {
-            state = gameStates.COMPLETED;
+            await updateGame(gameId, {
+                state: gameStates.COMPLETED
+            });
+        } else {
+            await updateGame(gameId, {
+                state: gameStates.MISSION_OUTCOME,
+                [`currentMission.passed`]: !failed
+            });
         }
-
-        currentMission.passed = !failed;
-
-        await addCompletedMission(gameId, currentMission);
-
-        await updateGame(gameId, {
-            state,
-            [`currentMission.passed`]: !failed
-        });
     }
 }

@@ -9,10 +9,10 @@ import { ActionButton } from "../../../Core/ActionButton";
 import { fireFetch } from "/services";
 import { View } from "react-native";
 import { Text } from "../../../Core/Text";
-import styles from "./MissionVote.styles";
+import styles from "./ConductMission.styles";
 import { firebase } from "../../../../services";
 
-class MissionVote extends Component {
+class ConductMission extends Component {
     static propTypes = {
         gameId: PropTypes.string.isRequired,
         isMember: PropTypes.bool.isRequired,
@@ -53,7 +53,7 @@ class MissionVote extends Component {
                 isSubmittingVote: true
             });
 
-            await fireFetch(`voteForMission`, {
+            await fireFetch(`submitMissionSuccess`, {
                 gameId,
                 userId,
                 succeeds
@@ -121,4 +121,4 @@ class MissionVote extends Component {
     }
 }
 
-export default MissionVote;
+export default ConductMission;
