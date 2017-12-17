@@ -1,46 +1,46 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { Switch } from "react-native";
+import { Switch } from 'react-native';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { ActionButton } from "../../../Core/ActionButton";
+import { ActionButton } from '../../../Core/ActionButton';
 
-import { fireFetch } from "/services";
-import { View } from "react-native";
-import { Text } from "../../../Core/Text";
-import styles from "./ConductMission.styles";
-import { firebase } from "../../../../services";
+import { fireFetch } from '/services';
+import { View } from 'react-native';
+import { Text } from '../../../Core/Text';
+import styles from './ConductMission.styles';
+import { firebase } from '../../../../services';
 
 class ConductMission extends Component {
     static propTypes = {
         gameId: PropTypes.string.isRequired,
         isMember: PropTypes.bool.isRequired,
         voted: PropTypes.bool.isRequired,
-        isSpy: PropTypes.bool.isRequired
+        isSpy: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
         isMember: false,
-        isSpy: false
+        isSpy: false,
     };
 
     state = {
         isSubmittingVote: false,
-        voted: false
+        voted: false,
     };
 
     componentDidMount() {
         const { voted } = this.props;
 
         this.setState({
-            voted
+            voted,
         });
     }
 
     componentWillReceiveProps({ voted }) {
         this.setState({
-            voted
+            voted,
         });
     }
 
@@ -50,28 +50,32 @@ class ConductMission extends Component {
 
         try {
             this.setState({
-                isSubmittingVote: true
+                isSubmittingVote: true,
             });
 
             await fireFetch(`submitMissionSuccess`, {
                 gameId,
                 userId,
-                succeeds
+                succeeds,
             });
 
             this.setState({
-                voted: true
+                voted: true,
             });
         } catch ({ message }) {
             this.setState({
-                error: message
+                error: message,
             });
         } finally {
             this.setState({
-                isSubmittingVote: false
+                isSubmittingVote: false,
             });
         }
     };
+
+    pass = () => this.submitVote(true);
+
+    fail = () => this.submitVote(true);
 
     render() {
         const { isMember, isSpy, voted: propsVoted } = this.props;
@@ -82,7 +86,7 @@ class ConductMission extends Component {
             isMember &&
             isSpy && (
                 <ActionButton
-                    onPress={() => this.submitVote(false)}
+                    onPress={this.fail}
                     disabled={isSubmittingVote}
                     isLoading={isSubmittingVote}
                 >
@@ -93,7 +97,7 @@ class ConductMission extends Component {
         const succeedButton = !voted &&
             isMember && (
                 <ActionButton
-                    onPress={() => this.submitVote(true)}
+                    onPress={this.pass}
                     disabled={isSubmittingVote}
                     isLoading={isSubmittingVote}
                 >
