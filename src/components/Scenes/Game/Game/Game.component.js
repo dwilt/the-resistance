@@ -15,6 +15,7 @@ import { ConductMission } from "../ConductMission";
 import { MissionOutcome } from "../MissionOutcome";
 import { MissionTeamVote } from "../MissionTeamVote";
 import { MissionTeamVoteOutcome } from "../MissionTeamVoteOutcome";
+import { Completed } from "../Completed";
 
 class Game extends Component {
     static propTypes = {
@@ -24,7 +25,7 @@ class Game extends Component {
     };
 
     state = {
-        state: gameStates.Home,
+        state: gameStates.LOBBY,
         isQuitting: false,
         players: []
     };
@@ -45,7 +46,7 @@ class Game extends Component {
             .collection(`players`)
             .onSnapshot(({ docs }) => {
                 this.setState({
-                    players: docs.map(doc => ({
+                    players: docs.map((doc) => ({
                         id: doc.id,
                         ...doc.data()
                     }))
@@ -55,7 +56,7 @@ class Game extends Component {
         this.gameListener = db
             .collection(`games`)
             .doc(gameId)
-            .onSnapshot(snapshot => {
+            .onSnapshot((snapshot) => {
                 const data = snapshot.data();
 
                 if (data) {
@@ -73,7 +74,15 @@ class Game extends Component {
         const userId = firebase.auth().currentUser.uid;
 
         const { gameId } = this.props;
-        const { players = [], host, currentMission = {} } = this.state;
+        const {
+            players,
+            host,
+            currentMission = {},
+            victoryType,
+            state
+        } = this.state;
+
+        console.log(state);
 
         const isHost = host === userId;
 
@@ -84,14 +93,16 @@ class Game extends Component {
             leader
         } = currentMission;
 
-        const { isSpy } = players.find(player => player.id === userId) || {};
+        const { isSpy } = players.find((player) => player.id === userId) || {};
         const isLeader = leader === userId;
 
-        const lobby = (
-            <Lobby gameId={gameId} players={players} isHost={isHost} />
-        );
-
         switch (state) {
+            case gameStates.LOBBY: {
+                return (
+                    <Lobby gameId={gameId} players={players} isHost={isHost} />
+                );
+            }
+
             case gameStates.PLAYER_IDENTITY_REVEAL: {
                 return <PlayerIdentityReveal isSpy={isSpy} gameId={gameId} />;
             }
@@ -111,7 +122,9 @@ class Game extends Component {
             }
 
             case gameStates.MISSION_TEAM_VOTE: {
-                const { members, votingComplete } = proposedTeam;
+                const { members } = proposedTeam;
+                const { votingComplete, votes = {} } = missionTeamVotes;
+                const submittedVote = typeof votes[userId] !== `undefined`;
                 const proposedTeamMembers = players.filter(
                     ({ id }) => members.indexOf(id) !== -1
                 );
@@ -122,6 +135,7 @@ class Game extends Component {
                         gameId={gameId}
                         proposedTeamMembers={proposedTeamMembers}
                         votingComplete={votingComplete}
+                        submittedVote={submittedVote}
                     />
                 );
             }
@@ -165,8 +179,9 @@ class Game extends Component {
                 );
             }
 
-            default:
-                return lobby;
+            case gameStates.COMPLETED: {
+                return <Completed victoryType={victoryType} />;
+            }
         }
     }
 }

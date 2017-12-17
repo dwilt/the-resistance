@@ -11,22 +11,26 @@ import styles from "./MissionTeamVote.styles";
 
 class MissionTeamVote extends Component {
     static propTypes = {
+        submittedVote: PropTypes.bool.isRequired,
         votingComplete: PropTypes.bool.isRequired,
         isHost: PropTypes.bool.isRequired,
         gameId: PropTypes.string.isRequired,
-        proposedTeamMembers: PropTypes.arrayOf({
+        proposedTeamMembers: PropTypes.arrayOf(PropTypes.shape({
             id: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired
-        }).isRequired
+        })).isRequired
+    };
+
+    static defaultProps = {
+        votingComplete: false,
     };
 
     state = {
-        submitted: false,
         isSubmittingVote: false,
         isRevealingVotes: false
     };
 
-    submitVote = async approves => {
+    submitVote = async (approves) => {
         const { gameId } = this.props;
         const userId = firebase.auth().currentUser.uid;
 
@@ -39,10 +43,6 @@ class MissionTeamVote extends Component {
                 gameId,
                 userId,
                 approves
-            });
-
-            this.setState({
-                submitted: true
             });
         } catch ({ message }) {
             this.setState({
@@ -78,14 +78,14 @@ class MissionTeamVote extends Component {
     };
 
     render() {
-        const { proposedTeamMembers = [], isHost, votingComplete } = this.props;
-        const { isSubmittingVote, submitted, isRevealingVotes } = this.state;
+        const { proposedTeamMembers = [], isHost, votingComplete, submittedVote } = this.props;
+        const { isSubmittingVote, isRevealingVotes } = this.state;
 
-        const submittedText = submitted && (
+        const submittedText = submittedVote && (
             <Text>{`Voted submitted! Waiting for others...`}</Text>
         );
 
-        const approveButton = !submitted && (
+        const approveButton = !submittedVote && (
             <ActionButton
                 onPress={this.approve}
                 isLoading={isSubmittingVote}
@@ -93,7 +93,7 @@ class MissionTeamVote extends Component {
             >{`Approve`}</ActionButton>
         );
 
-        const rejectButton = !submitted && (
+        const rejectButton = !submittedVote && (
             <ActionButton
                 onPress={this.reject}
                 isLoading={isSubmittingVote}
@@ -102,19 +102,19 @@ class MissionTeamVote extends Component {
         );
 
         const revealVotesButton =
-            submitted &&
+            submittedVote &&
             isHost &&
-            votingComplete(
+            votingComplete && (
                 <ActionButton
                     onPress={this.revealVotes}
                     isLoading={isRevealingVotes}
                     disabled={isRevealingVotes}
-                >{`Reveal Votes`}</ActionButton>
+                >{`Reveal Outcome`}</ActionButton>
             );
 
         return (
             <View style={styles.container}>
-                {proposedTeamMembers.map(({ name, id }) => {
+                {proposedTeamMembers.map(({ name, id }, i) => {
                     return (
                         <View key={id}>
                             <Text>{`${i + 1}. ${name}`}</Text>

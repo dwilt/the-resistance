@@ -48,10 +48,6 @@ class PlayerIdentityReveal extends Component {
             this.setState({
                 error: message
             });
-        } finally {
-            this.setState({
-                isConfirming: false
-            });
         }
     };
 

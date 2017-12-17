@@ -44,7 +44,7 @@ class ConductMission extends Component {
         });
     }
 
-    submitVote = async succeeds => {
+    submitVote = async (succeeds) => {
         const { gameId } = this.props;
         const userId = firebase.auth().currentUser.uid;
 

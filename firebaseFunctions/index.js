@@ -5,7 +5,7 @@ import {
     createGame,
     joinGame,
     startGame,
-    confirmProposedMissionTeam,
+    confirmSelectedMissionTeam,
     submitProposedMissionTeamApproval,
     submitMissionSuccess,
     revealProposedMissionTeamVote,
@@ -61,8 +61,8 @@ exports.addPlayerToMissionTeam = functions.https.onRequest(
     functionCreator(addPlayerToMissionTeam)
 );
 
-exports.confirmProposedMissionTeam = functions.https.onRequest(
-    functionCreator(confirmProposedMissionTeam)
+exports.confirmSelectedMissionTeam = functions.https.onRequest(
+    functionCreator(confirmSelectedMissionTeam)
 );
 
 exports.submitProposedMissionTeamApproval = functions.https.onRequest(

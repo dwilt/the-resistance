@@ -52,7 +52,7 @@ class BuildMissionTeam extends Component {
                 members: selected
                     ? [...members, userId]
                     : members.filter(
-                          missionMemberId => missionMemberId !== userId
+                          (missionMemberId) => missionMemberId !== userId
                       )
             });
 
@@ -75,10 +75,10 @@ class BuildMissionTeam extends Component {
 
         try {
             this.setState({
-                isSubmittingVote: true
+                isConfirming: true
             });
 
-            await fireFetch(`confirmProposedMissionTeam`, {
+            await fireFetch(`confirmSelectedMissionTeam`, {
                 gameId
             });
         } catch ({ message }) {
@@ -87,7 +87,7 @@ class BuildMissionTeam extends Component {
             });
         } finally {
             this.setState({
-                isSubmittingVote: false
+                isConfirming: false
             });
         }
     };
@@ -125,7 +125,7 @@ class BuildMissionTeam extends Component {
                                 <Switch
                                     disabled={disabled}
                                     value={selected}
-                                    onValueChange={value =>
+                                    onValueChange={(value) =>
                                         this.onPlayerSelectedChange(id, value)
                                     }
                                 />

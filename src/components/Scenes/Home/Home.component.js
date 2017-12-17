@@ -82,7 +82,7 @@ class Home extends Component {
         }
     };
 
-    setGameCode = gameCode =>
+    setGameCode = (gameCode) =>
         this.setState({
             gameCode
         });

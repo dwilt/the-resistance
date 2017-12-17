@@ -3,7 +3,8 @@ import {
     getMissionMembersCount,
     getSpyCount,
     singleMissionFailedMissionTeamsLimit,
-    totalRounds
+    totalRounds,
+    victoryTypes
 } from "./gameStructure";
 
 import { sampleSize, difference } from "lodash";
@@ -23,32 +24,6 @@ import {
     updateGame,
     updatePlayer
 } from "./helpers/firestore";
-
-export async function buildNewMissionTeam({ gameId }) {
-    const [game, players] = await Promise.all([
-        getGame(gameId),
-        getPlayers(gameId)
-    ]);
-
-    const playersIds = players.map(({ id }) => id);
-    const { previousLeaders = [] } = game;
-    const refreshLeaders = previousLeaders.length === playersIds.length;
-    const potentialLeaders = refreshLeaders
-        ? playersIds
-        : difference(playersIds, previousLeaders);
-    const leader = sampleSize(potentialLeaders, 1)[0];
-    const newPreviousLeaders = refreshLeaders
-        ? [leader]
-        : [...previousLeaders, leader];
-
-    return updateGame(gameId, {
-        state: gameStates.BUILD_MISSION_TEAM,
-        previousLeaders: newPreviousLeaders,
-        currentMission: {
-            leader
-        }
-    });
-}
 
 export async function joinGame({ userId, gameCode }) {
     const game = await getOpenGameByCode(parseInt(gameCode));
@@ -109,7 +84,7 @@ export async function startGame({ gameId }) {
     const spies = sampleSize(players, totalSpies);
 
     await Promise.all([
-        ...players.map(player =>
+        ...players.map((player) =>
             updatePlayer(gameId, player.id, {
                 isSpy: spies.indexOf(player) !== -1
             })
@@ -118,6 +93,32 @@ export async function startGame({ gameId }) {
 
     return updateGame(gameId, {
         state: gameStates.PLAYER_IDENTITY_REVEAL
+    });
+}
+
+export async function buildNewMissionTeam({ gameId }) {
+    const [game, players] = await Promise.all([
+        getGame(gameId),
+        getPlayers(gameId)
+    ]);
+
+    const playersIds = players.map(({ id }) => id);
+    const { previousLeaders = [] } = game;
+    const refreshLeaders = previousLeaders.length === playersIds.length;
+    const potentialLeaders = refreshLeaders
+        ? playersIds
+        : difference(playersIds, previousLeaders);
+    const leader = sampleSize(potentialLeaders, 1)[0];
+    const newPreviousLeaders = refreshLeaders
+        ? [leader]
+        : [...previousLeaders, leader];
+
+    return updateGame(gameId, {
+        state: gameStates.BUILD_MISSION_TEAM,
+        previousLeaders: newPreviousLeaders,
+        currentMission: {
+            leader
+        }
     });
 }
 
@@ -150,7 +151,7 @@ async function adjustProposedMissionTeam({ gameId, userId, add = true }) {
 
     const updatedProposedMissionTeam = add
         ? [...members, userId]
-        : members.filter(missionMemberId => missionMemberId !== userId);
+        : members.filter((missionMemberId) => missionMemberId !== userId);
 
     const totalPlayers = players.length;
     const currentRound = completedMissions.length + 1;
@@ -173,7 +174,7 @@ export async function addPlayerToMissionTeam({ gameId, userId }) {
     return adjustProposedMissionTeam({ gameId, userId });
 }
 
-export async function confirmProposedMissionTeam({ gameId }) {
+export async function confirmSelectedMissionTeam({ gameId }) {
     return updateGame(gameId, {
         state: gameStates.MISSION_TEAM_VOTE
     });
@@ -185,22 +186,23 @@ export async function submitProposedMissionTeamApproval({
     userId,
     approves
 }) {
+
     const [players, game] = await Promise.all([
         getPlayers(gameId),
         getGame(gameId)
     ]);
 
-    const { currentMission = {} } = game;
-    const { missionTeamVotes = {} } = currentMission;
-    const { votes = {} } = missionTeamVotes;
+    const { currentMission } = game;
 
-    votes[userId] = approves;
+    currentMission.missionTeamVotes = currentMission.missionTeamVotes || {};
+    currentMission.missionTeamVotes.votes = currentMission.missionTeamVotes.votes || {};
 
-    missionTeamVotes.votingComplete =
-        Object.keys(missionTeamVotes).length === players.length;
+    currentMission.missionTeamVotes.votes[userId] = approves;
+    currentMission.missionTeamVotes.votingComplete =
+        Object.keys(currentMission.missionTeamVotes).length === players.length;
 
     await updateGame(gameId, {
-        [`currentMission.missionTeamVotes`]: missionTeamVotes
+        [`currentMission.missionTeamVotes`]: currentMission.missionTeamVotes
     });
 }
 
@@ -229,7 +231,7 @@ export async function revealProposedMissionTeamVote({ gameId }) {
     let approvedVotes = 0;
     let rejectedVotes = 0;
 
-    Object.keys(missionTeamVotes).forEach(userId => {
+    Object.keys(missionTeamVotes).forEach((userId) => {
         const approved = missionTeamVotes[userId];
 
         if (approved) {
@@ -260,6 +262,7 @@ export async function revealProposedMissionTeamVote({ gameId }) {
 
         if (failedTeams.length >= singleMissionFailedMissionTeamsLimit - 1) {
             updatedGame.state = gameStates.COMPLETED;
+            updatedGame.victoryType = victoryTypes.SPIES_PREVENTED_MISSION_TEAM;
         }
     }
 
@@ -281,7 +284,7 @@ export async function submitMissionSuccess({ gameId, userId, succeeds }) {
     const { missionTeam = {} } = currentMission;
 
     const nonVoters = Object.keys(missionTeam).filter(
-        userId => missionTeam[userId] === null
+        (userId) => missionTeam[userId] === null
     );
 
     if (!nonVoters.length) {
@@ -293,7 +296,7 @@ export async function submitMissionSuccess({ gameId, userId, succeeds }) {
         const totalPlayers = players.length;
         const roundNumber = completedMissions.length;
         const failedVotes = Object.keys(missionTeam).filter(
-            userId => !missionTeam[userId]
+            (userId) => !missionTeam[userId]
         );
 
         const failed =
@@ -312,12 +315,17 @@ export async function submitMissionSuccess({ gameId, userId, succeeds }) {
         );
         const passedMissions = completedMissions.filter(({ passed }) => passed);
 
-        if (
-            (failed && failedMissions.length + 1 > majority) ||
-            (!failed && passedMissions.length + 1 > majority)
-        ) {
+        const spiesWon = failed && failedMissions.length + 1 > majority;
+        const alliesWon = !failed && passedMissions.length + 1 > majority;
+
+        if (spiesWon || alliesWon) {
+            const victoryType = alliesWon
+                ? victoryTypes.ALLIES_COMPLETED_MISSIONS
+                : victoryTypes.SPIES_COMPLETED_MISSIONS;
+
             await updateGame(gameId, {
-                state: gameStates.COMPLETED
+                state: gameStates.COMPLETED,
+                victoryType
             });
         } else {
             await updateGame(gameId, {

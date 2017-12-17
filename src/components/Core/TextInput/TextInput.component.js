@@ -43,12 +43,12 @@ export default class TextInput extends PureComponent {
     }
 
     toggleShowPassword = () => {
-        this.setState(previousState => ({
+        this.setState((previousState) => ({
             showPassword: !previousState.showPassword
         }));
     };
 
-    inputRef = input => {
+    inputRef = (input) => {
         const { autoFocus } = this.props;
 
         if (autoFocus && input) {

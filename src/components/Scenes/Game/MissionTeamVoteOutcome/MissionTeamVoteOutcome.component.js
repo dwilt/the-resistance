@@ -20,37 +20,19 @@ class MissionTeamVoteOutcome extends Component {
         changingState: false
     };
 
-    conductMission = async () => {
-        const { gameId } = this.props;
+    nextStep = async () => {
+        const { gameId, approved } = this.props;
 
         try {
             this.setState({
                 changingState: true
             });
 
-            await fireFetch(`conductMission`, {
-                gameId
-            });
-        } catch ({ message }) {
-            this.setState({
-                error: message
-            });
-        } finally {
-            this.setState({
-                changingState: false
-            });
-        }
-    };
+            const cloudFunction = approved
+                ? `conductMission`
+                : `buildNewMissionTeam`;
 
-    buildNewMissionTeam = async () => {
-        const { gameId } = this.props;
-
-        try {
-            this.setState({
-                changingState: true
-            });
-
-            await fireFetch(`buildNewMissionTeam`, {
+            await fireFetch(cloudFunction, {
                 gameId
             });
         } catch ({ message }) {
@@ -74,24 +56,20 @@ class MissionTeamVoteOutcome extends Component {
             <Text>{`Mission team rejected!`}</Text>
         );
 
-        const nextStepButton = approved ? (
+        const nextStepButton = isHost && (
             <ActionButton
-                onPress={this.conductMission}
+                onPress={this.nextStep}
                 isLoading={changingState}
                 disabled={changingState}
-            >{`Conduct Mission`}</ActionButton>
-        ) : (
-            <ActionButton
-                onPress={this.buildNewMissionTeam}
-                isLoading={changingState}
-                disabled={changingState}
-            >{`Build New Mission Team`}</ActionButton>
+            >
+                {approved ? `Conduct Mission` : `Build New Mission Team`}
+            </ActionButton>
         );
 
         return (
             <View style={styles.container}>
                 {message}
-                {isHost ? nextStepButton : null}
+                {nextStepButton}
             </View>
         );
     }

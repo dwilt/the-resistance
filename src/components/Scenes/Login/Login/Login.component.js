@@ -25,17 +25,17 @@ class Login extends Component {
         error: null
     };
 
-    setName = name =>
+    setName = (name) =>
         this.setState({
             name
         });
 
-    setEmail = email =>
+    setEmail = (email) =>
         this.setState({
             email
         });
 
-    setPassword = password =>
+    setPassword = (password) =>
         this.setState({
             password
         });
@@ -79,7 +79,7 @@ class Login extends Component {
     };
 
     toggleForm = () => {
-        this.setState(state => ({
+        this.setState((state) => ({
             showRegister: !state.showRegister
         }));
     };

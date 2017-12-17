@@ -9,6 +9,12 @@ export const gameStates = {
     COMPLETED: `COMPLETED`
 };
 
+export const victoryTypes = {
+    ALLIES_COMPLETED_MISSIONS: `ALLIES_COMPLETED_MISSIONS`,
+    SPIES_COMPLETED_MISSIONS: `SPIES_COMPLETED_MISSIONS`,
+    SPIES_PREVENTED_MISSION_TEAM: `SPIES_PREVENTED_MISSION_TEAM`
+};
+
 export const singleMissionFailedMissionTeamsLimit = 5;
 
 export const totalRounds = 5;
