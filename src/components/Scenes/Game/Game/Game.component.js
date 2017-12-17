@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 import { firebase, fireFetch, db } from "/services/index";
 
-import { gameStates } from "../../../../../assets/gameStructure";
+import { gameStates } from "../../../../../firebaseFunctions/gameStructure";
 
 import { PlayerIdentityReveal } from "../PlayerIdentityReveal/index";
 import { Lobby } from "../Lobby";
@@ -81,8 +81,6 @@ class Game extends Component {
             victoryType,
             state
         } = this.state;
-
-        console.log(state);
 
         const isHost = host === userId;
 

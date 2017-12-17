@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View } from "react-native";
 import styles from "./Completed.styles";
-import { victoryTypes } from "../../../../../assets/gameStructure";
+import { victoryTypes } from "../../../../../firebaseFunctions/gameStructure";
 import { Text } from "../../../Core/Text";
 
 class Completed extends Component {
