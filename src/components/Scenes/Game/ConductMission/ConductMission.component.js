@@ -81,7 +81,7 @@ class ConductMission extends Component {
         if (!isSpy) {
             Alert.alert(`No can do!`, `Only spies can fail missions!`)
         } else {
-            await this.submitVote(true)
+            await this.submitVote(false)
         }
 
     };
