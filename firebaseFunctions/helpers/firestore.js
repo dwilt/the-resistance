@@ -133,7 +133,7 @@ export async function getOpenGameByCode(gameCode) {
         .firestore()
         .collection(`games`)
         .where(`gameCode`, `==`, gameCode)
-        .where(`state`, `==`, gameStates.LOBBY)
+        // .where(`state`, `==`, gameStates.LOBBY)
         .get();
 
     return docs[0];

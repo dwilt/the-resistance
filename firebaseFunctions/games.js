@@ -335,3 +335,7 @@ export async function submitMissionSuccess({ gameId, userId, succeeds }) {
         }
     }
 }
+
+export async function startNextRound({ gameId }) {
+    await buildNewMissionTeam({ gameId })
+}

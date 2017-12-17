@@ -57,7 +57,7 @@ class MissionTeamVote extends Component {
 
     reject = () => this.submitVote(false);
 
-    approve = () => this.submitVote(false);
+    approve = () => this.submitVote(true);
 
     revealVotes = async () => {
         const { gameId } = this.props;
@@ -100,6 +100,8 @@ class MissionTeamVote extends Component {
                 disabled={isSubmittingVote}
             >{`Reject`}</ActionButton>
         );
+
+        debugger;
 
         const revealVotesButton =
             submittedVote &&

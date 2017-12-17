@@ -10,6 +10,7 @@ import {
     submitMissionSuccess,
     revealProposedMissionTeamVote,
     startNextRound,
+    buildNewMissionTeam,
     confirmPlayerIdentity,
     removePlayerFromMissionTeam,
     addPlayerToMissionTeam,
@@ -79,6 +80,11 @@ exports.revealProposedMissionTeamVote = functions.https.onRequest(
 
 exports.startNextRound = functions.https.onRequest(
     functionCreator(startNextRound)
+);
+
+
+exports.buildNewMissionTeam = functions.https.onRequest(
+    functionCreator(buildNewMissionTeam)
 );
 
 exports.confirmPlayerIdentity = functions.https.onRequest(
