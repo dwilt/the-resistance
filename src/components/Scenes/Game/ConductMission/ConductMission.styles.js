@@ -17,5 +17,8 @@ export default StyleSheet.create({
         marginBottom: 20,
         flexDirection: `row`,
         alignItems: `center`
+    },
+    failButton: {
+        backgroundColor: `red`
     }
 });

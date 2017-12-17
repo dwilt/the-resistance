@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Switch } from 'react-native';
+import { Alert } from 'react-native';
 
 import PropTypes from 'prop-types';
 
@@ -75,20 +75,29 @@ class ConductMission extends Component {
 
     pass = () => this.submitVote(true);
 
-    fail = () => this.submitVote(true);
+    fail = async () => {
+        const { isSpy } = this.props;
+
+        if (!isSpy) {
+            Alert.alert(`No can do!`, `Only spies can fail missions!`)
+        } else {
+            await this.submitVote(true)
+        }
+
+    };
 
     render() {
-        const { isMember, isSpy, voted: propsVoted } = this.props;
+        const { isMember, voted: propsVoted } = this.props;
         const { isSubmittingVote, voted: stateVoted } = this.state;
         const voted = propsVoted !== stateVoted ? stateVoted : propsVoted;
 
         const failButton = !voted &&
-            isMember &&
-            isSpy && (
+            isMember && (
                 <ActionButton
                     onPress={this.fail}
                     disabled={isSubmittingVote}
                     isLoading={isSubmittingVote}
+                    style={styles.failButton}
                 >
                     {`Fail`}
                 </ActionButton>

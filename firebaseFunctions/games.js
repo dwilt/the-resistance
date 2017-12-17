@@ -199,7 +199,7 @@ export async function submitProposedMissionTeamApproval({
 
     currentMission.missionTeamVotes.votes[userId] = approves;
     currentMission.missionTeamVotes.votingComplete =
-        Object.keys(currentMission.missionTeamVotes).length === players.length;
+        Object.keys(currentMission.missionTeamVotes.votes).length === players.length;
 
     await updateGame(gameId, {
         [`currentMission.missionTeamVotes`]: currentMission.missionTeamVotes,
@@ -231,8 +231,8 @@ export async function revealProposedMissionTeamVote({ gameId }) {
     let approvedVotes = 0;
     let rejectedVotes = 0;
 
-    Object.keys(missionTeamVotes).forEach((userId) => {
-        const approved = missionTeamVotes[userId];
+    Object.keys(missionTeamVotes.votes).forEach((userId) => {
+        const approved = missionTeamVotes.votes[userId];
 
         if (approved) {
             approvedVotes += 1;

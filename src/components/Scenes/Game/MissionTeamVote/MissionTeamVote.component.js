@@ -85,6 +85,10 @@ class MissionTeamVote extends Component {
             <Text>{`Voted submitted! Waiting for others...`}</Text>
         );
 
+        const waitingForOthersText = !votingComplete && (
+            <Text>{`Waiting for others...`}</Text>
+        );
+
         const approveButton = !submittedVote && (
             <ActionButton
                 onPress={this.approve}
@@ -124,6 +128,7 @@ class MissionTeamVote extends Component {
                     );
                 })}
                 {submittedText}
+                {waitingForOthersText}
                 {approveButton}
                 {rejectButton}
                 {revealVotesButton}
