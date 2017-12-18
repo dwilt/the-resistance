@@ -1,12 +1,12 @@
-export const lato = {
-    black: `Lato-Black`,
-    blackItalic: `Lato-BlackItalic`,
-    bold: `Lato-Bold`,
-    boldItalic: `Lato-BoldItalic`,
-    extraLight: `Lato-Hairline`,
-    extraLightItalic: `Lato-HairlineItalic`,
-    italic: `Lato-Italic`,
-    light: `Lato-Light`,
-    lightItalic: `Lato-LightItalic`,
-    regular: `Lato-Regular`,
+export const openSans = {
+    bold: `OpenSans-Bold`,
+    boldItalic: `OpenSans-BoldItalic`,
+    extraBold: `OpenSans-ExtraBold`,
+    extraBoldItalic: `OpenSans-ExtraBoldItalic`,
+    italic: `OpenSans-Italic`,
+    light: `OpenSans-Light`,
+    lightItalic: `OpenSans-LightItalic`,
+    regular: `OpenSans-Regular`,
+    semiBold: `OpenSans-SemiBold`,
+    semiBoldItalic: `OpenSans-SemiBoldItalic`,
 };

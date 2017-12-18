@@ -7,7 +7,7 @@ import {
     white,
     windowWidth,
     darkGray,
-} from "/styles";
+} from "styles";
 
 export default StyleSheet.create({
     container: {

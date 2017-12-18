@@ -2,7 +2,11 @@ import { Platform } from "react-native";
 
 import { gutter, viewSizes, viewSize } from "./structure";
 
-export const minTouchSize = gutter * 3.5;
+export const minTouchSize = gutter * 4;
+
+import {
+    openSans
+} from './fonts';
 
 export const centerChildren = (vertically = false) => ({
     flexDirection: vertically ? `column` : `row`,
@@ -57,6 +61,7 @@ export const getUniversalFont = (fontSizeRatio = 1, lineHeightRatio = 1) => {
     }
 
     return {
+        fontFamily: openSans.regular,
         fontSize,
         lineHeight,
     };

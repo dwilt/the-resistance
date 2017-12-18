@@ -16,13 +16,13 @@ firebase.auth().onAuthStateChanged((user) => {
     }
 });
 
+import styles from './TheResistance.styles';
+
 export default class TheResistance extends PureComponent {
     render() {
         return (
             <Router
-                sceneStyle={{
-                    backgroundColor: `white`,
-                }}
+                sceneStyle={styles.container}
             >
                 <Scene hideNavBar panHandlers={null} key={`root`}>
                     <Scene initial key={Login.key} component={Login} />

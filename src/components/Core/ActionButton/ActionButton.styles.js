@@ -9,7 +9,7 @@ import {
     minTouchSize,
     yellow,
     teal,
-} from "../../../styles";
+} from "styles";
 
 export default StyleSheet.create({
     container: {
