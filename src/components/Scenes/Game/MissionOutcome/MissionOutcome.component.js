@@ -2,22 +2,21 @@ import React, { Component } from "react";
 
 import PropTypes from "prop-types";
 
-import { ActionButton } from "../../../Core/ActionButton";
+import { ActionButton, Text } from "/components";
 
-import { firebase, fireFetch } from "/services";
+import { fireFetch } from "/services";
 import { View } from "react-native";
-import { Text } from "../../../Core/Text";
 import styles from "./MissionOutcome.styles";
 
 class MissionOutcome extends Component {
     static propTypes = {
         isHost: PropTypes.bool.isRequired,
         passed: PropTypes.bool.isRequired,
-        gameId: PropTypes.string.isRequired
+        gameId: PropTypes.string.isRequired,
     };
 
     state = {
-        isStarting: false
+        isStarting: false,
     };
 
     startNextRound = async () => {
@@ -25,19 +24,19 @@ class MissionOutcome extends Component {
 
         try {
             this.setState({
-                isStarting: true
+                isStarting: true,
             });
 
             await fireFetch(`buildNewMissionTeam`, {
-                gameId
+                gameId,
             });
         } catch ({ message }) {
             this.setState({
-                error: message
+                error: message,
             });
         } finally {
             this.setState({
-                isStarting: false
+                isStarting: false,
             });
         }
     };

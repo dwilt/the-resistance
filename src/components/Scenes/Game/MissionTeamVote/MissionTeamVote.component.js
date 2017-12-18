@@ -2,11 +2,10 @@ import React, { Component } from "react";
 
 import PropTypes from "prop-types";
 
-import { ActionButton } from "../../../Core/ActionButton";
+import { ActionButton, Text } from "/components";
 
 import { firebase, fireFetch } from "/services";
 import { View } from "react-native";
-import { Text } from "../../../Core/Text";
 import styles from "./MissionTeamVote.styles";
 
 class MissionTeamVote extends Component {
@@ -17,8 +16,8 @@ class MissionTeamVote extends Component {
         gameId: PropTypes.string.isRequired,
         proposedTeamMembers: PropTypes.arrayOf(PropTypes.shape({
             id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired
-        })).isRequired
+            name: PropTypes.string.isRequired,
+        })).isRequired,
     };
 
     static defaultProps = {
@@ -27,7 +26,7 @@ class MissionTeamVote extends Component {
 
     state = {
         isSubmittingVote: false,
-        isRevealingVotes: false
+        isRevealingVotes: false,
     };
 
     submitVote = async (approves) => {
@@ -36,21 +35,21 @@ class MissionTeamVote extends Component {
 
         try {
             this.setState({
-                isSubmittingVote: true
+                isSubmittingVote: true,
             });
 
             await fireFetch(`submitProposedMissionTeamApproval`, {
                 gameId,
                 userId,
-                approves
+                approves,
             });
         } catch ({ message }) {
             this.setState({
-                error: message
+                error: message,
             });
         } finally {
             this.setState({
-                isSubmittingVote: false
+                isSubmittingVote: false,
             });
         }
     };
@@ -64,15 +63,15 @@ class MissionTeamVote extends Component {
 
         try {
             this.setState({
-                isRevealingVotes: true
+                isRevealingVotes: true,
             });
 
             await fireFetch(`revealProposedMissionTeamVote`, {
-                gameId
+                gameId,
             });
         } catch ({ message }) {
             this.setState({
-                error: message
+                error: message,
             });
         }
     };
@@ -105,7 +104,6 @@ class MissionTeamVote extends Component {
             >{`Reject`}</ActionButton>
         );
 
-        debugger;
 
         const revealVotesButton =
             submittedVote &&

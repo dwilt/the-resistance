@@ -21,7 +21,7 @@ export default class TheResistance extends PureComponent {
         return (
             <Router
                 sceneStyle={{
-                    backgroundColor: `white`
+                    backgroundColor: `white`,
                 }}
             >
                 <Scene hideNavBar panHandlers={null} key={`root`}>

@@ -5,15 +5,15 @@ import {
     centerChildren,
     gutter,
     white,
-    windowWidth
+    windowWidth,
 } from "/styles/index";
 
 export default StyleSheet.create({
     container: {
         paddingTop: 60,
-        backgroundColor: white
+        backgroundColor: white,
     },
     title: {
-        ...getUniversalFont(1.5)
-    }
+        ...getUniversalFont(1.5),
+    },
 });

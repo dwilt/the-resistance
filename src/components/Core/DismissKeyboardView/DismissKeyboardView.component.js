@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 export default class DismissKeyboardView extends PureComponent {
     static propTypes = {
-        children: PropTypes.node.isRequired
+        children: PropTypes.node.isRequired,
     };
 
     render() {

@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View } from "react-native";
 import styles from "./Completed.styles";
+import { Text } from "/components";
 import { victoryTypes } from "../../../../../firebaseFunctions/gameStructure";
-import { Text } from "../../../Core/Text";
 
 class Completed extends Component {
     static propTypes = {
-        victoryType: PropTypes.string.isRequired
+        victoryType: PropTypes.string.isRequired,
     };
 
     render() {

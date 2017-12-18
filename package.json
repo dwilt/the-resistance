@@ -6,8 +6,12 @@
     "@babel/cli": "^7.0.0-beta.34",
     "@babel/core": "^7.0.0-beta.34",
     "@babel/preset-env": "^7.0.0-beta.34",
+    "babel-eslint": "^8.0.3",
     "babel-plugin-root-import": "^5.1.0",
     "babel-preset-react-native-stage-0": "^1.0.1",
+    "eslint": "^4.13.1",
+    "eslint-plugin-react": "^7.5.1",
+    "eslint-plugin-react-native": "^3.2.0",
     "fs-extra": "^4.0.2",
     "jest-expo": "^21.0.2",
     "prettier": "1.9.1",
@@ -20,6 +24,7 @@
     "ios": "react-native run-ios",
     "rename": "node ./bin/rename.js",
     "start": "react-native start",
+    "lint": "./node_modules/.bin/eslint src -c .eslintrc --fix",
     "test": "node node_modules/jest/bin/jest.js --watch",
     "pretty": "yarn run prettier -- --write 'src/**/*.js' 'firebaseFunctions/*.js'",
     "login": "firebase login",
@@ -44,5 +49,10 @@
     "react-native": "^0.50.3",
     "react-native-firebase": "^3.1.1",
     "react-native-router-flux": "^4.0.0-beta.24"
+  },
+  "rnpm": {
+    "assets": [
+      "src/assets/fonts"
+    ]
   }
 }

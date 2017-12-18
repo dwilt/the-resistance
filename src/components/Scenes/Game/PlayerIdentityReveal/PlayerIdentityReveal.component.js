@@ -2,28 +2,27 @@ import React, { Component } from "react";
 
 import PropTypes from "prop-types";
 
-import { ActionButton } from "../../../Core/ActionButton";
+import { ActionButton, Text } from "/components";
 
 import { firebase, fireFetch } from "/services";
 import { View } from "react-native";
-import { Text } from "../../../Core/Text";
 import styles from "./PlayerIdentityReveal.styles";
 
 class PlayerIdentityReveal extends Component {
     static propTypes = {
         isSpy: PropTypes.bool.isRequired,
-        gameId: PropTypes.string.isRequired
+        gameId: PropTypes.string.isRequired,
     };
 
     state = {
         showingIdentity: false,
         isConfirming: false,
-        waitingForOthers: false
+        waitingForOthers: false,
     };
 
     showIdentity = () => {
         this.setState({
-            showingIdentity: true
+            showingIdentity: true,
         });
     };
 
@@ -33,20 +32,20 @@ class PlayerIdentityReveal extends Component {
 
         try {
             this.setState({
-                isConfirming: true
+                isConfirming: true,
             });
 
             await fireFetch(`confirmPlayerIdentity`, {
                 userId,
-                gameId
+                gameId,
             });
 
             this.setState({
-                showWaiting: true
+                showWaiting: true,
             });
         } catch ({ message }) {
             this.setState({
-                error: message
+                error: message,
             });
         }
     };

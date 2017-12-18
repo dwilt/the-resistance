@@ -7,9 +7,9 @@ export default StyleSheet.create({
         ...centerChildren(),
         minHeight: minTouchSize,
         paddingLeft: gutter,
-        paddingRight: gutter
+        paddingRight: gutter,
     },
     text: {
-        color: `blue`
-    }
+        color: `blue`,
+    },
 });

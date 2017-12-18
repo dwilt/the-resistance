@@ -11,7 +11,7 @@ export const viewSizes = {
     phone: `Phone`,
     largePhone: `Large Phone`,
     tablet: `Tablet`,
-    largeTablet: `Large Tablet`
+    largeTablet: `Large Tablet`,
 };
 
 export let viewSize = viewSizes.phone;

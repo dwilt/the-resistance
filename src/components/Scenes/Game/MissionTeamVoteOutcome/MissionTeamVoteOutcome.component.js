@@ -2,22 +2,21 @@ import React, { Component } from "react";
 
 import PropTypes from "prop-types";
 
-import { ActionButton } from "../../../Core/ActionButton";
+import { ActionButton, Text } from "/components";
 
-import { firebase, fireFetch } from "/services";
+import { fireFetch } from "/services";
 import { View } from "react-native";
-import { Text } from "../../../Core/Text";
 import styles from "./MissionTeamVoteOutcome.styles";
 
 class MissionTeamVoteOutcome extends Component {
     static propTypes = {
         isHost: PropTypes.bool.isRequired,
         approved: PropTypes.bool.isRequired,
-        gameId: PropTypes.string.isRequired
+        gameId: PropTypes.string.isRequired,
     };
 
     state = {
-        changingState: false
+        changingState: false,
     };
 
     nextStep = async () => {
@@ -25,7 +24,7 @@ class MissionTeamVoteOutcome extends Component {
 
         try {
             this.setState({
-                changingState: true
+                changingState: true,
             });
 
             const cloudFunction = approved
@@ -33,15 +32,15 @@ class MissionTeamVoteOutcome extends Component {
                 : `buildNewMissionTeam`;
 
             await fireFetch(cloudFunction, {
-                gameId
+                gameId,
             });
         } catch ({ message }) {
             this.setState({
-                error: message
+                error: message,
             });
         } finally {
             this.setState({
-                changingState: false
+                changingState: false,
             });
         }
     };

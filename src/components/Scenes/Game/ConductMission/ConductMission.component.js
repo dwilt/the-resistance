@@ -4,13 +4,12 @@ import { Alert } from 'react-native';
 
 import PropTypes from 'prop-types';
 
-import { ActionButton } from '../../../Core/ActionButton';
+import { ActionButton, Text } from '/components';
 
 import { fireFetch } from '/services';
 import { View } from 'react-native';
-import { Text } from '../../../Core/Text';
 import styles from './ConductMission.styles';
-import { firebase } from '../../../../services';
+import { firebase } from '/services';
 
 class ConductMission extends Component {
     static propTypes = {
@@ -79,9 +78,9 @@ class ConductMission extends Component {
         const { isSpy } = this.props;
 
         if (!isSpy) {
-            Alert.alert(`No can do!`, `Only spies can fail missions!`)
+            Alert.alert(`No can do!`, `Only spies can fail missions!`);
         } else {
-            await this.submitVote(false)
+            await this.submitVote(false);
         }
 
     };

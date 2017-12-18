@@ -1,3 +1,3 @@
 export {
-    default as DismissKeyboardView
+    default as DismissKeyboardView,
 } from "./DismissKeyboardView.component";

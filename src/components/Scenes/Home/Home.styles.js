@@ -6,18 +6,18 @@ import {
     gutter,
     white,
     windowWidth,
-    darkGray
+    darkGray,
 } from "/styles";
 
 export default StyleSheet.create({
     container: {
         paddingTop: 60,
-        backgroundColor: white
+        backgroundColor: white,
     },
     join: {
         borderBottomWidth: 1,
         borderBottomColor: darkGray,
         paddingBottom: gutter * 2,
-        marginBottom: gutter * 2
-    }
+        marginBottom: gutter * 2,
+    },
 });

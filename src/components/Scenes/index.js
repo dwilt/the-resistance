@@ -1,3 +1,3 @@
 export * from "./Home";
-export * from "./Game/Game/index";
+export * from "./Game";
 export * from "./Login";

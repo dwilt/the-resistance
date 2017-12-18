@@ -13,12 +13,12 @@ export default class TextButton extends PureComponent {
         onPress: PropTypes.func.isRequired,
         children: PropTypes.string.isRequired,
         style: ViewPropTypes.style,
-        textStyles: RNText.propTypes.style
+        textStyles: RNText.propTypes.style,
     };
 
     static defaultProps = {
         style: {},
-        textStyles: {}
+        textStyles: {},
     };
 
     render() {

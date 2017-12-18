@@ -1,15 +1,15 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { Switch } from "react-native";
+import { Switch } from 'react-native';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { ActionButton } from "../../../Core/ActionButton";
+import { fireFetch } from '/services';
+import { View } from 'react-native';
 
-import { fireFetch } from "/services";
-import { View } from "react-native";
-import { Text } from "../../../Core/Text";
-import styles from "./BuildMissionTeam.styles";
+import { ActionButton, Text } from '/components';
+
+import styles from './BuildMissionTeam.styles';
 
 class BuildMissionTeam extends Component {
     static propTypes = {
@@ -20,27 +20,27 @@ class BuildMissionTeam extends Component {
         players: PropTypes.arrayOf(
             PropTypes.shape({
                 id: PropTypes.string.isRequired,
-                name: PropTypes.string.isRequired
-            })
-        ).isRequired
+                name: PropTypes.string.isRequired,
+            }),
+        ).isRequired,
     };
 
     static defaultProps = {
         isLeader: false,
         filled: false,
-        members: []
+        members: [],
     };
 
     state = {
         members: [],
-        isConfirming: false
+        isConfirming: false,
     };
 
     componentDidMount() {
         const { members } = this.props;
 
         this.setState({
-            members
+            members,
         });
     }
 
@@ -52,8 +52,8 @@ class BuildMissionTeam extends Component {
                 members: selected
                     ? [...members, userId]
                     : members.filter(
-                          (missionMemberId) => missionMemberId !== userId
-                      )
+                          (missionMemberId) => missionMemberId !== userId,
+                      ),
             });
 
             const cloudFunction = selected
@@ -62,7 +62,7 @@ class BuildMissionTeam extends Component {
 
             await fireFetch(cloudFunction, {
                 gameId,
-                userId
+                userId,
             });
         } catch (e) {
         } finally {
@@ -75,19 +75,19 @@ class BuildMissionTeam extends Component {
 
         try {
             this.setState({
-                isConfirming: true
+                isConfirming: true,
             });
 
             await fireFetch(`confirmSelectedMissionTeam`, {
-                gameId
+                gameId,
             });
         } catch ({ message }) {
             this.setState({
-                error: message
+                error: message,
             });
         } finally {
             this.setState({
-                isConfirming: false
+                isConfirming: false,
             });
         }
     };

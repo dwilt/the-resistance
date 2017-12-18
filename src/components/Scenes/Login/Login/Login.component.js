@@ -8,7 +8,6 @@ import {
     TextInput,
     ActionButton,
     TextButton,
-    Text
 } from "/components";
 
 import { firebase, db } from "/services";
@@ -22,22 +21,22 @@ class Login extends Component {
         name: ``,
         showRegister: true,
         isRegistering: false,
-        error: null
+        error: null,
     };
 
     setName = (name) =>
         this.setState({
-            name
+            name,
         });
 
     setEmail = (email) =>
         this.setState({
-            email
+            email,
         });
 
     setPassword = (password) =>
         this.setState({
-            password
+            password,
         });
 
     submitForm = async () => {
@@ -46,7 +45,7 @@ class Login extends Component {
         try {
             this.setState({
                 error: null,
-                isRegistering: true
+                isRegistering: true,
             });
 
             if (showRegister) {
@@ -60,7 +59,7 @@ class Login extends Component {
                     .collection(`users`)
                     .doc(userId)
                     .set({
-                        name
+                        name,
                     });
             } else {
                 await firebase
@@ -69,18 +68,18 @@ class Login extends Component {
             }
         } catch ({ message }) {
             this.setState({
-                error: message
+                error: message,
             });
         } finally {
             this.setState({
-                isRegistering: false
+                isRegistering: false,
             });
         }
     };
 
     toggleForm = () => {
         this.setState((state) => ({
-            showRegister: !state.showRegister
+            showRegister: !state.showRegister,
         }));
     };
 
@@ -91,7 +90,7 @@ class Login extends Component {
             isRegistering,
             showRegister,
             error,
-            name
+            name,
         } = this.state;
         const errorEl = error && <ErrorMessage error={error} />;
 

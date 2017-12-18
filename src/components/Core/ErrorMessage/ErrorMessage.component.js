@@ -8,7 +8,7 @@ import styles from "./ErrorMessage.styles";
 
 export default class ErrorMessage extends PureComponent {
     static propTypes = {
-        error: PropTypes.string
+        error: PropTypes.string,
     };
 
     render() {

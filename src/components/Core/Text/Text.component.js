@@ -6,11 +6,11 @@ import styles from "./Text.styles";
 
 export default class GJSText extends PureComponent {
     static propTypes = {
-        style: Text.propTypes.style
+        style: Text.propTypes.style,
     };
 
     static defaultProps = {
-        style: {}
+        style: {},
     };
 
     render() {

@@ -1,3 +1,3 @@
 export {
-    default as PlayerIdentityReveal
+    default as PlayerIdentityReveal,
 } from "./PlayerIdentityReveal.component";

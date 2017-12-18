@@ -8,5 +8,5 @@ export const lato = {
     italic: `Lato-Italic`,
     light: `Lato-Light`,
     lightItalic: `Lato-LightItalic`,
-    regular: `Lato-Regular`
+    regular: `Lato-Regular`,
 };

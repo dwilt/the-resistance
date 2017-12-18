@@ -4,14 +4,14 @@ import {
     ActivityIndicator,
     TouchableOpacity,
     View,
-    ViewPropTypes
+    ViewPropTypes,
 } from "react-native";
 
 import PropTypes from "prop-types";
 
 import styles from "./ActionButton.styles";
 
-import { Text } from "../Text";
+import { Text } from "/components";
 
 export default class ActionButton extends PureComponent {
     static propTypes = {
@@ -20,14 +20,14 @@ export default class ActionButton extends PureComponent {
         children: PropTypes.node.isRequired,
         disabled: PropTypes.bool,
         theme: PropTypes.oneOf([`teal`, `darkTeal`]),
-        style: ViewPropTypes.style
+        style: ViewPropTypes.style,
     };
 
     static defaultProps = {
         disabled: false,
         isLoading: false,
         theme: `teal`,
-        style: {}
+        style: {},
     };
 
     render() {
@@ -37,7 +37,7 @@ export default class ActionButton extends PureComponent {
             children,
             isLoading,
             disabled,
-            style
+            style,
         } = this.props;
 
         const textStyles = [styles.text];

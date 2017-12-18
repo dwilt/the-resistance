@@ -6,16 +6,16 @@ import {
     gutter,
     centerChildren,
     fullscreen,
-    minTouchSize
+    minTouchSize,
 } from "../../../styles";
 
 export default StyleSheet.create({
     container: {
-        position: `relative`
+        position: `relative`,
     },
     loader: {
         ...centerChildren(),
-        ...fullscreen
+        ...fullscreen,
     },
     textContainer: {
         ...centerChildren(),
@@ -27,24 +27,24 @@ export default StyleSheet.create({
         paddingBottom: gutter,
         paddingLeft: gutter * 2,
         paddingRight: gutter * 2,
-        borderRadius: 2
+        borderRadius: 2,
     },
     tealTextContainer: {
-        backgroundColor: `blue`
+        backgroundColor: `blue`,
     },
     darkTealTextContainer: {
-        backgroundColor: `green`
+        backgroundColor: `green`,
     },
     disabled: {
-        opacity: 0.5
+        opacity: 0.5,
     },
     hiddenText: {
-        opacity: 0
+        opacity: 0,
     },
     text: {
         ...getUniversalFont(1.2),
         color: white,
         fontWeight: `bold`,
-        textAlign: `center`
-    }
+        textAlign: `center`,
+    },
 });

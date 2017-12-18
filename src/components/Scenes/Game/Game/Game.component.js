@@ -1,33 +1,35 @@
 import React, { Component } from "react";
 
-import { Alert, View } from "react-native";
+import { Alert } from "react-native";
 
 import PropTypes from "prop-types";
 
-import { firebase, fireFetch, db } from "/services/index";
+import { firebase, db } from "/services";
+
+import {
+    BuildMissionTeam,
+    Completed,
+    ConductMission,
+    Lobby,
+    MissionOutcome,
+    MissionTeamVote,
+    MissionTeamVoteOutcome,
+    PlayerIdentityReveal
+} from '/components';
 
 import { gameStates } from "../../../../../firebaseFunctions/gameStructure";
-
-import { PlayerIdentityReveal } from "../PlayerIdentityReveal/index";
-import { Lobby } from "../Lobby";
-import { BuildMissionTeam } from "../BuildMissionTeam";
-import { ConductMission } from "../ConductMission";
-import { MissionOutcome } from "../MissionOutcome";
-import { MissionTeamVote } from "../MissionTeamVote";
-import { MissionTeamVoteOutcome } from "../MissionTeamVoteOutcome";
-import { Completed } from "../Completed";
 
 class Game extends Component {
     static propTypes = {
         gameId: PropTypes.string.isRequired,
         hostId: PropTypes.string,
-        gameCode: PropTypes.number
+        gameCode: PropTypes.number,
     };
 
     state = {
         state: gameStates.LOBBY,
         isQuitting: false,
-        players: []
+        players: [],
     };
 
     async componentDidMount() {
@@ -48,8 +50,8 @@ class Game extends Component {
                 this.setState({
                     players: docs.map((doc) => ({
                         id: doc.id,
-                        ...doc.data()
-                    }))
+                        ...doc.data(),
+                    })),
                 });
             });
 
@@ -79,7 +81,7 @@ class Game extends Component {
             host,
             currentMission = {},
             victoryType,
-            state
+            state,
         } = this.state;
 
         const isHost = host === userId;
@@ -88,7 +90,7 @@ class Game extends Component {
             missionTeamVotes = {},
             proposedTeam = {},
             missionTeam = {},
-            leader
+            leader,
         } = currentMission;
 
         const { isSpy } = players.find((player) => player.id === userId) || {};

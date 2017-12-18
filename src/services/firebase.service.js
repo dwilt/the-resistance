@@ -7,7 +7,7 @@ export async function fireFetch(cloudFunctionName, body = {}) {
 
     const fetchParams = {
         method: `POST`,
-        headers
+        headers,
     };
 
     let baseUrl = `https://us-central1-the-resistance-6d42d.cloudfunctions.net/${cloudFunctionName}`;
@@ -29,7 +29,7 @@ export async function fireFetch(cloudFunctionName, body = {}) {
 }
 
 export default firebase.initializeApp({
-    apiKey: "AIzaSyB2lvG8eGKIEbRaDTeRKixX925Lnn-tm38",
-    databaseURL: "https://the-resistance-6d42d.firebaseio.com/",
-    projectId: `the-resistance-6d42d`
+    apiKey: `AIzaSyB2lvG8eGKIEbRaDTeRKixX925Lnn-tm38`,
+    databaseURL: `https://the-resistance-6d42d.firebaseio.com/`,
+    projectId: `the-resistance-6d42d`,
 });

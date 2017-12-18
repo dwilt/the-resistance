@@ -1,3 +1,3 @@
 export {
-    default as MissionTeamVoteOutcome
+    default as MissionTeamVoteOutcome,
 } from "./MissionTeamVoteOutcome.component";

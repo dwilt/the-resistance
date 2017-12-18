@@ -10,7 +10,7 @@ import { fireFetch } from "../../../services";
 
 export default class QuitButton extends PureComponent {
     static propTypes = {
-        gameId: PropTypes.string.isRequired
+        gameId: PropTypes.string.isRequired,
     };
 
     quitGame = async () => {
@@ -19,22 +19,22 @@ export default class QuitButton extends PureComponent {
 
         try {
             this.setState({
-                isQuitting: true
+                isQuitting: true,
             });
 
             await fireFetch(`quitGame`, {
                 userId,
-                gameId
+                gameId,
             });
 
             Actions.pop();
         } catch ({ message }) {
             this.setState({
-                error: message
+                error: message,
             });
         } finally {
             this.setState({
-                isQuitting: false
+                isQuitting: false,
             });
         }
     };

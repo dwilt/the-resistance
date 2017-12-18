@@ -8,7 +8,7 @@ import {
     darkGray,
     baseFontSize,
     minTouchSize,
-    centerChildren
+    centerChildren,
 } from "/styles";
 
 const inputFontSize = baseFontSize;
@@ -17,7 +17,7 @@ export const toggleIconColor = darkGray;
 
 export default StyleSheet.create({
     container: {
-        marginBottom: gutter
+        marginBottom: gutter,
     },
     input: {
         flex: 1,
@@ -29,19 +29,19 @@ export default StyleSheet.create({
         ...getUniversalFont(),
         ...Platform.select({
             android: {
-                textAlignVertical: `top`
-            }
-        })
+                textAlignVertical: `top`,
+            },
+        }),
     },
     multilineInput: {
-        lineHeight: inputFontSize * 1.2
+        lineHeight: inputFontSize * 1.2,
     },
     label: {
         ...getUniversalFont(0.8, 1.2),
         paddingLeft: gutter,
         paddingRight: gutter,
         marginBottom: gutter / 2,
-        color: darkGray
+        color: darkGray,
     },
     textContainer: {
         backgroundColor: white,
@@ -50,11 +50,11 @@ export default StyleSheet.create({
         borderTopWidth: 1,
         borderBottomWidth: 1,
         alignItems: `center`,
-        flexDirection: `row`
+        flexDirection: `row`,
     },
     passwordToggle: {
         ...centerChildren(true),
         width: minTouchSize,
-        height: minTouchSize
-    }
+        height: minTouchSize,
+    },
 });

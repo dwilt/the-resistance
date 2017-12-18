@@ -6,6 +6,6 @@ export default StyleSheet.create({
     error: {
         padding: gutter,
         textAlign: `center`,
-        color: `red`
-    }
+        color: `red`,
+    },
 });

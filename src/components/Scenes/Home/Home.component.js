@@ -6,14 +6,13 @@ import {
     ActionButton,
     ErrorMessage,
     LogoutButton,
-    Text,
     Game,
-    TextInput
+    TextInput,
 } from "/components";
 
 import { Actions } from "react-native-router-flux";
 
-import { firebase, fireFetch, db } from "/services";
+import { firebase, fireFetch } from "/services";
 
 import styles from "./Home.styles";
 
@@ -22,7 +21,7 @@ class Home extends Component {
         error: null,
         isCreatingGame: false,
         isJoiningGame: false,
-        gameCode: ``
+        gameCode: ``,
     };
 
     joinGame = async () => {
@@ -32,24 +31,24 @@ class Home extends Component {
         try {
             this.setState({
                 error: null,
-                isJoiningGame: true
+                isJoiningGame: true,
             });
 
             const { gameId } = await fireFetch(`joinGame`, {
                 gameCode,
-                userId
+                userId,
             });
 
             Actions[Game.key]({
-                gameId
+                gameId,
             });
         } catch ({ message }) {
             this.setState({
-                error: message
+                error: message,
             });
         } finally {
             this.setState({
-                isJoiningGame: false
+                isJoiningGame: false,
             });
         }
     };
@@ -59,32 +58,32 @@ class Home extends Component {
 
         try {
             this.setState({
-                isCreatingGame: true
+                isCreatingGame: true,
             });
 
             const { gameCode, gameId } = await fireFetch(`createGame`, {
-                userId
+                userId,
             });
 
             Actions[Game.key]({
                 hostId: userId,
                 gameId,
-                gameCode
+                gameCode,
             });
         } catch ({ message }) {
             this.setState({
-                error: message
+                error: message,
             });
         } finally {
             this.setState({
-                isCreatingGame: false
+                isCreatingGame: false,
             });
         }
     };
 
     setGameCode = (gameCode) =>
         this.setState({
-            gameCode
+            gameCode,
         });
 
     render() {

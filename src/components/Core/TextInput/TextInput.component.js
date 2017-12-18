@@ -2,13 +2,13 @@ import React, { PureComponent } from "react";
 
 import PropTypes from "prop-types";
 
-import { Icon, Text } from "/components";
+import { Text } from "/components";
 
 import {
     TextInput as RNTextInput,
     TouchableOpacity,
     ViewPropTypes,
-    View
+    View,
 } from "react-native";
 
 import styles, { toggleIconSize, toggleIconColor } from "./TextInput.styles";
@@ -21,7 +21,7 @@ export default class TextInput extends PureComponent {
         inputStyle: ViewPropTypes.style,
         label: PropTypes.string,
         onMount: PropTypes.func,
-        secureTextEntry: PropTypes.bool.isRequired
+        secureTextEntry: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -31,20 +31,20 @@ export default class TextInput extends PureComponent {
         style: {},
         inputStyle: {},
         label: null,
-        secureTextEntry: false
+        secureTextEntry: false,
     };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            showPassword: !props.secureTextEntry
+            showPassword: !props.secureTextEntry,
         };
     }
 
     toggleShowPassword = () => {
         this.setState((previousState) => ({
-            showPassword: !previousState.showPassword
+            showPassword: !previousState.showPassword,
         }));
     };
 
@@ -70,7 +70,7 @@ export default class TextInput extends PureComponent {
             multiline,
             label,
             inputStyle,
-            secureTextEntry
+            secureTextEntry,
         } = this.props;
         const { showPassword } = this.state;
 

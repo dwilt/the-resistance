@@ -5,17 +5,17 @@ import {
     centerChildren,
     gutter,
     white,
-    windowWidth
+    windowWidth,
 } from "/styles/index";
 
 export default StyleSheet.create({
     container: {
         paddingTop: 60,
-        backgroundColor: white
+        backgroundColor: white,
     },
     player: {
         marginBottom: 20,
         flexDirection: `row`,
-        alignItems: `center`
-    }
+        alignItems: `center`,
+    },
 });
