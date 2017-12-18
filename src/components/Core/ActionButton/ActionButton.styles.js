@@ -7,6 +7,8 @@ import {
     centerChildren,
     fullscreen,
     minTouchSize,
+    yellow,
+    teal
 } from "../../../styles";
 
 export default StyleSheet.create({
@@ -29,11 +31,11 @@ export default StyleSheet.create({
         paddingRight: gutter * 2,
         borderRadius: 2,
     },
-    tealTextContainer: {
-        backgroundColor: `blue`,
+    yellowContainer: {
+        backgroundColor: yellow,
     },
-    darkTealTextContainer: {
-        backgroundColor: `green`,
+    tealContainer: {
+        backgroundColor: teal,
     },
     disabled: {
         opacity: 0.5,

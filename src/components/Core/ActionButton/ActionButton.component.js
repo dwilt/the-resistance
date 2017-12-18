@@ -19,14 +19,14 @@ export default class ActionButton extends PureComponent {
         onPress: PropTypes.func.isRequired,
         children: PropTypes.node.isRequired,
         disabled: PropTypes.bool,
-        theme: PropTypes.oneOf([`teal`, `darkTeal`]),
+        theme: PropTypes.oneOf([`yellow`, `teal`]),
         style: ViewPropTypes.style,
     };
 
     static defaultProps = {
         disabled: false,
         isLoading: false,
-        theme: `teal`,
+        theme: `yellow`,
         style: {},
     };
 
@@ -43,7 +43,7 @@ export default class ActionButton extends PureComponent {
         const textStyles = [styles.text];
         const buttonStyles = [styles.textContainer];
 
-        buttonStyles.push(styles[`${theme}TextContainer`], style);
+        buttonStyles.push(styles[`${theme}Container`], style);
 
         const isLoadingEl = isLoading && (
             <View style={styles.loader}>
