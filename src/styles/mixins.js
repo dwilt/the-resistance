@@ -61,7 +61,6 @@ export const getUniversalFont = (fontSizeRatio = 1, lineHeightRatio = 1) => {
     }
 
     return {
-        fontFamily: openSans.regular,
         fontSize,
         lineHeight,
     };

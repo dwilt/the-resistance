@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 
 import styles from "./ActionButton.styles";
 
-import { Text } from "/components";
+import { Text } from "components";
 
 export default class ActionButton extends PureComponent {
     static propTypes = {

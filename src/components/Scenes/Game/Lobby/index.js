@@ -1,1 +1,3 @@
-export { default as Lobby } from "./Lobby.component";
+export * from "./GameCode";
+export * from "./Lobby";
+export * from "./PlayersList";

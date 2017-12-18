@@ -6,7 +6,7 @@ import {
     gutter,
     white,
     windowWidth,
-} from "/styles/index";
+} from "styles";
 
 export default StyleSheet.create({
     container: {

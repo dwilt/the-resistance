@@ -8,7 +8,7 @@ import {
     LogoutButton,
     Game,
     TextInput,
-} from "/components";
+} from "components";
 
 import { Actions } from "react-native-router-flux";
 
@@ -40,6 +40,7 @@ class Home extends Component {
             });
 
             Actions[Game.key]({
+                gameCode,
                 gameId,
             });
         } catch ({ message }) {

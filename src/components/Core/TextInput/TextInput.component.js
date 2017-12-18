@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 
 import PropTypes from "prop-types";
 
-import { Text } from "/components";
+import { Text } from "components";
 
 import {
     TextInput as RNTextInput,
@@ -21,7 +21,6 @@ export default class TextInput extends PureComponent {
         inputStyle: ViewPropTypes.style,
         label: PropTypes.string,
         onMount: PropTypes.func,
-        secureTextEntry: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -31,7 +30,6 @@ export default class TextInput extends PureComponent {
         style: {},
         inputStyle: {},
         label: null,
-        secureTextEntry: false,
     };
 
     constructor(props) {
@@ -41,12 +39,6 @@ export default class TextInput extends PureComponent {
             showPassword: !props.secureTextEntry,
         };
     }
-
-    toggleShowPassword = () => {
-        this.setState((previousState) => ({
-            showPassword: !previousState.showPassword,
-        }));
-    };
 
     inputRef = (input) => {
         const { autoFocus } = this.props;
@@ -70,7 +62,6 @@ export default class TextInput extends PureComponent {
             multiline,
             label,
             inputStyle,
-            secureTextEntry,
         } = this.props;
         const { showPassword } = this.state;
 
@@ -83,19 +74,6 @@ export default class TextInput extends PureComponent {
 
         inputStyles.push(inputStyle);
 
-        const passwordToggle = secureTextEntry && (
-            <TouchableOpacity
-                onPress={this.toggleShowPassword}
-                style={styles.passwordToggle}
-            >
-                <Icon
-                    name={showPassword ? `eye-crossed` : `eye`}
-                    size={toggleIconSize}
-                    color={toggleIconColor}
-                />
-            </TouchableOpacity>
-        );
-
         return (
             <View style={[styles.container, style]}>
                 {labelEl}
@@ -107,7 +85,6 @@ export default class TextInput extends PureComponent {
                         underlineColorAndroid={`transparent`}
                         style={inputStyles}
                     />
-                    {passwordToggle}
                 </View>
             </View>
         );

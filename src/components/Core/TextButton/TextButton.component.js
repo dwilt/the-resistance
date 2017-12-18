@@ -4,7 +4,7 @@ import { TouchableOpacity, ViewPropTypes, Text as RNText } from "react-native";
 
 import PropTypes from "prop-types";
 
-import { Text } from "/components";
+import { Text } from "components";
 
 import styles from "./TextButton.styles";
 

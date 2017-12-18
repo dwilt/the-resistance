@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 
 import PropTypes from "prop-types";
 
-import { Text } from "/components";
+import { Text } from "components";
 
 import styles from "./ErrorMessage.styles";
 

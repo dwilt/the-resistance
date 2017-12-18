@@ -45,7 +45,7 @@ export default StyleSheet.create({
         marginBottom: gutter / 2,
         color: white,
         textAlign: `center`,
-        fontFamily: openSans.bold
+        fontFamily: openSans.bold,
     },
     textContainer: {
         backgroundColor: white,
@@ -54,10 +54,5 @@ export default StyleSheet.create({
         alignItems: `center`,
         flexDirection: `row`,
         borderRadius: 5,
-    },
-    passwordToggle: {
-        ...centerChildren(true),
-        width: minTouchSize,
-        height: minTouchSize,
-    },
+    }
 });

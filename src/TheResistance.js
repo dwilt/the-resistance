@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 
 import { Scene, Router, Actions } from "react-native-router-flux";
 
-import { Home, Game, Login } from "/components";
+import { Home, Game, Login } from "components";
 
 import { firebase } from "/services";
 

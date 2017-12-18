@@ -1,10 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { Alert } from "react-native";
+import PropTypes from 'prop-types';
 
-import PropTypes from "prop-types";
-
-import { firebase, db } from "/services";
+import { firebase, db } from '/services';
 
 import {
     BuildMissionTeam,
@@ -15,15 +13,16 @@ import {
     MissionTeamVote,
     MissionTeamVoteOutcome,
     PlayerIdentityReveal,
-} from "/components";
+    Scene,
+} from 'components';
 
-import { gameStates } from "../../../../../firebaseFunctions/gameStructure";
+import { gameStates } from '../../../../../firebaseFunctions/gameStructure';
 
 class Game extends Component {
     static propTypes = {
         gameId: PropTypes.string.isRequired,
         hostId: PropTypes.string,
-        gameCode: PropTypes.number,
+        gameCode: PropTypes.string.isRequired,
     };
 
     state = {
@@ -33,14 +32,7 @@ class Game extends Component {
     };
 
     async componentDidMount() {
-        const { gameId, gameCode } = this.props;
-
-        if (gameCode) {
-            Alert.alert(
-                `Game Created!`,
-                `Your game has been created and the code is ${gameCode}`
-            );
-        }
+        const { gameId } = this.props;
 
         this.playersListener = db
             .collection(`games`)
@@ -75,7 +67,8 @@ class Game extends Component {
     render() {
         const userId = firebase.auth().currentUser.uid;
 
-        const { gameId } = this.props;
+        const { gameId, gameCode } = this.props;
+
         const {
             players,
             host,
@@ -96,21 +89,32 @@ class Game extends Component {
         const { isSpy } = players.find((player) => player.id === userId) || {};
         const isLeader = leader === userId;
 
+        let gameScene = null;
+
         switch (state) {
             case gameStates.LOBBY: {
-                return (
-                    <Lobby gameId={gameId} players={players} isHost={isHost} />
+                gameScene = (
+                    <Lobby
+                        gameCode={gameCode}
+                        gameId={gameId}
+                        players={players}
+                        isHost={isHost}
+                    />
                 );
+                break;
             }
 
             case gameStates.PLAYER_IDENTITY_REVEAL: {
-                return <PlayerIdentityReveal isSpy={isSpy} gameId={gameId} />;
+                gameScene = (
+                    <PlayerIdentityReveal isSpy={isSpy} gameId={gameId} />
+                );
+                break;
             }
 
             case gameStates.BUILD_MISSION_TEAM: {
                 const { members, filled } = proposedTeam;
 
-                return (
+                gameScene = (
                     <BuildMissionTeam
                         players={players}
                         isLeader={isLeader}
@@ -119,6 +123,7 @@ class Game extends Component {
                         filled={filled}
                     />
                 );
+                break;
             }
 
             case gameStates.MISSION_TEAM_VOTE: {
@@ -126,10 +131,10 @@ class Game extends Component {
                 const { votingComplete, votes = {} } = missionTeamVotes;
                 const submittedVote = typeof votes[userId] !== `undefined`;
                 const proposedTeamMembers = players.filter(
-                    ({ id }) => members.indexOf(id) !== -1
+                    ({ id }) => members.indexOf(id) !== -1,
                 );
 
-                return (
+                gameScene = (
                     <MissionTeamVote
                         isHost={isHost}
                         gameId={gameId}
@@ -138,18 +143,20 @@ class Game extends Component {
                         submittedVote={submittedVote}
                     />
                 );
+                break;
             }
 
             case gameStates.MISSION_TEAM_VOTE_OUTCOME: {
                 const { approved } = missionTeamVotes;
 
-                return (
+                gameScene = (
                     <MissionTeamVoteOutcome
                         isHost={isHost}
                         gameId={gameId}
                         approved={approved}
                     />
                 );
+                break;
             }
 
             case gameStates.CONDUCT_MISSION: {
@@ -157,7 +164,7 @@ class Game extends Component {
                 const voted =
                     isMember && typeof missionTeam[userId] === `boolean`;
 
-                return (
+                gameScene = (
                     <ConductMission
                         isSpy={isSpy}
                         gameId={gameId}
@@ -165,24 +172,29 @@ class Game extends Component {
                         voted={voted}
                     />
                 );
+                break;
             }
 
             case gameStates.MISSION_OUTCOME: {
                 const { passed } = currentMission;
 
-                return (
+                gameScene = (
                     <MissionOutcome
                         gameId={gameId}
                         isHost={isHost}
                         passed={passed}
                     />
                 );
+                break;
             }
 
             case gameStates.COMPLETED: {
-                return <Completed victoryType={victoryType} />;
+                gameScene = <Completed victoryType={victoryType} />;
+                break;
             }
         }
+
+        return <Scene>{gameScene}</Scene>;
     }
 }
 

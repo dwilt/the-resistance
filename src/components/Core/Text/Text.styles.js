@@ -1,10 +1,12 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
-import { getUniversalFont } from "styles";
+import { getUniversalFont, white, openSans } from 'styles';
 
 export default StyleSheet.create({
     text: {
         ...getUniversalFont(),
-        color: `black`,
+        fontFamily: openSans.regular,
+        color: white,
+        backgroundColor: `transparent`,
     },
 });

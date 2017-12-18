@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { KeyboardAvoidingView, View } from "react-native";
+import { KeyboardAvoidingView, View, Image } from "react-native";
 
 import {
     DismissKeyboardView,
@@ -8,7 +8,7 @@ import {
     TextInput,
     ActionButton,
     TextButton,
-} from "/components";
+} from "components";
 
 import { firebase, db } from "/services";
 

@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { fireFetch } from "/services";
 import { View } from "react-native";
 
-import { ActionButton, Text } from "/components";
+import { ActionButton, Text } from "components";
 
 import styles from "./BuildMissionTeam.styles";
 

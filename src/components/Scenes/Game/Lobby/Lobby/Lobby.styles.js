@@ -1,19 +1,18 @@
 import { StyleSheet } from "react-native";
 
 import {
-    getUniversalFont,
-    centerChildren,
     gutter,
-    white,
-    windowWidth,
+    getUniversalFont,
 } from "styles";
 
 export default StyleSheet.create({
-    container: {
-        paddingTop: 60,
-        backgroundColor: white,
+    players: {
+        padding: gutter,
     },
     title: {
         ...getUniversalFont(1.5),
     },
+    waitingForHost: {
+        textAlign: `center`
+    }
 });

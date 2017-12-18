@@ -46,7 +46,6 @@ export default StyleSheet.create({
     text: {
         ...getUniversalFont(1.2),
         color: white,
-        fontWeight: `bold`,
         textAlign: `center`,
     },
 });
