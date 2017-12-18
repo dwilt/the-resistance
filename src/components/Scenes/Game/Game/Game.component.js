@@ -14,8 +14,8 @@ import {
     MissionOutcome,
     MissionTeamVote,
     MissionTeamVoteOutcome,
-    PlayerIdentityReveal
-} from '/components';
+    PlayerIdentityReveal,
+} from "/components";
 
 import { gameStates } from "../../../../../firebaseFunctions/gameStructure";
 

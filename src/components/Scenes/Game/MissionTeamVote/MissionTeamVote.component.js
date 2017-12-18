@@ -14,10 +14,12 @@ class MissionTeamVote extends Component {
         votingComplete: PropTypes.bool.isRequired,
         isHost: PropTypes.bool.isRequired,
         gameId: PropTypes.string.isRequired,
-        proposedTeamMembers: PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-        })).isRequired,
+        proposedTeamMembers: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.string.isRequired,
+                name: PropTypes.string.isRequired,
+            })
+        ).isRequired,
     };
 
     static defaultProps = {
@@ -77,7 +79,12 @@ class MissionTeamVote extends Component {
     };
 
     render() {
-        const { proposedTeamMembers = [], isHost, votingComplete, submittedVote } = this.props;
+        const {
+            proposedTeamMembers = [],
+            isHost,
+            votingComplete,
+            submittedVote,
+        } = this.props;
         const { isSubmittingVote, isRevealingVotes } = this.state;
 
         const submittedText = submittedVote && (
@@ -104,9 +111,7 @@ class MissionTeamVote extends Component {
             >{`Reject`}</ActionButton>
         );
 
-
-        const revealVotesButton =
-            submittedVote &&
+        const revealVotesButton = submittedVote &&
             isHost &&
             votingComplete && (
                 <ActionButton

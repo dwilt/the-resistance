@@ -82,7 +82,6 @@ exports.startNextRound = functions.https.onRequest(
     functionCreator(startNextRound)
 );
 
-
 exports.buildNewMissionTeam = functions.https.onRequest(
     functionCreator(buildNewMissionTeam)
 );

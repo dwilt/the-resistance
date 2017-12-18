@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { Switch } from 'react-native';
+import { Switch } from "react-native";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { fireFetch } from '/services';
-import { View } from 'react-native';
+import { fireFetch } from "/services";
+import { View } from "react-native";
 
-import { ActionButton, Text } from '/components';
+import { ActionButton, Text } from "/components";
 
-import styles from './BuildMissionTeam.styles';
+import styles from "./BuildMissionTeam.styles";
 
 class BuildMissionTeam extends Component {
     static propTypes = {
@@ -21,7 +21,7 @@ class BuildMissionTeam extends Component {
             PropTypes.shape({
                 id: PropTypes.string.isRequired,
                 name: PropTypes.string.isRequired,
-            }),
+            })
         ).isRequired,
     };
 
@@ -52,7 +52,7 @@ class BuildMissionTeam extends Component {
                 members: selected
                     ? [...members, userId]
                     : members.filter(
-                          (missionMemberId) => missionMemberId !== userId,
+                          (missionMemberId) => missionMemberId !== userId
                       ),
             });
 

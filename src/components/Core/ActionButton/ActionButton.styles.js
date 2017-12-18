@@ -8,7 +8,7 @@ import {
     fullscreen,
     minTouchSize,
     yellow,
-    teal
+    teal,
 } from "../../../styles";
 
 export default StyleSheet.create({
