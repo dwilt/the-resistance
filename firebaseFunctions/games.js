@@ -62,7 +62,7 @@ export async function quitGame({ gameId, playerId }) {
 
 export async function createGame({ userId }) {
     // TODO: come up with better, safer code generation lol
-    const gameCode = Math.floor(Math.random() * 900000) + 100000;
+    const gameCode = Math.floor(Math.random() * 900) + 100;
 
     await addGame({
         gameCode,

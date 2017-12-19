@@ -17,7 +17,7 @@ class MissionLeader extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>Mission Leader:</Text>
+                <Text style={styles.title}>MISSION LEADER:</Text>
                 <Text style={styles.leader}>{leader}</Text>
             </View>
         );

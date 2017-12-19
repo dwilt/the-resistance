@@ -8,6 +8,7 @@ export default StyleSheet.create({
         color: white,
         textAlign: `center`,
         marginBottom: gutter / 2,
+        fontFamily: openSans.light
     },
     leader: {
         ...getUniversalFont(1.5),

@@ -7,15 +7,25 @@ import PropTypes from 'prop-types';
 import { fireFetch } from 'services';
 import { View } from 'react-native';
 
-import { ActionButton, Text, MissionLeader } from 'components';
+import { sortBy } from 'lodash/collection';
+
+import {
+    ActionButton,
+    Text,
+    MissionLeader,
+    MissionMembersList,
+} from 'components';
 
 import styles from './BuildMissionTeam.styles';
+
+import { getMissionMembersCount } from '../../../../../../firebaseFunctions/gameStructure';
 
 class BuildMissionTeam extends Component {
     static propTypes = {
         members: PropTypes.arrayOf(PropTypes.string).isRequired,
         filled: PropTypes.bool.isRequired,
         leader: PropTypes.string.isRequired,
+        roundNumber: PropTypes.number.isRequired,
         gameId: PropTypes.string.isRequired,
         isLeader: PropTypes.bool.isRequired,
         players: PropTypes.arrayOf(
@@ -100,6 +110,7 @@ class BuildMissionTeam extends Component {
             filled,
             members: propsMembers,
             leader,
+            roundNumber,
         } = this.props;
 
         const { isConfirming, members: stateMembers } = this.state;
@@ -107,6 +118,15 @@ class BuildMissionTeam extends Component {
         const isSyncing = stateMembers.length !== propsMembers.length;
 
         const members = isSyncing ? stateMembers : propsMembers;
+
+        const selectedPlayers = players.map((player) => ({
+            ...player,
+            selected: members.indexOf(player.id) !== -1,
+        }));
+        const sortedPlayers = sortBy(
+            selectedPlayers,
+            ({ selected }) => !selected,
+        );
 
         const confirmMissionTeamButton = isLeader && (
             <ActionButton
@@ -118,31 +138,58 @@ class BuildMissionTeam extends Component {
             </ActionButton>
         );
 
+        const leaderInstructions = isLeader && (
+            <View style={styles.leaderInstructionsContainer}>
+                <Text style={styles.leaderInstructionsTextContainer}>
+                    <Text style={styles.leaderInstructions}>{`Select `}</Text>
+                    <Text
+                        style={[
+                            styles.leaderInstructions,
+                            styles.missionMembersCount,
+                        ]}
+                    >
+                        {getMissionMembersCount(roundNumber, players.length)}
+                    </Text>
+                    <Text
+                        style={styles.leaderInstructions}
+                    >{` players to send on this mission`}</Text>
+                </Text>
+            </View>
+        );
+
+        const playerInstructions = !isLeader && (
+            <View style={styles.leaderInstructionsContainer}>
+                <Text style={styles.leaderInstructionsTextContainer}>
+                    <Text
+                        style={styles.leaderInstructions}
+                    >{`Waiting for ${leader} to choose `}</Text>
+                    <Text
+                        style={[
+                            styles.leaderInstructions,
+                            styles.missionMembersCount,
+                        ]}
+                    >
+                        {getMissionMembersCount(roundNumber, players.length)}
+                    </Text>
+                    <Text
+                        style={styles.leaderInstructions}
+                    >{` players to send on this mission`}</Text>
+                </Text>
+            </View>
+        );
+
         return (
             <View style={styles.container}>
                 <MissionLeader leader={leader} />
-                {players.map(({ name, id }) => {
-                    const selected = members.indexOf(id) !== -1;
-                    const disabled = isSyncing || (filled && !selected);
-                    const selectedText = selected &&
-                        !isLeader && <Text>{`(selected)`}</Text>;
-
-                    return (
-                        <View style={styles.player} key={id}>
-                            {isLeader ? (
-                                <Switch
-                                    disabled={disabled}
-                                    value={selected}
-                                    onValueChange={(value) =>
-                                        this.onPlayerSelectedChange(id, value)
-                                    }
-                                />
-                            ) : null}
-                            <Text>{name}</Text>
-                            {selectedText}
-                        </View>
-                    );
-                })}
+                {leaderInstructions}
+                {playerInstructions}
+                <MissionMembersList
+                    filled={filled}
+                    isSyncing={isSyncing}
+                    isLeader={isLeader}
+                    onPlayerSelectChange={this.onPlayerSelectedChange}
+                    players={isLeader ? selectedPlayers : sortedPlayers}
+                />
                 {confirmMissionTeamButton}
             </View>
         );

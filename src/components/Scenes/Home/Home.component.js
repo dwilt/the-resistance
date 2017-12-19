@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { View } from "react-native";
+import { View } from 'react-native';
 
 import {
     ActionButton,
@@ -8,13 +8,15 @@ import {
     LogoutButton,
     Game,
     TextInput,
-} from "components";
+    CodeInput,
+    Scene,
+} from 'components';
 
-import { Actions } from "react-native-router-flux";
+import { Actions } from 'react-native-router-flux';
 
-import { firebase, fireFetch } from "/services";
+import { firebase, fireFetch } from '/services';
 
-import styles from "./Home.styles";
+import styles from './Home.styles';
 
 class Home extends Component {
     state = {
@@ -82,27 +84,32 @@ class Home extends Component {
         }
     };
 
-    setGameCode = (gameCode) =>
+    setGameCode = (gameCode) => {
+        console.log(gameCode);
         this.setState({
             gameCode,
         });
+    };
 
     render() {
         const { isCreatingGame, isJoiningGame, gameCode, error } = this.state;
         const errorEl = error && <ErrorMessage error={error} />;
 
         return (
-            <View style={styles.container}>
+            <Scene>
+                {errorEl}
                 <View style={styles.join}>
-                    {errorEl}
-                    <TextInput
-                        onChangeText={this.setGameCode}
-                        value={gameCode}
-                        placeholder={`Enter a game code here`}
-                    />
+                    <View style={styles.joinCodeInput}>
+                        <CodeInput
+                            onChangeText={this.setGameCode}
+                            value={gameCode}
+                            label={`Enter a game code here`}
+                        />
+                    </View>
                     <ActionButton
                         onPress={this.joinGame}
                         isLoading={isJoiningGame}
+                        theme={`teal`}
                     >
                         {`Join Game`}
                     </ActionButton>
@@ -113,8 +120,7 @@ class Home extends Component {
                 >
                     {`Create Game`}
                 </ActionButton>
-                <LogoutButton />
-            </View>
+            </Scene>
         );
     }
 }

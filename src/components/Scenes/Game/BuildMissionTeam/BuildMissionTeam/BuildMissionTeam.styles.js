@@ -6,15 +6,22 @@ import {
     gutter,
     white,
     windowWidth,
-} from "styles/index";
+    openSans
+} from "styles";
 
 export default StyleSheet.create({
     container: {
-        paddingTop: 60,
     },
-    player: {
-        marginBottom: 20,
-        flexDirection: `row`,
-        alignItems: `center`,
+    leaderInstructionsContainer: {
+        padding: gutter,
+    },
+    leaderInstructionsTextContainer: {
+        textAlign: `center`
+    },
+    leaderInstructions: {
+        ...getUniversalFont(1.2, 1.4),
+    },
+    missionMembersCount: {
+        fontFamily: openSans.bold
     },
 });

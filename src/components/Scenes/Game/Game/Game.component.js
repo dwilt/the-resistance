@@ -29,6 +29,7 @@ class Game extends Component {
         state: gameStates.LOBBY,
         isQuitting: false,
         players: [],
+        roundNumber: 1
     };
 
     async componentDidMount() {
@@ -44,6 +45,17 @@ class Game extends Component {
                         id: doc.id,
                         ...doc.data(),
                     })),
+                });
+            });
+
+        this.playersListener = db
+            .collection(`games`)
+            .doc(gameId)
+            .collection(`completedMissions`)
+            .onSnapshot(({ docs }) => {
+                console.log('disd', docs);
+                this.setState({
+                    roundNumber: docs.length + 1
                 });
             });
 
@@ -75,6 +87,7 @@ class Game extends Component {
             currentMission = {},
             victoryType,
             state,
+            roundNumber,
         } = this.state;
 
         const isHost = host === userId;
@@ -133,6 +146,7 @@ class Game extends Component {
                         members={members}
                         filled={filled}
                         leader={leader.name}
+                        roundNumber={roundNumber}
                     />
                 );
                 break;

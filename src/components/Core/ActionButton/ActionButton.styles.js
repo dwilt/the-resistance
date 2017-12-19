@@ -9,6 +9,7 @@ import {
     minTouchSize,
     yellow,
     teal,
+    openSans
 } from "styles";
 
 export default StyleSheet.create({
@@ -44,8 +45,9 @@ export default StyleSheet.create({
         opacity: 0,
     },
     text: {
-        ...getUniversalFont(1.2),
+        ...getUniversalFont(1.2, 1.2),
         color: white,
         textAlign: `center`,
+        fontFamily: openSans.bold
     },
 });

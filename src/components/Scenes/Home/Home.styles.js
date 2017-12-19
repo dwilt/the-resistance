@@ -11,13 +11,15 @@ import {
 
 export default StyleSheet.create({
     container: {
-        paddingTop: 60,
-        backgroundColor: white,
+        ...centerChildren(true),
+        padding: gutter
     },
     join: {
-        borderBottomWidth: 1,
-        borderBottomColor: darkGray,
         paddingBottom: gutter * 2,
         marginBottom: gutter * 2,
     },
+    joinCodeInput: {
+        ...centerChildren(),
+        marginBottom: gutter
+    }
 });
