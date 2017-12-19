@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { fireFetch } from '/services/index';
+import { fireFetch } from 'services';
 
 import { View } from 'react-native';
 

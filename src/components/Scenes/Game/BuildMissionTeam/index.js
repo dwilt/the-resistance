@@ -1,1 +1,2 @@
-export { default as BuildMissionTeam } from "./BuildMissionTeam.component";
+export * from "./BuildMissionTeam";
+export * from "./MissionLeader";

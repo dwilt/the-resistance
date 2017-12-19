@@ -67,7 +67,7 @@ class Game extends Component {
     render() {
         const userId = firebase.auth().currentUser.uid;
 
-        const { gameId, gameCode } = this.props;
+        const { gameId, gameCode} = this.props;
 
         const {
             players,
@@ -86,7 +86,8 @@ class Game extends Component {
             leader,
         } = currentMission;
 
-        const { isSpy, confirmedIdentity } = players.find((player) => player.id === userId) || {};
+        const { isSpy, confirmedIdentity } =
+            players.find((player) => player.id === userId) || {};
         const isLeader = leader === userId;
 
         let gameScene = null;
@@ -122,6 +123,7 @@ class Game extends Component {
 
             case gameStates.BUILD_MISSION_TEAM: {
                 const { members, filled } = proposedTeam;
+                const leader = players.find(({ id }) => id === host);
 
                 gameScene = (
                     <BuildMissionTeam
@@ -130,6 +132,7 @@ class Game extends Component {
                         gameId={gameId}
                         members={members}
                         filled={filled}
+                        leader={leader.name}
                     />
                 );
                 break;

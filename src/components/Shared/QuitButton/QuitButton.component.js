@@ -1,10 +1,10 @@
 import React, { PureComponent } from "react";
 
-import { ActionButton } from "/components/index";
+import { ActionButton } from "components";
 
 import PropTypes from "prop-types";
 
-import { firebase } from "/services/index";
+import { firebase } from "services";
 import { Actions } from "react-native-router-flux";
 import { fireFetch } from "../../../services";
 

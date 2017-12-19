@@ -1,27 +1,28 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { Switch } from "react-native";
+import { Switch } from 'react-native';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { fireFetch } from "/services";
-import { View } from "react-native";
+import { fireFetch } from 'services';
+import { View } from 'react-native';
 
-import { ActionButton, Text } from "components";
+import { ActionButton, Text, MissionLeader } from 'components';
 
-import styles from "./BuildMissionTeam.styles";
+import styles from './BuildMissionTeam.styles';
 
 class BuildMissionTeam extends Component {
     static propTypes = {
         members: PropTypes.arrayOf(PropTypes.string).isRequired,
         filled: PropTypes.bool.isRequired,
+        leader: PropTypes.string.isRequired,
         gameId: PropTypes.string.isRequired,
         isLeader: PropTypes.bool.isRequired,
         players: PropTypes.arrayOf(
             PropTypes.shape({
                 id: PropTypes.string.isRequired,
                 name: PropTypes.string.isRequired,
-            })
+            }),
         ).isRequired,
     };
 
@@ -52,7 +53,7 @@ class BuildMissionTeam extends Component {
                 members: selected
                     ? [...members, userId]
                     : members.filter(
-                          (missionMemberId) => missionMemberId !== userId
+                          (missionMemberId) => missionMemberId !== userId,
                       ),
             });
 
@@ -93,7 +94,13 @@ class BuildMissionTeam extends Component {
     };
 
     render() {
-        const { players, isLeader, filled, members: propsMembers } = this.props;
+        const {
+            players,
+            isLeader,
+            filled,
+            members: propsMembers,
+            leader,
+        } = this.props;
 
         const { isConfirming, members: stateMembers } = this.state;
 
@@ -113,6 +120,7 @@ class BuildMissionTeam extends Component {
 
         return (
             <View style={styles.container}>
+                <MissionLeader leader={leader} />
                 {players.map(({ name, id }) => {
                     const selected = members.indexOf(id) !== -1;
                     const disabled = isSyncing || (filled && !selected);
