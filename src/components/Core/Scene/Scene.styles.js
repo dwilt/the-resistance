@@ -8,6 +8,7 @@ import {
 
 export default StyleSheet.create({
     container: {
+        flex: 1,
         position: `relative`,
         paddingTop: statusBarHeight
     },
@@ -19,4 +20,7 @@ export default StyleSheet.create({
         height: windowHeight,
         resizeMode: `cover`,
     },
+    innerContainer: {
+        flex: 1
+    }
 });

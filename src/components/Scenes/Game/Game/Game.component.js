@@ -86,7 +86,7 @@ class Game extends Component {
             leader,
         } = currentMission;
 
-        const { isSpy } = players.find((player) => player.id === userId) || {};
+        const { isSpy, confirmedIdentity } = players.find((player) => player.id === userId) || {};
         const isLeader = leader === userId;
 
         let gameScene = null;
@@ -105,8 +105,17 @@ class Game extends Component {
             }
 
             case gameStates.PLAYER_IDENTITY_REVEAL: {
+                const spies = players
+                    .filter(({ isSpy }) => isSpy)
+                    .map(({ name }) => name);
+
                 gameScene = (
-                    <PlayerIdentityReveal isSpy={isSpy} gameId={gameId} />
+                    <PlayerIdentityReveal
+                        spies={spies}
+                        isSpy={isSpy}
+                        gameId={gameId}
+                        confirmedIdentity={confirmedIdentity}
+                    />
                 );
                 break;
             }

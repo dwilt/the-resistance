@@ -22,7 +22,7 @@ export default class Scene extends PureComponent {
                     style={styles.bg}
                     source={require(`../../../assets/images/blur-bg.png`)}
                 />
-                <View>
+                <View style={styles.innerContainer}>
                     {children}
                 </View>
             </View>
