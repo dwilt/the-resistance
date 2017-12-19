@@ -4,9 +4,7 @@ import {
     getUniversalFont,
     centerChildren,
     gutter,
-    white,
     yellow,
-    windowWidth,
 } from 'styles';
 
 const cardWidth = 100;

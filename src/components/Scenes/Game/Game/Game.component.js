@@ -114,7 +114,7 @@ class Game extends Component {
                         spies={spies}
                         isSpy={isSpy}
                         gameId={gameId}
-                        confirmedIdentity={confirmedIdentity}
+                        confirmedIdentity={!!confirmedIdentity}
                     />
                 );
                 break;
