@@ -8,14 +8,11 @@ export default StyleSheet.create({
     player: {
         flexDirection: `row`,
         alignItems: `center`,
-        borderBottomWidth: 1,
-        borderBottomColor: white,
-        paddingTop: gutter / 2,
-        paddingBottom: gutter / 2,
+        paddingBottom: gutter * 0.75,
     },
     userIcon: {
-        width: gutter * 2,
-        height: gutter * 2,
+        width: gutter * 1.5,
+        height: gutter * 1.5,
         marginRight: gutter,
     },
     name: {

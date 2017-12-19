@@ -3,12 +3,8 @@ import { StyleSheet } from 'react-native';
 import { getUniversalFont, white, openSans, gutter } from 'styles';
 
 export default StyleSheet.create({
-    container: {
-        paddingTop: gutter,
-        paddingBottom: gutter,
-    },
     title: {
-        ...getUniversalFont(1.5),
+        ...getUniversalFont(1),
         color: white,
         textAlign: `center`,
         marginBottom: gutter / 2,

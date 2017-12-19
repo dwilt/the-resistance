@@ -35,19 +35,19 @@ let initFontSize;
 
 switch (viewSize) {
     case largePhone:
-        initFontSize = 20;
+        initFontSize = 16;
         break;
 
     case tablet:
-        initFontSize = 22;
+        initFontSize = 18;
         break;
 
     case largeTablet:
-        initFontSize = 24;
+        initFontSize = 20;
         break;
 
     default:
-        initFontSize = 18;
+        initFontSize = 14;
 }
 
 export const baseFontSize = initFontSize;
