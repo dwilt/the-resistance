@@ -1,15 +1,15 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { Alert } from "react-native";
+import { Alert } from 'react-native';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { ActionButton, Text } from "components";
+import { ActionButton, Text } from 'components';
 
-import { fireFetch } from "/services";
-import { View } from "react-native";
-import styles from "./ConductMission.styles";
-import { firebase } from "/services";
+import { fireFetch } from '/services';
+import { View } from 'react-native';
+import styles from './ConductMission.styles';
+import { firebase } from '/services';
 
 class ConductMission extends Component {
     static propTypes = {

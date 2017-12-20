@@ -1,1 +1,1 @@
-export { default as MissionOutcome } from "./MissionOutcome.component";
+export { default as MissionOutcome } from './MissionOutcome.component';

@@ -1,1 +1,1 @@
-export { default as MissionLeader } from "./MissionLeader.component";
+export { default as MissionLeader } from './MissionLeader.component';

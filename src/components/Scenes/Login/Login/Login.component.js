@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { KeyboardAvoidingView, View, Image } from "react-native";
+import { KeyboardAvoidingView, View, Image } from 'react-native';
 
 import {
     DismissKeyboardView,
@@ -8,11 +8,11 @@ import {
     TextInput,
     ActionButton,
     TextButton,
-} from "components";
+} from 'components';
 
-import { firebase, db } from "/services";
+import { firebase, db } from '/services';
 
-import styles from "./Login.styles";
+import styles from './Login.styles';
 
 class Login extends Component {
     state = {

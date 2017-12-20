@@ -1,12 +1,12 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
-import { ActionButton } from "components";
+import { ActionButton } from 'components';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { firebase } from "services";
-import { Actions } from "react-native-router-flux";
-import { fireFetch } from "../../../services";
+import { firebase } from 'services';
+import { Actions } from 'react-native-router-flux';
+import { fireFetch } from '../../../services';
 
 export default class QuitButton extends PureComponent {
     static propTypes = {

@@ -1,1 +1,1 @@
-export { default as MissionTeamVote } from "./MissionTeamVote.component";
+export { default as MissionTeamVote } from './MissionTeamVote.component';

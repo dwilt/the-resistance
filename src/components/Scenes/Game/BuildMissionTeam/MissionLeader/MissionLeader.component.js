@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Text } from "components";
+import { Text } from 'components';
 
-import { View } from "react-native";
-import styles from "./MissionLeader.styles";
+import { View } from 'react-native';
+import styles from './MissionLeader.styles';
 
 class MissionLeader extends Component {
     static propTypes = {

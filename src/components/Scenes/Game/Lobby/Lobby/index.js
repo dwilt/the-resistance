@@ -1,1 +1,1 @@
-export { default as Lobby } from "./Lobby.component";
+export { default as Lobby } from './Lobby.component';

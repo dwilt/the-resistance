@@ -1,1 +1,1 @@
-export { default as Completed } from "./Completed.component";
+export { default as Completed } from './Completed.component';

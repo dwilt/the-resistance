@@ -1,1 +1,1 @@
-export { default as TextButton } from "./TextButton.component";
+export { default as TextButton } from './TextButton.component';

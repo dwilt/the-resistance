@@ -1,8 +1,8 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
-import { ActionButton } from "components";
+import { ActionButton } from 'components';
 
-import { firebase } from "services";
+import { firebase } from 'services';
 
 export default class LogoutButton extends PureComponent {
     logout = async () => {

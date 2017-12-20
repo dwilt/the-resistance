@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { ActionButton, Text } from "components";
+import { ActionButton, Text } from 'components';
 
-import { fireFetch } from "/services";
-import { View } from "react-native";
-import styles from "./MissionTeamVoteOutcome.styles";
+import { fireFetch } from '/services';
+import { View } from 'react-native';
+import styles from './MissionTeamVoteOutcome.styles';
 
 class MissionTeamVoteOutcome extends Component {
     static propTypes = {

@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
-import { gutter, centerChildren, minTouchSize } from "styles";
+import { gutter, centerChildren, minTouchSize } from 'styles';
 
 export default StyleSheet.create({
     button: {

@@ -1,2 +1,2 @@
-export * from "./LogoutButton";
-export * from "./QuitButton";
+export * from './LogoutButton';
+export * from './QuitButton';
