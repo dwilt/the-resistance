@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 import {
     getUniversalFont,
@@ -9,8 +9,8 @@ import {
     minTouchSize,
     yellow,
     teal,
-    openSans
-} from "styles";
+    openSans,
+} from 'styles';
 
 export default StyleSheet.create({
     container: {
@@ -48,6 +48,6 @@ export default StyleSheet.create({
         ...getUniversalFont(1.2, 1.2),
         color: white,
         textAlign: `center`,
-        fontFamily: openSans.bold
+        fontFamily: openSans.bold,
     },
 });

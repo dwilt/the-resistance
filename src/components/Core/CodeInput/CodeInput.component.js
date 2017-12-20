@@ -4,10 +4,7 @@ import PropTypes from 'prop-types';
 
 import { Text } from 'components';
 
-import {
-    TextInput as RNTextInput,
-    View,
-} from 'react-native';
+import { TextInput as RNTextInput, View } from 'react-native';
 
 import styles from './CodeInput.styles';
 

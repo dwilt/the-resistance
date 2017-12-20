@@ -1,16 +1,12 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
-import {
-    windowHeight,
-    windowWidth,
-    statusBarHeight
-} from "styles";
+import { windowHeight, windowWidth, statusBarHeight } from 'styles';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
         position: `relative`,
-        paddingTop: statusBarHeight
+        paddingTop: statusBarHeight,
     },
     bg: {
         position: `absolute`,
@@ -21,6 +17,6 @@ export default StyleSheet.create({
         resizeMode: `cover`,
     },
     innerContainer: {
-        flex: 1
-    }
+        flex: 1,
+    },
 });

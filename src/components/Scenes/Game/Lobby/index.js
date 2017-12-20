@@ -1,3 +1,3 @@
-export * from "./GameCode";
-export * from "./Lobby";
-export * from "./PlayersList";
+export * from './GameCode';
+export * from './Lobby';
+export * from './PlayersList';

@@ -3,8 +3,7 @@ import { StyleSheet } from 'react-native';
 import { getUniversalFont, white, openSans, gutter } from 'styles';
 
 export default StyleSheet.create({
-    container: {
-    },
+    container: {},
     player: {
         flexDirection: `row`,
         alignItems: `center`,
@@ -18,6 +17,6 @@ export default StyleSheet.create({
     name: {
         ...getUniversalFont(1),
         color: white,
-        fontFamily: openSans.bold
+        fontFamily: openSans.bold,
     },
 });

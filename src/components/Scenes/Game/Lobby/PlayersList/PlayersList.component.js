@@ -1,18 +1,20 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Text } from "components";
+import { Text } from 'components';
 
-import { Image, View } from "react-native";
-import styles from "./PlayersList.styles";
+import { Image, View } from 'react-native';
+import styles from './PlayersList.styles';
 
 class PlayersList extends Component {
     static propTypes = {
-        players: PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-        })).isRequired,
+        players: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.string.isRequired,
+                name: PropTypes.string.isRequired,
+            }),
+        ).isRequired,
     };
 
     render() {

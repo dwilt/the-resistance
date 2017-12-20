@@ -1,9 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
-import {
-    gutter,
-    getUniversalFont,
-} from "styles";
+import { gutter, getUniversalFont } from 'styles';
 
 export default StyleSheet.create({
     players: {
@@ -13,6 +10,6 @@ export default StyleSheet.create({
         ...getUniversalFont(1.5),
     },
     waitingForHost: {
-        textAlign: `center`
-    }
+        textAlign: `center`,
+    },
 });

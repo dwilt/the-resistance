@@ -1,11 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import {
-    getUniversalFont,
-    centerChildren,
-    gutter,
-    yellow,
-} from 'styles';
+import { getUniversalFont, centerChildren, gutter, yellow } from 'styles';
 
 const cardWidth = 100;
 
@@ -16,7 +11,7 @@ export default StyleSheet.create({
         padding: gutter,
     },
     innerContainer: {
-        ...centerChildren(true)
+        ...centerChildren(true),
     },
     title: {
         ...getUniversalFont(1.5),
@@ -26,7 +21,7 @@ export default StyleSheet.create({
     subtitle: {
         ...getUniversalFont(1, 1.2),
         marginBottom: gutter * 2,
-        textAlign:`center`
+        textAlign: `center`,
     },
     identityCard: {
         width: 100,

@@ -1,17 +1,17 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Text } from "components";
+import { Text } from 'components';
 
 import {
     TextInput as RNTextInput,
     TouchableOpacity,
     ViewPropTypes,
     View,
-} from "react-native";
+} from 'react-native';
 
-import styles, { toggleIconSize, toggleIconColor } from "./TextInput.styles";
+import styles, { toggleIconSize, toggleIconColor } from './TextInput.styles';
 
 export default class TextInput extends PureComponent {
     static propTypes = {
@@ -57,12 +57,7 @@ export default class TextInput extends PureComponent {
     }
 
     render() {
-        const {
-            style,
-            multiline,
-            label,
-            inputStyle,
-        } = this.props;
+        const { style, multiline, label, inputStyle } = this.props;
         const { showPassword } = this.state;
 
         const inputStyles = [styles.input];

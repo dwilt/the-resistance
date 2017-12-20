@@ -7,7 +7,7 @@ import { ActionButton, Text } from 'components';
 import { firebase, fireFetch } from '/services';
 import { Image, View } from 'react-native';
 import styles from './PlayerIdentityReveal.styles';
-import { viewSize } from "../../../../styles";
+import { viewSize } from '../../../../styles';
 
 const spyCard = require(`../../../../assets/images/spy-card.png`);
 const allyCard = require(`../../../../assets/images/ally-card.png`);
@@ -53,12 +53,10 @@ class PlayerIdentityReveal extends Component {
     };
 
     render() {
-        const { isSpy, spies,confirmedIdentity } = this.props;
+        const { isSpy, spies, confirmedIdentity } = this.props;
         const { isConfirming, showingIdentity } = this.state;
 
-        let content =(
-            <Text>{`Waiting for other players...`}</Text>
-        )
+        let content = <Text>{`Waiting for other players...`}</Text>;
 
         if (!confirmedIdentity) {
             const identityText = isSpy ? `You're a spy!` : `You're an ally!`;
@@ -70,10 +68,12 @@ class PlayerIdentityReveal extends Component {
             let subtitleText =
                 isSpy && showingIdentity
                     ? spies.reduce(
-                    (currentText, spy, i) =>
-                        i === spies.length - 1 ? `${currentText} and ${spy}` : `${currentText} ${spy}, `,
-                    `You’re working with `,
-                    )
+                          (currentText, spy, i) =>
+                              i === spies.length - 1
+                                  ? `${currentText} and ${spy}`
+                                  : `${currentText} ${spy}, `,
+                          `You’re working with `,
+                      )
                     : `Remember to keep this hidden at all times!`;
 
             const card = isSpy ? spyCard : allyCard;
@@ -95,21 +95,17 @@ class PlayerIdentityReveal extends Component {
                 </ActionButton>
             );
 
-            content =(
+            content = (
                 <View style={styles.innerContainer}>
                     <Text style={styles.title}>{titleText}</Text>
                     {identityCard}
                     <Text style={styles.subtitle}>{subtitleText}</Text>
                     {buttonEl}
                 </View>
-            )
+            );
         }
 
-        return (
-            <View style={styles.container}>
-                {content}
-            </View>
-        );
+        return <View style={styles.container}>{content}</View>;
     }
 }
 

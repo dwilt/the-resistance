@@ -64,7 +64,9 @@ class Lobby extends Component {
         );
 
         const waitingForHost = !isHost && (
-            <Text style={styles.waitingForHost}>{`Waiting for host to start the game...`}</Text>
+            <Text
+                style={styles.waitingForHost}
+            >{`Waiting for host to start the game...`}</Text>
         );
 
         return (

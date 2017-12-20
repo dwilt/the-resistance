@@ -1,18 +1,20 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Text } from "components";
+import { Text } from 'components';
 
-import { Switch, View } from "react-native";
-import styles from "./ProposedMissionMembersList.styles";
+import { Switch, View } from 'react-native';
+import styles from './ProposedMissionMembersList.styles';
 
 class ProposedMissionMembersList extends Component {
     static propTypes = {
-        players: PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-        })).isRequired,
+        players: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.string.isRequired,
+                name: PropTypes.string.isRequired,
+            }),
+        ).isRequired,
         filled: PropTypes.bool.isRequired,
         isLeader: PropTypes.bool.isRequired,
         isSyncing: PropTypes.bool.isRequired,
@@ -20,7 +22,13 @@ class ProposedMissionMembersList extends Component {
     };
 
     render() {
-        const { players, isLeader, isSyncing, onPlayerSelectChange, filled } = this.props;
+        const {
+            players,
+            isLeader,
+            isSyncing,
+            onPlayerSelectChange,
+            filled,
+        } = this.props;
 
         const playersStyles = [styles.players];
 
@@ -43,17 +51,17 @@ class ProposedMissionMembersList extends Component {
                     const namePrefix = !isLeader ? `${i + 1}. ` : ``;
 
                     return (
-                        <View key={id} style={[ styles.player, styles.leaderPlayer ]}>
+                        <View
+                            key={id}
+                            style={[styles.player, styles.leaderPlayer]}
+                        >
                             {isLeader ? (
                                 <View style={styles.switchContainer}>
                                     <Switch
                                         disabled={disabled}
                                         value={selected}
                                         onValueChange={(value) =>
-                                            onPlayerSelectChange(
-                                                id,
-                                                value,
-                                            )
+                                            onPlayerSelectChange(id, value)
                                         }
                                     />
                                 </View>

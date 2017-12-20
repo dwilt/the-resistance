@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 import {
     getUniversalFont,
@@ -6,22 +6,21 @@ import {
     gutter,
     white,
     windowWidth,
-    openSans
-} from "styles";
+    openSans,
+} from 'styles';
 
 export default StyleSheet.create({
-    container: {
-    },
+    container: {},
     leaderInstructionsContainer: {
         padding: gutter,
     },
     leaderInstructionsTextContainer: {
-        textAlign: `center`
+        textAlign: `center`,
     },
     leaderInstructions: {
         ...getUniversalFont(1.2, 1.4),
     },
     missionMembersCount: {
-        fontFamily: openSans.bold
+        fontFamily: openSans.bold,
     },
 });

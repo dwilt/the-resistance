@@ -1,12 +1,10 @@
-import { Platform } from "react-native";
+import { Platform } from 'react-native';
 
-import { gutter, viewSizes, viewSize } from "./structure";
+import { gutter, viewSizes, viewSize } from './structure';
 
 export const minTouchSize = gutter * 4;
 
-import {
-    openSans
-} from './fonts';
+import { openSans } from './fonts';
 
 export const centerChildren = (vertically = false) => ({
     flexDirection: vertically ? `column` : `row`,

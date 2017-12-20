@@ -30,7 +30,7 @@ class Game extends Component {
         isQuitting: false,
         players: [],
         roundNumber: 1,
-        currentMission: {}
+        currentMission: {},
     };
 
     async componentDidMount() {
@@ -55,7 +55,7 @@ class Game extends Component {
             .collection(`completedMissions`)
             .onSnapshot(({ docs }) => {
                 this.setState({
-                    roundNumber: docs.length + 1
+                    roundNumber: docs.length + 1,
                 });
             });
 
@@ -79,7 +79,7 @@ class Game extends Component {
     render() {
         const userId = firebase.auth().currentUser.uid;
 
-        const { gameId, gameCode} = this.props;
+        const { gameId, gameCode } = this.props;
 
         const {
             players,
@@ -136,7 +136,9 @@ class Game extends Component {
 
             case gameStates.BUILD_MISSION_TEAM: {
                 const { members, filled } = proposedTeam;
-                const { name: leaderName } = players.find(({ id }) => id === leaderId);
+                const { name: leaderName } = players.find(
+                    ({ id }) => id === leaderId,
+                );
 
                 gameScene = (
                     <BuildMissionTeam

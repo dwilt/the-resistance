@@ -1,1 +1,3 @@
-export { default as ProposedMissionMembersList } from "./ProposedMissionMembersList.component";
+export {
+    default as ProposedMissionMembersList,
+} from './ProposedMissionMembersList.component';

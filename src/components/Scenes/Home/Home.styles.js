@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 import {
     getUniversalFont,
@@ -7,12 +7,12 @@ import {
     white,
     windowWidth,
     darkGray,
-} from "styles";
+} from 'styles';
 
 export default StyleSheet.create({
     container: {
         ...centerChildren(true),
-        padding: gutter
+        padding: gutter,
     },
     join: {
         paddingBottom: gutter * 2,
@@ -20,6 +20,6 @@ export default StyleSheet.create({
     },
     joinCodeInput: {
         ...centerChildren(),
-        marginBottom: gutter
-    }
+        marginBottom: gutter,
+    },
 });

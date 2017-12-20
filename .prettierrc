@@ -2,6 +2,8 @@
   "tabWidth": 4,
   "semi": true,
   "arrow-parens": "always",
+  "singleQuote": true,
+  "trailingComma": "all",
   "overrides": [
     {
       "files": ".prettierrc",

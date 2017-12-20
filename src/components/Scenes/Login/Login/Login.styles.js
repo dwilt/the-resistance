@@ -9,5 +9,5 @@ export default StyleSheet.create({
     },
     wrapper: {
         ...centerChildren(true),
-    }
+    },
 });

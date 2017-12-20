@@ -4,10 +4,10 @@ import {
     getSpyCount,
     singleMissionFailedMissionTeamsLimit,
     totalRounds,
-    victoryTypes
-} from "./gameStructure";
+    victoryTypes,
+} from './gameStructure';
 
-import { sampleSize, difference } from "lodash";
+import { sampleSize, difference } from 'lodash';
 
 import {
     addCompletedMission,
@@ -22,8 +22,8 @@ import {
     getPlayers,
     getUser,
     updateGame,
-    updatePlayer
-} from "./helpers/firestore";
+    updatePlayer,
+} from './helpers/firestore';
 
 export async function joinGame({ userId, gameCode }) {
     const game = await getOpenGameByCode(parseInt(gameCode));
@@ -40,12 +40,12 @@ export async function joinGame({ userId, gameCode }) {
         }
 
         return {
-            gameId
+            gameId,
         };
     } else {
         return Promise.reject({
             code: `GAME_DOES_NOT_EXIST`,
-            message: `No open game exists with that code`
+            message: `No open game exists with that code`,
         });
     }
 }
@@ -67,14 +67,14 @@ export async function createGame({ userId }) {
     await addGame({
         gameCode,
         host: userId,
-        state: gameStates.LOBBY
+        state: gameStates.LOBBY,
     });
 
     const { gameId } = await joinGame({ userId, gameCode });
 
     return {
         gameCode,
-        gameId
+        gameId,
     };
 }
 
@@ -86,20 +86,20 @@ export async function startGame({ gameId }) {
     await Promise.all([
         ...players.map((player) =>
             updatePlayer(gameId, player.id, {
-                isSpy: spies.indexOf(player) !== -1
-            })
-        )
+                isSpy: spies.indexOf(player) !== -1,
+            }),
+        ),
     ]);
 
     return updateGame(gameId, {
-        state: gameStates.PLAYER_IDENTITY_REVEAL
+        state: gameStates.PLAYER_IDENTITY_REVEAL,
     });
 }
 
 export async function buildNewMissionTeam({ gameId }) {
     const [game, players] = await Promise.all([
         getGame(gameId),
-        getPlayers(gameId)
+        getPlayers(gameId),
     ]);
 
     const playersIds = players.map(({ id }) => id);
@@ -117,19 +117,19 @@ export async function buildNewMissionTeam({ gameId }) {
         state: gameStates.BUILD_MISSION_TEAM,
         previousLeaders: newPreviousLeaders,
         currentMission: {
-            leader
-        }
+            leader,
+        },
     });
 }
 
 export async function confirmPlayerIdentity({ gameId, userId }) {
     await updatePlayer(gameId, userId, {
-        confirmedIdentity: true
+        confirmedIdentity: true,
     });
 
     const players = await getPlayers(gameId);
     const unconfirmedPlayers = players.filter(
-        ({ confirmedIdentity }) => !confirmedIdentity
+        ({ confirmedIdentity }) => !confirmedIdentity,
     );
 
     if (!unconfirmedPlayers.length) {
@@ -142,7 +142,7 @@ async function adjustProposedMissionTeam({ gameId, userId, add = true }) {
     const [game, players = [], completedMissions = []] = await Promise.all([
         getGame(gameId),
         getPlayers(gameId),
-        getCompletedMissions(gameId)
+        getCompletedMissions(gameId),
     ]);
 
     const { currentMission = {} } = game;
@@ -162,7 +162,7 @@ async function adjustProposedMissionTeam({ gameId, userId, add = true }) {
 
     await updateGame(gameId, {
         [`currentMission.proposedTeam.members`]: updatedProposedMissionTeam,
-        [`currentMission.proposedTeam.filled`]: filled
+        [`currentMission.proposedTeam.filled`]: filled,
     });
 }
 
@@ -176,7 +176,7 @@ export async function addPlayerToMissionTeam({ gameId, userId }) {
 
 export async function confirmSelectedMissionTeam({ gameId }) {
     return updateGame(gameId, {
-        state: gameStates.MISSION_TEAM_VOTE
+        state: gameStates.MISSION_TEAM_VOTE,
     });
 }
 
@@ -184,11 +184,11 @@ export async function confirmSelectedMissionTeam({ gameId }) {
 export async function submitProposedMissionTeamApproval({
     gameId,
     userId,
-    approves
+    approves,
 }) {
     const [players, game] = await Promise.all([
         getPlayers(gameId),
-        getGame(gameId)
+        getGame(gameId),
     ]);
 
     const { currentMission } = game;
@@ -203,14 +203,14 @@ export async function submitProposedMissionTeamApproval({
         players.length;
 
     await updateGame(gameId, {
-        [`currentMission.missionTeamVotes`]: currentMission.missionTeamVotes
+        [`currentMission.missionTeamVotes`]: currentMission.missionTeamVotes,
     });
 }
 
 export async function revealProposedMissionTeamVote({ gameId }) {
     const [players, game] = await Promise.all([
         getPlayers(gameId),
-        getGame(gameId)
+        getGame(gameId),
     ]);
 
     const {
@@ -218,8 +218,8 @@ export async function revealProposedMissionTeamVote({ gameId }) {
             missionTeamVotes,
             leader,
             proposedTeam,
-            failedTeams = []
-        }
+            failedTeams = [],
+        },
     } = game;
 
     const totalPlayers = players.length;
@@ -246,19 +246,19 @@ export async function revealProposedMissionTeamVote({ gameId }) {
 
     const updatedGame = {
         state: gameStates.MISSION_TEAM_VOTE_OUTCOME,
-        [`currentMission.missionTeamVotes.approved`]: approved
+        [`currentMission.missionTeamVotes.approved`]: approved,
     };
 
     if (!approved) {
         const failedTeam = {
             leader,
             proposedTeam,
-            missionTeamVotes
+            missionTeamVotes,
         };
 
         updatedGame[`currentMission.failedTeams`] = [
             ...failedTeams,
-            failedTeam
+            failedTeam,
         ];
 
         if (failedTeams.length >= singleMissionFailedMissionTeamsLimit - 1) {
@@ -282,32 +282,32 @@ export async function conductMission({ gameId }) {
 
     await updateGame(gameId, {
         state: gameStates.CONDUCT_MISSION,
-        [`currentMission.missionTeam`]: missionTeam
+        [`currentMission.missionTeam`]: missionTeam,
     });
 }
 
 export async function submitMissionSuccess({ gameId, userId, succeeds }) {
     const game = await updateGame(gameId, {
-        [`currentMission.missionTeam.${userId}`]: succeeds
+        [`currentMission.missionTeam.${userId}`]: succeeds,
     });
 
     const { currentMission = {} } = game;
     const { missionTeam = {} } = currentMission;
 
     const nonVoters = Object.keys(missionTeam).filter(
-        (userId) => missionTeam[userId] === null
+        (userId) => missionTeam[userId] === null,
     );
 
     if (!nonVoters.length) {
         const [completedMissions, players] = await Promise.all([
             getCompletedMissions(gameId),
-            getPlayers(gameId)
+            getPlayers(gameId),
         ]);
 
         const totalPlayers = players.length;
         const roundNumber = completedMissions.length;
         const failedVotes = Object.keys(missionTeam).filter(
-            (userId) => !missionTeam[userId]
+            (userId) => !missionTeam[userId],
         );
 
         const failed =
@@ -322,7 +322,7 @@ export async function submitMissionSuccess({ gameId, userId, succeeds }) {
         const majority = Math.floor(totalRounds / 2);
 
         const failedMissions = completedMissions.filter(
-            ({ passed }) => !passed
+            ({ passed }) => !passed,
         );
         const passedMissions = completedMissions.filter(({ passed }) => passed);
 
@@ -336,12 +336,12 @@ export async function submitMissionSuccess({ gameId, userId, succeeds }) {
 
             await updateGame(gameId, {
                 state: gameStates.COMPLETED,
-                victoryType
+                victoryType,
             });
         } else {
             await updateGame(gameId, {
                 state: gameStates.MISSION_OUTCOME,
-                [`currentMission.passed`]: !failed
+                [`currentMission.passed`]: !failed,
             });
         }
     }

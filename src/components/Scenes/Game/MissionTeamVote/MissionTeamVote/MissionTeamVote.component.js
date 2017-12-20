@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { ActionButton, Text, ProposedMissionMembersList } from "components";
+import { ActionButton, Text, ProposedMissionMembersList } from 'components';
 
-import { firebase, fireFetch } from "/services/index";
-import { View } from "react-native";
-import styles from "./MissionTeamVote.styles";
+import { firebase, fireFetch } from '/services/index';
+import { View } from 'react-native';
+import styles from './MissionTeamVote.styles';
 
 class MissionTeamVote extends Component {
     static propTypes = {
@@ -18,7 +18,7 @@ class MissionTeamVote extends Component {
             PropTypes.shape({
                 id: PropTypes.string.isRequired,
                 name: PropTypes.string.isRequired,
-            })
+            }),
         ).isRequired,
     };
 
@@ -123,9 +123,7 @@ class MissionTeamVote extends Component {
 
         return (
             <View style={styles.container}>
-                <ProposedMissionMembersList
-                    players={proposedTeamMembers}
-                />
+                <ProposedMissionMembersList players={proposedTeamMembers} />
                 {submittedText}
                 {waitingForOthersText}
                 {approveButton}

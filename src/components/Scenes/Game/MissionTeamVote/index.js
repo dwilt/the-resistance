@@ -1,1 +1,1 @@
-export * from "./MissionTeamVote";
+export * from './MissionTeamVote';

@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform } from 'react-native';
 
 import {
     gutter,
@@ -10,8 +10,8 @@ import {
     minTouchSize,
     centerChildren,
     black,
-    openSans
-} from "styles";
+    openSans,
+} from 'styles';
 
 const inputFontSize = baseFontSize;
 export const toggleIconSize = gutter * 1.5;
@@ -54,5 +54,5 @@ export default StyleSheet.create({
         alignItems: `center`,
         flexDirection: `row`,
         borderRadius: 5,
-    }
+    },
 });

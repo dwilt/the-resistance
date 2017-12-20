@@ -1,10 +1,10 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
-import styles from "./Scene.styles";
+import styles from './Scene.styles';
 
-import { Image, View } from "react-native";
+import { Image, View } from 'react-native';
 
 export default class Scene extends PureComponent {
     static propTypes = {
@@ -12,9 +12,7 @@ export default class Scene extends PureComponent {
     };
 
     render() {
-        const {
-            children,
-        } = this.props;
+        const { children } = this.props;
 
         return (
             <View style={styles.container}>
@@ -22,9 +20,7 @@ export default class Scene extends PureComponent {
                     style={styles.bg}
                     source={require(`../../../assets/images/blur-bg.png`)}
                 />
-                <View style={styles.innerContainer}>
-                    {children}
-                </View>
+                <View style={styles.innerContainer}>{children}</View>
             </View>
         );
     }
