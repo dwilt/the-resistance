@@ -1,3 +1,3 @@
 export * from "./BuildMissionTeam";
 export * from "./MissionLeader";
-export * from "./MissionMembersList";
+export * from "./ProposedMissionMembersList";

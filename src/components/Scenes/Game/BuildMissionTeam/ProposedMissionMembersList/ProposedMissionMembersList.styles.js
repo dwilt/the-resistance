@@ -20,6 +20,9 @@ export default StyleSheet.create({
         flexDirection: `row`,
         alignItems: `center`,
     },
+    leaderPlayer: {
+        marginBottom: gutter,
+    },
     switchContainer: {
         marginRight: gutter / 2,
     },

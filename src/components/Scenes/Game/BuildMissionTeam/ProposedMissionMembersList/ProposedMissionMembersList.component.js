@@ -5,22 +5,22 @@ import PropTypes from "prop-types";
 import { Text } from "components";
 
 import { Switch, View } from "react-native";
-import styles from "./MissionMembersList.styles";
+import styles from "./ProposedMissionMembersList.styles";
 
-class MissionMembersList extends Component {
+class ProposedMissionMembersList extends Component {
     static propTypes = {
-        isSyncing: PropTypes.bool.isRequired,
-        filled: PropTypes.bool.isRequired,
-        isLeader: PropTypes.bool.isRequired,
         players: PropTypes.arrayOf(PropTypes.shape({
             id: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
         })).isRequired,
+        filled: PropTypes.bool.isRequired,
+        isLeader: PropTypes.bool.isRequired,
+        isSyncing: PropTypes.bool.isRequired,
         onPlayerSelectChange: PropTypes.func.isRequired,
     };
 
     render() {
-        const { players, isSyncing, filled, isLeader, onPlayerSelectChange } = this.props;
+        const { players, isLeader, isSyncing, onPlayerSelectChange, filled } = this.props;
 
         const playersStyles = [styles.players];
 
@@ -30,7 +30,7 @@ class MissionMembersList extends Component {
 
         return (
             <View style={playersStyles}>
-                {players.map(({ name, id, selected }) => {
+                {players.map(({ name, id, selected }, i) => {
                     const disabled = isSyncing || (filled && !selected);
                     const selectedText = selected &&
                         !isLeader && <Text>{`(selected)`}</Text>;
@@ -40,8 +40,10 @@ class MissionMembersList extends Component {
                         playerNameStyles.push(styles.boldName);
                     }
 
+                    const namePrefix = !isLeader ? `${i + 1}. ` : ``;
+
                     return (
-                        <View style={styles.player} key={id}>
+                        <View key={id} style={[ styles.player, styles.leaderPlayer ]}>
                             {isLeader ? (
                                 <View style={styles.switchContainer}>
                                     <Switch
@@ -56,7 +58,9 @@ class MissionMembersList extends Component {
                                     />
                                 </View>
                             ) : null}
-                            <Text style={playerNameStyles}>{name}</Text>
+                            <Text style={playerNameStyles}>
+                                {`${namePrefix}${name}`}
+                            </Text>
                             {selectedText}
                         </View>
                     );
@@ -66,4 +70,4 @@ class MissionMembersList extends Component {
     }
 }
 
-export default MissionMembersList;
+export default ProposedMissionMembersList;

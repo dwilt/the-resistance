@@ -6,12 +6,11 @@ import {
     gutter,
     white,
     windowWidth,
-} from "styles";
+} from "styles/index";
 
 export default StyleSheet.create({
     container: {
-        paddingTop: 60,
-        backgroundColor: white,
+        padding: gutter,
     },
     title: {
         ...getUniversalFont(1.5),

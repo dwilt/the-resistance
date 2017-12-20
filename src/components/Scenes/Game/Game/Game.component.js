@@ -29,7 +29,8 @@ class Game extends Component {
         state: gameStates.LOBBY,
         isQuitting: false,
         players: [],
-        roundNumber: 1
+        roundNumber: 1,
+        currentMission: {}
     };
 
     async componentDidMount() {
@@ -53,7 +54,6 @@ class Game extends Component {
             .doc(gameId)
             .collection(`completedMissions`)
             .onSnapshot(({ docs }) => {
-                console.log('disd', docs);
                 this.setState({
                     roundNumber: docs.length + 1
                 });
@@ -84,7 +84,7 @@ class Game extends Component {
         const {
             players,
             host,
-            currentMission = {},
+            currentMission,
             victoryType,
             state,
             roundNumber,
@@ -96,12 +96,12 @@ class Game extends Component {
             missionTeamVotes = {},
             proposedTeam = {},
             missionTeam = {},
-            leader,
+            leader: leaderId,
         } = currentMission;
 
         const { isSpy, confirmedIdentity } =
             players.find((player) => player.id === userId) || {};
-        const isLeader = leader === userId;
+        const isLeader = leaderId === userId;
 
         let gameScene = null;
 
@@ -136,7 +136,7 @@ class Game extends Component {
 
             case gameStates.BUILD_MISSION_TEAM: {
                 const { members, filled } = proposedTeam;
-                const leader = players.find(({ id }) => id === host);
+                const { name: leaderName } = players.find(({ id }) => id === leaderId);
 
                 gameScene = (
                     <BuildMissionTeam
@@ -145,7 +145,7 @@ class Game extends Component {
                         gameId={gameId}
                         members={members}
                         filled={filled}
-                        leader={leader.name}
+                        leader={leaderName}
                         roundNumber={roundNumber}
                     />
                 );

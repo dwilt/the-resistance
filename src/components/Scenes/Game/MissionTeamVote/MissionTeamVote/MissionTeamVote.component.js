@@ -2,9 +2,9 @@ import React, { Component } from "react";
 
 import PropTypes from "prop-types";
 
-import { ActionButton, Text } from "components";
+import { ActionButton, Text, ProposedMissionMembersList } from "components";
 
-import { firebase, fireFetch } from "/services";
+import { firebase, fireFetch } from "/services/index";
 import { View } from "react-native";
 import styles from "./MissionTeamVote.styles";
 
@@ -123,13 +123,9 @@ class MissionTeamVote extends Component {
 
         return (
             <View style={styles.container}>
-                {proposedTeamMembers.map(({ name, id }, i) => {
-                    return (
-                        <View key={id}>
-                            <Text>{`${i + 1}. ${name}`}</Text>
-                        </View>
-                    );
-                })}
+                <ProposedMissionMembersList
+                    players={proposedTeamMembers}
+                />
                 {submittedText}
                 {waitingForOthersText}
                 {approveButton}

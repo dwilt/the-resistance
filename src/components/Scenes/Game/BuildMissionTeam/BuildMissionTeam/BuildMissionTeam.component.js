@@ -13,7 +13,7 @@ import {
     ActionButton,
     Text,
     MissionLeader,
-    MissionMembersList,
+    ProposedMissionMembersList,
 } from 'components';
 
 import styles from './BuildMissionTeam.styles';
@@ -24,10 +24,10 @@ class BuildMissionTeam extends Component {
     static propTypes = {
         members: PropTypes.arrayOf(PropTypes.string).isRequired,
         filled: PropTypes.bool.isRequired,
+        isLeader: PropTypes.bool.isRequired,
         leader: PropTypes.string.isRequired,
         roundNumber: PropTypes.number.isRequired,
         gameId: PropTypes.string.isRequired,
-        isLeader: PropTypes.bool.isRequired,
         players: PropTypes.arrayOf(
             PropTypes.shape({
                 id: PropTypes.string.isRequired,
@@ -183,7 +183,7 @@ class BuildMissionTeam extends Component {
                 <MissionLeader leader={leader} />
                 {leaderInstructions}
                 {playerInstructions}
-                <MissionMembersList
+                <ProposedMissionMembersList
                     filled={filled}
                     isSyncing={isSyncing}
                     isLeader={isLeader}
