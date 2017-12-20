@@ -4,8 +4,6 @@ import { gutter, viewSizes, viewSize } from './structure';
 
 export const minTouchSize = gutter * 4;
 
-import { openSans } from './fonts';
-
 export const centerChildren = (vertically = false) => ({
     flexDirection: vertically ? `column` : `row`,
     alignItems: `center`,
@@ -20,13 +18,7 @@ export const fullscreen = {
     right: 0,
 };
 
-export const isAndroid = () => {
-    return Platform.OS === `android`;
-};
-
-export const isIOS = () => {
-    return Platform.OS === `ios`;
-};
+export const isAndroid = () => Platform.OS === `android`;
 
 const { largeTablet, largePhone, tablet } = viewSizes;
 let initFontSize;

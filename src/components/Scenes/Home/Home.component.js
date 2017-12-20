@@ -2,15 +2,7 @@ import React, { Component } from 'react';
 
 import { View } from 'react-native';
 
-import {
-    ActionButton,
-    ErrorMessage,
-    LogoutButton,
-    Game,
-    TextInput,
-    CodeInput,
-    Scene,
-} from 'components';
+import { ActionButton, ErrorMessage, Game, CodeInput, Scene } from 'components';
 
 import { Actions } from 'react-native-router-flux';
 
@@ -85,7 +77,6 @@ class Home extends Component {
     };
 
     setGameCode = (gameCode) => {
-        console.log(gameCode);
         this.setState({
             gameCode,
         });

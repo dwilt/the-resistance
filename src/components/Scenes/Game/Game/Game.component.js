@@ -30,7 +30,11 @@ class Game extends Component {
         isQuitting: false,
         players: [],
         roundNumber: 1,
-        currentMission: {},
+        currentMission: {
+            missionTeamVotes: {},
+            proposedTeam: {},
+            missionTeam: {},
+        },
     };
 
     async componentDidMount() {
@@ -99,8 +103,8 @@ class Game extends Component {
             leader: leaderId,
         } = currentMission;
 
-        const { isSpy, confirmedIdentity } =
-            players.find((player) => player.id === userId) || {};
+        const player = players.find(({ id }) => id === userId) || {};
+
         const isLeader = leaderId === userId;
 
         let gameScene = null;
@@ -126,9 +130,9 @@ class Game extends Component {
                 gameScene = (
                     <PlayerIdentityReveal
                         spies={spies}
-                        isSpy={isSpy}
+                        isSpy={player.isSpy}
                         gameId={gameId}
-                        confirmedIdentity={!!confirmedIdentity}
+                        confirmedIdentity={!!player.confirmedIdentity}
                     />
                 );
                 break;
@@ -194,7 +198,7 @@ class Game extends Component {
 
                 gameScene = (
                     <ConductMission
-                        isSpy={isSpy}
+                        isSpy={player.isSpy}
                         gameId={gameId}
                         isMember={isMember}
                         voted={voted}

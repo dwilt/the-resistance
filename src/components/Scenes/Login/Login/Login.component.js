@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { KeyboardAvoidingView, View, Image } from 'react-native';
+import { KeyboardAvoidingView, View } from 'react-native';
 
 import {
     DismissKeyboardView,

@@ -4,18 +4,11 @@ import {
     gutter,
     getUniversalFont,
     white,
-    lighterGray,
-    darkGray,
     baseFontSize,
     minTouchSize,
-    centerChildren,
     black,
     openSans,
 } from 'styles';
-
-const inputFontSize = baseFontSize;
-export const toggleIconSize = gutter * 1.5;
-export const toggleIconColor = darkGray;
 
 export default StyleSheet.create({
     container: {
@@ -36,7 +29,7 @@ export default StyleSheet.create({
         }),
     },
     multilineInput: {
-        lineHeight: inputFontSize * 1.2,
+        lineHeight: baseFontSize * 1.2,
     },
     label: {
         ...getUniversalFont(1, 1.2),

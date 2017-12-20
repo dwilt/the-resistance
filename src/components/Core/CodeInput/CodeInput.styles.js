@@ -1,14 +1,10 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import {
     gutter,
     getUniversalFont,
     white,
-    lighterGray,
-    darkGray,
-    baseFontSize,
     minTouchSize,
-    centerChildren,
     black,
     openSans,
 } from 'styles';

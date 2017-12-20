@@ -7,7 +7,6 @@ import { ActionButton, Text } from 'components';
 import { firebase, fireFetch } from '/services';
 import { Image, View } from 'react-native';
 import styles from './PlayerIdentityReveal.styles';
-import { viewSize } from '../../../../styles';
 
 const spyCard = require(`../../../../assets/images/spy-card.png`);
 const allyCard = require(`../../../../assets/images/ally-card.png`);

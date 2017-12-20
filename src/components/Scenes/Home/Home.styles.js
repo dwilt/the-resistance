@@ -1,13 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import {
-    getUniversalFont,
-    centerChildren,
-    gutter,
-    white,
-    windowWidth,
-    darkGray,
-} from 'styles';
+import { centerChildren, gutter } from 'styles';
 
 export default StyleSheet.create({
     container: {

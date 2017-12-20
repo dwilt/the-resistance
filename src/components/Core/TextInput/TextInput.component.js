@@ -4,14 +4,9 @@ import PropTypes from 'prop-types';
 
 import { Text } from 'components';
 
-import {
-    TextInput as RNTextInput,
-    TouchableOpacity,
-    ViewPropTypes,
-    View,
-} from 'react-native';
+import { TextInput as RNTextInput, ViewPropTypes, View } from 'react-native';
 
-import styles, { toggleIconSize, toggleIconColor } from './TextInput.styles';
+import styles from './TextInput.styles';
 
 export default class TextInput extends PureComponent {
     static propTypes = {
