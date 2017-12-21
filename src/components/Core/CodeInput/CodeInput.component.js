@@ -19,6 +19,7 @@ class CodeInput extends PureComponent {
     static defaultProps = {
         numberOfInputs: 3,
         numerical: true,
+        autoFocus: true,
     };
 
     state = {
@@ -28,7 +29,17 @@ class CodeInput extends PureComponent {
     inputs = {};
     text = {};
 
-    inputRef = (el, i) => (this.inputs[i] = el);
+    inputRef = (el, i) => {
+        if(!this.inputs[i]) {
+            const { autoFocus } = this.props;
+
+            this.inputs[i] = el
+
+            if (autoFocus && el && i === 0) {
+                el.focus();
+            }
+        }
+    };
 
     onChangeText = (text, i) => {
         const { onChangeText } = this.props;

@@ -28,10 +28,10 @@ export default StyleSheet.create({
     },
     joinGameOverlay: {
         ...fullscreen,
-        ...centerChildren(true),
+        alignItems: `center`,
+        paddingTop: gutter * 3,
         backgroundColor: `rgba(0, 0, 0, .9)`,
     },
-    join: {},
     joinCodeInput: {
         ...centerChildren(),
         marginBottom: gutter,
