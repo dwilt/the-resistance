@@ -8,7 +8,7 @@ export const gutter = 16;
 let statusBar = Platform.OS === `ios` ? 20 : StatusBar.currentHeight;
 
 if (Platform.OS === `ios` && windowHeight === 812) {
-    statusBar = 44;
+    statusBar = 30;
 }
 export const statusBarHeight = statusBar;
 

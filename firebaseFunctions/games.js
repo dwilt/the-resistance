@@ -91,9 +91,7 @@ export async function startGame({ gameId }) {
         ),
     ]);
 
-    return updateGame(gameId, {
-        state: gameStates.PLAYER_IDENTITY_REVEAL,
-    });
+    return startNextRound({ gameId });
 }
 
 export async function buildNewMissionTeam({ gameId }) {
@@ -133,7 +131,9 @@ export async function confirmPlayerIdentity({ gameId, userId }) {
     );
 
     if (!unconfirmedPlayers.length) {
-        await buildNewMissionTeam({ gameId });
+        await updateGame(gameId, {
+            allPlayersConfirmedIdentity: true,
+        });
     }
 }
 

@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 
-import { View } from 'react-native';
+import { Image, View, LayoutAnimation, TouchableOpacity } from 'react-native';
 
-import { ActionButton, ErrorMessage, Game, CodeInput, Scene } from 'components';
+import {
+    ActionButton,
+    ErrorMessage,
+    Game,
+    CodeInput,
+    Scene,
+    PlayerCard,
+} from 'components';
 
 import { Actions } from 'react-native-router-flux';
 
@@ -10,13 +17,30 @@ import { firebase, fireFetch } from '/services';
 
 import styles from './Home.styles';
 
+const logo = require(`../../../assets/images/resistance-logo.png`);
+
 class Home extends Component {
     state = {
         error: null,
         isCreatingGame: false,
         isJoiningGame: false,
         gameCode: ``,
+        showJoinGameOverlay: false,
     };
+
+    componentWillReceiveProps() {
+        LayoutAnimation.easeInEaseOut();
+    }
+
+    showJoinGameOverlay = () =>
+        this.setState({
+            showJoinGameOverlay: true,
+        });
+
+    hideJoinGameOverlay = () =>
+        this.setState({
+            showJoinGameOverlay: false,
+        });
 
     joinGame = async () => {
         const { gameCode } = this.state;
@@ -83,34 +107,64 @@ class Home extends Component {
     };
 
     render() {
-        const { isCreatingGame, isJoiningGame, gameCode, error } = this.state;
+        const {
+            isCreatingGame,
+            isJoiningGame,
+            gameCode,
+            error,
+            showJoinGameOverlay,
+        } = this.state;
         const errorEl = error && <ErrorMessage error={error} />;
+
+        const joinGameOverlay = showJoinGameOverlay && (
+            <TouchableOpacity
+                onPress={this.hideJoinGameOverlay}
+                style={styles.joinGameOverlay}
+            >
+                <View style={styles.joinCodeInput}>
+                    <CodeInput
+                        onChangeText={this.setGameCode}
+                        value={gameCode}
+                        label={`Enter game code`}
+                    />
+                </View>
+                <ActionButton
+                    onPress={this.joinGame}
+                    isLoading={isJoiningGame}
+                    theme={`teal`}
+                >
+                    {`Join Game`}
+                </ActionButton>
+            </TouchableOpacity>
+        );
 
         return (
             <Scene>
-                {errorEl}
-                <View style={styles.join}>
-                    <View style={styles.joinCodeInput}>
-                        <CodeInput
-                            onChangeText={this.setGameCode}
-                            value={gameCode}
-                            label={`Enter a game code here`}
-                        />
+                <View style={styles.container}>
+                    {errorEl}
+                    <View style={styles.logoContainer}>
+                        <Image source={logo} style={styles.logo} />
+                    </View>
+                    <View style={styles.cardsContainer}>
+                        <PlayerCard />
+                        <View style={styles.spyCard}>
+                            <PlayerCard isSpy={true} />
+                        </View>
                     </View>
                     <ActionButton
-                        onPress={this.joinGame}
-                        isLoading={isJoiningGame}
+                        onPress={this.showJoinGameOverlay}
                         theme={`teal`}
                     >
-                        {`Join Game`}
+                        {`Join Existing Game`}
+                    </ActionButton>
+                    <ActionButton
+                        onPress={this.createGame}
+                        isLoading={isCreatingGame}
+                    >
+                        {`Host New Game`}
                     </ActionButton>
                 </View>
-                <ActionButton
-                    onPress={this.createGame}
-                    isLoading={isCreatingGame}
-                >
-                    {`Create Game`}
-                </ActionButton>
+                {joinGameOverlay}
             </Scene>
         );
     }

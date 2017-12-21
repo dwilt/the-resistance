@@ -7,13 +7,15 @@ import {
     minTouchSize,
     black,
     openSans,
+    centerChildren,
 } from 'styles';
 
 export default StyleSheet.create({
+    container: {
+        ...centerChildren(true),
+    },
     label: {
-        ...getUniversalFont(1, 1.2),
-        paddingLeft: gutter,
-        paddingRight: gutter,
+        ...getUniversalFont(1.4, 1.2),
         marginBottom: gutter / 2,
         color: white,
         textAlign: `center`,

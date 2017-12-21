@@ -73,6 +73,7 @@ class CodeInput extends PureComponent {
                                 value={this.text[i]}
                                 key={i}
                                 keyboardType={keyboardType}
+                                placeholder={`${i + 1}`}
                             />
                         ))}
                 </View>
