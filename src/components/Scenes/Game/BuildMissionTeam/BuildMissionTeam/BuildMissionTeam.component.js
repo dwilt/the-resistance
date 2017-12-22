@@ -12,6 +12,7 @@ import {
     Text,
     MissionLeader,
     ProposedMissionMembersList,
+    PlayerIdentityReveal,
 } from 'components';
 
 import styles from './BuildMissionTeam.styles';
@@ -21,8 +22,11 @@ import { getMissionMembersCount } from '../../../../../../firebaseFunctions/game
 class BuildMissionTeam extends Component {
     static propTypes = {
         members: PropTypes.arrayOf(PropTypes.string).isRequired,
+        allPlayersConfirmedIdentity: PropTypes.bool.isRequired,
         filled: PropTypes.bool.isRequired,
+        confirmedIdentity: PropTypes.bool.isRequired,
         isLeader: PropTypes.bool.isRequired,
+        isSpy: PropTypes.bool.isRequired,
         leader: PropTypes.string.isRequired,
         roundNumber: PropTypes.number.isRequired,
         gameId: PropTypes.string.isRequired,
@@ -32,9 +36,11 @@ class BuildMissionTeam extends Component {
                 name: PropTypes.string.isRequired,
             }),
         ).isRequired,
+        spies: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     };
 
     static defaultProps = {
+        confirmedIdentity: false,
         isLeader: false,
         filled: false,
         members: [],
@@ -43,14 +49,24 @@ class BuildMissionTeam extends Component {
     state = {
         members: [],
         isConfirming: false,
+        showPlayerIdentityReveal: false,
     };
 
     componentDidMount() {
-        const { members } = this.props;
+        const { members, allPlayersConfirmedIdentity } = this.props;
 
         this.setState({
             members,
+            showPlayerIdentityReveal: !allPlayersConfirmedIdentity,
         });
+    }
+
+    componentWillReceiveProps({ allPlayersConfirmedIdentity }) {
+        if (!allPlayersConfirmedIdentity) {
+            this.setState({
+                showPlayerIdentityReveal: true,
+            });
+        }
     }
 
     onPlayerSelectedChange = async (userId, selected) => {
@@ -101,6 +117,11 @@ class BuildMissionTeam extends Component {
         }
     };
 
+    hidePlayerIdentityOverlay = () =>
+        this.setState({
+            showPlayerIdentityReveal: false,
+        });
+
     render() {
         const {
             players,
@@ -109,9 +130,16 @@ class BuildMissionTeam extends Component {
             members: propsMembers,
             leader,
             roundNumber,
+            gameId,
+            isSpy,
+            spies,
         } = this.props;
 
-        const { isConfirming, members: stateMembers } = this.state;
+        const {
+            isConfirming,
+            members: stateMembers,
+            showPlayerIdentityReveal,
+        } = this.state;
 
         const isSyncing = stateMembers.length !== propsMembers.length;
 
@@ -176,6 +204,17 @@ class BuildMissionTeam extends Component {
             </View>
         );
 
+        const identityOverlay = showPlayerIdentityReveal && (
+            <View style={styles.playerIdentityReveal}>
+                <PlayerIdentityReveal
+                    gameId={gameId}
+                    isSpy={isSpy}
+                    spies={spies}
+                    onConfirmIdentity={this.hidePlayerIdentityOverlay}
+                />
+            </View>
+        );
+
         return (
             <View style={styles.container}>
                 <MissionLeader leader={leader} />
@@ -189,6 +228,7 @@ class BuildMissionTeam extends Component {
                     players={isLeader ? selectedPlayers : sortedPlayers}
                 />
                 {confirmMissionTeamButton}
+                {identityOverlay}
             </View>
         );
     }

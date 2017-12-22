@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { ActionButton, Text, ProposedMissionMembersList } from 'components';
 
-import { firebase, fireFetch } from '/services/index';
+import { firebase, fireFetch } from 'services';
 import { View } from 'react-native';
 import styles from './MissionTeamVote.styles';
 

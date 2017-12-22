@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { ActionButton, Text } from 'components';
 
-import { fireFetch } from '/services';
+import { fireFetch } from 'services';
 import { View } from 'react-native';
 import styles from './MissionOutcome.styles';
 

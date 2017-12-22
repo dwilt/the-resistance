@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { centerChildren, gutter, fullscreen } from 'styles';
+import { centerChildren, gutter, blackOverlay } from 'styles';
 
 const logoWidth = 275;
 
@@ -27,10 +27,8 @@ export default StyleSheet.create({
         marginLeft: gutter,
     },
     joinGameOverlay: {
-        ...fullscreen,
-        alignItems: `center`,
+        ...blackOverlay,
         paddingTop: gutter * 3,
-        backgroundColor: `rgba(0, 0, 0, .9)`,
     },
     joinCodeInput: {
         ...centerChildren(),

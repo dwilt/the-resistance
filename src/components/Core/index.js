@@ -1,4 +1,5 @@
 export * from './ActionButton';
+export * from './Checkbox';
 export * from './CodeInput';
 export * from './DismissKeyboardView';
 export * from './ErrorMessage';

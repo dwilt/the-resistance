@@ -13,7 +13,7 @@ import {
 
 import { Actions } from 'react-native-router-flux';
 
-import { firebase, fireFetch } from '/services';
+import { firebase, fireFetch } from 'services';
 
 import styles from './Home.styles';
 

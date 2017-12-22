@@ -4,7 +4,7 @@ import { Scene, Router, Actions } from 'react-native-router-flux';
 
 import { Home, Game, Login } from 'components';
 
-import { firebase } from '/services';
+import { firebase } from 'services';
 
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {

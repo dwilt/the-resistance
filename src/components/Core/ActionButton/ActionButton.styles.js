@@ -22,8 +22,6 @@ export default StyleSheet.create({
     },
     textContainer: {
         ...centerChildren(),
-        marginLeft: gutter,
-        marginRight: gutter,
         marginBottom: gutter,
         height: minTouchSize,
         paddingTop: gutter,

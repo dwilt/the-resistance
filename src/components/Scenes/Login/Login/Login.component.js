@@ -10,7 +10,7 @@ import {
     TextButton,
 } from 'components';
 
-import { firebase, db } from '/services';
+import { firebase, db } from 'services';
 
 import styles from './Login.styles';
 

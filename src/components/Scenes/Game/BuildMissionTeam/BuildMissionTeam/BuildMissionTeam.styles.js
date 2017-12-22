@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { getUniversalFont, gutter, openSans } from 'styles';
+import { getUniversalFont, gutter, openSans, blackOverlay } from 'styles';
 
 export default StyleSheet.create({
     container: {},
@@ -15,5 +15,8 @@ export default StyleSheet.create({
     },
     missionMembersCount: {
         fontFamily: openSans.bold,
+    },
+    playerIdentityReveal: {
+        ...blackOverlay,
     },
 });

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { firebase, db } from '/services';
+import { firebase, db } from 'services';
 
 import {
     BuildMissionTeam,
@@ -12,7 +12,6 @@ import {
     MissionOutcome,
     MissionTeamVote,
     MissionTeamVoteOutcome,
-    PlayerIdentityReveal,
     Scene,
 } from 'components';
 
@@ -35,6 +34,7 @@ class Game extends Component {
             proposedTeam: {},
             missionTeam: {},
         },
+        allPlayersConfirmedIdentity: false,
     };
 
     async componentDidMount() {
@@ -92,6 +92,7 @@ class Game extends Component {
             victoryType,
             state,
             roundNumber,
+            allPlayersConfirmedIdentity,
         } = this.state;
 
         const isHost = host === userId;
@@ -122,27 +123,15 @@ class Game extends Component {
                 break;
             }
 
-            case gameStates.PLAYER_IDENTITY_REVEAL: {
-                const spies = players
-                    .filter(({ isSpy }) => isSpy)
-                    .map(({ name }) => name);
-
-                gameScene = (
-                    <PlayerIdentityReveal
-                        spies={spies}
-                        isSpy={player.isSpy}
-                        gameId={gameId}
-                        confirmedIdentity={!!player.confirmedIdentity}
-                    />
-                );
-                break;
-            }
-
             case gameStates.BUILD_MISSION_TEAM: {
                 const { members, filled } = proposedTeam;
                 const { name: leaderName } = players.find(
                     ({ id }) => id === leaderId,
                 );
+
+                const spies = players
+                    .filter(({ isSpy }) => isSpy)
+                    .map(({ name }) => name);
 
                 gameScene = (
                     <BuildMissionTeam
@@ -153,6 +142,12 @@ class Game extends Component {
                         filled={filled}
                         leader={leaderName}
                         roundNumber={roundNumber}
+                        spies={spies}
+                        isSpy={player.isSpy}
+                        confirmedIdentity={!!player.confirmedIdentity}
+                        allPlayersConfirmedIdentity={
+                            allPlayersConfirmedIdentity
+                        }
                     />
                 );
                 break;

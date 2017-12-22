@@ -4,7 +4,7 @@ const replace = require('replace-in-file');
 
 const BASE_DIRECTORY = './';
 const DEFAULT_COMPANY_NAME = 'invertase';
-const DEFAULT_PACKAGE_NAME = 'com.invertase.rnfirebasestarter';
+const DEFAULT_PACKAGE_NAME = 'com.invertase.theresistance';
 const DEFAULT_PROJECT_NAME = 'RNFirebaseStarter';
 
 const rl = readline.createInterface({
@@ -125,20 +125,20 @@ const run = async () => {
     if (!projectName || projectName === '') {
         throw new Error('ERROR: Please supply a valid project name');
     }
-    
+
     let companyName = await readInput('Company name, e.g. My Company');
     console.log('---------------------------------------------------------');
     if (!companyName || companyName === '') {
         throw new Error('ERROR: Please supply a valid company name');
     }
-    
+
     projectName = projectName.replace(/ /g, '');
     companyName = companyName.replace(/ /g, '').toLowerCase();
-    
+
     const packageName = `com.${companyName}.${projectName.toLowerCase()}`;
     // Close the input
     rl.close();
-    
+
     updateProjectName(projectName)
         .then(() => updatePackageName(packageName))
         .then(() => renameProjectFiles(projectName))

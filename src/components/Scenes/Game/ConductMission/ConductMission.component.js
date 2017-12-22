@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 
 import { ActionButton, Text } from 'components';
 
-import { fireFetch } from '/services';
+import { fireFetch } from 'services';
 import { View } from 'react-native';
 import styles from './ConductMission.styles';
-import { firebase } from '/services';
+import { firebase } from 'services';
 
 class ConductMission extends Component {
     static propTypes = {

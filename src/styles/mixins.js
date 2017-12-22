@@ -1,6 +1,12 @@
 import { Platform } from 'react-native';
 
-import { gutter, viewSizes, viewSize } from './structure';
+import {
+    gutter,
+    viewSizes,
+    viewSize,
+    windowWidth,
+    windowHeight,
+} from './structure';
 
 export const minTouchSize = gutter * 4;
 
@@ -14,8 +20,8 @@ export const fullscreen = {
     position: `absolute`,
     left: 0,
     top: 0,
-    bottom: 0,
-    right: 0,
+    width: windowWidth,
+    height: windowHeight,
 };
 
 export const isAndroid = () => Platform.OS === `android`;
@@ -54,4 +60,11 @@ export const getUniversalFont = (fontSizeRatio = 1, lineHeightRatio = 1) => {
         fontSize,
         lineHeight,
     };
+};
+
+export const blackOverlay = {
+    ...fullscreen,
+    alignItems: `center`,
+    paddingTop: gutter * 3,
+    backgroundColor: `rgba(0, 0, 0, .9)`,
 };
