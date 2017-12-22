@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { Text } from 'components';
+import { PlayerBox } from 'components';
 
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
+
 import styles from './PlayersList.styles';
 
 class PlayersList extends Component {
@@ -24,11 +25,7 @@ class PlayersList extends Component {
             <View style={styles.container}>
                 {players.map(({ name, id }) => (
                     <View key={id} style={styles.player}>
-                        <Image
-                            style={styles.userIcon}
-                            source={require(`../../../../../assets/images/user-icon.png`)}
-                        />
-                        <Text style={styles.name}>{name}</Text>
+                        <PlayerBox name={name} />
                     </View>
                 ))}
             </View>

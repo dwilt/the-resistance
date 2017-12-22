@@ -17,7 +17,7 @@ class GameCode extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>Game Code:</Text>
+                <Text style={styles.title}>{`Game Code`.toUpperCase()}</Text>
                 <Text style={styles.code}>{code}</Text>
             </View>
         );

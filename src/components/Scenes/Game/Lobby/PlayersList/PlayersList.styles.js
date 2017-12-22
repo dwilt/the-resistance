@@ -1,22 +1,20 @@
 import { StyleSheet } from 'react-native';
 
-import { getUniversalFont, white, openSans, gutter } from 'styles';
+import { gutter, windowWidth } from 'styles';
+
+const playerWidth = (windowWidth - gutter * 3) / 2;
 
 export default StyleSheet.create({
-    container: {},
-    player: {
+    container: {
         flexDirection: `row`,
-        alignItems: `center`,
-        paddingBottom: gutter * 0.75,
+        flexWrap: `wrap`,
+        paddingLeft: gutter / 2,
+        paddingRight: gutter / 2,
     },
-    userIcon: {
-        width: gutter * 1.5,
-        height: gutter * 1.5,
-        marginRight: gutter,
-    },
-    name: {
-        ...getUniversalFont(1),
-        color: white,
-        fontFamily: openSans.bold,
+    player: {
+        width: playerWidth,
+        marginBottom: gutter / 2,
+        marginLeft: gutter / 2,
+        marginRight: gutter / 2,
     },
 });

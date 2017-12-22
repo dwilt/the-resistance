@@ -30,10 +30,10 @@ class CodeInput extends PureComponent {
     text = {};
 
     inputRef = (el, i) => {
-        if(!this.inputs[i]) {
+        if (!this.inputs[i]) {
             const { autoFocus } = this.props;
 
-            this.inputs[i] = el
+            this.inputs[i] = el;
 
             if (autoFocus && el && i === 0) {
                 el.focus();
