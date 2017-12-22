@@ -16,4 +16,8 @@ export default StyleSheet.create({
     waitingForHost: {
         textAlign: `center`,
     },
+    startGameButton: {
+        paddingLeft: gutter,
+        paddingRight: gutter,
+    }
 });

@@ -58,9 +58,11 @@ class Lobby extends Component {
         const { players, isHost, gameCode } = this.props;
 
         const startGameButton = isHost && (
-            <ActionButton isLoading={isStarting} onPress={this.startGame}>
-                {`Start Game`}
-            </ActionButton>
+            <View style={styles.startGameButton}>
+                <ActionButton isLoading={isStarting} onPress={this.startGame}>
+                    {`Start Game`}
+                </ActionButton>
+            </View>
         );
 
         const waitingForHost = !isHost && (

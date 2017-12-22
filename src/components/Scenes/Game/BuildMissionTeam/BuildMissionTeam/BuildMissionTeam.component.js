@@ -217,7 +217,6 @@ class BuildMissionTeam extends Component {
 
         return (
             <View style={styles.container}>
-                <MissionLeader leader={leader} />
                 {leaderInstructions}
                 {playerInstructions}
                 <ProposedMissionMembersList
