@@ -5,7 +5,6 @@ import {
     white,
     gutter,
     centerChildren,
-    fullscreen,
     minTouchSize,
     yellow,
     teal,
@@ -18,7 +17,11 @@ export default StyleSheet.create({
     },
     loader: {
         ...centerChildren(),
-        ...fullscreen,
+        position: `absolute`,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        top: 0,
     },
     textContainer: {
         ...centerChildren(),

@@ -19,5 +19,5 @@ export default StyleSheet.create({
     startGameButton: {
         paddingLeft: gutter,
         paddingRight: gutter,
-    }
+    },
 });

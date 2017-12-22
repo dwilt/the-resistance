@@ -5,14 +5,12 @@ import PropTypes from 'prop-types';
 import { fireFetch } from 'services';
 import { View } from 'react-native';
 
-import { sortBy } from 'lodash/collection';
-
 import {
     ActionButton,
     Text,
-    MissionLeader,
-    ProposedMissionMembersList,
+    GameFooter,
     PlayerIdentityReveal,
+    PlayersList,
 } from 'components';
 
 import styles from './BuildMissionTeam.styles';
@@ -28,7 +26,9 @@ class BuildMissionTeam extends Component {
         isLeader: PropTypes.bool.isRequired,
         isSpy: PropTypes.bool.isRequired,
         leader: PropTypes.string.isRequired,
-        roundNumber: PropTypes.number.isRequired,
+        roundCount: PropTypes.number.isRequired,
+        passedMissions: PropTypes.number.isRequired,
+        failedMissions: PropTypes.number.isRequired,
         gameId: PropTypes.string.isRequired,
         players: PropTypes.arrayOf(
             PropTypes.shape({
@@ -61,10 +61,18 @@ class BuildMissionTeam extends Component {
         });
     }
 
-    componentWillReceiveProps({ allPlayersConfirmedIdentity }) {
+    componentWillReceiveProps({ allPlayersConfirmedIdentity, members }) {
+        const { members: stateMembers } = this.state;
+
         if (!allPlayersConfirmedIdentity) {
             this.setState({
                 showPlayerIdentityReveal: true,
+            });
+        }
+
+        if (members.length !== stateMembers.length) {
+            this.setState({
+                members,
             });
         }
     }
@@ -129,10 +137,12 @@ class BuildMissionTeam extends Component {
             filled,
             members: propsMembers,
             leader,
-            roundNumber,
+            roundCount,
             gameId,
             isSpy,
             spies,
+            passedMissions,
+            failedMissions,
         } = this.props;
 
         const {
@@ -142,26 +152,19 @@ class BuildMissionTeam extends Component {
         } = this.state;
 
         const isSyncing = stateMembers.length !== propsMembers.length;
-
         const members = isSyncing ? stateMembers : propsMembers;
 
-        const selectedPlayers = players.map((player) => ({
-            ...player,
-            selected: members.indexOf(player.id) !== -1,
-        }));
-        const sortedPlayers = sortBy(
-            selectedPlayers,
-            ({ selected }) => !selected,
-        );
-
         const confirmMissionTeamButton = isLeader && (
-            <ActionButton
-                onPress={this.confirmMissionTeam}
-                disabled={!filled || isConfirming || isSyncing}
-                isLoading={isConfirming}
-            >
-                {`Confirm Selected Mission Team`}
-            </ActionButton>
+            <View style={styles.confirmButton}>
+                <ActionButton
+                    theme={`teal`}
+                    onPress={this.confirmMissionTeam}
+                    disabled={!filled || isConfirming || isSyncing}
+                    isLoading={isConfirming}
+                >
+                    {`Confirm Mission Team`}
+                </ActionButton>
+            </View>
         );
 
         const leaderInstructions = isLeader && (
@@ -174,7 +177,7 @@ class BuildMissionTeam extends Component {
                             styles.missionMembersCount,
                         ]}
                     >
-                        {getMissionMembersCount(roundNumber, players.length)}
+                        {getMissionMembersCount(roundCount, players.length)}
                     </Text>
                     <Text
                         style={styles.leaderInstructions}
@@ -195,7 +198,7 @@ class BuildMissionTeam extends Component {
                             styles.missionMembersCount,
                         ]}
                     >
-                        {getMissionMembersCount(roundNumber, players.length)}
+                        {getMissionMembersCount(roundCount, players.length)}
                     </Text>
                     <Text
                         style={styles.leaderInstructions}
@@ -217,16 +220,28 @@ class BuildMissionTeam extends Component {
 
         return (
             <View style={styles.container}>
-                {leaderInstructions}
-                {playerInstructions}
-                <ProposedMissionMembersList
-                    filled={filled}
-                    isSyncing={isSyncing}
-                    isLeader={isLeader}
-                    onPlayerSelectChange={this.onPlayerSelectedChange}
-                    players={isLeader ? selectedPlayers : sortedPlayers}
+                <View style={styles.content}>
+                    <Text style={styles.title}>{`Build Mission Team`}</Text>
+                    {leaderInstructions}
+                    {playerInstructions}
+                    <PlayersList
+                        players={players.map((player) => ({
+                            ...player,
+                            selected: members.indexOf(player.id) !== -1,
+                        }))}
+                        onPlayerTap={
+                            isLeader ? this.onPlayerSelectedChange : null
+                        }
+                        disabled={isLeader && filled}
+                    />
+                    {confirmMissionTeamButton}
+                </View>
+                <GameFooter
+                    leader={leader}
+                    roundCount={roundCount}
+                    missionsPassed={passedMissions}
+                    missionsFailed={failedMissions}
                 />
-                {confirmMissionTeamButton}
                 {identityOverlay}
             </View>
         );

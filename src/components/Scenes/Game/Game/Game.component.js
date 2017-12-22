@@ -28,7 +28,9 @@ class Game extends Component {
         state: gameStates.LOBBY,
         isQuitting: false,
         players: [],
-        roundNumber: 1,
+        roundCount: 1,
+        passedMissions: 0,
+        failedMissions: 0,
         currentMission: {
             missionTeamVotes: {},
             proposedTeam: {},
@@ -59,7 +61,11 @@ class Game extends Component {
             .collection(`completedMissions`)
             .onSnapshot(({ docs }) => {
                 this.setState({
-                    roundNumber: docs.length + 1,
+                    roundCount: docs.length + 1,
+                    failedMissions: docs.filter((doc) => !doc.data().passed)
+                        .length,
+                    passedMissions: docs.filter((doc) => doc.data().passed)
+                        .length,
                 });
             });
 
@@ -91,8 +97,10 @@ class Game extends Component {
             currentMission,
             victoryType,
             state,
-            roundNumber,
+            roundCount,
             allPlayersConfirmedIdentity,
+            passedMissions,
+            failedMissions,
         } = this.state;
 
         const isHost = host === userId;
@@ -141,13 +149,15 @@ class Game extends Component {
                         members={members}
                         filled={filled}
                         leader={leaderName}
-                        roundNumber={roundNumber}
+                        roundCount={roundCount}
                         spies={spies}
                         isSpy={player.isSpy}
                         confirmedIdentity={!!player.confirmedIdentity}
                         allPlayersConfirmedIdentity={
                             allPlayersConfirmedIdentity
                         }
+                        failedMissions={failedMissions}
+                        passedMissions={passedMissions}
                     />
                 );
                 break;
