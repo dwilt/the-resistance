@@ -24,7 +24,7 @@ export default StyleSheet.create({
         marginLeft: gutter / 2,
         marginRight: gutter / 2,
         flexDirection: `row`,
-        alignItems: `center`,
+        alignItems: `flex-end`,
         borderWidth: 1,
         borderColor: white,
         borderRadius: 2,
@@ -36,8 +36,9 @@ export default StyleSheet.create({
         marginRight: gutter,
     },
     playerName: {
-        ...getUniversalFont(1.4),
+        ...getUniversalFont(1.4, 1),
         color: white,
+        top: 2,
     },
     selectedPlayerName: {
         color: yellow,
