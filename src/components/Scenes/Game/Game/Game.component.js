@@ -92,7 +92,7 @@ class Game extends Component {
         const { gameId, gameCode } = this.props;
 
         const {
-            players,
+            players = [],
             host,
             currentMission,
             victoryType,

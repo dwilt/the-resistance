@@ -61,10 +61,10 @@ class BuildMissionTeam extends Component {
         });
     }
 
-    componentWillReceiveProps({ allPlayersConfirmedIdentity, members }) {
+    componentWillReceiveProps({ allPlayersConfirmedIdentity, members, confirmedIdentity }) {
         const { members: stateMembers } = this.state;
 
-        if (!allPlayersConfirmedIdentity) {
+        if (!allPlayersConfirmedIdentity && !confirmedIdentity) {
             this.setState({
                 showPlayerIdentityReveal: true,
             });
