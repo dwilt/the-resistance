@@ -61,41 +61,32 @@ class BuildMissionTeam extends Component {
         });
     }
 
-    componentWillReceiveProps({ allPlayersConfirmedIdentity, members, filled }) {
+    componentWillReceiveProps({ allPlayersConfirmedIdentity, members }) {
+        const { members: stateMembers } = this.state;
+
         if (!allPlayersConfirmedIdentity) {
             this.setState({
                 showPlayerIdentityReveal: true,
             });
         }
 
-        if (members.length !== this.state.members.length) {
+        if (members.length !== stateMembers.length) {
             this.setState({
                 members,
             });
         }
-
-        if(filled !== this.state.filled) {
-            this.setState({
-                filled
-            })
-        }
     }
 
     onPlayerSelectedChange = async (userId, selected) => {
+        const { members, gameId } = this.props;
+
         try {
-            const { members, gameId, roundCount, players } = this.props;
-
-            const newMembers = selected
-                ? [...members, userId]
-                : members.filter(
-                    (missionMemberId) => missionMemberId !== userId,
-                );
-
-            const filled = newMembers.length === getMissionMembersCount(roundCount, players.length);
-
             this.setState({
-                members: newMembers,
-                filled,
+                members: selected
+                    ? [...members, userId]
+                    : members.filter(
+                          (missionMemberId) => missionMemberId !== userId,
+                      ),
             });
 
             const cloudFunction = selected
@@ -143,6 +134,8 @@ class BuildMissionTeam extends Component {
         const {
             players,
             isLeader,
+            filled,
+            members: propsMembers,
             leader,
             roundCount,
             gameId,
@@ -153,18 +146,20 @@ class BuildMissionTeam extends Component {
         } = this.props;
 
         const {
-            filled,
             isConfirming,
-            members,
+            members: stateMembers,
             showPlayerIdentityReveal,
         } = this.state;
+
+        const isSyncing = stateMembers.length !== propsMembers.length;
+        const members = isSyncing ? stateMembers : propsMembers;
 
         const confirmMissionTeamButton = isLeader && (
             <View style={styles.confirmButton}>
                 <ActionButton
                     theme={`teal`}
                     onPress={this.confirmMissionTeam}
-                    disabled={!filled || isConfirming}
+                    disabled={!filled || isConfirming || isSyncing}
                     isLoading={isConfirming}
                 >
                     {`Confirm Mission Team`}
