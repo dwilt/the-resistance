@@ -15,7 +15,7 @@ import {
 
 import styles from './BuildMissionTeam.styles';
 
-import { getMissionMembersCount } from '../../../../../../firebaseFunctions/gameStructure';
+import { getMissionMembersCount } from '../../../../../gameStructure';
 
 class BuildMissionTeam extends Component {
     static propTypes = {

@@ -15,7 +15,7 @@ import {
     Scene,
 } from 'components';
 
-import { gameStates } from '../../../../../firebaseFunctions/gameStructure';
+import { gameStates } from '../../../../gameStructure';
 
 class Game extends Component {
     static propTypes = {
