@@ -1,48 +1,75 @@
-import { Actions } from "react-native-router-flux";
+import { Actions } from 'react-native-router-flux';
 
-import { takeEvery, call } from 'redux-saga/effects';
+import { takeEvery, take, call } from 'redux-saga/effects';
 
-import { db, firebase, fireFetch } from '../../services';
+import { buffers, eventChannel } from 'redux-saga';
+
+import { db, firebase, fireFetch } from 'services';
+
+import {
+   Game
+} from 'components';
 
 export const joinGameAction = (gameCode) => ({
     type: `JOIN_GAME`,
     payload: {
-        gameCode
-    }
+        gameCode,
+    },
 });
 
 export const setGameAction = (game) => ({
     type: `SET_GAME`,
     payload: {
-        game
-    }
+        game,
+    },
 });
 
 let gameListener = null;
 
+function createGameListenerChannel(gameId) {
+    return eventChannel(emitter => {
+        gameListener = db
+            .collection(`games`)
+            .doc(gameId)
+            .onSnapshot((snapshot) => {
+                const data = snapshot.data();
+
+                if(data) {
+                    emitter({ data })
+                }
+            });
+
+        return () => {
+
+        }
+    }, buffers.sliding(2));
+}
+
 function* joinGame({ payload: { gameCode } }) {
     const userId = firebase.auth().currentUser.uid;
 
-    const { gameId } = call(fireFetch, [`joinGame`, {
-        gameCode,
-        userId,
-    }]);
+    const { gameId } = call(fireFetch, [
+        `joinGame`,
+        {
+            gameCode,
+            userId,
+        },
+    ]);
 
     Actions[Game.key]({
         gameCode,
         gameId,
     });
 
-    gameListener = db
-        .collection(`games`)
-        .doc(gameId)
-        .onSnapshot((snapshot) => {
-            const data = snapshot.data();
+    const channel = yield call(createGameListenerChannel, gameId);
 
-            if (data) {
-                // store.dispatch(setGameAction(data))
-            }
-        });
+    while (true) {
+        const { data } = yield take(channel);
+
+        if (data) {
+            yield put(setGameAction(data));
+        }
+    }
 }
 
 export default function*() {
