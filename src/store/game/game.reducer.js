@@ -1,7 +1,30 @@
 import {
-    createReducer,
-} from 'helpers';
+    setGameIdAction,
+    setGameDataAction,
+    setGamePlayersAction,
+} from 'store/game/game.actions';
 
-export default createReducer(null, {
-    [`SET_GAME`]: (state, { game }) => game
-});
+import { createReducer } from 'helpers';
+
+export default createReducer(
+    {
+        id: null,
+        players: [],
+        completedMissions: [],
+        data: null,
+    },
+    {
+        [setGameIdAction().type]: (state, { id }) => ({
+            ...state,
+            id,
+        }),
+        [setGameDataAction().type]: (state, { data }) => ({
+            ...state,
+            data,
+        }),
+        [setGamePlayersAction().type]: (state, { players }) => ({
+            ...state,
+            players,
+        }),
+    },
+);

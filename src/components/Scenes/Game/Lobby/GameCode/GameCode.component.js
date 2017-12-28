@@ -5,11 +5,12 @@ import PropTypes from 'prop-types';
 import { Text } from 'components';
 
 import { View } from 'react-native';
+
 import styles from './GameCode.styles';
 
-class GameCode extends Component {
+export default class GameCode extends Component {
     static propTypes = {
-        code: PropTypes.string.isRequired,
+        code: PropTypes.number.isRequired,
     };
 
     render() {
@@ -23,5 +24,3 @@ class GameCode extends Component {
         );
     }
 }
-
-export default GameCode;

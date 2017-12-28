@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { gutter, getUniversalFont } from 'styles';
+import { gutter, getUniversalFont } from 'styles/index';
 
 export default StyleSheet.create({
     container: {

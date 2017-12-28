@@ -1,11 +1,7 @@
-import {
-    setUserAction,
-} from './user.actions';
+import { setUserAction } from './user.actions';
 
-import {
-    createReducer,
-} from 'helpers';
+import { createReducer } from 'helpers';
 
-export default createReducer(null,{
+export default createReducer(null, {
     [setUserAction().type]: (state, { user }) => user,
 });

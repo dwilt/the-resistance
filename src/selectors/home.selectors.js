@@ -1,10 +1,8 @@
-import {
-    createSelector,
-} from 'reselect';
+import { createSelector } from 'reselect';
 
-const homeSelector = state => state.home;
+const homeSelector = (state) => state.home;
 
 export const homeJoinGameInputSelector = createSelector(
     homeSelector,
-    home => home.joinGameInput
+    (home) => home.joinGameInput,
 );

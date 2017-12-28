@@ -1,77 +1,135 @@
 import { Actions } from 'react-native-router-flux';
 
-import { takeEvery, take, call } from 'redux-saga/effects';
+import { takeEvery, take, call, select, put, all } from 'redux-saga/effects';
 
 import { buffers, eventChannel } from 'redux-saga';
 
-import { db, firebase, fireFetch } from 'services';
+import { db, fireFetch } from 'services';
 
 import {
-   Game
-} from 'components';
+    userIdSelector,
+    homeJoinGameInputSelector,
+    gameIdSelector,
+} from 'selectors';
 
-export const joinGameAction = (gameCode) => ({
-    type: `JOIN_GAME`,
+import { Game } from 'components';
+
+export const setGameDataAction = (data) => ({
+    type: `SET_GAME_DATA`,
     payload: {
-        gameCode,
+        data,
     },
 });
 
-export const setGameAction = (game) => ({
-    type: `SET_GAME`,
+export const setGamePlayersAction = (players) => ({
+    type: `SET_GAME_PLAYERS`,
     payload: {
-        game,
+        players,
     },
+});
+
+export const setGameIdAction = (id) => ({
+    type: `SET_GAME_ID`,
+    payload: {
+        id,
+    },
+});
+
+export const joinGameAction = () => ({
+    type: `JOIN_GAME`,
+});
+
+export const startGameAction = () => ({
+    type: `START_GAME`,
 });
 
 let gameListener = null;
 
-function createGameListenerChannel(gameId) {
-    return eventChannel(emitter => {
+function createGameListenerChannel(id) {
+    return eventChannel((emitter) => {
         gameListener = db
             .collection(`games`)
-            .doc(gameId)
+            .doc(id)
             .onSnapshot((snapshot) => {
                 const data = snapshot.data();
 
-                if(data) {
-                    emitter({ data })
+                if (data) {
+                    emitter(data);
                 }
             });
 
-        return () => {
-
-        }
+        return () => {};
     }, buffers.sliding(2));
 }
 
-function* joinGame({ payload: { gameCode } }) {
-    const userId = firebase.auth().currentUser.uid;
-
-    const { gameId } = call(fireFetch, [
-        `joinGame`,
-        {
-            gameCode,
-            userId,
-        },
-    ]);
-
-    Actions[Game.key]({
-        gameCode,
-        gameId,
-    });
-
-    const channel = yield call(createGameListenerChannel, gameId);
+function* watchGameData(id) {
+    const gameChannel = yield call(createGameListenerChannel, id);
 
     while (true) {
-        const { data } = yield take(channel);
+        const data = yield take(gameChannel);
 
-        if (data) {
-            yield put(setGameAction(data));
-        }
+        console.log(`data`, data);
+
+        yield put(setGameDataAction(data));
     }
+}
+
+function createPlayersListenerChannel(id) {
+    return eventChannel((emitter) => {
+        gameListener = db
+            .collection(`games`)
+            .doc(id)
+            .collection(`players`)
+            .onSnapshot(({ docs }) => {
+                const players = docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+
+                emitter(players);
+            });
+
+        return () => {};
+    }, buffers.sliding(2));
+}
+
+function* watchPlayers(id) {
+    const playersChannel = yield call(createPlayersListenerChannel, id);
+
+    while (true) {
+        const players = yield take(playersChannel);
+
+        yield put(setGamePlayersAction(players));
+    }
+}
+
+function* joinGame() {
+    const userId = yield select(userIdSelector);
+    const gameCode = yield select(homeJoinGameInputSelector);
+
+    const { id, data, players } = yield call(fireFetch, `joinGame`, {
+        gameCode,
+        userId,
+    });
+
+    yield put(setGameDataAction(data));
+    yield put(setGameIdAction(id));
+    yield put(setGamePlayersAction(players));
+
+    Actions[Game.key]();
+
+    yield all([call(watchGameData, id), call(watchPlayers, id)]);
+}
+
+function* startGame() {
+    const gameId = yield select(gameIdSelector);
+
+    yield call(fireFetch, `startGame`, {
+        gameId,
+    });
 }
 
 export default function*() {
     yield takeEvery(joinGameAction().type, joinGame);
+    yield takeEvery(startGameAction().type, startGame);
 }

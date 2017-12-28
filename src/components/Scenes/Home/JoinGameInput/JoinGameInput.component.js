@@ -1,17 +1,17 @@
 import React, { PureComponent } from 'react';
 
-import {
-    CodeInput,
-} from 'components/index';
+import PropTypes from 'prop-types';
+
+import { CodeInput } from 'components/index';
 
 export default class JoinGameInput extends PureComponent {
+    static propTypes = {
+        onPress: PropTypes.func.isRequired,
+        onChangeText: PropTypes.func.isRequired,
+        value: PropTypes.string,
+    };
 
     render() {
-        return (
-            <CodeInput
-                {...this.props}
-                label={`Enter game code`}
-            />
-        );
+        return <CodeInput {...this.props} label={`Enter game code`} />;
     }
 }

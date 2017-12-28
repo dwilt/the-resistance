@@ -26,21 +26,30 @@ import {
 } from './helpers/firestore';
 
 export async function joinGame({ userId, gameCode }) {
-    const game = await getOpenGameByCode(parseInt(gameCode));
+    const gameDoc = await getOpenGameByCode(parseInt(gameCode));
 
-    if (game) {
-        const gameId = game.id;
-        const player = await getPlayer(gameId, userId);
+    if (gameDoc) {
+        const { id } = gameDoc;
+
+        const [player, data, players, completedMissions] = await Promise.all([
+            getPlayer(id, userId),
+            getGame(id),
+            getPlayers(id),
+            getCompletedMissions(id),
+        ]);
 
         if (!player.exists) {
             const userDoc = await getUser(userId);
             const { name } = userDoc.data();
 
-            await addPlayer(gameId, userId, name);
+            await addPlayer(id, userId, name);
         }
 
         return {
-            gameId,
+            id,
+            data,
+            players,
+            completedMissions,
         };
     } else {
         return Promise.reject({

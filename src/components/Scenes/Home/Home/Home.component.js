@@ -43,28 +43,6 @@ class Home extends Component {
             showJoinGameOverlay: false,
         });
 
-    joinGame = async () => {
-        const { gameCode } = this.state;
-
-
-        try {
-            this.setState({
-                error: null,
-                isJoiningGame: true,
-            });
-
-
-        } catch ({ message }) {
-            this.setState({
-                error: message,
-            });
-        } finally {
-            this.setState({
-                isJoiningGame: false,
-            });
-        }
-    };
-
     createGame = async () => {
         const userId = firebase.auth().currentUser.uid;
 
@@ -93,20 +71,8 @@ class Home extends Component {
         }
     };
 
-    setGameCode = (gameCode) => {
-        this.setState({
-            gameCode,
-        });
-    };
-
     render() {
-        const {
-            isCreatingGame,
-            isJoiningGame,
-            gameCode,
-            error,
-            showJoinGameOverlay,
-        } = this.state;
+        const { isCreatingGame, error, showJoinGameOverlay } = this.state;
         const errorEl = error && <ErrorMessage error={error} />;
 
         const joinGameOverlay = showJoinGameOverlay && (
@@ -115,15 +81,9 @@ class Home extends Component {
                 style={styles.joinGameOverlay}
             >
                 <View style={styles.joinCodeInput}>
-                    <JointGameInput/>
+                    <JoinGameInput />
                 </View>
-                <ActionButton
-                    onPress={this.joinGame}
-                    isLoading={isJoiningGame}
-                    theme={`teal`}
-                >
-                    {`Join Game`}
-                </ActionButton>
+                <JoinGameButton />
             </TouchableOpacity>
         );
 
@@ -140,7 +100,12 @@ class Home extends Component {
                             <PlayerCard isSpy={true} />
                         </View>
                     </View>
-                    <JoinGameButton/>
+                    <ActionButton
+                        onPress={this.showJoinGameOverlay}
+                        theme={`teal`}
+                    >
+                        {`Join Existing Game`}
+                    </ActionButton>
                     <ActionButton
                         onPress={this.createGame}
                         isLoading={isCreatingGame}

@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import {
-   Provider
-} from 'react-redux';
+import { Provider } from 'react-redux';
 
 import { Scene, Router, Actions } from 'react-native-router-flux';
 
