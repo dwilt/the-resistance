@@ -23,13 +23,22 @@ class Game extends Component {
     render() {
         const { state } = this.props;
 
+        let content = null;
+
         switch (state) {
             case gameStates.LOBBY:
-                return <Lobby />;
+                content = <Lobby />;
+                break;
+
+            case gameStates.BUILD_MISSION_TEAM:
+                content = <BuildMissionTeam />;
+                break;
 
             default:
-                return null;
+                content = null;
         }
+
+        return <Scene>{content}</Scene>;
     }
 }
 

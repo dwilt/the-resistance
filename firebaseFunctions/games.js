@@ -147,40 +147,10 @@ export async function confirmPlayerIdentity({ gameId, userId }) {
 }
 
 // building mission team
-async function adjustProposedMissionTeam({ gameId, userId, add = true }) {
-    const [game, players = [], completedMissions = []] = await Promise.all([
-        getGame(gameId),
-        getPlayers(gameId),
-        getCompletedMissions(gameId),
-    ]);
-
-    const { currentMission = {} } = game;
-    const { proposedTeam = {} } = currentMission;
-    const { members = [] } = proposedTeam;
-
-    const updatedProposedMissionTeam = add
-        ? [...members, userId]
-        : members.filter((missionMemberId) => missionMemberId !== userId);
-
-    const totalPlayers = players.length;
-    const currentRound = completedMissions.length + 1;
-
-    const filled =
-        updatedProposedMissionTeam.length ===
-        getMissionMembersCount(currentRound, totalPlayers);
-
-    await updateGame(gameId, {
-        [`currentMission.proposedTeam.members`]: updatedProposedMissionTeam,
-        [`currentMission.proposedTeam.filled`]: filled,
+export function updateProposedMissionTeam({ gameId, team }) {
+    return updateGame(gameId, {
+        [`currentMission.proposedTeam`]: team,
     });
-}
-
-export async function removePlayerFromMissionTeam({ gameId, userId }) {
-    return adjustProposedMissionTeam({ gameId, userId, add: false });
-}
-
-export async function addPlayerToMissionTeam({ gameId, userId }) {
-    return adjustProposedMissionTeam({ gameId, userId });
 }
 
 export async function confirmSelectedMissionTeam({ gameId }) {

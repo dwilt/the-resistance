@@ -10,17 +10,11 @@ import styles from './Lobby.styles';
 
 class Lobby extends Component {
     static propTypes = {
-        host: PropTypes.string.isRequired,
-        userId: PropTypes.string.isRequired,
-    };
-
-    static defaultProps = {
-        isHost: false,
+        isHost: PropTypes.bool.isRequired,
     };
 
     render() {
-        const { host, userId } = this.props;
-        const isHost = userId === host;
+        const { isHost } = this.props;
 
         return (
             <View style={styles.container}>

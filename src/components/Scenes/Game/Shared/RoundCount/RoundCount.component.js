@@ -7,21 +7,21 @@ import { Text } from 'components/index';
 import { View } from 'react-native';
 import styles from './RoundCount.styles';
 
-class RoundCount extends Component {
+export default class RoundCount extends Component {
     static propTypes = {
         roundCount: PropTypes.number.isRequired,
-        missionsPassed: PropTypes.number.isRequired,
-        missionsFailed: PropTypes.number.isRequired,
+        passedMissions: PropTypes.number.isRequired,
+        failedMissions: PropTypes.number.isRequired,
     };
 
     render() {
-        const { roundCount, missionsFailed, missionsPassed } = this.props;
+        const { roundCount, failedMissions, passedMissions } = this.props;
 
         return (
             <View style={styles.container}>
                 <View style={styles.numberContainer}>
                     <Text style={[styles.number, styles.passedNumber]}>
-                        {missionsPassed}
+                        {passedMissions}
                     </Text>
                     <Text style={styles.numberText}>
                         {`Missions Passed`.toUpperCase()}
@@ -39,7 +39,7 @@ class RoundCount extends Component {
                     style={[styles.numberContainer, styles.lastNumberContainer]}
                 >
                     <Text style={[styles.number, styles.failedNumber]}>
-                        {missionsFailed}
+                        {failedMissions}
                     </Text>
                     <Text style={styles.numberText}>
                         {`Missions Failed`.toUpperCase()}
@@ -49,5 +49,3 @@ class RoundCount extends Component {
         );
     }
 }
-
-export default RoundCount;

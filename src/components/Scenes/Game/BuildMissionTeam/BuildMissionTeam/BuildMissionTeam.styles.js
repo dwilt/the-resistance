@@ -8,6 +8,11 @@ import {
     yellow,
 } from 'styles';
 
+const subtitleFont = {
+    ...getUniversalFont(1.2, 1.4),
+    fontFamily: openSans.bold,
+};
+
 export default StyleSheet.create({
     container: {
         flex: 1,
@@ -22,23 +27,19 @@ export default StyleSheet.create({
         textAlign: `center`,
         marginBottom: gutter / 2,
     },
-    leaderInstructionsContainer: {
-        marginBottom: gutter,
-        paddingLeft: gutter,
-        paddingRight: gutter,
+    subtitleContainer: {
+        padding: gutter,
+        paddingTop: 0,
     },
-    leaderInstructionsTextContainer: {
+    subtitle: {
+        ...subtitleFont,
         textAlign: `center`,
     },
-    leaderInstructions: {
-        ...getUniversalFont(1.2, 1.4),
-        fontFamily: openSans.bold,
-    },
     missionMembersCount: {
-        fontFamily: openSans.bold,
+        ...subtitleFont,
         color: yellow,
     },
-    playerIdentityReveal: {
+    identityOverlay: {
         ...blackOverlay,
     },
     confirmButton: {

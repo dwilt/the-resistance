@@ -4,22 +4,25 @@ import PropTypes from 'prop-types';
 
 import { ActionButton, Text, PlayerCard, Checkbox } from 'components';
 
-import { firebase, fireFetch } from 'services';
 import { View } from 'react-native';
+
 import styles from './PlayerIdentityReveal.styles';
 
-class PlayerIdentityReveal extends Component {
+export default class PlayerIdentityReveal extends Component {
     static propTypes = {
+        userId: PropTypes.string.isRequired,
+        onConfirm: PropTypes.func.isRequired,
         isSpy: PropTypes.bool.isRequired,
-        spies: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-        gameId: PropTypes.string.isRequired,
-        onConfirmIdentity: PropTypes.func.isRequired,
+        spies: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.string.isRequired,
+                name: PropTypes.string.isRequired,
+            }),
+        ).isRequired,
     };
 
     state = {
         showingIdentity: false,
-        isConfirming: false,
-        waitingForOthers: false,
         confirmedAlone: false,
     };
 
@@ -35,31 +38,11 @@ class PlayerIdentityReveal extends Component {
         });
     };
 
-    confirmPlayerIdentity = async () => {
-        const { gameId, onConfirmIdentity } = this.props;
-        const userId = firebase.auth().currentUser.uid;
-
-        onConfirmIdentity();
-
-        try {
-            this.setState({
-                isConfirming: true,
-            });
-
-            await fireFetch(`confirmPlayerIdentity`, {
-                userId,
-                gameId,
-            });
-        } catch ({ message }) {
-            this.setState({
-                error: message,
-            });
-        }
-    };
-
     render() {
-        const { isSpy, spies } = this.props;
-        const { isConfirming, showingIdentity, confirmedAlone } = this.state;
+        const { isSpy, spies, onConfirm, userId } = this.props;
+        const { showingIdentity, confirmedAlone } = this.state;
+
+        const otherSpies = spies.filter(({ id }) => id !== userId);
 
         let content = null;
 
@@ -67,11 +50,11 @@ class PlayerIdentityReveal extends Component {
             const identityText = isSpy ? `You're a spy!` : `You're an ally!`;
             let spiesText =
                 isSpy &&
-                spies.reduce(
-                    (currentText, spy, i) =>
-                        i === spies.length - 1
-                            ? `${currentText} and ${spy}.`
-                            : `${currentText} ${spy}, `,
+                otherSpies.reduce(
+                    (currentText, { name }, i) =>
+                        i === otherSpies.length - 1
+                            ? `${currentText} and ${name}.`
+                            : `${currentText} ${name}, `,
                     `The other spies you’re working with are`,
                 );
             const spiesTextEl = spiesText && (
@@ -85,12 +68,7 @@ class PlayerIdentityReveal extends Component {
                     <View style={styles.identityCard}>
                         <PlayerCard isSpy={isSpy} />
                     </View>
-                    <ActionButton
-                        isLoading={isConfirming}
-                        onPress={this.confirmPlayerIdentity}
-                    >
-                        {`Got It!`}
-                    </ActionButton>
+                    <ActionButton onPress={onConfirm}>{`Got It!`}</ActionButton>
                 </View>
             );
         } else {
@@ -124,5 +102,3 @@ class PlayerIdentityReveal extends Component {
         );
     }
 }
-
-export default PlayerIdentityReveal;

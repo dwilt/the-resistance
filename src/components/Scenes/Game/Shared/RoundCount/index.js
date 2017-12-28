@@ -1,1 +1,1 @@
-export { default as RoundCount } from './RoundCount.component';
+export { default as RoundCount } from './RoundCount.container';

@@ -1,6 +1,14 @@
 import { Actions } from 'react-native-router-flux';
 
-import { takeEvery, take, call, select, put, all } from 'redux-saga/effects';
+import {
+    takeEvery,
+    take,
+    call,
+    select,
+    put,
+    all,
+    takeLatest,
+} from 'redux-saga/effects';
 
 import { buffers, eventChannel } from 'redux-saga';
 
@@ -10,6 +18,7 @@ import {
     userIdSelector,
     homeJoinGameInputSelector,
     gameIdSelector,
+    proposedMissionTeamSelector,
 } from 'selectors';
 
 import { Game } from 'components';
@@ -28,6 +37,13 @@ export const setGamePlayersAction = (players) => ({
     },
 });
 
+export const setGameCompletedMissionsAction = (completedMissions) => ({
+    type: `SET_GAME_COMPLETED_MISSIONS`,
+    payload: {
+        completedMissions,
+    },
+});
+
 export const setGameIdAction = (id) => ({
     type: `SET_GAME_ID`,
     payload: {
@@ -41,6 +57,22 @@ export const joinGameAction = () => ({
 
 export const startGameAction = () => ({
     type: `START_GAME`,
+});
+
+export const confirmMissionTeamAction = () => ({
+    type: `CONFIRM_MISSION_TEAM`,
+});
+
+export const confirmPlayerIdentityAction = () => ({
+    type: `confirmPlayerIdentityAction`,
+});
+
+export const toggleMissionTeamMemberAction = (userId, selected) => ({
+    type: `TOGGLE_MISSION_MEMBER`,
+    payload: {
+        userId,
+        selected,
+    },
 });
 
 let gameListener = null;
@@ -67,8 +99,6 @@ function* watchGameData(id) {
 
     while (true) {
         const data = yield take(gameChannel);
-
-        console.log(`data`, data);
 
         yield put(setGameDataAction(data));
     }
@@ -103,6 +133,35 @@ function* watchPlayers(id) {
     }
 }
 
+function createCompletedMissionsListenerChannel(id) {
+    return eventChannel((emitter) => {
+        gameListener = db
+            .collection(`games`)
+            .doc(id)
+            .collection(`completedMissions`)
+            .onSnapshot(({ docs }) => {
+                const missions = docs.map((doc) => doc.data());
+
+                emitter(missions);
+            });
+
+        return () => {};
+    }, buffers.sliding(2));
+}
+
+function* watchCompletedMissions(id) {
+    const completedMissionsChannel = yield call(
+        createCompletedMissionsListenerChannel,
+        id,
+    );
+
+    while (true) {
+        const players = yield take(completedMissionsChannel);
+
+        yield put(setGameCompletedMissionsAction(players));
+    }
+}
+
 function* joinGame() {
     const userId = yield select(userIdSelector);
     const gameCode = yield select(homeJoinGameInputSelector);
@@ -118,7 +177,11 @@ function* joinGame() {
 
     Actions[Game.key]();
 
-    yield all([call(watchGameData, id), call(watchPlayers, id)]);
+    yield all([
+        call(watchGameData, id),
+        call(watchPlayers, id),
+        call(watchCompletedMissions, id),
+    ]);
 }
 
 function* startGame() {
@@ -129,7 +192,41 @@ function* startGame() {
     });
 }
 
+function* confirmMissionTeam() {
+    const gameId = yield select(gameIdSelector);
+
+    yield call(fireFetch, `confirmSelectedMissionTeam`, {
+        gameId,
+    });
+}
+
+function* updateProposedMissionTeam() {
+    const gameId = yield select(gameIdSelector);
+    const team = yield select(proposedMissionTeamSelector);
+
+    yield call(fireFetch, `updateProposedMissionTeam`, {
+        gameId,
+        team,
+    });
+}
+
+function* confirmPlayerIdentity() {
+    const gameId = yield select(gameIdSelector);
+    const userId = yield select(userIdSelector);
+
+    yield call(fireFetch, `confirmPlayerIdentity`, {
+        gameId,
+        userId,
+    });
+}
+
 export default function*() {
     yield takeEvery(joinGameAction().type, joinGame);
     yield takeEvery(startGameAction().type, startGame);
+    yield takeEvery(confirmMissionTeamAction().type, confirmMissionTeam);
+    yield takeEvery(confirmPlayerIdentityAction().type, confirmPlayerIdentity);
+    yield takeLatest(
+        toggleMissionTeamMemberAction().type,
+        updateProposedMissionTeam,
+    );
 }

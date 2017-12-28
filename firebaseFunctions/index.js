@@ -12,8 +12,7 @@ import {
     startNextRound,
     buildNewMissionTeam,
     confirmPlayerIdentity,
-    removePlayerFromMissionTeam,
-    addPlayerToMissionTeam,
+    updateProposedMissionTeam,
     conductMission,
 } from './games';
 
@@ -54,12 +53,8 @@ exports.quitGame = functions.https.onRequest(functionCreator(quitGame));
 
 exports.startGame = functions.https.onRequest(functionCreator(startGame));
 
-exports.removePlayerFromMissionTeam = functions.https.onRequest(
-    functionCreator(removePlayerFromMissionTeam),
-);
-
-exports.addPlayerToMissionTeam = functions.https.onRequest(
-    functionCreator(addPlayerToMissionTeam),
+exports.updateProposedMissionTeam = functions.https.onRequest(
+    functionCreator(updateProposedMissionTeam),
 );
 
 exports.confirmSelectedMissionTeam = functions.https.onRequest(
