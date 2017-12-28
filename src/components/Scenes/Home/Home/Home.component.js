@@ -6,18 +6,19 @@ import {
     ActionButton,
     ErrorMessage,
     Game,
-    CodeInput,
+    JoinGameButton,
+    JoinGameInput,
     Scene,
     PlayerCard,
 } from 'components';
 
 import { Actions } from 'react-native-router-flux';
 
-import { firebase, fireFetch } from 'services';
+import { firebase, fireFetch } from 'services/index';
 
 import styles from './Home.styles';
 
-const logo = require(`../../../assets/images/resistance-logo.png`);
+const logo = require(`assets/images/resistance-logo.png`);
 
 class Home extends Component {
     state = {
@@ -44,7 +45,7 @@ class Home extends Component {
 
     joinGame = async () => {
         const { gameCode } = this.state;
-        const userId = firebase.auth().currentUser.uid;
+
 
         try {
             this.setState({
@@ -52,15 +53,7 @@ class Home extends Component {
                 isJoiningGame: true,
             });
 
-            const { gameId } = await fireFetch(`joinGame`, {
-                gameCode,
-                userId,
-            });
 
-            Actions[Game.key]({
-                gameCode,
-                gameId,
-            });
         } catch ({ message }) {
             this.setState({
                 error: message,
@@ -122,11 +115,7 @@ class Home extends Component {
                 style={styles.joinGameOverlay}
             >
                 <View style={styles.joinCodeInput}>
-                    <CodeInput
-                        onChangeText={this.setGameCode}
-                        value={gameCode}
-                        label={`Enter game code`}
-                    />
+                    <JointGameInput/>
                 </View>
                 <ActionButton
                     onPress={this.joinGame}
@@ -151,12 +140,7 @@ class Home extends Component {
                             <PlayerCard isSpy={true} />
                         </View>
                     </View>
-                    <ActionButton
-                        onPress={this.showJoinGameOverlay}
-                        theme={`teal`}
-                    >
-                        {`Join Existing Game`}
-                    </ActionButton>
+                    <JoinGameButton/>
                     <ActionButton
                         onPress={this.createGame}
                         isLoading={isCreatingGame}

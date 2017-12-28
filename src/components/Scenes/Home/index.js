@@ -1,1 +1,3 @@
-export { default as Home } from './Home.component';
+export * from './JoinGameButton';
+export * from './JoinGameInput';
+export * from './Home';
