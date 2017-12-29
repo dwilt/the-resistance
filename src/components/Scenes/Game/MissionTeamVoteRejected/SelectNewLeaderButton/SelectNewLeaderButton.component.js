@@ -1,12 +1,8 @@
-import React, {
-    PureComponent,
-} from 'react';
+import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
-import {
-    ActionButton,
-} from 'components';
+import { ActionButton } from 'components';
 
 export default class SelectNewLeaderButton extends PureComponent {
     static propTypes = {
@@ -15,10 +11,7 @@ export default class SelectNewLeaderButton extends PureComponent {
 
     render() {
         return (
-            <ActionButton
-                {...this.props}
-                theme={`teal`}
-            >
+            <ActionButton {...this.props} theme={`teal`}>
                 {`Select New Leader`}
             </ActionButton>
         );

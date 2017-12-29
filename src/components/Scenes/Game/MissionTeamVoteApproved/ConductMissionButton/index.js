@@ -1,1 +1,3 @@
-export { default as ConductMissionButton } from './ConductMissionButton.container';
+export {
+    default as ConductMissionButton,
+} from './ConductMissionButton.container';

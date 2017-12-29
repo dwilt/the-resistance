@@ -1,5 +1,3 @@
-import { gameStates } from "../gameStructure";
-
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 

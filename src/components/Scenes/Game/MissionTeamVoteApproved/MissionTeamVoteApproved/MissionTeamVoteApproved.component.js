@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import { ConductMissionButton, Text,GameFooter } from 'components/index';
+import { ConductMissionButton, Text, GameFooter } from 'components/index';
 
 import { View } from 'react-native';
 
@@ -12,9 +12,9 @@ export default class MissionTeamVoteApproved extends PureComponent {
             <View style={styles.container}>
                 <View style={styles.content}>
                     <Text>{`Mission team approved!`}</Text>
-                    <ConductMissionButton/>
+                    <ConductMissionButton />
                 </View>
-                <GameFooter/>
+                <GameFooter />
             </View>
         );
     }

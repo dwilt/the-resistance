@@ -1,1 +1,3 @@
-export { default as ConductMissionPlayersList } from './ConductMissionPlayersList.container';
+export {
+    default as ConductMissionPlayersList,
+} from './ConductMissionPlayersList.container';

@@ -96,9 +96,9 @@ export const voteButtons = {
 
 export const voteButtonsApprove = {
     width: voteButtonWidth,
-    marginRight: gutter /2
-}
+    marginRight: gutter / 2,
+};
 
 export const voteButtonsReject = {
     width: voteButtonWidth,
-}
+};

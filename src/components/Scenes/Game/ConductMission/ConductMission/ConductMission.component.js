@@ -5,12 +5,12 @@ import { View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import {
-   Text,
+    Text,
     GameFooter,
     PassMissionButton,
     FailMissionButton,
     SubmitMissionVoteButton,
-    ConductMissionPlayersList
+    ConductMissionPlayersList,
 } from 'components/index';
 
 import styles from './ConductMission.styles';
@@ -37,13 +37,15 @@ export default class ConductMission extends Component {
                             </View>
                         </View>
                         <View style={styles.submitButton}>
-                            <SubmitMissionVoteButton/>
+                            <SubmitMissionVoteButton />
                         </View>
                     </View>
                 )}
                 {submittedVote && (
                     <View style={styles.submittedVoteContainer}>
-                        <Text style={styles.submittedVote}>{`Vote Submitted!`}</Text>
+                        <Text
+                            style={styles.submittedVote}
+                        >{`Vote Submitted!`}</Text>
                     </View>
                 )}
             </View>
@@ -54,12 +56,14 @@ export default class ConductMission extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.content}>
-                    <Text style={styles.title}>{`Vote On Mission Success`}</Text>
+                    <Text
+                        style={styles.title}
+                    >{`Vote On Mission Success`}</Text>
                     <Text style={styles.subtitle}>{`Keep This Secret!`}</Text>
-                    <ConductMissionPlayersList/>
+                    <ConductMissionPlayersList />
                     {content}
                 </View>
-                <GameFooter/>
+                <GameFooter />
             </View>
         );
     }

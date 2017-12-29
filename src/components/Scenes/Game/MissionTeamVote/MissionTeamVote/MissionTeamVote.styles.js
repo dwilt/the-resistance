@@ -28,10 +28,10 @@ export default StyleSheet.create({
         ...voteButtons,
     },
     rejectButton: {
-        ...voteButtonsReject
+        ...voteButtonsReject,
     },
     approveButton: {
-        ...voteButtonsApprove
+        ...voteButtonsApprove,
     },
     submitButton: {
         paddingLeft: gutter,

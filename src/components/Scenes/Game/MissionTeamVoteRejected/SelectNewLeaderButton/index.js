@@ -1,1 +1,3 @@
-export { default as SelectNewLeaderButton } from './SelectNewLeaderButton.container';
+export {
+    default as SelectNewLeaderButton,
+} from './SelectNewLeaderButton.container';

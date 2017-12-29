@@ -109,11 +109,13 @@ export const submitMissionPass = () => ({
     type: `SUBMIT_MISSION_PASSES`,
 });
 
-let gameListener = null;
+export const startNextRoundAction = () => ({
+    type: `START_NEXT_ROUND`,
+});
 
 function createGameListenerChannel(id) {
     return eventChannel((emitter) => {
-        gameListener = db
+        db
             .collection(`games`)
             .doc(id)
             .onSnapshot((snapshot) => {
@@ -316,6 +318,14 @@ function* submitMissionPasses() {
     });
 }
 
+function* startNextRound() {
+    const gameId = yield select(gameIdSelector);
+
+    yield call(fireFetch, `startNextRound`, {
+        gameId,
+    });
+}
+
 export default function*() {
     yield takeEvery(joinGameAction().type, joinGame);
     yield takeEvery(startGameAction().type, startGame);
@@ -346,4 +356,6 @@ export default function*() {
     );
 
     yield takeEvery(submitMissionPass().type, submitMissionPasses);
+
+    yield takeEvery(startNextRoundAction().type, startNextRound);
 }

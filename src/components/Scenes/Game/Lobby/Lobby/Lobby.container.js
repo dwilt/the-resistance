@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { isHostSelector, userIdSelector } from 'selectors';
+import { isHostSelector } from 'selectors';
 
 import Lobby from './Lobby.component';
 

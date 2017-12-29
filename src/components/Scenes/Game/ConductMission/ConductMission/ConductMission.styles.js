@@ -1,7 +1,13 @@
 import { StyleSheet } from 'react-native';
 
-import { yellowTitle, subtitle, voteButtons, voteButtonsApprove, voteButtonsReject } from 'styles';
-import { getUniversalFont, gutter, openSans } from "../../../../../styles";
+import {
+    yellowTitle,
+    subtitle,
+    voteButtons,
+    voteButtonsApprove,
+    voteButtonsReject,
+} from 'styles';
+import { getUniversalFont, gutter, openSans } from '../../../../../styles';
 
 export default StyleSheet.create({
     container: {
@@ -20,10 +26,10 @@ export default StyleSheet.create({
         ...voteButtons,
     },
     rejectButton: {
-        ...voteButtonsReject
+        ...voteButtonsReject,
     },
     approveButton: {
-        ...voteButtonsApprove
+        ...voteButtonsApprove,
     },
     submitButton: {
         paddingLeft: gutter,

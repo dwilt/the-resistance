@@ -1,1 +1,3 @@
-export { default as SubmitMissionVoteButton } from './SubmitMissionVoteButton.container';
+export {
+    default as SubmitMissionVoteButton,
+} from './SubmitMissionVoteButton.container';

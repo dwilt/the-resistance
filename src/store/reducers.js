@@ -1,6 +1,4 @@
-import {
-    combineReducers,
-} from 'redux';
+import { combineReducers } from 'redux';
 
 import conductMission from './conductMission/conductMission.reducer';
 import game from './game/game.reducer';

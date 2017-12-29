@@ -1,10 +1,10 @@
 export const setCastVoteAction = (castVote) => ({
     type: `SET_CONDUCT_MISSION_CAST_VOTE`,
     payload: {
-        castVote
+        castVote,
     },
 });
 
-export const passMissionAction = () => setCastVoteAction(true)
+export const passMissionAction = () => setCastVoteAction(true);
 
-export const failMissionAction = () => setCastVoteAction(false)
+export const failMissionAction = () => setCastVoteAction(false);

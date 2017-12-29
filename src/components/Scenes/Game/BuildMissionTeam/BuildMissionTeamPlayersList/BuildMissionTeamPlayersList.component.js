@@ -22,7 +22,7 @@ export default class BuildMissionTeamPlayersList extends Component {
         const {
             isLeader,
             players,
-            proposedTeam,
+            proposedTeam = [],
             isFilled,
             onPlayerTap,
         } = this.props;

@@ -1,18 +1,10 @@
-import React, {
-    PureComponent,
-} from 'react';
+import React, { PureComponent } from 'react';
 
-import {
-    View,
-} from 'react-native';
+import { View } from 'react-native';
 
-import {
-    Text,
-    SelectNewLeaderButton,
-    GameFooter
-} from 'components';
+import { Text, SelectNewLeaderButton, GameFooter } from 'components';
 
-import styles from "./MissionTeamVoteRejected.styles";
+import styles from './MissionTeamVoteRejected.styles';
 
 export default class MissionTeamVoteRejected extends PureComponent {
     render() {
@@ -20,9 +12,9 @@ export default class MissionTeamVoteRejected extends PureComponent {
             <View style={styles.container}>
                 <View style={styles.content}>
                     <Text>{`Mission team rejected!`}</Text>
-                    <SelectNewLeaderButton/>
+                    <SelectNewLeaderButton />
                 </View>
-                <GameFooter/>
+                <GameFooter />
             </View>
         );
     }

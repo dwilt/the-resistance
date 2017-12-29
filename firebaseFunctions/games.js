@@ -1,6 +1,5 @@
 import {
     gameStates,
-    getMissionMembersCount,
     getSpyCount,
     singleMissionFailedMissionTeamsLimit,
     totalRounds,
@@ -243,7 +242,7 @@ export async function revealProposedMissionTeamVote({ gameId }) {
             updatedGame.state = gameStates.COMPLETED;
             updatedGame.victoryType = victoryTypes.SPIES_PREVENTED_MISSION_TEAM;
         } else {
-            updatedGame.state = gameStates.MISSION_TEAM_VOTE_REJECTED
+            updatedGame.state = gameStates.MISSION_TEAM_VOTE_REJECTED;
         }
     }
 

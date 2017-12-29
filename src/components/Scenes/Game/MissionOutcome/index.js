@@ -1,1 +1,2 @@
-export { default as MissionOutcome } from './MissionOutcome.component';
+export * from './MissionOutcome';
+export * from './StartNextRoundButton';

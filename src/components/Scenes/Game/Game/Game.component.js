@@ -51,6 +51,10 @@ class Game extends Component {
                 content = <ConductMission />;
                 break;
 
+            case gameStates.MISSION_OUTCOME:
+                content = <MissionOutcome />;
+                break;
+
             default:
                 content = null;
         }

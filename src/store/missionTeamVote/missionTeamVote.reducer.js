@@ -4,7 +4,7 @@ import { createReducer } from 'helpers';
 
 export default createReducer(
     {
-        castVote: null
+        castVote: null,
     },
     {
         [setCastVoteAction().type]: (state, { castVote }) => ({

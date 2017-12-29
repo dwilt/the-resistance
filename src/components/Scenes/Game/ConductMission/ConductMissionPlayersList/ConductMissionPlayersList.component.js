@@ -1,12 +1,8 @@
-import React, {
-    PureComponent,
-} from 'react';
+import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
-import {
-    PlayersList,
-} from 'components';
+import { PlayersList } from 'components';
 
 export default class ConductMissionPlayersList extends PureComponent {
     static propTypes = {

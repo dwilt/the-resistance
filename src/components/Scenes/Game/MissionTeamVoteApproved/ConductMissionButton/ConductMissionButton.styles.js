@@ -1,13 +1,5 @@
-import {
-    StyleSheet,
-} from 'react-native';
-
-import {
-   gutter,
-} from 'styles';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-    container: {
-
-    },
+    container: {},
 });
