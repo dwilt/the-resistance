@@ -249,8 +249,9 @@ export async function revealProposedMissionTeamVote({ gameId }) {
 export async function conductMission({ gameId }) {
     const [game] = await Promise.all([getGame(gameId)]);
 
-    const { currentMission: { proposedTeam: { members } } } = game;
-    const missionTeam = members.reduce((current, member) => {
+    const { currentMission: { proposedTeam = [] } } = game;
+
+    const missionTeam = proposedTeam.reduce((current, member) => {
         current[member] = null;
 
         return current;

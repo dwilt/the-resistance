@@ -82,7 +82,7 @@ export const confirmedMissionTeamAction = () => ({
 });
 
 export const confirmPlayerIdentityAction = () => ({
-    type: `confirmPlayerIdentityAction`,
+    type: `CONFIRM_PLAYER_IDENTITY_ACTION`,
 });
 
 export const revealProposedMissionTeamVoteAction = () => ({
@@ -123,6 +123,14 @@ export const retractProposedMissionTeamApprovalAction = () => ({
 
 export const conductMissionAction = () => ({
     type: `CONDUCT_MISSION`,
+});
+
+export const conductingMissionAction = () => ({
+    type: `CONDUCTING_MISSION`,
+});
+
+export const conductedMissionAction = () => ({
+    type: `CONDUCTED_MISSION`,
 });
 
 export const selectNewLeaderAction = () => ({
@@ -333,21 +341,25 @@ function* retractProposedMissionTeamApproval() {
 function* revealProposedMissionTeamVote() {
     const gameId = yield select(gameIdSelector);
 
-    yield put(revealingProposedMissionTeamVoteAction())
+    yield put(revealingProposedMissionTeamVoteAction());
 
     yield call(fireFetch, `revealProposedMissionTeamVote`, {
         gameId,
     });
 
-    yield put(revealedProposedMissionTeamVoteAction())
+    yield put(revealedProposedMissionTeamVoteAction());
 }
 
 function* conductMission() {
     const gameId = yield select(gameIdSelector);
 
+    yield put(conductingMissionAction());
+
     yield call(fireFetch, `conductMission`, {
         gameId,
     });
+
+    yield put(conductedMissionAction());
 }
 
 function* selectNewLeader() {

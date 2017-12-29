@@ -7,6 +7,7 @@ import { ActionButton } from 'components';
 export default class ConductMissionButton extends PureComponent {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired,
     };
 
     render() {
