@@ -10,11 +10,7 @@ import {
 import styles from './ConductMission.styles';
 
 export default class ConductMission extends Component {
-
-
     render() {
-
-
         return (
             <View style={styles.container}>
                 <View style={styles.content}>
