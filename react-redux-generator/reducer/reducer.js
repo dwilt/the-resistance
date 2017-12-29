@@ -31,7 +31,7 @@ const getActionsImportStatement = () => {
 };
 
 const getHelpersImportStatement = () => {
-    return getImportStatement([`createReducer`], `/helpers`);
+    return getImportStatement([`createReducer`], `helpers`);
 };
 
 const createReducerFunction = (action, prop) => {

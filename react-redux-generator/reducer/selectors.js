@@ -31,7 +31,7 @@ const getPropSelectors = () => {
 
 const writeIndexFile = async () => {
     const files = await getFileNames(selectorsFolderPath);
-    const selectors = files.filter(file => file !== `index.js`);
+    const selectors = files.filter(file => file !== `index.js` && file !== `package.json`);
 
     const content = selectors.reduce((current, file) => {
         return current + `${getExportAllString(file.split(`.js`)[0])}\n`;

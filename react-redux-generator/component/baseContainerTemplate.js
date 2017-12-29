@@ -4,7 +4,7 @@ import {
 
 import {
 
-} from '/selectors';
+} from 'selectors';
 
 import {
 
