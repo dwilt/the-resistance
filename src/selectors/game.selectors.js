@@ -12,12 +12,12 @@ export const gameIdSelector = createSelector(gameSelector, (game) => game.id);
 
 export const currentMissionSelector = createSelector(
     gameDataSelector,
-    (gameData) => gameData.currentMission || {},
+    (gameData) => gameData.currentMission,
 );
 
 export const proposedMissionTeamSelector = createSelector(
     currentMissionSelector,
-    (currentMission) => currentMission.proposedTeam || [],
+    (currentMission) => currentMission.proposedTeam,
 );
 
 export const gameStateSelector = createSelector(
