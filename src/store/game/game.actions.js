@@ -113,6 +113,14 @@ export const setProposedMissionTeamApprovalAction = (userId, approves) => ({
     },
 });
 
+export const setMissionPassesAction = (userId, passes) => ({
+    type: `SET_MISSION_PASSES`,
+    payload: {
+        userId,
+        passes,
+    },
+});
+
 export const submitProposedMissionTeamApprovalAction = () => ({
     type: `SUBMIT_PROPOSED_MISSION_TEAM_APPROVAL`,
 });
@@ -374,6 +382,8 @@ function* submitMissionPasses() {
     const gameId = yield select(gameIdSelector);
     const userId = yield select(userIdSelector);
     const passes = yield select(passesMissionSelector);
+
+    yield put(setMissionPassesAction(userId, passes))
 
     yield call(fireFetch, `submitMissionPasses`, {
         gameId,
