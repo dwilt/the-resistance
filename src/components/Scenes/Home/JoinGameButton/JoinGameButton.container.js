@@ -1,9 +1,20 @@
 import { connect } from 'react-redux';
 
+import { homeIsJoiningGameSelector } from 'selectors';
+
 import { joinGameAction as onPress } from 'store/game/game.actions';
 
 import JoinGameButton from './JoinGameButton.component';
 
-export default connect(null, {
-    onPress,
-})(JoinGameButton);
+export default connect(
+    (state) => {
+        const isLoading = homeIsJoiningGameSelector(state);
+
+        return {
+            isLoading,
+        };
+    },
+    {
+        onPress,
+    },
+)(JoinGameButton);

@@ -16,7 +16,7 @@ import { db, fireFetch } from 'services';
 
 import {
     userIdSelector,
-    homeJoinGameInputSelector,
+    joinGameInputSelector,
     gameIdSelector,
     proposedMissionTeamSelector,
     approvesProposedMissionTeamSelector,
@@ -55,6 +55,14 @@ export const setGameIdAction = (id) => ({
 
 export const joinGameAction = () => ({
     type: `JOIN_GAME`,
+});
+
+export const joiningGameAction = () => ({
+    type: `JOINING_GAME`,
+});
+
+export const joinedGameAction = () => ({
+    type: `JOINED_GAME`,
 });
 
 export const startGameAction = () => ({
@@ -111,6 +119,18 @@ export const submitMissionPass = () => ({
 
 export const startNextRoundAction = () => ({
     type: `START_NEXT_ROUND`,
+});
+
+export const createNewGameAction = () => ({
+    type: `CREATE_NEW_GAME`,
+});
+
+export const createdNewGameAction = () => ({
+    type: `CREATED_NEW_GAME`,
+});
+
+export const creatingNewGameAction = () => ({
+    type: `CREATING_NEW_GAME`,
 });
 
 function createGameListenerChannel(id) {
@@ -198,15 +218,7 @@ function* watchCompletedMissions(id) {
     }
 }
 
-function* joinGame() {
-    const userId = yield select(userIdSelector);
-    const gameCode = yield select(homeJoinGameInputSelector);
-
-    const { id, data, players } = yield call(fireFetch, `joinGame`, {
-        gameCode,
-        userId,
-    });
-
+function* join({ id, data, players }) {
     yield put(setGameDataAction(data));
     yield put(setGameIdAction(id));
     yield put(setGamePlayersAction(players));
@@ -218,6 +230,22 @@ function* joinGame() {
         call(watchPlayers, id),
         call(watchCompletedMissions, id),
     ]);
+}
+
+function* joinGame() {
+    const userId = yield select(userIdSelector);
+    const gameCode = yield select(joinGameInputSelector);
+
+    yield put(joiningGameAction());
+
+    const { id, data, players } = yield call(fireFetch, `joinGame`, {
+        gameCode,
+        userId,
+    });
+
+    yield put(joinedGameAction());
+
+    yield call(join, { id, data, players });
 }
 
 function* startGame() {
@@ -326,6 +354,20 @@ function* startNextRound() {
     });
 }
 
+function* createNewGame() {
+    const userId = yield select(userIdSelector);
+
+    yield put(creatingNewGameAction());
+
+    const { id, data, players } = yield call(fireFetch, `createGame`, {
+        userId,
+    });
+
+    yield call(join, { id, data, players });
+
+    yield put(createdNewGameAction());
+}
+
 export default function*() {
     yield takeEvery(joinGameAction().type, joinGame);
     yield takeEvery(startGameAction().type, startGame);
@@ -358,4 +400,6 @@ export default function*() {
     yield takeEvery(submitMissionPass().type, submitMissionPasses);
 
     yield takeEvery(startNextRoundAction().type, startNextRound);
+
+    yield takeEvery(createNewGameAction().type, createNewGame);
 }

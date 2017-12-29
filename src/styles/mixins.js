@@ -76,6 +76,8 @@ export const yellowTitle = {
     fontFamily: openSans.bold,
     textAlign: `center`,
     marginBottom: gutter / 2,
+    paddingLeft: gutter,
+    paddingRight: gutter,
 };
 
 export const subtitle = {
@@ -83,6 +85,8 @@ export const subtitle = {
     fontFamily: openSans.bold,
     textAlign: `center`,
     marginBottom: gutter,
+    paddingLeft: gutter,
+    paddingRight: gutter,
 };
 
 const voteButtonWidth = (windowWidth - gutter * 2.5) / 2;

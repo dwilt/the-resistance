@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { centerChildren, gutter, blackOverlay } from 'styles/index';
+import { centerChildren, gutter } from 'styles/index';
 
 const logoWidth = 275;
 
@@ -25,13 +25,5 @@ export default StyleSheet.create({
     },
     spyCard: {
         marginLeft: gutter,
-    },
-    joinGameOverlay: {
-        ...blackOverlay,
-        paddingTop: gutter * 3,
-    },
-    joinCodeInput: {
-        ...centerChildren(),
-        marginBottom: gutter,
     },
 });

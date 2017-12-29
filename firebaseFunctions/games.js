@@ -78,12 +78,7 @@ export async function createGame({ userId }) {
         state: gameStates.LOBBY,
     });
 
-    const { gameId } = await joinGame({ userId, gameCode });
-
-    return {
-        gameCode,
-        gameId,
-    };
+    return joinGame({ userId, gameCode });
 }
 
 export async function startGame({ gameId }) {

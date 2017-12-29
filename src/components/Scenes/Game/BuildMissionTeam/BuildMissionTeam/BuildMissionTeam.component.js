@@ -58,14 +58,16 @@ export default class BuildMissionTeam extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>{`Build Mission Team`}</Text>
-                {subtitle}
-                <BuildMissionTeamPlayersList />
-                {isLeader && (
-                    <View style={styles.confirmButton}>
-                        <ConfirmMissionTeamButton />
-                    </View>
-                )}
+                <View style={styles.content}>
+                    <Text style={styles.title}>{`Build Mission Team`}</Text>
+                    {subtitle}
+                    <BuildMissionTeamPlayersList />
+                    {isLeader && (
+                        <View style={styles.confirmButton}>
+                            <ConfirmMissionTeamButton />
+                        </View>
+                    )}
+                </View>
                 <GameFooter />
                 {!allPlayersConfirmedIdentity && (
                     <View style={styles.identityOverlay}>
