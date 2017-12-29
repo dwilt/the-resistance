@@ -207,7 +207,9 @@ export async function revealProposedMissionTeamVote({ gameId }) {
     let approvedVotes = 0;
     let rejectedVotes = 0;
 
-    Object.values(missionTeamVotes).forEach((approved) => {
+    Object.keys(missionTeamVotes).forEach((user) => {
+        const approved = missionTeamVotes[user];
+
         if (approved) {
             approvedVotes += 1;
         } else {
