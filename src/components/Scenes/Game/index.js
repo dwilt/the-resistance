@@ -5,5 +5,6 @@ export * from './Game';
 export * from './Lobby';
 export * from './MissionOutcome';
 export * from './MissionTeamVote';
-export * from './MissionTeamVoteOutcome';
+export * from './MissionTeamVoteApproved';
+export * from './MissionTeamVoteRejected';
 export * from './Shared';

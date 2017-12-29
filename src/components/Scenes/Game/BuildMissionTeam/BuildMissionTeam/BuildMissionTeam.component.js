@@ -59,7 +59,7 @@ export default class BuildMissionTeam extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>{`Build Mission Team`}</Text>
-                <View style={styles.subtitleContainer}>{subtitle}</View>
+                {subtitle}
                 <BuildMissionTeamPlayersList />
                 {isLeader && (
                     <View style={styles.confirmButton}>

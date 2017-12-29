@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 
+import { capitalize } from 'lodash';
+
 import {
     ActivityIndicator,
     TouchableOpacity,
@@ -19,12 +21,13 @@ export default class ActionButton extends PureComponent {
         onPress: PropTypes.func.isRequired,
         children: PropTypes.node.isRequired,
         disabled: PropTypes.bool,
-        theme: PropTypes.oneOf([`yellow`, `teal`]),
+        theme: PropTypes.oneOf([`yellow`, `teal`, `bordered`]),
         style: ViewPropTypes.style,
     };
 
     static defaultProps = {
         disabled: false,
+        selected: false,
         isLoading: false,
         theme: `yellow`,
         style: {},
@@ -38,12 +41,18 @@ export default class ActionButton extends PureComponent {
             isLoading,
             disabled,
             style,
+            selected,
         } = this.props;
 
         const textStyles = [styles.text];
         const buttonStyles = [styles.textContainer];
 
-        buttonStyles.push(styles[`${theme}Container`], style);
+        buttonStyles.push(styles[`${theme}Container`]);
+
+        if (selected) {
+            buttonStyles.push(styles[`selected${capitalize(theme)}Container`]);
+            textStyles.push(styles[`selected${capitalize(theme)}Text`]);
+        }
 
         const isLoadingEl = isLoading && (
             <View style={styles.loader}>
@@ -54,6 +63,8 @@ export default class ActionButton extends PureComponent {
         if (isLoading) {
             textStyles.push(styles.hiddenText);
         }
+
+        buttonStyles.push(style);
 
         return (
             <View style={styles.container}>

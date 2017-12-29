@@ -7,6 +7,7 @@ import {
     windowWidth,
     windowHeight,
 } from './structure';
+import { openSans, yellow } from './index';
 
 export const minTouchSize = gutter * 4;
 
@@ -67,4 +68,19 @@ export const blackOverlay = {
     alignItems: `center`,
     paddingTop: gutter * 3,
     backgroundColor: `rgba(0, 0, 0, .9)`,
+};
+
+export const yellowTitle = {
+    ...getUniversalFont(1.5, 1),
+    color: yellow,
+    fontFamily: openSans.bold,
+    textAlign: `center`,
+    marginBottom: gutter / 2,
+};
+
+export const subtitle = {
+    ...getUniversalFont(1.2, 1.4),
+    fontFamily: openSans.bold,
+    textAlign: `center`,
+    marginBottom: gutter,
 };

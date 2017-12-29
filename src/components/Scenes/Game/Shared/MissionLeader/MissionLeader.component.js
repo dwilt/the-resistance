@@ -7,7 +7,7 @@ import { Text } from 'components/index';
 import { Image, View } from 'react-native';
 import styles from './MissionLeader.styles';
 
-const missionLeaderIcon = require(`../../../../../assets/images/mission-leader-icon.png`);
+const missionLeaderIcon = require(`assets/images/mission-leader-icon.png`);
 
 class MissionLeader extends Component {
     static propTypes = {

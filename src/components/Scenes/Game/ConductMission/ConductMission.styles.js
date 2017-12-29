@@ -1,11 +1,19 @@
 import { StyleSheet } from 'react-native';
 
-import { white } from 'styles';
+import { yellowTitle, subtitle } from 'styles';
 
 export default StyleSheet.create({
     container: {
-        paddingTop: 60,
-        backgroundColor: white,
+        flex: 1,
+    },
+    content: {
+        flex: 1,
+    },
+    title: {
+        ...yellowTitle,
+    },
+    subtitle: {
+        ...subtitle,
     },
     player: {
         marginBottom: 20,

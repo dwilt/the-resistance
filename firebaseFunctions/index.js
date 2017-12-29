@@ -7,6 +7,7 @@ import {
     startGame,
     confirmSelectedMissionTeam,
     submitProposedMissionTeamApproval,
+    retractProposedMissionTeamApproval,
     submitMissionSuccess,
     revealProposedMissionTeamVote,
     startNextRound,
@@ -63,6 +64,10 @@ exports.confirmSelectedMissionTeam = functions.https.onRequest(
 
 exports.submitProposedMissionTeamApproval = functions.https.onRequest(
     functionCreator(submitProposedMissionTeamApproval),
+);
+
+exports.retractProposedMissionTeamApproval = functions.https.onRequest(
+    functionCreator(retractProposedMissionTeamApproval),
 );
 
 exports.submitMissionSuccess = functions.https.onRequest(

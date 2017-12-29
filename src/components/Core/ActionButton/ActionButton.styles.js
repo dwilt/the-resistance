@@ -39,6 +39,13 @@ export default StyleSheet.create({
     tealContainer: {
         backgroundColor: teal,
     },
+    borderedContainer: {
+        borderWidth: 1,
+        borderColor: white,
+    },
+    selectedBorderedContainer: {
+        borderColor: yellow,
+    },
     disabled: {
         opacity: 0.5,
     },
@@ -50,5 +57,8 @@ export default StyleSheet.create({
         color: white,
         textAlign: `center`,
         fontFamily: openSans.bold,
+    },
+    selectedBorderedText: {
+        color: yellow,
     },
 });

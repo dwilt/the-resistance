@@ -146,7 +146,6 @@ export async function confirmPlayerIdentity({ gameId, userId }) {
     }
 }
 
-// building mission team
 export function updateProposedMissionTeam({ gameId, team }) {
     return updateGame(gameId, {
         [`currentMission.proposedTeam`]: team,
@@ -159,27 +158,30 @@ export async function confirmSelectedMissionTeam({ gameId }) {
     });
 }
 
-// Vote for mission team
 export async function submitProposedMissionTeamApproval({
     gameId,
     userId,
     approves,
 }) {
-    const [players, game] = await Promise.all([
-        getPlayers(gameId),
-        getGame(gameId),
-    ]);
+    const game = await getGame(gameId);
 
     const { currentMission } = game;
 
     currentMission.missionTeamVotes = currentMission.missionTeamVotes || {};
-    currentMission.missionTeamVotes.votes =
-        currentMission.missionTeamVotes.votes || {};
 
-    currentMission.missionTeamVotes.votes[userId] = approves;
-    currentMission.missionTeamVotes.votingComplete =
-        Object.keys(currentMission.missionTeamVotes.votes).length ===
-        players.length;
+    currentMission.missionTeamVotes[userId] = approves;
+
+    await updateGame(gameId, {
+        [`currentMission.missionTeamVotes`]: currentMission.missionTeamVotes,
+    });
+}
+
+export async function retractProposedMissionTeamApproval({ gameId, userId }) {
+    const game = await getGame(gameId);
+
+    const { currentMission } = game;
+
+    delete currentMission.missionTeamVotes[userId];
 
     await updateGame(gameId, {
         [`currentMission.missionTeamVotes`]: currentMission.missionTeamVotes,
@@ -211,9 +213,7 @@ export async function revealProposedMissionTeamVote({ gameId }) {
     let approvedVotes = 0;
     let rejectedVotes = 0;
 
-    Object.keys(missionTeamVotes.votes).forEach((userId) => {
-        const approved = missionTeamVotes.votes[userId];
-
+    Object.values(missionTeamVotes).forEach((approved) => {
         if (approved) {
             approvedVotes += 1;
         } else {
@@ -221,12 +221,11 @@ export async function revealProposedMissionTeamVote({ gameId }) {
         }
     });
 
-    const approved = approvedVotes >= majority;
-
     const updatedGame = {
-        state: gameStates.MISSION_TEAM_VOTE_OUTCOME,
-        [`currentMission.missionTeamVotes.approved`]: approved,
+        state: gameStates.MISSION_TEAM_VOTE_APPROVED,
     };
+
+    const approved = approvedVotes >= majority;
 
     if (!approved) {
         const failedTeam = {
@@ -243,6 +242,8 @@ export async function revealProposedMissionTeamVote({ gameId }) {
         if (failedTeams.length >= singleMissionFailedMissionTeamsLimit - 1) {
             updatedGame.state = gameStates.COMPLETED;
             updatedGame.victoryType = victoryTypes.SPIES_PREVENTED_MISSION_TEAM;
+        } else {
+            updatedGame.state = gameStates.MISSION_TEAM_VOTE_REJECTED
         }
     }
 

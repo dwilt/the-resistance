@@ -5,6 +5,7 @@ import {
     setGameCompletedMissionsAction,
     toggleMissionTeamMemberAction,
     confirmPlayerIdentityAction,
+    setProposedMissionTeamApprovalAction,
 } from 'store/game/game.actions';
 
 import { createReducer } from 'helpers';
@@ -17,11 +18,28 @@ export default createReducer(
         data: {
             allPlayersConfirmedIdentity: false,
             currentMission: {
+                missionTeamVotes: {},
                 proposedTeam: [],
             },
         },
     },
     {
+        [setProposedMissionTeamApprovalAction().type]: (
+            state,
+            { userId, approves },
+        ) => ({
+            ...state,
+            data: {
+                ...state.data,
+                currentMission: {
+                    ...state.data.currentMission,
+                    missionTeamVotes: {
+                        ...state.data.currentMission.missionTeamVotes,
+                        [userId]: approves,
+                    },
+                },
+            },
+        }),
         [confirmPlayerIdentityAction().type]: (state) => ({
             ...state,
             data: {

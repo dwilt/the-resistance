@@ -1,17 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import {
-    getUniversalFont,
-    gutter,
-    openSans,
-    blackOverlay,
-    yellow,
-} from 'styles';
-
-const subtitleFont = {
-    ...getUniversalFont(1.2, 1.4),
-    fontFamily: openSans.bold,
-};
+import { yellowTitle, subtitle, gutter, blackOverlay, yellow } from 'styles';
 
 export default StyleSheet.create({
     container: {
@@ -21,22 +10,13 @@ export default StyleSheet.create({
         flex: 1,
     },
     title: {
-        ...getUniversalFont(1.5, 1),
-        color: yellow,
-        fontFamily: openSans.bold,
-        textAlign: `center`,
-        marginBottom: gutter / 2,
-    },
-    subtitleContainer: {
-        padding: gutter,
-        paddingTop: 0,
+        ...yellowTitle,
     },
     subtitle: {
-        ...subtitleFont,
-        textAlign: `center`,
+        ...subtitle,
     },
     missionMembersCount: {
-        ...subtitleFont,
+        ...subtitle,
         color: yellow,
     },
     identityOverlay: {

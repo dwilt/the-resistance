@@ -19,6 +19,7 @@ import {
     homeJoinGameInputSelector,
     gameIdSelector,
     proposedMissionTeamSelector,
+    approvesProposedMissionTeamSelector,
 } from 'selectors';
 
 import { Game } from 'components';
@@ -67,12 +68,40 @@ export const confirmPlayerIdentityAction = () => ({
     type: `confirmPlayerIdentityAction`,
 });
 
+export const revealProposedMissionTeamVoteAction = () => ({
+    type: `REVEAL_PROPOSED_MISSION_TEAM_VOTE`,
+});
+
 export const toggleMissionTeamMemberAction = (userId, selected) => ({
     type: `TOGGLE_MISSION_MEMBER`,
     payload: {
         userId,
         selected,
     },
+});
+
+export const setProposedMissionTeamApprovalAction = (userId, approves) => ({
+    type: `SET_PROPOSED_MISSION_TEAM_APPROVAL`,
+    payload: {
+        userId,
+        approves,
+    },
+});
+
+export const submitProposedMissionTeamApprovalAction = () => ({
+    type: `SUBMIT_PROPOSED_MISSION_TEAM_APPROVAL`,
+});
+
+export const retractProposedMissionTeamApprovalAction = () => ({
+    type: `RETRACT_PROPOSED_MISSION_TEAM_APPROVAL`,
+});
+
+export const conductMissionAction = () => ({
+    type: `CONDUCT_MISSION`,
+});
+
+export const selectNewLeaderAction = () => ({
+    type: `SELECT_NEW_LEADER`,
 });
 
 let gameListener = null;
@@ -220,11 +249,86 @@ function* confirmPlayerIdentity() {
     });
 }
 
+function* submitProposedMissionTeamApproval() {
+    const userId = yield select(userIdSelector);
+    const gameId = yield select(gameIdSelector);
+    const approves = yield select(approvesProposedMissionTeamSelector);
+
+    yield put(setProposedMissionTeamApprovalAction(userId, approves));
+
+    yield call(fireFetch, `submitProposedMissionTeamApproval`, {
+        userId,
+        gameId,
+        approves,
+    });
+}
+
+function* retractProposedMissionTeamApproval() {
+    const userId = yield select(userIdSelector);
+    const gameId = yield select(gameIdSelector);
+
+    yield put(setProposedMissionTeamApprovalAction(userId));
+
+    yield call(fireFetch, `retractProposedMissionTeamApproval`, {
+        userId,
+        gameId,
+    });
+}
+
+function* revealProposedMissionTeamVote() {
+    const gameId = yield select(gameIdSelector);
+
+    yield call(fireFetch, `revealProposedMissionTeamVote`, {
+        gameId,
+    });
+}
+
+function* conductMission() {
+    const gameId = yield select(gameIdSelector);
+
+    yield call(fireFetch, `conductMission`, {
+        gameId,
+    });
+}
+
+function* selectNewLeader() {
+    const gameId = yield select(gameIdSelector);
+
+    yield call(fireFetch, `buildNewMissionTeam`, {
+        gameId,
+    });
+}
+
 export default function*() {
     yield takeEvery(joinGameAction().type, joinGame);
     yield takeEvery(startGameAction().type, startGame);
     yield takeEvery(confirmMissionTeamAction().type, confirmMissionTeam);
     yield takeEvery(confirmPlayerIdentityAction().type, confirmPlayerIdentity);
+    yield takeEvery(
+        revealProposedMissionTeamVoteAction().type,
+        revealProposedMissionTeamVote,
+    );
+
+    yield takeEvery(
+        submitProposedMissionTeamApprovalAction().type,
+        submitProposedMissionTeamApproval,
+    );
+
+    yield takeEvery(
+        retractProposedMissionTeamApprovalAction().type,
+        retractProposedMissionTeamApproval,
+    );
+
+    yield takeEvery(
+        conductMissionAction().type,
+        conductMission,
+    );
+
+    yield takeEvery(
+        selectNewLeaderAction().type,
+        selectNewLeader,
+    );
+
     yield takeLatest(
         toggleMissionTeamMemberAction().type,
         updateProposedMissionTeam,

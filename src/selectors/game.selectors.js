@@ -12,12 +12,17 @@ export const gameIdSelector = createSelector(gameSelector, (game) => game.id);
 
 export const currentMissionSelector = createSelector(
     gameDataSelector,
-    (gameData) => gameData.currentMission,
+    (gameData) => gameData.currentMission || {},
 );
 
 export const proposedMissionTeamSelector = createSelector(
     currentMissionSelector,
-    (currentMission) => currentMission.proposedTeam,
+    (currentMission) => currentMission.proposedTeam || [],
+);
+
+export const missionTeamVotesSelector = createSelector(
+    currentMissionSelector,
+    (currentMission) => currentMission.missionTeamVotes || {},
 );
 
 export const gameStateSelector = createSelector(
@@ -96,9 +101,36 @@ export const failedMissionsSelector = createSelector(
     (completedMissions) => completedMissions.filter((mi) => !mi.passed).length,
 );
 
-export const propedMissionTeamIsFilledSelector = createSelector(
+export const proposedMissionTeamIsFilledSelector = createSelector(
     [roundCountSelector, playersSelector, proposedMissionTeamSelector],
     (roundCount, players = [], proposedTeam = []) =>
         getMissionMembersCount(roundCount, players.length) ===
         proposedTeam.length,
+);
+
+export const proposedMissionTeamNamesSelector = createSelector(
+    [proposedMissionTeamSelector, playersSelector],
+    (proposedTeam, players) =>
+        players.filter(({ id }) => proposedTeam.indexOf(id) !== -1),
+);
+
+export const missionTeamVotingCompleteSelector = createSelector(
+    [missionTeamVotesSelector, playersSelector],
+    (missionTeamVotes, players) => {
+        return Object.keys(missionTeamVotes).length === players.length;
+    },
+);
+
+export const missionTeamSubmittedVoteSelector = createSelector(
+    [missionTeamVotesSelector, userIdSelector],
+    (missionTeamVotes, userId) =>
+        typeof missionTeamVotes[userId] !== `undefined`,
+);
+
+export const missionTeamApprovedSelector = createSelector(
+    [missionTeamVotesSelector],
+    (missionTeamVotes, userId) => {
+
+    }
+
 );

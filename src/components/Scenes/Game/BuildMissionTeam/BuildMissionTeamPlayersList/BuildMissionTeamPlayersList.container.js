@@ -4,7 +4,7 @@ import {
     playersSelector,
     isLeaderSelector,
     proposedMissionTeamSelector,
-    propedMissionTeamIsFilledSelector,
+    proposedMissionTeamIsFilledSelector,
 } from 'selectors';
 
 import { toggleMissionTeamMemberAction as onPlayerTap } from 'store/game/game.actions';
@@ -16,7 +16,7 @@ export default connect(
         const players = playersSelector(st);
         const isLeader = isLeaderSelector(st);
         const proposedTeam = proposedMissionTeamSelector(st);
-        const isFilled = propedMissionTeamIsFilledSelector(st);
+        const isFilled = proposedMissionTeamIsFilledSelector(st);
 
         return {
             players,
