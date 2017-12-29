@@ -73,6 +73,14 @@ export const confirmMissionTeamAction = () => ({
     type: `CONFIRM_MISSION_TEAM`,
 });
 
+export const confirmingMissionTeamAction = () => ({
+    type: `CONFIRMING_MISSION_TEAM`,
+});
+
+export const confirmedMissionTeamAction = () => ({
+    type: `CONFIRMED_MISSION_TEAM`,
+});
+
 export const confirmPlayerIdentityAction = () => ({
     type: `confirmPlayerIdentityAction`,
 });
@@ -259,9 +267,13 @@ function* startGame() {
 function* confirmMissionTeam() {
     const gameId = yield select(gameIdSelector);
 
+    yield put(confirmingMissionTeamAction());
+
     yield call(fireFetch, `confirmSelectedMissionTeam`, {
         gameId,
     });
+
+    yield put(confirmedMissionTeamAction());
 }
 
 function* updateProposedMissionTeam() {

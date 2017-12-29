@@ -8,6 +8,7 @@ export default class ConfirmMissionTeamButton extends PureComponent {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         disabled: PropTypes.bool.isRequired,
+        isLoading: PropTypes.bool.isRequired,
     };
 
     render() {
