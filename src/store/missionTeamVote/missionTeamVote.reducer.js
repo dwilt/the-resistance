@@ -1,15 +1,22 @@
-import { setCastVoteAction } from './missionTeamVote.actions';
+import {
+    setIsRevealingAction,
+    setCastVoteAction,
+} from './missionTeamVote.actions';
 
-import { createReducer } from 'helpers';
+import {
+    createReducer,
+} from 'helpers';
 
-export default createReducer(
-    {
-        castVote: null,
-    },
-    {
-        [setCastVoteAction().type]: (state, { castVote }) => ({
-            ...state,
-            castVote,
-        }),
-    },
-);
+export default createReducer({
+    isRevealing: false,
+    castVote: null,
+},{
+    [setCastVoteAction().type]: (state, { castVote }) => ({
+        ...state,
+        castVote,
+    }),
+    [setIsRevealingAction().type]: (state, { isRevealing }) => ({
+        ...state,
+        isRevealing,
+    }),
+});

@@ -1,10 +1,17 @@
-import { createSelector } from 'reselect';
+import {
+    createSelector,
+} from 'reselect';
 
-const missionTeamVoteSelector = (state) => state.missionTeamVote;
+const missionTeamVoteSelector = state => state.missionTeamVote;
 
 export const missionTeamCastVoteSelector = createSelector(
     missionTeamVoteSelector,
-    (missionTeamVote) => missionTeamVote.castVote,
+    missionTeamVote => missionTeamVote.castVote
+);
+
+export const missionTeamVoteIsRevealingSelector = createSelector(
+    missionTeamVoteSelector,
+    missionTeamVote => missionTeamVote.isRevealing
 );
 
 export const missionTeamVoteCastSelector = createSelector(
@@ -21,3 +28,4 @@ export const rejectsProposedMissionTeamSelector = createSelector(
     [missionTeamCastVoteSelector],
     (castVote) => castVote === false,
 );
+

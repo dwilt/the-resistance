@@ -7,6 +7,8 @@ import { ActionButton } from 'components';
 export default class RevealVotesButton extends PureComponent {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
+        disabled: PropTypes.bool.isRequired,
+        isLoading: PropTypes.bool.isRequired,
     };
 
     render() {

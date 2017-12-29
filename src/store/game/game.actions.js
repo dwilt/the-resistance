@@ -89,6 +89,14 @@ export const revealProposedMissionTeamVoteAction = () => ({
     type: `REVEAL_PROPOSED_MISSION_TEAM_VOTE`,
 });
 
+export const revealingProposedMissionTeamVoteAction = () => ({
+    type: `REVEALING_PROPOSED_MISSION_TEAM_VOTE`,
+});
+
+export const revealedProposedMissionTeamVoteAction = () => ({
+    type: `REVEALED_PROPOSED_MISSION_TEAM_VOTE`,
+});
+
 export const toggleMissionTeamMemberAction = (userId, selected) => ({
     type: `TOGGLE_MISSION_MEMBER`,
     payload: {
@@ -325,9 +333,13 @@ function* retractProposedMissionTeamApproval() {
 function* revealProposedMissionTeamVote() {
     const gameId = yield select(gameIdSelector);
 
+    yield put(revealingProposedMissionTeamVoteAction())
+
     yield call(fireFetch, `revealProposedMissionTeamVote`, {
         gameId,
     });
+
+    yield put(revealedProposedMissionTeamVoteAction())
 }
 
 function* conductMission() {
