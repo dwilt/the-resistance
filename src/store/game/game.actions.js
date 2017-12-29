@@ -142,7 +142,7 @@ function* watchGameData(id) {
 
 function createPlayersListenerChannel(id) {
     return eventChannel((emitter) => {
-        gameListener = db
+        db
             .collection(`games`)
             .doc(id)
             .collection(`players`)
@@ -171,7 +171,7 @@ function* watchPlayers(id) {
 
 function createCompletedMissionsListenerChannel(id) {
     return eventChannel((emitter) => {
-        gameListener = db
+        db
             .collection(`games`)
             .doc(id)
             .collection(`completedMissions`)
