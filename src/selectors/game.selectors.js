@@ -20,6 +20,11 @@ export const proposedMissionTeamSelector = createSelector(
     (currentMission) => currentMission.proposedTeam || [],
 );
 
+export const missionTeamSelector = createSelector(
+    currentMissionSelector,
+    (currentMission) => currentMission.missionTeam || {},
+);
+
 export const missionTeamVotesSelector = createSelector(
     currentMissionSelector,
     (currentMission) => currentMission.missionTeamVotes || {},
@@ -127,10 +132,12 @@ export const missionTeamSubmittedVoteSelector = createSelector(
         typeof missionTeamVotes[userId] !== `undefined`,
 );
 
-export const missionTeamApprovedSelector = createSelector(
-    [missionTeamVotesSelector],
-    (missionTeamVotes, userId) => {
+export const isOnMissionTeam = createSelector(
+    [missionTeamSelector, userIdSelector],
+    (missionTeam, userId) => Object.keys(missionTeam).indexOf(userId) !== -1
+);
 
-    }
-
+export const submittedMissionPassVote = createSelector(
+    [missionTeamSelector, userIdSelector],
+    (missionTeam, userId) => missionTeam[userId] !== null
 );

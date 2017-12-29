@@ -266,9 +266,9 @@ export async function conductMission({ gameId }) {
     });
 }
 
-export async function submitMissionSuccess({ gameId, userId, succeeds }) {
+export async function submitMissionPasses({ gameId, userId, passes }) {
     const game = await updateGame(gameId, {
-        [`currentMission.missionTeam.${userId}`]: succeeds,
+        [`currentMission.missionTeam.${userId}`]: passes,
     });
 
     const { currentMission = {} } = game;

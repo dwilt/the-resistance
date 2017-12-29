@@ -8,7 +8,7 @@ import {
     confirmSelectedMissionTeam,
     submitProposedMissionTeamApproval,
     retractProposedMissionTeamApproval,
-    submitMissionSuccess,
+    submitMissionPasses,
     revealProposedMissionTeamVote,
     startNextRound,
     buildNewMissionTeam,
@@ -70,8 +70,8 @@ exports.retractProposedMissionTeamApproval = functions.https.onRequest(
     functionCreator(retractProposedMissionTeamApproval),
 );
 
-exports.submitMissionSuccess = functions.https.onRequest(
-    functionCreator(submitMissionSuccess),
+exports.submitMissionPasses = functions.https.onRequest(
+    functionCreator(submitMissionPasses),
 );
 
 exports.revealProposedMissionTeamVote = functions.https.onRequest(

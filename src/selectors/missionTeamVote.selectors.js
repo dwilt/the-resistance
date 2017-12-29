@@ -9,7 +9,7 @@ export const missionTeamCastVoteSelector = createSelector(
 
 export const missionTeamVoteCastSelector = createSelector(
     missionTeamCastVoteSelector,
-    (castVote) => typeof castVote !== `undefined`,
+    (castVote) => castVote !== null,
 );
 
 export const approvesProposedMissionTeamSelector = createSelector(

@@ -5,3 +5,6 @@ export const setCastVoteAction = (castVote) => ({
     },
 });
 
+export const passMissionAction = () => setCastVoteAction(true)
+
+export const failMissionAction = () => setCastVoteAction(false)

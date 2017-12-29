@@ -1,15 +1,7 @@
 import { StyleSheet } from 'react-native';
 
-import {
-    gutter,
-    yellowTitle,
-    subtitle,
-    voteButtonsReject,
-    voteButtonsApprove,
-    voteButtons,
-    getUniversalFont,
-    openSans,
-} from 'styles';
+import { yellowTitle, subtitle, voteButtons, voteButtonsApprove, voteButtonsReject } from 'styles';
+import { getUniversalFont, gutter, openSans } from "../../../../../styles";
 
 export default StyleSheet.create({
     container: {
@@ -45,8 +37,5 @@ export default StyleSheet.create({
         ...getUniversalFont(1.4),
         fontFamily: openSans.bold,
         textAlign: `center`,
-    },
-    revealVotesButton: {
-        padding: gutter,
     },
 });

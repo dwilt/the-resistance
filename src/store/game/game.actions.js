@@ -20,6 +20,7 @@ import {
     gameIdSelector,
     proposedMissionTeamSelector,
     approvesProposedMissionTeamSelector,
+    passesMissionSelector,
 } from 'selectors';
 
 import { Game } from 'components';
@@ -102,6 +103,10 @@ export const conductMissionAction = () => ({
 
 export const selectNewLeaderAction = () => ({
     type: `SELECT_NEW_LEADER`,
+});
+
+export const submitMissionPass = () => ({
+    type: `SUBMIT_MISSION_PASSES`,
 });
 
 let gameListener = null;
@@ -299,6 +304,18 @@ function* selectNewLeader() {
     });
 }
 
+function* submitMissionPasses() {
+    const gameId = yield select(gameIdSelector);
+    const userId = yield select(userIdSelector);
+    const passes = yield select(passesMissionSelector);
+
+    yield call(fireFetch, `submitMissionPasses`, {
+        gameId,
+        userId,
+        passes,
+    });
+}
+
 export default function*() {
     yield takeEvery(joinGameAction().type, joinGame);
     yield takeEvery(startGameAction().type, startGame);
@@ -319,18 +336,14 @@ export default function*() {
         retractProposedMissionTeamApproval,
     );
 
-    yield takeEvery(
-        conductMissionAction().type,
-        conductMission,
-    );
+    yield takeEvery(conductMissionAction().type, conductMission);
 
-    yield takeEvery(
-        selectNewLeaderAction().type,
-        selectNewLeader,
-    );
+    yield takeEvery(selectNewLeaderAction().type, selectNewLeader);
 
     yield takeLatest(
         toggleMissionTeamMemberAction().type,
         updateProposedMissionTeam,
     );
+
+    yield takeEvery(submitMissionPass().type, submitMissionPasses);
 }
