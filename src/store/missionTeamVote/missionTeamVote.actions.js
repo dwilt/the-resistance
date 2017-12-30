@@ -3,19 +3,19 @@ import {
     revealedProposedMissionTeamVoteAction,
 } from 'store/game/game.actions';
 
-import { put, takeEvery } from "redux-saga/effects";
+import { put, takeEvery } from 'redux-saga/effects';
 
 export const setCastVoteAction = (castVote) => ({
     type: `SET_MISSION_TEAM_VOTE_CAST_VOTE`,
     payload: {
         castVote,
-    }
+    },
 });
 
 export const setIsRevealingAction = (isRevealing) => ({
     type: `SET_MISSION_TEAM_VOTE_IS_REVEALING`,
     payload: {
-        isRevealing
+        isRevealing,
     },
 });
 

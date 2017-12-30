@@ -71,7 +71,7 @@ export const blackOverlay = {
 };
 
 export const yellowTitle = {
-    ...getUniversalFont(1.5, 1),
+    ...getUniversalFont(1.5, 1.2),
     color: yellow,
     fontFamily: openSans.bold,
     textAlign: `center`,

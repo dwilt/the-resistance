@@ -24,34 +24,9 @@ export default class ConductMission extends Component {
     render() {
         const { submittedVote, canVote } = this.props;
 
-        const content = canVote ? (
-            <View>
-                {!submittedVote && (
-                    <View>
-                        <View style={styles.voteButtons}>
-                            <View style={styles.approveButton}>
-                                <PassMissionButton />
-                            </View>
-                            <View style={styles.rejectButton}>
-                                <FailMissionButton />
-                            </View>
-                        </View>
-                        <View style={styles.submitButton}>
-                            <SubmitMissionVoteButton />
-                        </View>
-                    </View>
-                )}
-                {submittedVote && (
-                    <View style={styles.submittedVoteContainer}>
-                        <Text
-                            style={styles.submittedVote}
-                        >{`Vote Submitted!`}</Text>
-                    </View>
-                )}
-            </View>
-        ) : (
-            <Text>{`Waiting for mission team to vote`}</Text>
-        );
+        const subtitle = canVote
+            ? `Keep This Secret!`
+            : `Waiting for mission team to vote`;
 
         return (
             <View style={styles.container}>
@@ -59,9 +34,34 @@ export default class ConductMission extends Component {
                     <Text
                         style={styles.title}
                     >{`Vote On Mission Success`}</Text>
-                    <Text style={styles.subtitle}>{`Keep This Secret!`}</Text>
+                    <Text style={styles.subtitle}>{subtitle}</Text>
                     <ConductMissionPlayersList />
-                    {content}
+                    {canVote && (
+                        <View>
+                            {!submittedVote && (
+                                <View>
+                                    <View style={styles.voteButtons}>
+                                        <View style={styles.approveButton}>
+                                            <PassMissionButton />
+                                        </View>
+                                        <View style={styles.rejectButton}>
+                                            <FailMissionButton />
+                                        </View>
+                                    </View>
+                                    <View style={styles.submitButton}>
+                                        <SubmitMissionVoteButton />
+                                    </View>
+                                </View>
+                            )}
+                            {submittedVote && (
+                                <View style={styles.submittedVoteContainer}>
+                                    <Text
+                                        style={styles.submittedVote}
+                                    >{`Vote Submitted!`}</Text>
+                                </View>
+                            )}
+                        </View>
+                    )}
                 </View>
                 <GameFooter />
             </View>

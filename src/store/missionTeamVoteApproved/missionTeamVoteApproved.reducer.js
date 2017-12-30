@@ -1,16 +1,15 @@
-import {
-    setIsConductingAction,
-} from './missionTeamVoteApproved.actions';
+import { setIsConductingAction } from './missionTeamVoteApproved.actions';
 
-import {
-    createReducer,
-} from 'helpers';
+import { createReducer } from 'helpers';
 
-export default createReducer({
-    isConducting: false,
-},{
-    [setIsConductingAction().type]: (state, { isConducting }) => ({
-        ...state,
-        isConducting,
-    }),
-});
+export default createReducer(
+    {
+        isConducting: false,
+    },
+    {
+        [setIsConductingAction().type]: (state, { isConducting }) => ({
+            ...state,
+            isConducting,
+        }),
+    },
+);

@@ -3,12 +3,12 @@ import {
     confirmedMissionTeamAction,
 } from 'store/game/game.actions';
 
-import { put, takeEvery } from "redux-saga/effects";
+import { put, takeEvery } from 'redux-saga/effects';
 
 export const setIsConfirmingAction = (isConfirming) => ({
     type: `SET_BUILD_MISSION_TEAM_IS_CONFIRMING`,
     payload: {
-        isConfirming
+        isConfirming,
     },
 });
 

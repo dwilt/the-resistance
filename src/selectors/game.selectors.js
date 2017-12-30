@@ -35,6 +35,11 @@ export const gameStateSelector = createSelector(
     (game) => game.state,
 );
 
+export const victoryTypeSelector = createSelector(
+    gameDataSelector,
+    (game) => game.victoryType,
+);
+
 export const gameCodeSelector = createSelector(
     gameDataSelector,
     (game) => game.gameCode,
@@ -145,4 +150,9 @@ export const submittedMissionPassVoteSelector = createSelector(
 export const missionPassedSelector = createSelector(
     [currentMissionSelector],
     (currentMission) => currentMission.passed,
+);
+
+export const enoughPlayersInGameSelector = createSelector(
+    [playersSelector],
+    (players) => players.length > 4,
 );

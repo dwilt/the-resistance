@@ -1,6 +1,9 @@
 import { connect } from 'react-redux';
 
-import { proposedMissionTeamIsFilledSelector, buildMissionTeamIsConfirmingSelector } from 'selectors';
+import {
+    proposedMissionTeamIsFilledSelector,
+    buildMissionTeamIsConfirmingSelector,
+} from 'selectors';
 
 import { confirmMissionTeamAction as onPress } from 'store/game/game.actions';
 
@@ -13,7 +16,7 @@ export default connect(
 
         return {
             disabled,
-            isLoading
+            isLoading,
         };
     },
     {

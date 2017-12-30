@@ -1,6 +1,4 @@
-import {
-    combineReducers,
-} from 'redux';
+import { combineReducers } from 'redux';
 
 import buildMissionTeam from './buildMissionTeam/buildMissionTeam.reducer';
 import conductMission from './conductMission/conductMission.reducer';

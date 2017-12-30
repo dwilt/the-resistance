@@ -25,10 +25,7 @@ export default createReducer(
         },
     },
     {
-        [setMissionPassesAction().type]: (
-            state,
-            { userId, passes },
-        ) => ({
+        [setMissionPassesAction().type]: (state, { userId, passes }) => ({
             ...state,
             data: {
                 ...state.data,

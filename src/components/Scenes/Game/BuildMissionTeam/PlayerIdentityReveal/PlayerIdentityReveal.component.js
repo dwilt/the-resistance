@@ -6,6 +6,8 @@ import { ActionButton, Text, PlayerCard, Checkbox } from 'components';
 
 import { View } from 'react-native';
 
+import { createCommaSentenceFromArray } from 'helpers';
+
 import styles from './PlayerIdentityReveal.styles';
 
 export default class PlayerIdentityReveal extends Component {
@@ -42,21 +44,21 @@ export default class PlayerIdentityReveal extends Component {
         const { isSpy, spies, onConfirm, userId } = this.props;
         const { showingIdentity, confirmedAlone } = this.state;
 
-        const otherSpies = spies.filter(({ id }) => id !== userId);
+        const otherSpies = spies
+            .filter(({ id }) => id !== userId)
+            .map(({ name }) => name);
 
         let content = null;
 
         if (showingIdentity) {
             const identityText = isSpy ? `You're a spy!` : `You're an ally!`;
+
             let spiesText =
                 isSpy &&
-                otherSpies.reduce(
-                    (currentText, { name }, i) =>
-                        i === otherSpies.length - 1
-                            ? `${currentText} and ${name}.`
-                            : `${currentText} ${name}, `,
-                    `The other spies you’re working with are`,
-                );
+                `The other spies you’re working with are ${createCommaSentenceFromArray(
+                    otherSpies,
+                )}`;
+
             const spiesTextEl = spiesText && (
                 <Text style={styles.spiesText}>{spiesText}</Text>
             );

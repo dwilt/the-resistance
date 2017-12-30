@@ -1,15 +1,44 @@
 import { StyleSheet } from 'react-native';
 
-import { white } from 'styles';
+import {
+    openSans,
+    yellow,
+    getUniversalFont,
+    gutter,
+    centerChildren,
+    subtitle,
+    yellowTitle,
+} from 'styles';
 
 export default StyleSheet.create({
     container: {
-        paddingTop: 60,
-        backgroundColor: white,
+        flex: 1,
     },
-    player: {
-        marginBottom: 20,
+    content: {
+        flex: 1,
+    },
+    title: {
+        ...yellowTitle,
+    },
+    subtitle: {
+        ...subtitle,
+    },
+    playerCard: {
+        ...centerChildren(),
         flexDirection: `row`,
-        alignItems: `center`,
+        marginBottom: gutter * 2,
+    },
+    winTitle: {
+        ...getUniversalFont(3),
+        fontFamily: openSans.extraBoldItalic,
+        color: yellow,
+        textAlign: `center`,
+    },
+    spiesText: {
+        ...getUniversalFont(1.4, 1.4),
+        fontFamily: openSans.bold,
+        textAlign: `center`,
+        paddingLeft: gutter,
+        paddingRight: gutter,
     },
 });

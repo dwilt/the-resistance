@@ -1,14 +1,14 @@
 import {
-   conductingMissionAction,
-   conductedMissionAction,
+    conductingMissionAction,
+    conductedMissionAction,
 } from 'store/game/game.actions';
 
-import { put, takeEvery } from "redux-saga/effects";
+import { put, takeEvery } from 'redux-saga/effects';
 
 export const setIsConductingAction = (isConducting) => ({
     type: `SET_MISSION_TEAM_VOTE_APPROVED_IS_CONDUCTING`,
     payload: {
-        isConducting
+        isConducting,
     },
 });
 

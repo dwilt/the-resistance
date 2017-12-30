@@ -383,7 +383,7 @@ function* submitMissionPasses() {
     const userId = yield select(userIdSelector);
     const passes = yield select(passesMissionSelector);
 
-    yield put(setMissionPassesAction(userId, passes))
+    yield put(setMissionPassesAction(userId, passes));
 
     yield call(fireFetch, `submitMissionPasses`, {
         gameId,

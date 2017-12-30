@@ -1,11 +1,9 @@
-import {
-    createSelector,
-} from 'reselect';
+import { createSelector } from 'reselect';
 
-const missionTeamVoteApprovedSelector = state => state.missionTeamVoteApproved;
+const missionTeamVoteApprovedSelector = (state) =>
+    state.missionTeamVoteApproved;
 
 export const missionTeamVoteApprovedIsConductingSelector = createSelector(
     missionTeamVoteApprovedSelector,
-    missionTeamVoteApproved => missionTeamVoteApproved.isConducting
+    (missionTeamVoteApproved) => missionTeamVoteApproved.isConducting,
 );
-
