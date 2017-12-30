@@ -4,7 +4,7 @@ import {
     isLeaderSelector,
     roundCountSelector,
     playersSelector,
-    allPlayersConfirmedIdentitySelector,
+    playerConfirmedIdentitySelector,
 } from 'selectors';
 
 import BuildMissionTeam from './BuildMissionTeam.component';
@@ -13,7 +13,7 @@ export default connect((state) => {
     const isLeader = isLeaderSelector(state);
     const players = playersSelector(state);
     const roundCount = roundCountSelector(state);
-    const allPlayersConfirmedIdentity = allPlayersConfirmedIdentitySelector(
+    const playerConfirmedIdentity = playerConfirmedIdentitySelector(
         state,
     );
 
@@ -21,6 +21,6 @@ export default connect((state) => {
         isLeader,
         players,
         roundCount,
-        allPlayersConfirmedIdentity,
+        playerConfirmedIdentity,
     };
 })(BuildMissionTeam);

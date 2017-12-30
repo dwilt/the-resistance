@@ -125,20 +125,9 @@ export async function buildNewMissionTeam({ gameId }) {
 }
 
 export async function confirmPlayerIdentity({ gameId, userId }) {
-    await updatePlayer(gameId, userId, {
+    return updatePlayer(gameId, userId, {
         confirmedIdentity: true,
     });
-
-    const players = await getPlayers(gameId);
-    const unconfirmedPlayers = players.filter(
-        ({ confirmedIdentity }) => !confirmedIdentity,
-    );
-
-    if (!unconfirmedPlayers.length) {
-        await updateGame(gameId, {
-            allPlayersConfirmedIdentity: true,
-        });
-    }
 }
 
 export function updateProposedMissionTeam({ gameId, team }) {

@@ -18,14 +18,10 @@ import { getMissionMembersCount } from 'src/gameStructure';
 
 export default class BuildMissionTeam extends Component {
     static propTypes = {
-        allPlayersConfirmedIdentity: PropTypes.bool.isRequired,
+        playerConfirmedIdentity: PropTypes.bool.isRequired,
         isLeader: PropTypes.bool.isRequired,
         roundCount: PropTypes.number.isRequired,
         players: PropTypes.array.isRequired,
-    };
-
-    static defaultProps = {
-        allPlayersConfirmedIdentity: false,
     };
 
     render() {
@@ -33,7 +29,7 @@ export default class BuildMissionTeam extends Component {
             isLeader,
             players,
             roundCount,
-            allPlayersConfirmedIdentity,
+            playerConfirmedIdentity,
         } = this.props;
 
         const membersCount = (
@@ -69,7 +65,7 @@ export default class BuildMissionTeam extends Component {
                     )}
                 </View>
                 <GameFooter />
-                {!allPlayersConfirmedIdentity && (
+                {!playerConfirmedIdentity && (
                     <View style={styles.identityOverlay}>
                         <PlayerIdentityReveal />
                     </View>

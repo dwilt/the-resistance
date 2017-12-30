@@ -60,8 +60,18 @@ export const playersSelector = createSelector(
 );
 
 export const allPlayersConfirmedIdentitySelector = createSelector(
-    gameDataSelector,
-    (gameData) => gameData.allPlayersConfirmedIdentity,
+    [playersSelector],
+    (players) =>
+        !players.filter(({ confirmedIdentity }) => !confirmedIdentity).length,
+);
+
+export const playerConfirmedIdentitySelector = createSelector(
+    [playersSelector, userIdSelector],
+    (players, userId) => {
+        const { confirmedIdentity } = players.find(({ id }) => id === userId);
+
+        return !!confirmedIdentity;
+    },
 );
 
 export const leaderSelector = createSelector(
@@ -104,19 +114,23 @@ export const roundCountSelector = createSelector(
 );
 
 export const failedMissionsSelector = createSelector(
-    [completedMissionsSelector,playersSelector],
-    (completedMissions, players) => completedMissions.filter(({ missionTeam }, i) => {
-        const totalPlayers = players.length;
-        const roundCount = i + 1;
-        const failedVotes = Object.values(missionTeam).filter(passed => !passed).length;
+    [completedMissionsSelector, playersSelector],
+    (completedMissions, players) =>
+        completedMissions.filter(({ missionTeam }, i) => {
+            const totalPlayers = players.length;
+            const roundCount = i + 1;
+            const failedVotes = Object.values(missionTeam).filter(
+                (passed) => !passed,
+            ).length;
 
-        return didMissionFail({ totalPlayers, failedVotes, roundCount })
-    }).length,
+            return didMissionFail({ totalPlayers, failedVotes, roundCount });
+        }).length,
 );
 
 export const passedMissionsSelector = createSelector(
     [completedMissionsSelector, failedMissionsSelector],
-    (completedMissions, failedMissions) => completedMissions.length - failedMissions,
+    (completedMissions, failedMissions) =>
+        completedMissions.length - failedMissions,
 );
 
 export const proposedMissionTeamIsFilledSelector = createSelector(

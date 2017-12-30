@@ -121,6 +121,13 @@ export const setMissionPassesAction = (userId, passes) => ({
     },
 });
 
+export const setConfirmedPlayerIdentityAction = (userId) => ({
+    type: `SET_CONFIRM_PLAYER_IDENTITY`,
+    payload: {
+        userId,
+    },
+});
+
 export const submitProposedMissionTeamApprovalAction = () => ({
     type: `SUBMIT_PROPOSED_MISSION_TEAM_APPROVAL`,
 });
@@ -316,6 +323,8 @@ function* updateProposedMissionTeam() {
 function* confirmPlayerIdentity() {
     const gameId = yield select(gameIdSelector);
     const userId = yield select(userIdSelector);
+
+    yield put(setConfirmedPlayerIdentityAction(userId));
 
     yield call(fireFetch, `confirmPlayerIdentity`, {
         gameId,

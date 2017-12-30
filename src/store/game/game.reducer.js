@@ -7,6 +7,7 @@ import {
     confirmPlayerIdentityAction,
     setProposedMissionTeamApprovalAction,
     setMissionPassesAction,
+    setConfirmedPlayerIdentityAction,
 } from 'store/game/game.actions';
 
 import { createReducer } from 'helpers';
@@ -25,6 +26,16 @@ export default createReducer(
         },
     },
     {
+        [setConfirmedPlayerIdentityAction().type]: (state, { userId }) => ({
+            ...state,
+            players: [
+                ...state.players.filter(({ id }) => id !== userId),
+                {
+                    ...state.players.find(({ id }) => id === userId),
+                    confirmedIdentity: true
+                }
+            ],
+        }),
         [setMissionPassesAction().type]: (state, { userId, passes }) => ({
             ...state,
             data: {
