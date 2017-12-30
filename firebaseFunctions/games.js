@@ -4,6 +4,7 @@ import {
     singleMissionFailedMissionTeamsLimit,
     totalRounds,
     victoryTypes,
+    didMissionFail,
 } from './gameStructure';
 
 import { sampleSize, difference } from 'lodash';
@@ -280,29 +281,46 @@ export async function submitMissionPasses({ gameId, userId, passes }) {
         ]);
 
         const totalPlayers = players.length;
-        const roundNumber = completedMissions.length;
         const failedVotes = Object.keys(missionTeam).filter(
             (userId) => !missionTeam[userId],
         );
 
-        const failed =
-            roundNumber === 4 && totalPlayers > 7
-                ? failedVotes.length > 1
-                : !!failedVotes.length;
-
-        currentMission.passed = !failed;
+        const currentMissionFailed = didMissionFail({
+            roundCount: completedMissions.length,
+            totalPlayers,
+            failedVotes,
+        });
 
         await addCompletedMission(gameId, currentMission);
 
         const majority = Math.floor(totalRounds / 2);
 
-        const failedMissions = completedMissions.filter(
-            ({ passed }) => !passed,
-        );
-        const passedMissions = completedMissions.filter(({ passed }) => passed);
+        let failedMissions = 0;
+        let passedMissions = 0;
 
-        const spiesWon = failed && failedMissions.length + 1 > majority;
-        const alliesWon = !failed && passedMissions.length + 1 > majority;
+        completedMissions.forEach(({ missionTeam }, i) => {
+            const roundCount = i + 1;
+            const failedVotes = Object.keys(missionTeam).filter(
+                (userId) => !missionTeam[userId],
+            );
+
+            const failed = didMissionFail({
+                roundCount,
+                failedVotes,
+                totalPlayers,
+            });
+
+            if (failed) {
+                failedMissions += 1;
+            } else {
+                passedMissions += 1;
+            }
+        });
+
+        const spiesWon =
+            currentMissionFailed && failedMissions.length + 1 > majority;
+        const alliesWon =
+            !currentMissionFailed && passedMissions.length + 1 > majority;
 
         if (spiesWon || alliesWon) {
             const victoryType = alliesWon
@@ -316,7 +334,6 @@ export async function submitMissionPasses({ gameId, userId, passes }) {
         } else {
             await updateGame(gameId, {
                 state: gameStates.MISSION_OUTCOME,
-                [`currentMission.passed`]: !failed,
             });
         }
     }

@@ -7,11 +7,16 @@ export const gameStates = {
     MISSION_OUTCOME: `MISSION_OUTCOME`,
     COMPLETED: `COMPLETED`,
 };
+
 export const victoryTypes = {
     ALLIES_COMPLETED_MISSIONS: `ALLIES_COMPLETED_MISSIONS`,
     SPIES_COMPLETED_MISSIONS: `SPIES_COMPLETED_MISSIONS`,
     SPIES_PREVENTED_MISSION_TEAM: `SPIES_PREVENTED_MISSION_TEAM`,
 };
+
+export function didMissionFail({ roundCount, totalPlayers, failedVotes }) {
+    return (roundCount === 4 && totalPlayers > 7 && failedVotes > 1) || !!failedVotes;
+}
 
 export const singleMissionFailedMissionTeamsLimit = 5;
 

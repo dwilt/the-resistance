@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import { didMissionFail } from 'src/gameStructure';
+
 import { userIdSelector } from 'selectors';
 
 import { getMissionMembersCount } from '../gameStructure';
@@ -101,14 +103,20 @@ export const roundCountSelector = createSelector(
     (completedMissions) => completedMissions.length + 1,
 );
 
-export const passedMissionsSelector = createSelector(
-    completedMissionsSelector,
-    (completedMissions) => completedMissions.filter((mi) => mi.passed).length,
+export const failedMissionsSelector = createSelector(
+    [completedMissionsSelector,playersSelector],
+    (completedMissions, players) => completedMissions.filter(({ missionTeam }, i) => {
+        const totalPlayers = players.length;
+        const roundCount = i + 1;
+        const failedVotes = Object.values(missionTeam).filter(passed => !passed).length;
+
+        return didMissionFail({ totalPlayers, failedVotes, roundCount })
+    }).length,
 );
 
-export const failedMissionsSelector = createSelector(
-    completedMissionsSelector,
-    (completedMissions) => completedMissions.filter((mi) => !mi.passed).length,
+export const passedMissionsSelector = createSelector(
+    [completedMissionsSelector, failedMissionsSelector],
+    (completedMissions, failedMissions) => completedMissions.length - failedMissions,
 );
 
 export const proposedMissionTeamIsFilledSelector = createSelector(
@@ -181,9 +189,27 @@ export const submittedMissionPassVoteSelector = createSelector(
     (missionTeam, userId) => missionTeam[userId] !== null,
 );
 
+export const missionPassedVotesSelector = createSelector(
+    [missionTeamSelector],
+    (missionTeam) =>
+        Object.values(missionTeam).filter((passed) => passed).length,
+);
+
+export const missionFailedVotesSelector = createSelector(
+    [missionTeamSelector],
+    (missionTeam) =>
+        Object.values(missionTeam).filter((passed) => !passed).length,
+);
+
 export const missionPassedSelector = createSelector(
-    [currentMissionSelector],
-    (currentMission) => currentMission.passed,
+    [playersSelector, roundCountSelector, missionFailedVotesSelector],
+    (players, roundCount, failedVotes) => {
+        return !didMissionFail({
+            roundCount,
+            totalPlayers: players.length,
+            failedVotes,
+        });
+    },
 );
 
 export const enoughPlayersInGameSelector = createSelector(

@@ -4,7 +4,10 @@ import { getUniversalFont } from 'styles';
 
 export default StyleSheet.create({
     container: {
-        paddingTop: 60,
+        flex: 1,
+    },
+    content: {
+        flex: 1,
     },
     title: {
         ...getUniversalFont(1.5),
