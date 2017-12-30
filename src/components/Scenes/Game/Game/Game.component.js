@@ -9,8 +9,7 @@ import {
     Lobby,
     MissionOutcome,
     MissionTeamVote,
-    MissionTeamVoteApproved,
-    MissionTeamVoteRejected,
+    MissionTeamVoteOutcome,
     Scene,
 } from 'components';
 
@@ -39,12 +38,8 @@ class Game extends Component {
                 content = <MissionTeamVote />;
                 break;
 
-            case gameStates.MISSION_TEAM_VOTE_APPROVED:
-                content = <MissionTeamVoteApproved />;
-                break;
-
-            case gameStates.MISSION_TEAM_VOTE_REJECTED:
-                content = <MissionTeamVoteRejected />;
+            case gameStates.MISSION_TEAM_VOTE_OUTCOME:
+                content = <MissionTeamVoteOutcome />;
                 break;
 
             case gameStates.CONDUCT_MISSION:

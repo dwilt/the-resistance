@@ -131,6 +131,40 @@ export const missionTeamVotingCompleteSelector = createSelector(
     },
 );
 
+export const missionTeamVotesRejectedSelector = createSelector(
+    [missionTeamVotesSelector],
+    (missionTeamVotes) => {
+        return Object.values(missionTeamVotes).filter((approved) => !approved)
+            .length;
+    },
+);
+
+export const missionTeamVotesApprovedSelector = createSelector(
+    [missionTeamVotesSelector],
+    (missionTeamVotes) => {
+        return Object.values(missionTeamVotes).filter((approved) => approved)
+            .length;
+    },
+);
+
+export const missionTeamApprovedSelector = createSelector(
+    [
+        missionTeamVotesApprovedSelector,
+        missionTeamVotesRejectedSelector,
+        playersSelector,
+    ],
+    (approvedVotes, rejectedVotes, players) => {
+        const totalPlayers = players.length;
+
+        const majority =
+            totalPlayers % 2 === 0
+                ? totalPlayers / 2 + 1
+                : Math.ceil(totalPlayers / 2);
+
+        return approvedVotes >= majority;
+    },
+);
+
 export const missionTeamSubmittedVoteSelector = createSelector(
     [missionTeamVotesSelector, userIdSelector],
     (missionTeamVotes, userId) =>

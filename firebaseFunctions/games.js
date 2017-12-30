@@ -218,7 +218,7 @@ export async function revealProposedMissionTeamVote({ gameId }) {
     });
 
     const updatedGame = {
-        state: gameStates.MISSION_TEAM_VOTE_APPROVED,
+        state: gameStates.MISSION_TEAM_VOTE_OUTCOME,
     };
 
     const approved = approvedVotes >= majority;
@@ -238,8 +238,6 @@ export async function revealProposedMissionTeamVote({ gameId }) {
         if (failedTeams.length >= singleMissionFailedMissionTeamsLimit - 1) {
             updatedGame.state = gameStates.COMPLETED;
             updatedGame.victoryType = victoryTypes.SPIES_PREVENTED_MISSION_TEAM;
-        } else {
-            updatedGame.state = gameStates.MISSION_TEAM_VOTE_REJECTED;
         }
     }
 
