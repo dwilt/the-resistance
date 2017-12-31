@@ -69,6 +69,14 @@ export const startGameAction = () => ({
     type: `START_GAME`,
 });
 
+export const startingGameAction = () => ({
+    type: `STARTING_GAME`,
+});
+
+export const startedGameAction = () => ({
+    type: `STARTED_GAME`,
+});
+
 export const confirmMissionTeamAction = () => ({
     type: `CONFIRM_MISSION_TEAM`,
 });
@@ -303,9 +311,13 @@ function* joinGame() {
 function* startGame() {
     const gameId = yield select(gameIdSelector);
 
+    yield put(startingGameAction());
+
     yield call(fireFetch, `startGame`, {
         gameId,
     });
+
+    yield put(startedGameAction());
 }
 
 function* confirmMissionTeam() {

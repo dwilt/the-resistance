@@ -4,6 +4,7 @@ import buildMissionTeam from './buildMissionTeam/buildMissionTeam.reducer';
 import conductMission from './conductMission/conductMission.reducer';
 import game from './game/game.reducer';
 import home from './home/home.reducer';
+import lobby from './lobby/lobby.reducer';
 import missionOutcome from './missionOutcome/missionOutcome.reducer';
 import missionTeamVote from './missionTeamVote/missionTeamVote.reducer';
 import missionTeamVoteApproved from './missionTeamVoteApproved/missionTeamVoteApproved.reducer';
@@ -14,6 +15,7 @@ export default combineReducers({
     conductMission,
     game,
     home,
+    lobby,
     missionOutcome,
     missionTeamVote,
     missionTeamVoteApproved,

@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { ActionButton, Text, PlayerCard, Checkbox } from 'components';
+import {
+    ActionButton,
+    Text,
+    PlayerCard,
+    Checkbox,
+    StartGameCountdown,
+} from 'components';
 
 import { View } from 'react-native';
 
@@ -23,10 +29,29 @@ export default class PlayerIdentityReveal extends Component {
         ).isRequired,
     };
 
+    startingCountdown = 3;
+
     state = {
+        countdownCount: 3,
         showingIdentity: false,
         confirmedAlone: false,
     };
+
+    componentDidMount() {
+        let iterations = 0;
+
+        const countDown = setInterval(() => {
+            this.setState(({ countdownCount }) => ({
+                countdownCount: (countdownCount -= 1),
+            }));
+
+            iterations += 1;
+
+            if (iterations >= this.startingCountdown) {
+                clearInterval(countDown);
+            }
+        }, 1000);
+    }
 
     showIdentity = () => {
         this.setState({
@@ -42,7 +67,7 @@ export default class PlayerIdentityReveal extends Component {
 
     render() {
         const { isSpy, spies, onConfirm, userId } = this.props;
-        const { showingIdentity, confirmedAlone } = this.state;
+        const { showingIdentity, confirmedAlone, countdownCount } = this.state;
 
         const otherSpies = spies
             .filter(({ id }) => id !== userId)
@@ -73,6 +98,8 @@ export default class PlayerIdentityReveal extends Component {
                     <ActionButton onPress={onConfirm}>{`Got It!`}</ActionButton>
                 </View>
             );
+        } else if (countdownCount) {
+            content = <StartGameCountdown count={countdownCount} />;
         } else {
             content = (
                 <View>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { Image, TouchableOpacity, View, LayoutAnimation } from 'react-native';
+import { Image, TouchableOpacity, View } from 'react-native';
 
 import { Text } from 'components';
 
@@ -27,10 +27,6 @@ class PlayersList extends Component {
         disabled: false,
         theme: `default`,
     };
-
-    componentWillReceiveProps() {
-        LayoutAnimation.easeInEaseOut();
-    }
 
     render() {
         const { players, onPlayerTap, disabled, theme } = this.props;
