@@ -94,7 +94,7 @@ export const voteButtons = {
     flexDirection: `row`,
     paddingLeft: gutter,
     paddingRight: gutter,
-    marginTop: gutter
+    marginTop: gutter,
 };
 
 export const voteButtonsApprove = {

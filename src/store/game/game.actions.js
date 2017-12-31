@@ -160,6 +160,14 @@ export const startNextRoundAction = () => ({
     type: `START_NEXT_ROUND`,
 });
 
+export const startingNextRoundAction = () => ({
+    type: `STARTING_NEXT_ROUND`,
+});
+
+export const startedNextRoundAction = () => ({
+    type: `STARTED_NEXT_ROUND`,
+});
+
 export const createNewGameAction = () => ({
     type: `CREATE_NEW_GAME`,
 });
@@ -409,9 +417,13 @@ function* submitMissionPasses() {
 function* startNextRound() {
     const gameId = yield select(gameIdSelector);
 
+    yield put(startingNextRoundAction());
+
     yield call(fireFetch, `startNextRound`, {
         gameId,
     });
+
+    yield put(startedNextRoundAction());
 }
 
 function* createNewGame() {
