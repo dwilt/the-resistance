@@ -230,3 +230,9 @@ export const enoughPlayersInGameSelector = createSelector(
     [playersSelector],
     (players) => players.length > 4,
 );
+
+export const missionTeamPlayersSelector = createSelector(
+    [missionTeamSelector, playersSelector],
+    (missionTeam, players) =>
+        players.filter(({ id }) => Object.keys(missionTeam).indexOf(id) !== -1),
+);

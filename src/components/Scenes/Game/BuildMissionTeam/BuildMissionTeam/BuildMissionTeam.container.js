@@ -13,9 +13,7 @@ export default connect((state) => {
     const isLeader = isLeaderSelector(state);
     const players = playersSelector(state);
     const roundCount = roundCountSelector(state);
-    const playerConfirmedIdentity = playerConfirmedIdentitySelector(
-        state,
-    );
+    const playerConfirmedIdentity = playerConfirmedIdentitySelector(state);
 
     return {
         isLeader,

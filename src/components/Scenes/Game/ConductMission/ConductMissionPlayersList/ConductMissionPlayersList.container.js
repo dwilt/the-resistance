@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 
-import { proposedMissionTeamNamesSelector } from 'selectors';
+import { missionTeamPlayersSelector } from 'selectors';
 
 import ConductMissionPlayersList from './ConductMissionPlayersList.component';
 
 export default connect((state) => {
-    const players = proposedMissionTeamNamesSelector(state);
+    const players = missionTeamPlayersSelector(state);
 
     return {
         players,

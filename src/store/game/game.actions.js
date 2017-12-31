@@ -237,8 +237,6 @@ function createCompletedMissionsListenerChannel(id) {
             .onSnapshot(({ docs }) => {
                 const missions = docs.map((doc) => doc.data());
 
-                console.log(missions);
-
                 emitter(missions);
             });
 
@@ -280,10 +278,14 @@ function* joinGame() {
 
     yield put(joiningGameAction());
 
-    const { id, data, players, completedMissions } = yield call(fireFetch, `joinGame`, {
-        gameCode,
-        userId,
-    });
+    const { id, data, players, completedMissions } = yield call(
+        fireFetch,
+        `joinGame`,
+        {
+            gameCode,
+            userId,
+        },
+    );
 
     yield put(joinedGameAction());
 

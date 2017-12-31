@@ -6,9 +6,7 @@ import { Text } from 'components/index';
 
 import { View } from 'react-native';
 
-import {
-   gameStates
-} from 'src/gameStructure';
+import { gameStates } from 'src/gameStructure';
 
 import styles from './RoundCount.styles';
 
@@ -21,9 +19,18 @@ export default class RoundCount extends Component {
     };
 
     render() {
-        const { roundCount, failedMissions, passedMissions, gameState } = this.props;
+        const {
+            roundCount,
+            failedMissions,
+            passedMissions,
+            gameState,
+        } = this.props;
 
-        const roundCountNumber = gameState === gameStates.MISSION_OUTCOME ? roundCount - 1 : roundCount;
+        const roundCountNumber =
+            gameState === gameStates.MISSION_OUTCOME ||
+            gameState === gameStates.COMPLETED
+                ? roundCount - 1
+                : roundCount;
 
         return (
             <View style={styles.container}>

@@ -1,6 +1,11 @@
 import { connect } from 'react-redux';
 
-import { missionPassedSelector, isHostSelector, missionFailedVotesSelector, missionPassedVotesSelector } from 'selectors';
+import {
+    missionPassedSelector,
+    isHostSelector,
+    missionFailedVotesSelector,
+    missionPassedVotesSelector,
+} from 'selectors';
 
 import MissionOutcome from './MissionOutcome.component';
 
@@ -14,6 +19,6 @@ export default connect((state) => {
         passed,
         isHost,
         totalPassedVotes,
-        totalFailedVotes
+        totalFailedVotes,
     };
 })(MissionOutcome);

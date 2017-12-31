@@ -16,7 +16,12 @@ export default class MissionOutcome extends Component {
         totalFailedVotes: PropTypes.number.isRequired,
     };
     render() {
-        const { isHost, passed, totalFailedVotes, totalPassedVotes } = this.props;
+        const {
+            isHost,
+            passed,
+            totalFailedVotes,
+            totalPassedVotes,
+        } = this.props;
 
         const text = passed ? `Mission passed!` : `Mission failed!`;
 
@@ -28,7 +33,7 @@ export default class MissionOutcome extends Component {
                     <Text>{`Failed: ${totalFailedVotes}`}</Text>
                     {isHost && <StartNextRoundButton />}
                 </View>
-                <GameFooter/>
+                <GameFooter />
             </View>
         );
     }

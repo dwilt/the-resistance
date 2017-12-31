@@ -25,6 +25,8 @@ import {
     updatePlayer,
 } from './helpers/firestore';
 
+import { getMajority } from './helpers/numbers';
+
 export async function joinGame({ userId, gameCode }) {
     const gameDoc = await getOpenGameByCode(parseInt(gameCode));
 
@@ -189,10 +191,7 @@ export async function revealProposedMissionTeamVote({ gameId }) {
 
     const totalPlayers = players.length;
 
-    const majority =
-        totalPlayers % 2 === 0
-            ? totalPlayers / 2 + 1
-            : Math.ceil(totalPlayers / 2);
+    const majority = getMajority(totalPlayers);
 
     let approvedVotes = 0;
     let rejectedVotes = 0;
@@ -264,25 +263,16 @@ export async function submitMissionPasses({ gameId, userId, passes }) {
     );
 
     if (!nonVoters.length) {
+        await addCompletedMission(gameId, currentMission);
+
         const [completedMissions, players] = await Promise.all([
             getCompletedMissions(gameId),
             getPlayers(gameId),
         ]);
 
         const totalPlayers = players.length;
-        const failedVotes = Object.keys(missionTeam).filter(
-            (userId) => !missionTeam[userId],
-        );
 
-        const currentMissionFailed = didMissionFail({
-            roundCount: completedMissions.length,
-            totalPlayers,
-            failedVotes,
-        });
-
-        await addCompletedMission(gameId, currentMission);
-
-        const majority = Math.floor(totalRounds / 2);
+        const majority = getMajority(totalRounds);
 
         let failedMissions = 0;
         let passedMissions = 0;
@@ -291,7 +281,7 @@ export async function submitMissionPasses({ gameId, userId, passes }) {
             const roundCount = i + 1;
             const failedVotes = Object.keys(missionTeam).filter(
                 (userId) => !missionTeam[userId],
-            );
+            ).length;
 
             const failed = didMissionFail({
                 roundCount,
@@ -306,10 +296,8 @@ export async function submitMissionPasses({ gameId, userId, passes }) {
             }
         });
 
-        const spiesWon =
-            currentMissionFailed && failedMissions.length + 1 > majority;
-        const alliesWon =
-            !currentMissionFailed && passedMissions.length + 1 > majority;
+        const spiesWon = failedMissions >= majority;
+        const alliesWon = passedMissions >= majority;
 
         if (spiesWon || alliesWon) {
             const victoryType = alliesWon

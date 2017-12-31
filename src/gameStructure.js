@@ -15,7 +15,10 @@ export const victoryTypes = {
 };
 
 export function didMissionFail({ roundCount, totalPlayers, failedVotes }) {
-    return (roundCount === 4 && totalPlayers > 7 && failedVotes > 1) || !!failedVotes;
+    return (
+        (roundCount === 4 && totalPlayers >= 7 && failedVotes > 1) ||
+        !!failedVotes
+    );
 }
 
 export const singleMissionFailedMissionTeamsLimit = 5;

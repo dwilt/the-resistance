@@ -32,8 +32,8 @@ export default createReducer(
                 ...state.players.filter(({ id }) => id !== userId),
                 {
                     ...state.players.find(({ id }) => id === userId),
-                    confirmedIdentity: true
-                }
+                    confirmedIdentity: true,
+                },
             ],
         }),
         [setMissionPassesAction().type]: (state, { userId, passes }) => ({
@@ -43,7 +43,7 @@ export default createReducer(
                 currentMission: {
                     ...state.data.currentMission,
                     missionTeam: {
-                        ...state.data.currentMission.missionTeamVotes,
+                        ...state.data.currentMission.missionTeam,
                         [userId]: passes,
                     },
                 },

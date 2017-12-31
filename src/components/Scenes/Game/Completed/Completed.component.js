@@ -36,11 +36,11 @@ export default class Completed extends Component {
 
         switch (victoryType) {
             case victoryTypes.ALLIES_COMPLETED_MISSIONS:
-                title = `Missions Passed!`;
+                title = `Mission Passed!`;
                 break;
 
             case victoryTypes.SPIES_COMPLETED_MISSIONS:
-                title = `Missions Failed!`;
+                title = `Mission Failed!`;
                 break;
 
             case victoryTypes.SPIES_PREVENTED_MISSION_TEAM:

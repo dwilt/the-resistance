@@ -12,7 +12,9 @@ import ConfirmMissionTeamButton from './ConfirmMissionTeamButton.component';
 
 export default connect(
     (state) => {
-        const disabled = !proposedMissionTeamIsFilledSelector(state) || !allPlayersConfirmedIdentitySelector(state);
+        const disabled =
+            !proposedMissionTeamIsFilledSelector(state) ||
+            !allPlayersConfirmedIdentitySelector(state);
         const isLoading = buildMissionTeamIsConfirmingSelector(state);
 
         return {
