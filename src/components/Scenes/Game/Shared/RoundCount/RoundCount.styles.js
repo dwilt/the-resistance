@@ -24,8 +24,7 @@ export default StyleSheet.create({
     numberContainer: {
         ...centerChildren(true),
         flex: 1,
-        paddingTop: gutter / 2,
-        paddingBottom: gutter / 2,
+        paddingTop: gutter / 4,
         paddingLeft: gutter,
         paddingRight: gutter,
         borderRightWidth: 1,
@@ -35,7 +34,7 @@ export default StyleSheet.create({
         borderRightWidth: 0,
     },
     number: {
-        ...getUniversalFont(3, 1.2),
+        ...getUniversalFont(2, 1.2),
         fontFamily: openSans.extraBold,
     },
     numberText: {

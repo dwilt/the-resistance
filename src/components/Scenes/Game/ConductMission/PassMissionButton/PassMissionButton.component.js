@@ -2,19 +2,22 @@ import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { ActionButton } from 'components';
+import { ImageButton } from 'components';
+
+const passCard = require(`assets/images/pass-mission-card.png`);
 
 export default class PassMissionButton extends PureComponent {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
+        selected: PropTypes.bool.isRequired,
     };
 
     render() {
         return (
-            <ActionButton
+            <ImageButton
                 {...this.props}
-                theme={`bordered`}
-            >{`Pass`}</ActionButton>
+                source={passCard}
+            >{`Pass`}</ImageButton>
         );
     }
 }

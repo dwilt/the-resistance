@@ -8,7 +8,7 @@ import {
     centerChildren,
 } from 'styles/index';
 
-const iconWidth = 40;
+const iconWidth = 30;
 
 export default StyleSheet.create({
     container: {
@@ -25,7 +25,7 @@ export default StyleSheet.create({
         fontFamily: openSans.bold,
         color: white,
         textAlign: `center`,
-        marginBottom: gutter / 2,
+        marginBottom: gutter / 4,
     },
     icon: {
         width: iconWidth,

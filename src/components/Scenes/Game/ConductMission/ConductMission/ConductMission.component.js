@@ -25,7 +25,7 @@ export default class ConductMission extends Component {
         const { submittedVote, canVote } = this.props;
 
         const subtitle = canVote
-            ? `Keep This Secret!\nAll votes are final!`
+            ? `Keep This Secret! All votes are final!`
             : `Waiting for mission team to vote`;
 
         return (

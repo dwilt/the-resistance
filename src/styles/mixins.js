@@ -9,7 +9,7 @@ import {
 } from './structure';
 import { openSans, yellow } from './index';
 
-export const minTouchSize = gutter * 4;
+export const minTouchSize = gutter * 3.5;
 
 export const centerChildren = (vertically = false) => ({
     flexDirection: vertically ? `column` : `row`,
@@ -83,7 +83,7 @@ export const subtitle = {
     ...getUniversalFont(1.2, 1.4),
     fontFamily: openSans.bold,
     textAlign: `center`,
-    marginBottom: gutter,
+    marginBottom: gutter / 2,
     paddingLeft: gutter,
     paddingRight: gutter,
 };

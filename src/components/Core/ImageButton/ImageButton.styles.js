@@ -8,7 +8,7 @@ import {
     yellow,
 } from 'styles';
 
-const imageWidth = 120;
+const imageWidth = 100;
 
 export default StyleSheet.create({
     container: {

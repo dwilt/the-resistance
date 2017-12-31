@@ -11,6 +11,7 @@ export default StyleSheet.create({
         flexWrap: `wrap`,
         paddingLeft: gutter / 2,
         paddingRight: gutter / 2,
+        marginBottom: gutter,
     },
     player: {
         width: playerWidth,
@@ -34,6 +35,8 @@ export default StyleSheet.create({
         borderRightWidth: 0,
         borderTopWidth: 0,
         borderLeftWidth: 0,
+        padding: gutter / 2,
+        marginBottom: 0,
     },
     userIcon: {
         width: gutter * 1.25,
@@ -41,7 +44,7 @@ export default StyleSheet.create({
         marginRight: gutter,
     },
     playerName: {
-        ...getUniversalFont(1.4, 1),
+        ...getUniversalFont(1.2, 1),
         color: white,
         top: 2,
     },
