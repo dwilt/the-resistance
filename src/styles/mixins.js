@@ -75,7 +75,6 @@ export const yellowTitle = {
     color: yellow,
     fontFamily: openSans.bold,
     textAlign: `center`,
-    marginBottom: gutter / 2,
     paddingLeft: gutter,
     paddingRight: gutter,
 };
@@ -95,7 +94,7 @@ export const voteButtons = {
     flexDirection: `row`,
     paddingLeft: gutter,
     paddingRight: gutter,
-    marginTop: gutter * 2,
+    marginTop: gutter
 };
 
 export const voteButtonsApprove = {
