@@ -20,10 +20,12 @@ class PlayersList extends Component {
         ).isRequired,
         onPlayerTap: PropTypes.func,
         disabled: PropTypes.bool.isRequired,
+        theme: PropTypes.oneOf([`default`, `underlined`]).isRequired,
     };
 
     static defaultProps = {
         disabled: false,
+        theme: `default`,
     };
 
     componentWillReceiveProps() {
@@ -31,7 +33,7 @@ class PlayersList extends Component {
     }
 
     render() {
-        const { players, onPlayerTap, disabled } = this.props;
+        const { players, onPlayerTap, disabled, theme } = this.props;
 
         return (
             <View style={styles.container}>
@@ -47,6 +49,10 @@ class PlayersList extends Component {
 
                     if (playerDisabled) {
                         playerStyles.push(styles.disabledPlayer);
+                    }
+
+                    if (theme === `underlined`) {
+                        playerStyles.push(styles.underlinePlayer);
                     }
 
                     const playerContent = (

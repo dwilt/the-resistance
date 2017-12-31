@@ -12,12 +12,6 @@ export default StyleSheet.create({
         paddingLeft: gutter / 2,
         paddingRight: gutter / 2,
     },
-    selectedPlayer: {
-        borderColor: yellow,
-    },
-    disabledPlayer: {
-        opacity: 0.5,
-    },
     player: {
         width: playerWidth,
         marginBottom: gutter / 2,
@@ -29,6 +23,17 @@ export default StyleSheet.create({
         borderColor: white,
         borderRadius: 2,
         padding: gutter / 2,
+    },
+    selectedPlayer: {
+        borderColor: yellow,
+    },
+    disabledPlayer: {
+        opacity: 0.5,
+    },
+    underlinePlayer: {
+        borderRightWidth: 0,
+        borderTopWidth: 0,
+        borderLeftWidth: 0,
     },
     userIcon: {
         width: gutter * 1.25,
