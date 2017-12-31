@@ -3,6 +3,7 @@ export * from './Checkbox';
 export * from './CodeInput';
 export * from './DismissKeyboardView';
 export * from './ErrorMessage';
+export * from './ImageButton';
 export * from './PlayerCard';
 export * from './Scene';
 export * from './Text';

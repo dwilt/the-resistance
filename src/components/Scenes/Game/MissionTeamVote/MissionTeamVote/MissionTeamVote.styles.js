@@ -4,9 +4,8 @@ import {
     gutter,
     yellowTitle,
     subtitle,
-    voteButtonsReject,
-    voteButtonsApprove,
     voteButtons,
+    voteButtonsApprove,
     getUniversalFont,
     openSans,
 } from 'styles';
@@ -26,9 +25,6 @@ export default StyleSheet.create({
     },
     voteButtons: {
         ...voteButtons,
-    },
-    rejectButton: {
-        ...voteButtonsReject,
     },
     approveButton: {
         ...voteButtonsApprove,

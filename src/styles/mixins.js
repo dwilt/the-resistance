@@ -88,20 +88,14 @@ export const subtitle = {
     paddingRight: gutter,
 };
 
-const voteButtonWidth = (windowWidth - gutter * 2.5) / 2;
-
 export const voteButtons = {
-    flexDirection: `row`,
+    ...centerChildren(),
     paddingLeft: gutter,
     paddingRight: gutter,
     marginTop: gutter,
+    marginBottom: gutter,
 };
 
 export const voteButtonsApprove = {
-    width: voteButtonWidth,
-    marginRight: gutter / 2,
-};
-
-export const voteButtonsReject = {
-    width: voteButtonWidth,
+    marginRight: gutter,
 };

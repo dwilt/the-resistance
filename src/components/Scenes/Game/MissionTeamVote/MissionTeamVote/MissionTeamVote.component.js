@@ -51,9 +51,7 @@ export default class MissionTeamVote extends Component {
                             <View style={styles.approveButton}>
                                 <ApproveTeamButton />
                             </View>
-                            <View style={styles.rejectButton}>
-                                <RejectTeamButton />
-                            </View>
+                            <RejectTeamButton />
                         </View>
                     )}
                     {!submittedVote && (
