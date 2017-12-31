@@ -10,6 +10,6 @@ export default class ConductMissionPlayersList extends PureComponent {
     };
 
     render() {
-        return <PlayersList {...this.props} />;
+        return <PlayersList {...this.props} theme={`underlined`} />;
     }
 }

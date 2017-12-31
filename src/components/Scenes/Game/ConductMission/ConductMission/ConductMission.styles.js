@@ -6,8 +6,11 @@ import {
     voteButtons,
     voteButtonsApprove,
     voteButtonsReject,
+    yellow,
+    getUniversalFont,
+    gutter,
+    openSans,
 } from 'styles';
-import { getUniversalFont, gutter, openSans } from '../../../../../styles';
 
 export default StyleSheet.create({
     container: {
@@ -42,6 +45,11 @@ export default StyleSheet.create({
     submittedVote: {
         ...getUniversalFont(1.4),
         fontFamily: openSans.bold,
+        textAlign: `center`,
+    },
+    allyWarning: {
+        fontFamily: openSans.bold,
+        color: yellow,
         textAlign: `center`,
     },
 });

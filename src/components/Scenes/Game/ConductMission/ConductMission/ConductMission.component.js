@@ -25,7 +25,7 @@ export default class ConductMission extends Component {
         const { submittedVote, canVote } = this.props;
 
         const subtitle = canVote
-            ? `Keep This Secret!`
+            ? `Keep This Secret!\nAll votes are final!`
             : `Waiting for mission team to vote`;
 
         return (
@@ -51,6 +51,9 @@ export default class ConductMission extends Component {
                                     <View style={styles.submitButton}>
                                         <SubmitMissionVoteButton />
                                     </View>
+                                    <Text
+                                        style={styles.allyWarning}
+                                    >{`Allies cannot fail a mission`}</Text>
                                 </View>
                             )}
                             {submittedVote && (
