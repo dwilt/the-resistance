@@ -46,7 +46,6 @@ export default StyleSheet.create({
     playerName: {
         ...getUniversalFont(1.2, 1),
         color: white,
-        top: 2,
     },
     selectedPlayerName: {
         color: yellow,
