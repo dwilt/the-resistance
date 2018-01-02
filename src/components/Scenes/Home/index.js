@@ -1,3 +1,4 @@
+export * from './CancelJoinGame';
 export * from './CreateGameButton';
 export * from './Home';
 export * from './HomeError';
