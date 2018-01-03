@@ -2,6 +2,10 @@ import { connect } from 'react-redux';
 
 import { missionTeamSubmittedVoteSelector, isHostSelector } from 'selectors';
 
+import {
+    setCastVoteAction as resetVotes
+} from 'store/missionTeamVote/missionTeamVote.actions';
+
 import MissionTeamVote from './MissionTeamVote.component';
 
 export default connect((state) => {
@@ -12,4 +16,6 @@ export default connect((state) => {
         submittedVote,
         isHost,
     };
+}, {
+    resetVotes
 })(MissionTeamVote);

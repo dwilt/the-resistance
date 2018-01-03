@@ -21,7 +21,14 @@ export default class MissionTeamVote extends Component {
     static propTypes = {
         submittedVote: PropTypes.bool.isRequired,
         isHost: PropTypes.bool.isRequired,
+        resetVotes: PropTypes.func.isRequired,
     };
+
+    componentWillUnmount() {
+        const { resetVotes } = this.props;
+
+        resetVotes();
+    }
 
     render() {
         const { isHost, submittedVote } = this.props;
