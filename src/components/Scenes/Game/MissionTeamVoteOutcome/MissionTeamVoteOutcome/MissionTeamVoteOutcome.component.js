@@ -15,21 +15,24 @@ import styles from './MissionTeamVoteOutcome.styles';
 
 export default class MissionTeamVoteOutcome extends PureComponent {
     static propTypes = {
+        isHost: PropTypes.bool.isRequired,
         approved: PropTypes.bool.isRequired,
         totalApprovedVotes: PropTypes.number.isRequired,
         totalRejectedVotes: PropTypes.number.isRequired,
     };
 
     render() {
-        const { approved, totalApprovedVotes, totalRejectedVotes } = this.props;
+        const { approved, totalApprovedVotes, totalRejectedVotes, isHost } = this.props;
 
         const title = approved
             ? `Mission team approved!`
             : `Mission team rejected!`;
 
-        const actionButton = approved ? (
+        const conductMissionButton = approved && isHost && (
             <ConductMissionButton />
-        ) : (
+        );
+
+        const startNextRoundButton = !approved && isHost && (
             <SelectNewLeaderButton />
         );
 
@@ -39,7 +42,8 @@ export default class MissionTeamVoteOutcome extends PureComponent {
                     <Text style={styles.title}>{title}</Text>
                     <Text>{`Approved Votes: ${totalApprovedVotes}`}</Text>
                     <Text>{`Rejected Votes: ${totalRejectedVotes}`}</Text>
-                    {actionButton}
+                    {conductMissionButton}
+                    {startNextRoundButton}
                 </View>
                 <GameFooter />
             </View>
