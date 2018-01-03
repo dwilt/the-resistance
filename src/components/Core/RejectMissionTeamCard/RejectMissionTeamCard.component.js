@@ -1,13 +1,11 @@
 import React, { PureComponent } from 'react';
 
-import { Image } from 'react-native';
+import { PlayingCard } from 'components';
 
 const rejectCard = require(`assets/images/reject-mission-team-card.png`);
 
-import styles from './RejectMissionTeamCard.styles';
-
 export default class RejectMissionTeamCard extends PureComponent {
     render() {
-        return <Image style={styles.image} source={rejectCard} />;
+        return <PlayingCard source={rejectCard} />;
     }
 }

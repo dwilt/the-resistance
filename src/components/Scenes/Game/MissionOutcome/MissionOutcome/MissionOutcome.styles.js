@@ -1,6 +1,13 @@
 import { StyleSheet } from 'react-native';
 
-import { getUniversalFont } from 'styles';
+import {
+    getUniversalFont,
+    yellowTitle,
+    centerChildren,
+    gutter,
+    openSans,
+    yellow,
+} from 'styles';
 
 export default StyleSheet.create({
     container: {
@@ -10,6 +17,32 @@ export default StyleSheet.create({
         flex: 1,
     },
     title: {
-        ...getUniversalFont(1.5),
+        ...yellowTitle,
+    },
+    innerContent: {
+        ...centerChildren(true),
+        flex: 1,
+    },
+    resultTitle: {
+        ...getUniversalFont(3),
+        color: yellow,
+        fontFamily: openSans.boldItalic,
+        marginBottom: gutter,
+    },
+    cards: {
+        flexDirection: `row`,
+        marginBottom: gutter,
+    },
+    firstCard: {
+        marginRight: gutter * 2,
+    },
+    voteNumber: {
+        ...getUniversalFont(3, 1.1),
+        fontFamily: openSans.boldItalic,
+        textAlign: `center`,
+        marginTop: gutter / 2,
+    },
+    majorityVoteNumber: {
+        color: yellow,
     },
 });

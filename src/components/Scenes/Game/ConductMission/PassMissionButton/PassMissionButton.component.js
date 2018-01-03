@@ -2,9 +2,7 @@ import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { ImageButton } from 'components';
-
-const passCard = require(`assets/images/pass-mission-card.png`);
+import { ImageButton, PassedMissionCard } from 'components';
 
 export default class PassMissionButton extends PureComponent {
     static propTypes = {
@@ -14,10 +12,9 @@ export default class PassMissionButton extends PureComponent {
 
     render() {
         return (
-            <ImageButton
-                {...this.props}
-                source={passCard}
-            >{`Pass`}</ImageButton>
+            <ImageButton {...this.props} text={`Pass`}>
+                <PassedMissionCard />
+            </ImageButton>
         );
     }
 }

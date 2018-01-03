@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 
 import PropTypes from 'prop-types';
 
@@ -33,9 +33,7 @@ export default class ImageButton extends PureComponent {
 
         return (
             <TouchableOpacity style={styles.container} onPress={onPress}>
-                <View style={imageContainerStyles}>
-                    {children}
-                </View>
+                <View style={imageContainerStyles}>{children}</View>
                 <Text style={labelStyles}>{text}</Text>
             </TouchableOpacity>
         );

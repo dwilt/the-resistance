@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { Text, StartNextRoundButton, GameFooter } from 'components';
+import {
+    Text,
+    StartNextRoundButton,
+    GameFooter,
+    FailedMissionCard,
+    PassedMissionCard,
+} from 'components';
 
 import { View } from 'react-native';
 
@@ -23,15 +29,48 @@ export default class MissionOutcome extends Component {
             totalPassedVotes,
         } = this.props;
 
-        const text = passed ? `Mission passed!` : `Mission failed!`;
+        let subtitleText = !isHost && `Host will start next round`;
+
+        const subtitle = subtitleText && (
+            <Text style={styles.subtitle}>{subtitleText}</Text>
+        );
+
+        const resultTitle = passed ? `success` : `fail`;
+
+        const successNumberStyles = [styles.voteNumber];
+        const failNumberStyles = [styles.voteNumber];
+
+        if (passed) {
+            successNumberStyles.push(styles.majorityVoteNumber);
+        } else {
+            failNumberStyles.push(styles.majorityVoteNumber);
+        }
 
         return (
             <View style={styles.container}>
                 <View style={styles.content}>
-                    <Text>{text}</Text>
-                    <Text>{`Passed: ${totalPassedVotes}`}</Text>
-                    <Text>{`Failed: ${totalFailedVotes}`}</Text>
-                    {isHost && <StartNextRoundButton />}
+                    <Text style={styles.title}>{`Mission Result`}</Text>
+                    {subtitle}
+                    <View style={styles.innerContent}>
+                        <Text style={styles.resultTitle}>
+                            {resultTitle.toUpperCase()}
+                        </Text>
+                        <View style={styles.cards}>
+                            <View style={styles.firstCard}>
+                                <PassedMissionCard />
+                                <Text style={successNumberStyles}>
+                                    {totalPassedVotes}
+                                </Text>
+                            </View>
+                            <View>
+                                <FailedMissionCard />
+                                <Text style={failNumberStyles}>
+                                    {totalFailedVotes}
+                                </Text>
+                            </View>
+                        </View>
+                        {isHost && <StartNextRoundButton />}
+                    </View>
                 </View>
                 <GameFooter />
             </View>

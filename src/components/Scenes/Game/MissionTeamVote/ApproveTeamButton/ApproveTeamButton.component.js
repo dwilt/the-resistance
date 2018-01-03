@@ -13,7 +13,7 @@ export default class ApproveTeamButton extends PureComponent {
     render() {
         return (
             <ImageButton {...this.props} text={`Approve`}>
-                <ApproveMissionTeamCard/>
+                <ApproveMissionTeamCard />
             </ImageButton>
         );
     }

@@ -2,9 +2,7 @@ import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { ImageButton } from 'components';
-
-const failCard = require(`assets/images/fail-mission-card.png`);
+import { ImageButton, FailedMissionCard } from 'components';
 
 export default class FailMissionButton extends PureComponent {
     static propTypes = {
@@ -14,10 +12,9 @@ export default class FailMissionButton extends PureComponent {
 
     render() {
         return (
-            <ImageButton
-                {...this.props}
-                source={failCard}
-            >{`Fail`}</ImageButton>
+            <ImageButton {...this.props} text={`Fail`}>
+                <FailedMissionCard />
+            </ImageButton>
         );
     }
 }
