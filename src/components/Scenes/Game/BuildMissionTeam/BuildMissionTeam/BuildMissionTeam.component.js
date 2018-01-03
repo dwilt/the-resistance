@@ -22,10 +22,12 @@ export default class BuildMissionTeam extends Component {
         isLeader: PropTypes.bool.isRequired,
         roundCount: PropTypes.number.isRequired,
         players: PropTypes.array.isRequired,
+        leader: PropTypes.string.isRequired,
     };
 
     render() {
         const {
+            leader,
             isLeader,
             players,
             roundCount,
@@ -46,9 +48,9 @@ export default class BuildMissionTeam extends Component {
             </Text>
         ) : (
             <Text style={styles.subtitle}>
-                {`Mission leader is selecting `}
+                {`${leader} is selecting `}
                 {membersCount}
-                {` players to send on mission`}
+                {` players to send on the mission`}
             </Text>
         );
 
