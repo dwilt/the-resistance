@@ -190,6 +190,14 @@ export async function revealProposedMissionTeamVote({ gameId }) {
     } = game;
 
     const totalPlayers = players.length;
+    const totalVotes = Object.keys(missionTeamVotes).length;
+
+    if(totalVotes !== totalPlayers) {
+        return Promise.reject({
+            code: `NOT_ALL_VOTES_SUBMITTED`,
+            message: `The number of votes does not match the number of players.`,
+        });
+    }
 
     const majority = getMajority(totalPlayers);
 
