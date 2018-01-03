@@ -6,3 +6,8 @@ export const buildMissionTeamIsConfirmingSelector = createSelector(
     buildMissionTeamSelector,
     (buildMissionTeam) => buildMissionTeam.isConfirming,
 );
+
+export const buildMissionTeamConfirmedIdentitySelector = createSelector(
+    buildMissionTeamSelector,
+    (buildMissionTeam) => buildMissionTeam.confirmedIdentity,
+);
