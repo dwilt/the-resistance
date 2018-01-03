@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
 
+import { ImageButton, RejectMissionTeamCard } from 'components';
+
 import PropTypes from 'prop-types';
-
-import { ImageButton } from 'components';
-
-const rejectCard = require(`assets/images/reject-mission-team-card.png`);
 
 export default class RejectTeamButton extends PureComponent {
     static propTypes = {
@@ -14,8 +12,8 @@ export default class RejectTeamButton extends PureComponent {
 
     render() {
         return (
-            <ImageButton {...this.props} source={rejectCard}>
-                {`Reject`}
+            <ImageButton {...this.props} text={`Reject`}>
+                <RejectMissionTeamCard />
             </ImageButton>
         );
     }

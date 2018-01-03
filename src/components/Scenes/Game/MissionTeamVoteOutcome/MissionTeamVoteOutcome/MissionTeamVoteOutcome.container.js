@@ -4,7 +4,7 @@ import {
     missionTeamVotesApprovedSelector,
     missionTeamVotesRejectedSelector,
     missionTeamApprovedSelector,
-    isHostSelector
+    isHostSelector,
 } from 'selectors';
 
 import MissionTeamVoteOutcome from './MissionTeamVoteOutcome.component';

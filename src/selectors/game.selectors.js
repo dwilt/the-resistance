@@ -170,12 +170,8 @@ export const missionTeamVotesApprovedSelector = createSelector(
 );
 
 export const missionTeamApprovedSelector = createSelector(
-    [
-        missionTeamVotesApprovedSelector,
-        missionTeamVotesRejectedSelector,
-        playersSelector,
-    ],
-    (approvedVotes, rejectedVotes, players) => {
+    [missionTeamVotesApprovedSelector, playersSelector],
+    (approvedVotes, players) => {
         const totalPlayers = players.length;
 
         const majority =

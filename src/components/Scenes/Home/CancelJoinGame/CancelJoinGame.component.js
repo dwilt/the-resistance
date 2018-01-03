@@ -1,12 +1,8 @@
-import React, {
-    PureComponent,
-} from 'react';
+import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
-import {
-    ActionButton,
-} from 'components';
+import { ActionButton } from 'components';
 
 export default class CancelJoinGame extends PureComponent {
     static propTypes = {
@@ -14,12 +10,6 @@ export default class CancelJoinGame extends PureComponent {
     };
 
     render() {
-        return (
-            <ActionButton
-                {...this.props}
-            >
-                {`Cancel`}
-            </ActionButton>
-        );
+        return <ActionButton {...this.props}>{`Cancel`}</ActionButton>;
     }
 }

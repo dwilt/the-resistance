@@ -22,7 +22,7 @@ export default class JoinGameOverlay extends PureComponent {
                     <JoinGameInput />
                 </View>
                 <JoinGameButton />
-                <CancelJoinGame/>
+                <CancelJoinGame />
             </View>
         ) : null;
     }

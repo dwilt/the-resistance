@@ -192,7 +192,7 @@ export async function revealProposedMissionTeamVote({ gameId }) {
     const totalPlayers = players.length;
     const totalVotes = Object.keys(missionTeamVotes).length;
 
-    if(totalVotes !== totalPlayers) {
+    if (totalVotes !== totalPlayers) {
         return Promise.reject({
             code: `NOT_ALL_VOTES_SUBMITTED`,
             message: `The number of votes does not match the number of players.`,

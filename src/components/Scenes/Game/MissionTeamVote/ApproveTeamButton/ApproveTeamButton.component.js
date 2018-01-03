@@ -2,9 +2,7 @@ import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { ImageButton } from 'components';
-
-const approveCard = require(`assets/images/approve-mission-team-card.png`);
+import { ImageButton, ApproveMissionTeamCard } from 'components';
 
 export default class ApproveTeamButton extends PureComponent {
     static propTypes = {
@@ -14,8 +12,8 @@ export default class ApproveTeamButton extends PureComponent {
 
     render() {
         return (
-            <ImageButton {...this.props} source={approveCard}>
-                {`Approve`}
+            <ImageButton {...this.props} text={`Approve`}>
+                <ApproveMissionTeamCard/>
             </ImageButton>
         );
     }

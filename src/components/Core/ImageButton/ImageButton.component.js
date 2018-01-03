@@ -13,7 +13,7 @@ export default class ImageButton extends PureComponent {
         onPress: PropTypes.func.isRequired,
         selected: PropTypes.bool.isRequired,
         children: PropTypes.node.isRequired,
-        source: PropTypes.number.isRequired,
+        text: PropTypes.string.isRequired,
     };
 
     static defaultProps = {
@@ -21,7 +21,7 @@ export default class ImageButton extends PureComponent {
     };
 
     render() {
-        const { onPress, selected, children, source } = this.props;
+        const { onPress, selected, children, text } = this.props;
 
         const imageContainerStyles = [styles.imageContainer];
         const labelStyles = [styles.label];
@@ -34,9 +34,9 @@ export default class ImageButton extends PureComponent {
         return (
             <TouchableOpacity style={styles.container} onPress={onPress}>
                 <View style={imageContainerStyles}>
-                    <Image style={styles.image} source={source} />
+                    {children}
                 </View>
-                <Text style={labelStyles}>{children}</Text>
+                <Text style={labelStyles}>{text}</Text>
             </TouchableOpacity>
         );
     }

@@ -8,9 +8,7 @@ import { Image, View } from 'react-native';
 
 import styles from './MissionLeader.styles';
 
-import {
-   gameStates
-} from 'src/gameStructure';
+import { gameStates } from 'src/gameStructure';
 
 const missionLeaderIcon = require(`assets/images/mission-leader-icon.png`);
 
@@ -22,7 +20,9 @@ class MissionLeader extends Component {
 
     render() {
         const { leader, gameState } = this.props;
-        const show = gameState === gameStates.BUILD_MISSION_TEAM || gameState === gameStates.MISSION_TEAM_VOTE;
+        const show =
+            gameState === gameStates.BUILD_MISSION_TEAM ||
+            gameState === gameStates.MISSION_TEAM_VOTE;
 
         return show ? (
             <View style={styles.container}>
