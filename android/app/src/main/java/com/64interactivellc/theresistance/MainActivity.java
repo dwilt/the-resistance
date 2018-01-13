@@ -1,4 +1,4 @@
-package com.64interactivellc.theresistance;
+package com.sixtyfourinteractivellc.theresistance;
 
 import com.facebook.react.ReactActivity;
 
