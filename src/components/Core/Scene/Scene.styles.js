@@ -2,9 +2,6 @@ import { StyleSheet } from 'react-native';
 
 import { windowHeight, windowWidth, statusBarHeight, centerChildren } from 'styles';
 
-const width = 1128;
-const height = 2322;
-
 export default StyleSheet.create({
     container: {
         flex: 1,
