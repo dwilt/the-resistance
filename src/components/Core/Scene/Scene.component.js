@@ -16,10 +16,12 @@ export default class Scene extends PureComponent {
 
         return (
             <View style={styles.container}>
-                <Image
-                    style={styles.bg}
-                    source={require(`../../../assets/images/blur-bg.png`)}
-                />
+                <View style={styles.bgContainer}>
+                    <Image
+                        style={styles.bg}
+                        source={require(`../../../assets/images/blur-bg.png`)}
+                    />
+                </View>
                 <View style={styles.innerContainer}>{children}</View>
             </View>
         );

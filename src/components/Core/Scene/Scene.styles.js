@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 
-import { windowHeight, windowWidth, statusBarHeight } from 'styles';
+import { windowHeight, windowWidth, statusBarHeight, centerChildren } from 'styles';
+
+const width = 1128;
+const height = 2322;
 
 export default StyleSheet.create({
     container: {
@@ -8,13 +11,18 @@ export default StyleSheet.create({
         position: `relative`,
         paddingTop: statusBarHeight,
     },
-    bg: {
+    bgContainer: {
+        ...centerChildren(),
         position: `absolute`,
         left: 0,
         top: 0,
         width: windowWidth,
         height: windowHeight,
-        resizeMode: `cover`,
+    },
+    bg: {
+        height: 500,
+        width: windowWidth,
+        resizeMode: `stretch`,
     },
     innerContainer: {
         flex: 1,
