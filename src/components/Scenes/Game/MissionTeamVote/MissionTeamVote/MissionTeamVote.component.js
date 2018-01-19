@@ -38,7 +38,9 @@ export default class MissionTeamVote extends Component {
                 <View style={styles.content}>
                     <Text style={styles.title}>{`Vote on Mission Team`}</Text>
                     <Text style={styles.subtitle}>{`Keep this secret!`}</Text>
-                    <MissionTeamVotePlayersList />
+                    <View style={styles.players}>
+                        <MissionTeamVotePlayersList />
+                    </View>
                     {submittedVote && (
                         <View style={styles.submittedVoteContainer}>
                             <Text

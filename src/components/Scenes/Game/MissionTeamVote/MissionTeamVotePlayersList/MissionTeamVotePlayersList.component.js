@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { PlayersList } from 'components';
+import { PlayerIconList } from 'components';
 
 export default class MissionTeamVotePlayersList extends PureComponent {
     static propTypes = {
@@ -10,6 +10,6 @@ export default class MissionTeamVotePlayersList extends PureComponent {
     };
 
     render() {
-        return <PlayersList {...this.props} theme={`underlined`} />;
+        return <PlayerIconList {...this.props} />;
     }
 }

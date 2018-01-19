@@ -23,6 +23,9 @@ export default StyleSheet.create({
     subtitle: {
         ...subtitle,
     },
+    players: {
+        marginTop: gutter / 2,
+    },
     voteButtons: {
         ...voteButtons,
     },
