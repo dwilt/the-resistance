@@ -41,10 +41,10 @@ export default function* init() {
             Actions[Home.key]();
 
             yield call(runAfterInteractions);
-
-            SplashScreen.hide();
         } else {
             Actions[Login.key]();
         }
+
+        SplashScreen.hide();
     }
 }
