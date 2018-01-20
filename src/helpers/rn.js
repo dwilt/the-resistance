@@ -1,6 +1,4 @@
-import {
-   InteractionManager
-} from 'react-native';
+import { InteractionManager } from 'react-native';
 
 export function runAfterInteractions() {
     return new Promise((resolve) => {

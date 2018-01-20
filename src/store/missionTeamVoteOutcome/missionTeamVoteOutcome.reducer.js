@@ -1,4 +1,7 @@
-import { setIsConductingAction, setIsSelectingNewLeaderAction } from './missionTeamVoteOutcome.actions';
+import {
+    setIsConductingAction,
+    setIsSelectingNewLeaderAction,
+} from './missionTeamVoteOutcome.actions';
 
 import { createReducer } from 'helpers';
 
@@ -12,7 +15,10 @@ export default createReducer(
             ...state,
             isConducting,
         }),
-        [setIsSelectingNewLeaderAction().type]: (state, { isSelectingNewLeader }) => ({
+        [setIsSelectingNewLeaderAction().type]: (
+            state,
+            { isSelectingNewLeader },
+        ) => ({
             ...state,
             isSelectingNewLeader,
         }),

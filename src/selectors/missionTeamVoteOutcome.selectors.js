@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect';
 
-const missionTeamVoteOutcomeSelector = (state) =>
-    state.missionTeamVoteOutcome;
+const missionTeamVoteOutcomeSelector = (state) => state.missionTeamVoteOutcome;
 
 export const missionTeamVoteOutcomeIsConductingSelector = createSelector(
     missionTeamVoteOutcomeSelector,

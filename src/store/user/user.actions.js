@@ -2,15 +2,13 @@ import { firebase } from 'services';
 
 import { buffers, eventChannel } from 'redux-saga';
 
-import SplashScreen from 'react-native-splash-screen'
+import SplashScreen from 'react-native-splash-screen';
 
 import { call, take, put } from 'redux-saga/effects';
 import { Actions } from 'react-native-router-flux';
 import { Home, Login } from 'components';
 
-import {
-   runAfterInteractions
-} from 'helpers';
+import { runAfterInteractions } from 'helpers';
 
 function createAuthStateChangedChannel() {
     return eventChannel((emitter) => {

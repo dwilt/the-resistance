@@ -2,7 +2,10 @@ import { createSelector } from 'reselect';
 
 import { didMissionFail } from 'src/gameStructure';
 
-import { userIdSelector, buildMissionTeamConfirmedIdentitySelector } from 'selectors';
+import {
+    userIdSelector,
+    buildMissionTeamConfirmedIdentitySelector,
+} from 'selectors';
 
 import { getMissionMembersCount } from '../gameStructure';
 
@@ -66,7 +69,11 @@ export const allPlayersConfirmedIdentitySelector = createSelector(
 );
 
 export const playerConfirmedIdentitySelector = createSelector(
-    [playersSelector, userIdSelector, buildMissionTeamConfirmedIdentitySelector],
+    [
+        playersSelector,
+        userIdSelector,
+        buildMissionTeamConfirmedIdentitySelector,
+    ],
     (players, userId, buildMissionTeamConfirmedIdentity) => {
         const { confirmedIdentity } = players.find(({ id }) => id === userId);
 

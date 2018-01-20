@@ -1,6 +1,11 @@
 import { StyleSheet } from 'react-native';
 
-import { windowHeight, windowWidth, statusBarHeight, centerChildren } from 'styles';
+import {
+    windowHeight,
+    windowWidth,
+    statusBarHeight,
+    centerChildren,
+} from 'styles';
 
 export default StyleSheet.create({
     container: {

@@ -1,12 +1,6 @@
-import {
-    StyleSheet,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import {
-   getUniversalFont,
-    centerChildren,
-    gutter
-} from 'styles';
+import { getUniversalFont, centerChildren, gutter } from 'styles';
 
 export default StyleSheet.create({
     container: {
@@ -27,10 +21,10 @@ export default StyleSheet.create({
     icon: {
         width: 40,
         height: 40,
-        marginBottom: gutter / 2
+        marginBottom: gutter / 2,
     },
     name: {
         ...getUniversalFont(0.8),
         textAlign: `center`,
-    }
+    },
 });
