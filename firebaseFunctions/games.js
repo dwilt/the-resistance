@@ -108,18 +108,12 @@ export async function buildNewMissionTeam({ gameId }) {
 
     const playersIds = players.map(({ id }) => id);
     const { previousLeaders = [] } = game;
-    const refreshLeaders = previousLeaders.length === playersIds.length;
-    const potentialLeaders = refreshLeaders
-        ? playersIds
-        : difference(playersIds, previousLeaders);
+    const potentialLeaders = difference(playersIds, previousLeaders);
+
     const leader = sampleSize(potentialLeaders, 1)[0];
-    const newPreviousLeaders = refreshLeaders
-        ? [leader]
-        : [...previousLeaders, leader];
 
     return updateGame(gameId, {
         state: gameStates.BUILD_MISSION_TEAM,
-        previousLeaders: newPreviousLeaders,
         currentMission: {
             leader,
         },
@@ -187,6 +181,7 @@ export async function revealProposedMissionTeamVote({ gameId }) {
             proposedTeam,
             failedTeams = [],
         },
+        previousLeaders = [],
     } = game;
 
     const totalPlayers = players.length;
@@ -237,6 +232,13 @@ export async function revealProposedMissionTeamVote({ gameId }) {
             updatedGame.victoryType = victoryTypes.SPIES_PREVENTED_MISSION_TEAM;
         }
     }
+
+    const playersIds = players.map(({ id }) => id);
+    const refreshLeaders = previousLeaders.length === playersIds.length - 1;
+
+    updatedGame.previousLeaders = refreshLeaders
+        ? []
+        : [...previousLeaders, leader];
 
     await updateGame(gameId, updatedGame);
 }
