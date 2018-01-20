@@ -84,6 +84,10 @@ export default class PlayerIdentityReveal extends Component {
                     otherSpies,
                 )}`;
 
+            if(otherSpies.length === 1) {
+                spiesText = `${otherSpies[0]} is the other spy you are working with.`
+            }
+
             const spiesTextEl = spiesText && (
                 <Text style={styles.spiesText}>{spiesText}</Text>
             );
