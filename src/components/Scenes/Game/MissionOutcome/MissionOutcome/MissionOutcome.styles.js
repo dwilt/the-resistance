@@ -7,6 +7,7 @@ import {
     gutter,
     openSans,
     yellow,
+    subtitle,
 } from 'styles';
 
 export default StyleSheet.create({
@@ -18,6 +19,9 @@ export default StyleSheet.create({
     },
     title: {
         ...yellowTitle,
+    },
+    subtitle: {
+        ...subtitle,
     },
     innerContent: {
         ...centerChildren(true),
