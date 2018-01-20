@@ -160,6 +160,14 @@ export const selectNewLeaderAction = () => ({
     type: `SELECT_NEW_LEADER`,
 });
 
+export const selectingNewLeaderAction = () => ({
+    type: `SELECTING_NEW_LEADER`,
+});
+
+export const selectedNewLeaderAction = () => ({
+    type: `SELECTED_NEW_LEADER`,
+});
+
 export const submitMissionPass = () => ({
     type: `SUBMIT_MISSION_PASSES`,
 });
@@ -407,9 +415,13 @@ function* conductMission() {
 function* selectNewLeader() {
     const gameId = yield select(gameIdSelector);
 
+    yield put(selectingNewLeaderAction());
+
     yield call(fireFetch, `buildNewMissionTeam`, {
         gameId,
     });
+
+    yield put(selectedNewLeaderAction());
 }
 
 function* submitMissionPasses() {

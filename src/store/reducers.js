@@ -7,7 +7,7 @@ import home from './home/home.reducer';
 import lobby from './lobby/lobby.reducer';
 import missionOutcome from './missionOutcome/missionOutcome.reducer';
 import missionTeamVote from './missionTeamVote/missionTeamVote.reducer';
-import missionTeamVoteApproved from './missionTeamVoteApproved/missionTeamVoteApproved.reducer';
+import missionTeamVoteOutcome from './missionTeamVoteOutcome/missionTeamVoteOutcome.reducer';
 import user from './user/user.reducer';
 
 export default combineReducers({
@@ -18,6 +18,6 @@ export default combineReducers({
     lobby,
     missionOutcome,
     missionTeamVote,
-    missionTeamVoteApproved,
+    missionTeamVoteOutcome,
     user,
 });
