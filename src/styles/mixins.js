@@ -53,10 +53,6 @@ export const getUniversalFont = (fontSizeRatio = 1, lineHeightRatio = 1) => {
     const fontSize = Math.round(baseFontSize * fontSizeRatio);
     let lineHeight = Math.round(fontSize * lineHeightRatio);
 
-    if (isAndroid()) {
-        lineHeight = Math.round(lineHeight * 1.2);
-    }
-
     return {
         fontSize,
         lineHeight,
