@@ -2,8 +2,6 @@ import { firebase } from 'services';
 
 import { buffers, eventChannel } from 'redux-saga';
 
-import SplashScreen from 'react-native-splash-screen';
-
 import { call, take, put } from 'redux-saga/effects';
 import { Actions } from 'react-native-router-flux';
 import { Home, Login } from 'components';
@@ -42,7 +40,5 @@ export default function* init() {
         } else {
             Actions[Login.key]();
         }
-
-        SplashScreen.hide();
     }
 }
