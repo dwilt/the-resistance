@@ -16,7 +16,7 @@ export default StyleSheet.create({
         marginLeft: 0,
     },
     offsetPlayerContainer: {
-        marginTop: gutter * 1.5,
+        marginTop: gutter,
     },
     icon: {
         width: 40,

@@ -26,7 +26,6 @@ class MissionLeader extends Component {
 
         return show ? (
             <View style={styles.container}>
-                <Image source={missionLeaderIcon} style={styles.icon} />
                 <Text style={styles.leader}>{leader}</Text>
                 <Text style={styles.title}>MISSION LEADER</Text>
             </View>

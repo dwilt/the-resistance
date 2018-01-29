@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const imageWidth = 100;
+const imageWidth = 80;
 
 export default StyleSheet.create({
     image: {
