@@ -5,6 +5,10 @@ import {
     selectedNewLeaderAction,
 } from 'store/game/game.actions';
 
+import {
+    resetMissionTeamVote
+} from 'store/missionTeamVote/missionTeamVote.actions';
+
 import { put, takeEvery } from 'redux-saga/effects';
 
 export const setIsConductingAction = (isConducting) => ({
@@ -23,6 +27,7 @@ export const setIsSelectingNewLeaderAction = (isSelectingNewLeader) => ({
 
 function* selectingNewLeader() {
     yield put(setIsSelectingNewLeaderAction(true));
+    yield put(resetMissionTeamVote());
 }
 
 function* selectedNewLeader() {
@@ -31,6 +36,7 @@ function* selectedNewLeader() {
 
 function* conducting() {
     yield put(setIsConductingAction(true));
+    yield put(resetMissionTeamVote());
 }
 
 function* conducted() {

@@ -19,9 +19,18 @@ export const setIsRevealingAction = (isRevealing) => ({
     },
 });
 
+export const resetMissionTeamVote = () => ({
+    type: `RESET_MISSION_TEAM_VOTE`,
+});
+
+
 export const approveProposedMissionTeamAction = () => setCastVoteAction(true);
 
 export const rejectProposedMissionTeamAction = () => setCastVoteAction(false);
+
+function* resetVote() {
+    yield put(setCastVoteAction(null));
+}
 
 function* revealing() {
     yield put(setIsRevealingAction(true));
@@ -34,4 +43,5 @@ function* revealed() {
 export default function*() {
     yield takeEvery(revealingProposedMissionTeamVoteAction().type, revealing);
     yield takeEvery(revealedProposedMissionTeamVoteAction().type, revealed);
+    yield takeEvery(resetMissionTeamVote().type, resetVote);
 }
