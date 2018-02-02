@@ -6,6 +6,8 @@ import styles from './Scene.styles';
 
 import { Image, View } from 'react-native';
 
+const blurImage = require(`assets/images/blur-bg.png`);
+
 export default class Scene extends PureComponent {
     static propTypes = {
         children: PropTypes.node.isRequired,
@@ -19,7 +21,7 @@ export default class Scene extends PureComponent {
                 <View style={styles.bgContainer}>
                     <Image
                         style={styles.bg}
-                        source={require(`../../../assets/images/blur-bg.png`)}
+                        source={blurImage}
                     />
                 </View>
                 <View style={styles.innerContainer}>{children}</View>

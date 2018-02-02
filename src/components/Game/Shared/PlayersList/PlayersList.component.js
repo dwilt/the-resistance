@@ -6,7 +6,7 @@ import { Image, TouchableOpacity, View } from 'react-native';
 
 import { Text } from 'components';
 
-const userIcon = require(`../../../../../assets/images/user-icon.png`);
+const userIcon = require(`assets/images/user-icon.png`);
 
 import styles from './PlayersList.styles';
 

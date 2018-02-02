@@ -10,7 +10,7 @@ import { createCommaSentenceFromArray } from 'helpers';
 
 import { Text, PlayerCard, GameFooter } from 'components';
 
-import { victoryTypes } from '../../../../gameStructure';
+import { victoryTypes } from 'src/gameStructure';
 
 export default class Completed extends Component {
     static propTypes = {

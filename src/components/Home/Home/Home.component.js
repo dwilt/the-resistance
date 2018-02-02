@@ -9,6 +9,7 @@ import {
     JoinExistingGameButton,
     JoinGameOverlay,
     HomeError,
+    LogoutButton
 } from 'components';
 
 import styles from './Home.styles';
@@ -32,6 +33,7 @@ class Home extends Component {
                     </View>
                     <JoinExistingGameButton />
                     <CreateGameButton />
+                    <LogoutButton/>
                 </View>
                 <JoinGameOverlay />
             </Scene>

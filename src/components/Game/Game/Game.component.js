@@ -13,7 +13,7 @@ import {
     Scene,
 } from 'components';
 
-import { gameStates } from '../../../../gameStructure';
+import { gameStates } from 'src/gameStructure';
 
 class Game extends Component {
     static propTypes = {
