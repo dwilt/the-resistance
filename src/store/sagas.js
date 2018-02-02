@@ -4,6 +4,7 @@ import buildMissionTeamSaga from 'store/buildMissionTeam/buildMissionTeam.action
 import conductMissionSaga from 'store/conductMission/conductMission.actions';
 import gameSaga from 'store/game/game.actions';
 import lobbySaga from 'store/lobby/lobby.actions';
+import loginSaga from 'store/login/login.actions';
 import homeSaga from 'store/home/home.actions';
 import missionOutcomeSaga from 'store/missionOutcome/missionOutcome.actions';
 import missionTeamVoteSaga from 'store/missionTeamVote/missionTeamVote.actions';
@@ -16,6 +17,7 @@ export default function* sagas() {
         conductMissionSaga(),
         gameSaga(),
         lobbySaga(),
+        loginSaga(),
         missionOutcomeSaga(),
         missionTeamVoteSaga(),
         missionTeamVoteApprovedSaga(),

@@ -8,6 +8,9 @@ import {
     TextInput,
     ActionButton,
     TextButton,
+    LoginEmail,
+    LoginPassword,
+    LoginName,
 } from 'components';
 
 import { firebase, db } from 'services';
@@ -16,19 +19,10 @@ import styles from './Login.styles';
 
 class Login extends Component {
     state = {
-        password: ``,
-        email: ``,
-        name: ``,
         showRegister: true,
         isRegistering: false,
         error: null,
     };
-
-    setName = (name) =>
-        this.setState({
-            name,
-        });
-
     setEmail = (email) =>
         this.setState({
             email,
@@ -49,22 +43,9 @@ class Login extends Component {
             });
 
             if (showRegister) {
-                await firebase
-                    .auth()
-                    .createUserWithEmailAndPassword(email, password);
 
-                const userId = firebase.auth().currentUser.uid;
-
-                await db
-                    .collection(`users`)
-                    .doc(userId)
-                    .set({
-                        name,
-                    });
             } else {
-                await firebase
-                    .auth()
-                    .signInWithEmailAndPassword(email, password);
+
             }
         } catch ({ message }) {
             this.setState({
@@ -85,22 +66,12 @@ class Login extends Component {
 
     render() {
         const {
-            password,
-            email,
             isRegistering,
             showRegister,
             error,
-            name,
         } = this.state;
-        const errorEl = error && <ErrorMessage error={error} />;
 
-        const nameInputEl = showRegister && (
-            <TextInput
-                label={`Name`}
-                value={name}
-                onChangeText={this.setName}
-            />
-        );
+        const errorEl = error && <ErrorMessage error={error} />;
 
         return (
             <DismissKeyboardView>
@@ -110,19 +81,9 @@ class Login extends Component {
                         behavior={`position`}
                     >
                         {errorEl}
-                        <TextInput
-                            label={`Email`}
-                            value={email}
-                            keyboardType={`email-address`}
-                            autoCapitalize={`none`}
-                            onChangeText={this.setEmail}
-                        />
-                        <TextInput
-                            label={`Password`}
-                            value={password}
-                            onChangeText={this.setPassword}
-                        />
-                        {nameInputEl}
+                        <LoginEmail/>
+                        <LoginPassword/>
+                        <LoginName/>
                         <ActionButton
                             onPress={this.submitForm}
                             isLoading={isRegistering}

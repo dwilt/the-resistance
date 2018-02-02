@@ -2,11 +2,9 @@ import { firebase } from 'services';
 
 import { buffers, eventChannel } from 'redux-saga';
 
-import { call, take, put } from 'redux-saga/effects';
-import { Actions } from 'react-native-router-flux';
-import { Home, Login } from 'components';
+import { call, take, put, takeEvery } from 'redux-saga/effects';
 
-import { runAfterInteractions } from 'helpers';
+import { db } from "../../services";
 
 function createAuthStateChangedChannel() {
     return eventChannel((emitter) => {
@@ -14,7 +12,8 @@ function createAuthStateChangedChannel() {
             emitter({ user });
         });
 
-        return () => {};
+        return () => {
+        };
     }, buffers.sliding(1));
 }
 
@@ -25,8 +24,89 @@ export const setUserAction = (user) => ({
     },
 });
 
-export default function* init() {
+export const getLoginAction = (email, password) => ({
+    type: `LOGIN`,
+    payload: {
+        email,
+        password,
+    },
+});
+
+export const getRegisterAction = ({ email, password, name } = {}) => ({
+    type: `REGISTER`,
+    payload: {
+        email,
+        password,
+        name,
+    },
+});
+
+export const getLogOutAction = () => ({
+    type: `LOGOUT`,
+});
+
+export const getUserLoggedOutAction = () => ({
+    type: `USER_LOGGED_OUT`,
+});
+
+export const getUserLoggingInAction = () => ({
+    type: `USER_LOGGING_IN`,
+});
+
+export const getUserLoggedInAction = () => ({
+    type: `USER_LOGGED_IN`,
+});
+
+export const getUserLoginError = (error) => ({
+    type: `USER_LOGIN_ERROR`,
+    payload: {
+        error,
+    },
+});
+
+export const setIsLoggedInAction = (isLoggedIn) => ({
+    type: `SET_USER_IS_LOGGED_IN`,
+    payload: {
+        isLoggedIn,
+    },
+});
+
+function* logout() {
+    yield call(firebase.auth().signOut);
+}
+
+function* login({ payload: { email, password } }) {
+    try {
+        yield put(getUserLoggingInAction());
+        yield call(firebase.auth().signInWithEmailAndPassword, email, password);
+    } catch (e) {
+        yield put(getUserLoginError(e));
+    }
+}
+
+function* register({ payload: { email, password, name } }) {
+    try {
+        yield call(firebase.auth().createUserWithEmailAndPassword, email, password);
+
+        const userId = firebase.auth().currentUser.uid;
+
+        yield call(db
+            .collection(`users`)
+            .doc(userId)
+            .set, {
+            name,
+        });
+    } catch (e) {
+        yield put(getUserLoginError(e));
+    }
+}
+
+export default function* () {
     const channel = yield call(createAuthStateChangedChannel);
+
+    yield takeEvery(getLoginAction().type, login);
+    yield takeEvery(getLogOutAction().type, logout);
+    yield takeEvery(getRegisterAction().type, register);
 
     while (true) {
         const { user } = yield take(channel);
@@ -34,11 +114,11 @@ export default function* init() {
         yield put(setUserAction(user));
 
         if (user) {
-            Actions[Home.key]();
-
-            yield call(runAfterInteractions);
+            yield put(getUserLoggedInAction());
+            yield put(setIsLoggedInAction(true));
         } else {
-            Actions[Login.key]();
+            yield put(getUserLoggedOutAction());
+            yield put(setIsLoggedInAction(false));
         }
     }
 }

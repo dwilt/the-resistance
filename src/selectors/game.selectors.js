@@ -1,13 +1,11 @@
 import { createSelector } from 'reselect';
 
-import { didMissionFail } from 'src/gameStructure';
+import { didMissionFail, getMissionMembersCount } from 'src/gameStructure';
 
 import {
     userIdSelector,
     buildMissionTeamConfirmedIdentitySelector,
 } from 'selectors';
-
-import { getMissionMembersCount } from '../gameStructure';
 
 const gameSelector = (state) => state.game;
 
