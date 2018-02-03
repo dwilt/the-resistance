@@ -9,7 +9,7 @@ import {
     JoinExistingGameButton,
     JoinGameOverlay,
     HomeError,
-    LogoutButton
+    LogoutButton,
 } from 'components';
 
 import styles from './Home.styles';

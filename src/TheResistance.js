@@ -2,23 +2,11 @@ import React, { PureComponent } from 'react';
 
 import { Provider } from 'react-redux';
 
-import { Scene, Router, Actions } from 'react-native-router-flux';
+import { Scene, Router } from 'react-native-router-flux';
 
 import { Home, Game, Login } from 'components';
 
-import { firebase } from 'services';
-
 import store from 'store';
-
-firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        Actions[Home.key]();
-    } else {
-        if (Actions.currentScene !== Login.key) {
-            Actions[Login.key]();
-        }
-    }
-});
 
 import styles from './TheResistance.styles';
 

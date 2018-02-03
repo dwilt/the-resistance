@@ -7,7 +7,6 @@ import {
     baseFontSize,
     minTouchSize,
     black,
-    openSans,
 } from 'styles';
 
 export default StyleSheet.create({
@@ -30,15 +29,6 @@ export default StyleSheet.create({
     },
     multilineInput: {
         lineHeight: baseFontSize * 1.2,
-    },
-    label: {
-        ...getUniversalFont(1, 1.2),
-        paddingLeft: gutter,
-        paddingRight: gutter,
-        marginBottom: gutter / 2,
-        color: white,
-        textAlign: `center`,
-        fontFamily: openSans.bold,
     },
     textContainer: {
         backgroundColor: white,

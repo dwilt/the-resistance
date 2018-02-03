@@ -5,7 +5,7 @@ import {
     lobbyIsStartingGameSelector,
 } from 'selectors';
 
-import { startGameAction as onPress } from 'store/game/game.actions';
+import { startGameAction as onPress } from 'store/lobby/lobby.actions';
 
 import StartGameButton from './StartGameButton.component';
 

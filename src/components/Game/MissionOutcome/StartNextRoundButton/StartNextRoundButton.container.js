@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { missionOutcomeIsStartingNextRoundSelector } from 'selectors';
 
-import { startNextRoundAction as onPress } from 'store/game/game.actions';
+import { startNextRoundAction as onPress } from 'store/missionOutcome/missionOutcome.actions';
 
 import StartNextRoundButton from './StartNextRoundButton.component';
 

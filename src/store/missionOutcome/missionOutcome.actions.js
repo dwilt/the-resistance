@@ -1,9 +1,8 @@
-import {
-    startingNextRoundAction,
-    startedNextRoundAction,
-} from 'store/game/game.actions';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 
-import { put, takeEvery } from 'redux-saga/effects';
+import { gameIdSelector } from "../../selectors";
+
+import { fireFetch } from "../../services";
 
 export const setIsStartingNextRoundAction = (isStartingNextRound) => ({
     type: `SET_MISSION_OUTCOME_IS_STARTING_NEXT_ROUND`,
@@ -12,15 +11,22 @@ export const setIsStartingNextRoundAction = (isStartingNextRound) => ({
     },
 });
 
-function* starting() {
-    yield put(setIsStartingNextRoundAction(true));
-}
+export const startNextRoundAction = () => ({
+    type: `START_NEXT_ROUND`,
+});
 
-function* started() {
+function* startNextRound() {
+    const gameId = yield select(gameIdSelector);
+
+    yield put(setIsStartingNextRoundAction(true));
+
+    yield call(fireFetch, `startNextRound`, {
+        gameId,
+    });
+
     yield put(setIsStartingNextRoundAction(false));
 }
 
 export default function*() {
-    yield takeEvery(startingNextRoundAction().type, starting);
-    yield takeEvery(startedNextRoundAction().type, started);
+    yield takeEvery(startNextRoundAction().type, startNextRound);
 }

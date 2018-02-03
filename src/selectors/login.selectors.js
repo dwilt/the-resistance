@@ -19,7 +19,7 @@ export const loginNameSelector = createSelector(
     login => login.name
 );
 
-export const loginShowRegisterSelector = createSelector(
+export const loginShowingRegisterFormSelector = createSelector(
     loginSelector,
     login => login.showRegister
 );
@@ -29,8 +29,12 @@ export const loginIsRegisteringSelector = createSelector(
     login => login.isRegistering
 );
 
+export const loginIsLoggingInSelector = createSelector(
+    loginSelector,
+    login => login.isLoggingIn
+);
+
 export const loginErrorSelector = createSelector(
     loginSelector,
     login => login.error
 );
-

@@ -5,7 +5,7 @@ import {
     missionTeamVoteIsRevealingSelector,
 } from 'selectors';
 
-import { revealProposedMissionTeamVoteAction as onPress } from 'store/game/game.actions';
+import { revealProposedMissionTeamVoteAction as onPress } from 'store/missionTeamVote/missionTeamVote.actions';
 
 import RevealVotesButton from './RevealVotesButton.component';
 

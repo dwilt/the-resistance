@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { isSpySelector, spiesSelector, userIdSelector } from 'selectors';
 
-import { confirmPlayerIdentityAction as onConfirm } from 'store/game/game.actions';
+import { confirmPlayerIdentityAction as onConfirm } from 'store/buildMissionTeam/buildMissionTeam.actions';
 
 import PlayerIdentityReveal from './PlayerIdentityReveal.component';
 

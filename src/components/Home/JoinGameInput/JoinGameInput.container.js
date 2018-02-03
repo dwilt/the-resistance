@@ -1,8 +1,6 @@
 import { connect } from 'react-redux';
 
-import { joinGameAction as onPress } from 'store/game/game.actions';
-
-import { setJoinGameInputAction as onChangeText } from 'store/home/home.actions';
+import { joinGameAction as onPress, setJoinGameInputAction as onChangeText } from 'store/home/home.actions';
 
 import { joinGameInputSelector } from 'selectors';
 

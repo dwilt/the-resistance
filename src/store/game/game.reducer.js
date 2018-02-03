@@ -3,12 +3,21 @@ import {
     setGameDataAction,
     setGamePlayersAction,
     setGameCompletedMissionsAction,
+} from 'store/game/game.actions';
+
+import {
     toggleMissionTeamMemberAction,
     confirmPlayerIdentityAction,
-    setProposedMissionTeamApprovalAction,
-    setMissionPassesAction,
     setConfirmedPlayerIdentityAction,
-} from 'store/game/game.actions';
+} from 'store/buildMissionTeam/buildMissionTeam.actions';
+
+import {
+    setProposedMissionTeamApprovalAction
+} from 'store/missionTeamVote/missionTeamVote.actions';
+
+import {
+    setMissionPassesAction
+} from 'store/conductMission/conductMission.actions';
 
 import { createReducer } from 'helpers';
 
@@ -49,10 +58,8 @@ export default createReducer(
                 },
             },
         }),
-        [setProposedMissionTeamApprovalAction().type]: (
-            state,
-            { userId, approves },
-        ) => ({
+        [setProposedMissionTeamApprovalAction().type]: (state,
+                                                        { userId, approves },) => ({
             ...state,
             data: {
                 ...state.data,
@@ -84,17 +91,13 @@ export default createReducer(
             ...state,
             players,
         }),
-        [setGameCompletedMissionsAction().type]: (
-            state,
-            { completedMissions },
-        ) => ({
+        [setGameCompletedMissionsAction().type]: (state,
+                                                  { completedMissions },) => ({
             ...state,
             completedMissions,
         }),
-        [toggleMissionTeamMemberAction().type]: (
-            state,
-            { userId, selected },
-        ) => ({
+        [toggleMissionTeamMemberAction().type]: (state,
+                                                 { userId, selected },) => ({
             ...state,
             data: {
                 ...state.data,
@@ -102,12 +105,12 @@ export default createReducer(
                     ...(state.data.currentMission || {}),
                     proposedTeam: selected
                         ? [
-                              ...(state.data.currentMission.proposedTeam || []),
-                              userId,
-                          ]
+                            ...(state.data.currentMission.proposedTeam || []),
+                            userId,
+                        ]
                         : state.data.currentMission.proposedTeam.filter(
-                              (id) => id !== userId,
-                          ),
+                            (id) => id !== userId,
+                        ),
                 },
             },
         }),

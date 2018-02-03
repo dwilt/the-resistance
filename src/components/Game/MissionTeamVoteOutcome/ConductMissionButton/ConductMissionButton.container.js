@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { missionTeamVoteOutcomeIsConductingSelector } from 'selectors';
 
-import { conductMissionAction as onPress } from 'store/game/game.actions';
+import { conductMissionAction as onPress } from 'store/missionTeamVoteOutcome/missionTeamVoteOutcome.actions';
 
 import ConductMissionButton from './ConductMissionButton.component';
 

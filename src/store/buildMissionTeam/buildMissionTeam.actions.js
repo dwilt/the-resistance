@@ -1,10 +1,8 @@
-import {
-    confirmingMissionTeamAction,
-    confirmedMissionTeamAction,
-    confirmPlayerIdentityAction,
-} from 'store/game/game.actions';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 
-import { put, takeEvery } from 'redux-saga/effects';
+import { gameIdSelector, userIdSelector, proposedMissionTeamSelector } from "selectors";
+
+import { fireFetch } from "services";
 
 export const setConfirmedIdentityAction = (confirmedIdentity) => ({
     type: `SET_BUILD_MISSION_TEAM_CONFIRMED_IDENTITY`,
@@ -20,20 +18,65 @@ export const setIsConfirmingAction = (isConfirming) => ({
     },
 });
 
-function* confirmIdentity() {
-    yield put(setConfirmedIdentityAction(true));
+export const confirmMissionTeamAction = () => ({
+    type: `CONFIRM_MISSION_TEAM`,
+});
+
+export const confirmPlayerIdentityAction = () => ({
+    type: `CONFIRM_PLAYER_IDENTITY_ACTION`,
+});
+
+export const setConfirmedPlayerIdentityAction = (userId) => ({
+    type: `SET_CONFIRM_PLAYER_IDENTITY`,
+    payload: {
+        userId,
+    },
+});
+
+export const toggleMissionTeamMemberAction = (userId, selected) => ({
+    type: `TOGGLE_MISSION_MEMBER`,
+    payload: {
+        userId,
+        selected,
+    },
+});
+
+function* updateProposedMissionTeam() {
+    const gameId = yield select(gameIdSelector);
+    const team = yield select(proposedMissionTeamSelector);
+
+    yield call(fireFetch, `updateProposedMissionTeam`, {
+        gameId,
+        team,
+    });
 }
 
-function* confirming() {
+function* confirmMissionTeam() {
+    const gameId = yield select(gameIdSelector);
+
     yield put(setIsConfirmingAction(true));
-}
 
-function* confirmed() {
+    yield call(fireFetch, `confirmSelectedMissionTeam`, {
+        gameId,
+    });
+
     yield put(setIsConfirmingAction(false));
 }
 
+function* confirmPlayerIdentity() {
+    const gameId = yield select(gameIdSelector);
+    const userId = yield select(userIdSelector);
+
+    yield put(setConfirmedPlayerIdentityAction());
+
+    yield call(fireFetch, `confirmPlayerIdentity`, {
+        gameId,
+        userId,
+    });
+}
+
 export default function*() {
-    yield takeEvery(confirmingMissionTeamAction().type, confirming);
-    yield takeEvery(confirmedMissionTeamAction().type, confirmed);
-    yield takeEvery(confirmPlayerIdentityAction().type, confirmIdentity);
+    yield takeEvery(confirmMissionTeamAction().type, confirmMissionTeam);
+    yield takeEvery(confirmPlayerIdentityAction().type, confirmPlayerIdentity);
+    yield takeEvery(toggleMissionTeamMemberAction().type, updateProposedMissionTeam);
 }

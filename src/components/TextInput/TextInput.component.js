@@ -2,8 +2,6 @@ import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { Text } from 'components';
-
 import { TextInput as RNTextInput, ViewPropTypes, View } from 'react-native';
 
 import styles from './TextInput.styles';
@@ -56,7 +54,6 @@ export default class TextInput extends PureComponent {
         const { showPassword } = this.state;
 
         const inputStyles = [styles.input];
-        const labelEl = label && <Text style={styles.label}>{label}</Text>;
 
         if (multiline) {
             inputStyles.push(styles.multilineInput);
@@ -66,7 +63,6 @@ export default class TextInput extends PureComponent {
 
         return (
             <View style={[styles.container, style]}>
-                {labelEl}
                 <View style={styles.textContainer}>
                     <RNTextInput
                         {...this.props}
@@ -74,6 +70,7 @@ export default class TextInput extends PureComponent {
                         ref={this.inputRef}
                         underlineColorAndroid={`transparent`}
                         style={inputStyles}
+                        placeholder={label}
                     />
                 </View>
             </View>

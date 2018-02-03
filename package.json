@@ -44,6 +44,7 @@
   "dependencies": {
     "babel-preset-env": "^1.6.1",
     "fbjs": "^0.8.16",
+    "firebase": "^4.9.1",
     "is-object": "^1.0.1",
     "json-style-converter": "^1.0.3",
     "lodash": "^4.17.4",
@@ -58,6 +59,7 @@
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
+    "redux-saga-firebase": "^0.10.0",
     "reselect": "^3.0.1"
   },
   "rnpm": {

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { homeIsJoiningGameSelector } from 'selectors';
 
-import { joinGameAction as onPress } from 'store/game/game.actions';
+import { joinGameAction as onPress } from 'store/home/home.actions';
 
 import JoinGameButton from './JoinGameButton.component';
 

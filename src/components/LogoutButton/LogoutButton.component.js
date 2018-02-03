@@ -1,15 +1,21 @@
 import React, { PureComponent } from 'react';
 
+import PropTypes from 'prop-types';
+
 import { ActionButton } from 'components';
 
-import { firebase } from 'services';
-
 export default class LogoutButton extends PureComponent {
-    logout = async () => {
-        firebase.auth().signOut();
+    static propTypes = {
+        onPress: PropTypes.func.isRequired,
     };
 
     render() {
-        return <ActionButton onPress={this.logout}>{`Logout`}</ActionButton>;
+        return (
+            <ActionButton
+                {...this.props}
+            >
+                {`Logout`}
+            </ActionButton>
+        );
     }
 }

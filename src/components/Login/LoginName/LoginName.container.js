@@ -4,23 +4,23 @@ import {
 
 import {
     loginNameSelector,
-    loginShowRegisterSelector
+    loginShowingRegisterFormSelector,
 } from 'selectors';
 
 import {
-    setNameAction as onChangeText
+    setNameAction as onChangeText,
 } from 'store/login/login.actions';
 
 import LoginName from './LoginName.component';
 
 export default connect(state => {
     const value = loginNameSelector(state);
-    const show = loginShowRegisterSelector(state);
+    const show = loginShowingRegisterFormSelector(state);
 
     return {
         value,
-        show
+        show,
     };
 }, {
-    onChangeText
+    onChangeText,
 })(LoginName);

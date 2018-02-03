@@ -7,7 +7,7 @@ import {
     proposedMissionTeamIsFilledSelector,
 } from 'selectors';
 
-import { toggleMissionTeamMemberAction as onPlayerTap } from 'store/game/game.actions';
+import { toggleMissionTeamMemberAction as onPlayerTap } from 'store/buildMissionTeam/buildMissionTeam.actions';
 
 import BuildMissionTeamPlayersList from './BuildMissionTeamPlayersList.component';
 

@@ -5,20 +5,18 @@ import React, {
 import PropTypes from 'prop-types';
 
 import {
-    TextInput,
+    ErrorMessage,
 } from 'components';
 
-export default class LoginPassword extends PureComponent {
+export default class LoginError extends PureComponent {
     static propTypes = {
-        value: PropTypes.string,
-        onChangeText: PropTypes.func.isRequired,
+        error: PropTypes.string,
     };
 
     render() {
         return (
-            <TextInput
+            <ErrorMessage
                 {...this.props}
-                label={`Password`}
             />
         );
     }

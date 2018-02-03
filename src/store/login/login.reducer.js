@@ -5,7 +5,7 @@ import {
     setShowRegisterAction,
     setIsRegisteringAction,
     setErrorAction,
-    setIsLoggingInAction
+    setIsLoggingInAction,
 } from './login.actions';
 
 import {
@@ -18,6 +18,7 @@ export default createReducer({
     name: ``,
     showRegister: true,
     isRegistering: false,
+    isLoggingIn: false,
     error: null,
 },{
     [setPasswordAction().type]: (state, { password }) => ({

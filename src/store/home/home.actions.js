@@ -1,10 +1,11 @@
-import { takeEvery, put } from 'redux-saga/effects';
+import { takeEvery, put, select, call, all, take } from 'redux-saga/effects';
+
+import { joinGameInputSelector, userIdSelector } from "../../selectors";
+
+import { db, fireFetch } from "../../services";
 
 import {
-    joiningGameAction,
-    joinedGameAction,
-    creatingNewGameAction,
-    createdNewGameAction,
+   join
 } from 'store/game/game.actions';
 
 export const setHomeErrorAction = (error) => ({
@@ -42,29 +43,54 @@ export const setJoinGameInputAction = (joinGameInput) => ({
     },
 });
 
+export const createNewGameAction = () => ({
+    type: `CREATE_NEW_GAME`,
+});
+
+export const joinGameAction = () => ({
+    type: `JOIN_GAME`,
+});
+
 export const showJoinOverlayAction = () => setShowJoinOverlayAction(true);
 
 export const hideJoinOverlayAction = () => setShowJoinOverlayAction(false);
 
-function* joiningGame() {
+function* joinGame() {
+    const userId = yield select(userIdSelector);
+    const gameCode = yield select(joinGameInputSelector);
+
     yield put(setIsJoiningGameAction(true));
+
+    const { id, data, players, completedMissions } = yield call(
+        fireFetch,
+        `joinGame`,
+        {
+            gameCode,
+            userId,
+        },
+    );
+
+    yield call(join, { id, data, players, completedMissions });
+
+    yield put(setIsJoiningGameAction(false));
+
 }
 
-function* joinedGame() {
-    yield put(setIsJoiningGameAction(true));
-}
+function* createNewGame() {
+    const userId = yield select(userIdSelector);
 
-function* creatingGame() {
     yield put(setIsCreatingGameAction(true));
-}
 
-function* createdGame() {
+    const { id, data, players } = yield call(fireFetch, `createGame`, {
+        userId,
+    });
+
+    yield call(join, { id, data, players });
+
     yield put(setIsCreatingGameAction(true));
 }
 
 export default function*() {
-    yield takeEvery(joiningGameAction().type, joiningGame);
-    yield takeEvery(joinedGameAction().type, joinedGame);
-    yield takeEvery(creatingNewGameAction().type, creatingGame);
-    yield takeEvery(createdNewGameAction().type, createdGame);
+    yield takeEvery(joinGameAction().type, joinGame);
+    yield takeEvery(createNewGameAction().type, createNewGame);
 }

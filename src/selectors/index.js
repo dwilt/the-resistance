@@ -9,4 +9,3 @@ export * from './login.selectors';
 export * from './missionOutcome.selectors';
 export * from './missionTeamVote.selectors';
 export * from './missionTeamVoteOutcome.selectors';
-

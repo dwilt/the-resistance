@@ -4,7 +4,7 @@ import { ActionButton } from 'components';
 
 import PropTypes from 'prop-types';
 
-import { firebase, fireFetch } from 'services';
+import { rsf, fireFetch } from 'services';
 
 import { Actions } from 'react-native-router-flux';
 
@@ -15,7 +15,7 @@ export default class QuitButton extends PureComponent {
 
     quitGame = async () => {
         const { gameId } = this.props;
-        const userId = firebase.auth().currentUser.uid;
+        const userId = rsf.auth.currentUser.uid;
 
         try {
             this.setState({

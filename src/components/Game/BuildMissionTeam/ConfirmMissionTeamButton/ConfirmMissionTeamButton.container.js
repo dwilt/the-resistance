@@ -6,7 +6,7 @@ import {
     buildMissionTeamIsConfirmingSelector,
 } from 'selectors';
 
-import { confirmMissionTeamAction as onPress } from 'store/game/game.actions';
+import { confirmMissionTeamAction as onPress } from 'store/buildMissionTeam/buildMissionTeam.actions';
 
 import ConfirmMissionTeamButton from './ConfirmMissionTeamButton.component';
 

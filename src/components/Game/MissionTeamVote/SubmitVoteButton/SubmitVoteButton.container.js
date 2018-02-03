@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { missionTeamVoteCastSelector } from 'selectors';
 
-import { submitProposedMissionTeamApprovalAction as onPress } from 'store/game/game.actions';
+import { submitProposedMissionTeamApprovalAction as onPress } from 'store/missionTeamVote/missionTeamVote.actions';
 
 import SubmitVoteButton from './SubmitVoteButton.component';
 

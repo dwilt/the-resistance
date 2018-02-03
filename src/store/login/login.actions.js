@@ -5,7 +5,7 @@ import {
 } from 'redux-saga/effects';
 
 import {
-    Keyboard
+    Keyboard,
 } from 'react-native';
 
 import {
@@ -13,61 +13,68 @@ import {
     getUserLoggingInAction,
     getUserLoggedInAction,
     getUserLoginError,
-    getRegisterAction
+    getRegisterAction,
+    getUserRegisteringAction,
+    getUserRegisteredAction,
 } from 'store/user/user.actions';
 
 import {
    loginEmailSelector,
    loginPasswordSelector,
     loginNameSelector,
+    loginShowingRegisterFormSelector,
 } from 'selectors';
+
+import { Home } from "components";
+
+import { Actions } from "react-native-router-flux";
 
 export const setPasswordAction = (password) => ({
     type: `SET_LOGIN_PASSWORD`,
     payload: {
-        password
+        password,
     },
 });
 
 export const setEmailAction = (email) => ({
     type: `SET_LOGIN_EMAIL`,
     payload: {
-        email
+        email,
     },
 });
 
 export const setNameAction = (name) => ({
     type: `SET_LOGIN_NAME`,
     payload: {
-        name
+        name,
     },
 });
 
 export const setShowRegisterAction = (showRegister) => ({
     type: `SET_LOGIN_SHOW_REGISTER`,
     payload: {
-        showRegister
+        showRegister,
     },
 });
 
 export const setIsRegisteringAction = (isRegistering) => ({
     type: `SET_LOGIN_IS_REGISTERING`,
     payload: {
-        isRegistering
+        isRegistering,
     },
 });
 
 export const setIsLoggingInAction = (isLoggingIn) => ({
     type: `SET_LOGIN_IS_LOGGING_IN`,
     payload: {
-        isLoggingIn
+        isLoggingIn,
     },
 });
 
 export const setErrorAction = (error) => ({
     type: `SET_LOGIN_ERROR`,
     payload: {
-        error
+        error,
     },
 });
 
@@ -79,6 +86,10 @@ export const getLoginOnPressAction = () => ({
     type: `LOGIN_SUBMIT_BUTTON_ON_PRESS`,
 });
 
+export const getToggleLoginRegisterAction = () => ({
+    type: `LOGIN_TOGGLE_FORM`,
+});
+
 function* registerOnPress() {
     const email = yield select(loginEmailSelector);
     const password = yield select(loginPasswordSelector);
@@ -87,7 +98,7 @@ function* registerOnPress() {
     yield put(getRegisterAction({
         email,
         password,
-        name
+        name,
     }));
 }
 
@@ -105,15 +116,41 @@ function* loggingIn() {
     Keyboard.dismiss();
 }
 
+function* registered() {
+    yield put(setIsRegisteringAction(false));
+    yield put(setEmailAction(``));
+    yield put(setPasswordAction(``));
+    yield put(setNameAction(``));
+}
+
+function* registering() {
+    yield put(setErrorAction(null));
+    yield put(setIsRegisteringAction(true));
+
+    Keyboard.dismiss();
+}
+
 function* loggedIn() {
     yield put(setIsLoggingInAction(false));
     yield put(setEmailAction(``));
     yield put(setPasswordAction(``));
+
+    Actions[Home.key]();
 }
 
 function* loginError({ payload: { error } }) {
     yield put(setIsLoggingInAction(false));
     yield put(setErrorAction(error));
+}
+
+function* toggleForm() {
+    const showingRegister = yield select(loginShowingRegisterFormSelector);
+
+    if (showingRegister) {
+        yield put(setShowRegisterAction(false));
+    } else {
+        yield put(setShowRegisterAction(true));
+    }
 }
 
 export default function* () {
@@ -127,7 +164,10 @@ export default function* () {
     yield takeEvery(getLoginOnPressAction().type, loginOnPress);
     // yield takeEvery(getForgotPasswordOnPressAction().type, forgotPasswordOnPress);
     yield takeEvery(getRegisterOnPressAction().type, registerOnPress);
+    yield takeEvery(getUserRegisteringAction().type, registering);
+    yield takeEvery(getUserRegisteredAction().type, registered);
     yield takeEvery(getUserLoggingInAction().type, loggingIn);
     yield takeEvery(getUserLoggedInAction().type, loggedIn);
     yield takeEvery(getUserLoginError().type, loginError);
+    yield takeEvery(getToggleLoginRegisterAction().type, toggleForm);
 }

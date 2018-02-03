@@ -4,13 +4,11 @@ import PropTypes from 'prop-types';
 
 import { Text } from 'components/index';
 
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 
 import styles from './MissionLeader.styles';
 
 import { gameStates } from 'src/gameStructure';
-
-const missionLeaderIcon = require(`assets/images/mission-leader-icon.png`);
 
 class MissionLeader extends Component {
     static propTypes = {
