@@ -89,4 +89,6 @@ function* revealProposedMissionTeamVote() {
 export default function*() {
     yield takeEvery(revealProposedMissionTeamVoteAction().type, revealProposedMissionTeamVote);
     yield takeEvery(resetMissionTeamVote().type, resetVote);
+    yield takeEvery(submitProposedMissionTeamApprovalAction().type, submitProposedMissionTeamApproval);
+    yield takeEvery(retractProposedMissionTeamApprovalAction().type, retractProposedMissionTeamApproval);
 }
