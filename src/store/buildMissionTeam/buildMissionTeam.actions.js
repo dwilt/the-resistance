@@ -67,7 +67,7 @@ function* confirmPlayerIdentity() {
     const gameId = yield select(gameIdSelector);
     const userId = yield select(userIdSelector);
 
-    yield put(setConfirmedPlayerIdentityAction());
+    yield put(setConfirmedPlayerIdentityAction(userId));
 
     yield call(fireFetch, `confirmPlayerIdentity`, {
         gameId,

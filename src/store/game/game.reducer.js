@@ -37,13 +37,11 @@ export default createReducer(
     {
         [setConfirmedPlayerIdentityAction().type]: (state, { userId }) => ({
             ...state,
-            players: [
-                ...state.players.filter(({ id }) => id !== userId),
-                {
-                    ...state.players.find(({ id }) => id === userId),
+            players: state.players.map((player) => player.id === userId ? ({
+                    ...player,
                     confirmedIdentity: true,
-                },
-            ],
+                }) : player
+            ),
         }),
         [setMissionPassesAction().type]: (state, { userId, passes }) => ({
             ...state,
