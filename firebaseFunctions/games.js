@@ -33,7 +33,7 @@ export async function joinGame({ userId, gameCode }) {
     if (gameDoc) {
         const { id } = gameDoc;
 
-        const [player, data, players, completedMissions] = await Promise.all([
+        let [player, data, players, completedMissions] = await Promise.all([
             getPlayer(id, userId),
             getGame(id),
             getPlayers(id),
@@ -45,6 +45,8 @@ export async function joinGame({ userId, gameCode }) {
             const { name } = userDoc.data();
 
             await addPlayer(id, userId, name);
+
+            players = await getPlayers(id);
         }
 
         return {
