@@ -98,8 +98,6 @@ function* register({ payload: { email, password, name } }) {
 
         const userId = firebase.auth().currentUser.uid;
 
-        debugger;
-
         yield call(rsf.firestore.setDocument, `users/${userId}`, {
             name,
         });

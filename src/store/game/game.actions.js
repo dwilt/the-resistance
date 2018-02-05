@@ -1,6 +1,14 @@
-import { buffers, eventChannel } from "redux-saga";
-import { call, take } from "redux-saga/effects";
-import { db } from "services";
+import { put, all, fork } from "redux-saga/effects";
+
+import { rsf } from "services";
+
+import {
+    Game
+} from 'components';
+
+import {
+    Actions
+} from 'react-native-router-flux';
 
 export const setGameDataAction = (data) => ({
     type: `SET_GAME_DATA`,
@@ -30,91 +38,6 @@ export const setGameIdAction = (id) => ({
     },
 });
 
-function createGameListenerChannel(id) {
-    return eventChannel((emitter) => {
-        db
-            .collection(`games`)
-            .doc(id)
-            .onSnapshot((snapshot) => {
-                const data = snapshot.data();
-
-                if (data) {
-                    emitter(data);
-                }
-            });
-
-        return () => {};
-    }, buffers.sliding(2));
-}
-
-function* watchGameData(id) {
-    const gameChannel = yield call(createGameListenerChannel, id);
-
-    while (true) {
-        const data = yield take(gameChannel);
-
-        yield put(setGameDataAction(data));
-    }
-}
-
-function createPlayersListenerChannel(id) {
-    return eventChannel((emitter) => {
-        db
-            .collection(`games`)
-            .doc(id)
-            .collection(`players`)
-            .onSnapshot(({ docs }) => {
-                const players = docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
-
-                emitter(players);
-            });
-
-        return () => {};
-    }, buffers.sliding(2));
-}
-
-function* watchPlayers(id) {
-    const playersChannel = yield call(createPlayersListenerChannel, id);
-
-    while (true) {
-        const players = yield take(playersChannel);
-
-        yield put(setGamePlayersAction(players));
-    }
-}
-
-function createCompletedMissionsListenerChannel(id) {
-    return eventChannel((emitter) => {
-        db
-            .collection(`games`)
-            .doc(id)
-            .collection(`completedMissions`)
-            .onSnapshot(({ docs }) => {
-                const missions = docs.map((doc) => doc.data());
-
-                emitter(missions);
-            });
-
-        return () => {};
-    }, buffers.sliding(2));
-}
-
-function* watchCompletedMissions(id) {
-    const completedMissionsChannel = yield call(
-        createCompletedMissionsListenerChannel,
-        id,
-    );
-
-    while (true) {
-        const players = yield take(completedMissionsChannel);
-
-        yield put(setGameCompletedMissionsAction(players));
-    }
-}
-
 export function* join({ id, data, players, completedMissions }) {
     yield put(setGameDataAction(data));
     yield put(setGameIdAction(id));
@@ -122,8 +45,34 @@ export function* join({ id, data, players, completedMissions }) {
     yield put(setGameCompletedMissionsAction(completedMissions));
 
     yield all([
-        call(watchGameData, id),
-        call(watchPlayers, id),
-        call(watchCompletedMissions, id),
+        fork(rsf.firestore.syncCollection, `games/${id}/players`, {
+                successActionCreator: ({ docs }) => {
+                    const players = docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    }));
+
+                    return setGamePlayersAction(players);
+                }
+            },
+        ),
+        fork(rsf.firestore.syncCollection, `games/${id}/completedMissions`, {
+                successActionCreator: ({ docs }) => {
+                    const missions = docs.map((doc) => doc.data());
+
+                    return setGameCompletedMissionsAction(missions);
+                }
+            },
+        ),
+        fork(rsf.firestore.syncDocument, `games/${id}`, {
+                successActionCreator: (snapshot) => {
+                    const data = snapshot.data();
+
+                    return setGameDataAction(data);
+                }
+            },
+        )
     ]);
+
+    Actions[Game.key]();
 }

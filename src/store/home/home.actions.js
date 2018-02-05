@@ -70,7 +70,7 @@ function* joinGame() {
         },
     );
 
-    yield call(join, { id, data, players, completedMissions });
+    yield* join({ id, data, players, completedMissions });
 
     yield put(setIsJoiningGameAction(false));
 
@@ -81,11 +81,11 @@ function* createNewGame() {
 
     yield put(setIsCreatingGameAction(true));
 
-    const { id, data, players } = yield call(fireFetch, `createGame`, {
+    const { id, data, players, completedMissions } = yield call(fireFetch, `createGame`, {
         userId,
     });
 
-    yield call(join, { id, data, players });
+    yield* join({ id, data, players, completedMissions });
 
     yield put(setIsCreatingGameAction(true));
 }
