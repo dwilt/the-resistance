@@ -6,3 +6,4 @@ export * from './JoinExistingGameButton';
 export * from './JoinGameButton';
 export * from './JoinGameInput';
 export * from './JoinGameOverlay';
+export * from './LogoutButton';

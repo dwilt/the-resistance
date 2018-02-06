@@ -35,6 +35,6 @@ class Login extends PureComponent {
     }
 }
 
-Login.key = `LOGIN_KEY`;
+Login.key = `Login`;
 
 export default Login;

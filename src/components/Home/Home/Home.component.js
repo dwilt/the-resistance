@@ -41,6 +41,6 @@ class Home extends Component {
     }
 }
 
-Home.key = `Home_KEY`;
+Home.key = `Home`;
 
 export default Home;

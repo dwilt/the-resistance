@@ -8,6 +8,8 @@ import { Actions } from 'react-native-router-flux';
 
 import { Login } from 'components';
 
+import { runAfterInteractions } from 'services';
+
 import { userSelector } from 'selectors';
 
 export const setUserAction = (user = {}) => ({
@@ -73,9 +75,9 @@ export const setIsLoggedInAction = (isLoggedIn) => ({
 });
 
 function* logout() {
-    yield call(rsf.auth.signOut);
+    Actions.reset();
 
-    Actions[Login.key]();
+    yield call(rsf.auth.signOut);
 }
 
 function* login({ payload: { email, password } }) {

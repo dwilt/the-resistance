@@ -1,8 +1,8 @@
-import { takeEvery, put, select, call, all, take } from 'redux-saga/effects';
+import { takeEvery, put, select, call } from 'redux-saga/effects';
 
 import { joinGameInputSelector, userIdSelector } from 'selectors';
 
-import { db, fireFetch } from 'services';
+import { fireFetch } from 'services';
 
 import { join } from 'store/game/game.actions';
 
@@ -70,6 +70,7 @@ function* joinGame() {
 
     yield* join({ id, data, players, completedMissions });
 
+    yield put(hideJoinOverlayAction());
     yield put(setIsJoiningGameAction(false));
 }
 
@@ -88,6 +89,7 @@ function* createNewGame() {
 
     yield* join({ id, data, players, completedMissions });
 
+    yield put(hideJoinOverlayAction());
     yield put(setIsCreatingGameAction(true));
 }
 

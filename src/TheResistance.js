@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 
 import { Scene, Router } from 'react-native-router-flux';
 
-import { Home, Game, Login, ForgotPasswordMenu } from 'components';
+import { Home, Game, Login, ForgotPasswordMenu, GameMenu } from 'components';
 
 import store from 'store';
 
@@ -25,6 +25,7 @@ export default class TheResistance extends PureComponent {
                             key={ForgotPasswordMenu.key}
                             component={ForgotPasswordMenu}
                         />
+                        <Scene key={GameMenu.key} component={GameMenu} />
                     </Scene>
                 </Router>
             </Provider>

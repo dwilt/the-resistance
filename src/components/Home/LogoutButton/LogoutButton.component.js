@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { ActionButton } from 'components';
+import { TextButton } from 'components';
 
 export default class LogoutButton extends PureComponent {
     static propTypes = {
@@ -10,6 +10,6 @@ export default class LogoutButton extends PureComponent {
     };
 
     render() {
-        return <ActionButton {...this.props}>Logout</ActionButton>;
+        return <TextButton {...this.props}>Logout</TextButton>;
     }
 }

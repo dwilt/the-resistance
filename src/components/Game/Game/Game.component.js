@@ -11,6 +11,7 @@ import {
     MissionTeamVote,
     MissionTeamVoteOutcome,
     Scene,
+    GameMenuToggle,
 } from 'components';
 
 import { gameStates } from 'src/gameStructure';
@@ -58,7 +59,7 @@ class Game extends Component {
             content = null;
         }
 
-        return <Scene>{content}</Scene>;
+        return <Scene menuToggle={<GameMenuToggle />}>{content}</Scene>;
     }
 }
 

@@ -4,6 +4,7 @@ import buildMissionTeamSaga from 'store/buildMissionTeam/buildMissionTeam.action
 import conductMissionSaga from 'store/conductMission/conductMission.actions';
 import forgotPasswordMenuSaga from 'store/forgotPasswordMenu/forgotPasswordMenu.actions';
 import homeSaga from 'store/home/home.actions';
+import gameMenuSaga from 'store/gameMenu/gameMenu.actions';
 import lobbySaga from 'store/lobby/lobby.actions';
 import loginSaga from 'store/login/login.actions';
 import missionOutcomeSaga from 'store/missionOutcome/missionOutcome.actions';
@@ -17,6 +18,7 @@ export default function* sagas() {
         conductMissionSaga(),
         forgotPasswordMenuSaga(),
         homeSaga(),
+        gameMenuSaga(),
         lobbySaga(),
         loginSaga(),
         missionOutcomeSaga(),

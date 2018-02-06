@@ -1,4 +1,4 @@
-import { setIsOpenAction } from './menu.actions';
+import { setIsOpenAction } from './gameMenu.actions';
 
 import { createReducer } from 'helpers';
 

@@ -1,4 +1,4 @@
-import { Alert } from 'react-native';
+import { Alert, InteractionManager } from 'react-native';
 
 export function alert(
     title,
@@ -19,5 +19,11 @@ export function alert(
                 onPress: () => resolve(id),
             })),
         );
+    });
+}
+
+export function runAfterInteractions() {
+    return new Promise((resolve) => {
+        InteractionManager.runAfterInteractions(resolve);
     });
 }

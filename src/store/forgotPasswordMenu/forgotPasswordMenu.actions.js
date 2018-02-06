@@ -6,7 +6,7 @@ import {
 
 import { Actions } from 'react-native-router-flux';
 
-import { rsf, alert } from 'services';
+import { rsf, alert, runAfterInteractions } from 'services';
 
 export const setIsOpenAction = (isOpen) => ({
     type: `SET_FORGOT_PASSWORD_MENU_IS_OPEN`,
@@ -30,7 +30,7 @@ export const setErrorAction = (error) => ({
 });
 
 export const getToggleForgotPasswordMenuAction = () => ({
-    type: `TOGGLE_MENU`,
+    type: `TOGGLE_FORGOT_PASSWORD_MENU`,
 });
 
 export const getSubmitForgotPasswordAction = () => ({
@@ -57,13 +57,15 @@ function* submit() {
 
         yield call(rsf.auth.sendPasswordResetEmail, email);
 
+        yield* toggleMenu();
+
+        yield call(runAfterInteractions);
+
         yield call(
             alert,
             `Sent!`,
             `An email with instructions to reset your password has been sent to: ${email}`,
         );
-
-        yield* toggleMenu();
 
         yield put(setIsSubmittingAction(false));
     } catch ({ message }) {
