@@ -14,6 +14,10 @@ export default class MenuToggle extends PureComponent {
         onPress: PropTypes.func.isRequired,
     };
 
+    static defaultProps = {
+        isOpen: false,
+    };
+
     render() {
         const { isOpen, onPress } = this.props;
 

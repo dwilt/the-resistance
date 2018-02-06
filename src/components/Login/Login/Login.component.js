@@ -11,6 +11,7 @@ import {
     LoginError,
     LoginRegisterButton,
     LoginSubmitButton,
+    LoginForgotPasswordButton,
 } from 'components';
 
 import styles from './Login.styles';
@@ -27,6 +28,7 @@ class Login extends PureComponent {
                     <LoginName />
                     <LoginRegisterButton />
                     <LoginSubmitButton />
+                    <LoginForgotPasswordButton />
                 </View>
             </Scene>
         );

@@ -1,6 +1,7 @@
 export * from './Login';
 export * from './LoginEmail';
 export * from './LoginError';
+export * from './LoginForgotPasswordButton';
 export * from './LoginName';
 export * from './LoginPassword';
 export * from './LoginRegisterButton';

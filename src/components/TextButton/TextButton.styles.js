@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { gutter, centerChildren, minTouchSize } from 'styles';
+import { gutter, centerChildren, minTouchSize, teal, openSans } from 'styles';
 
 export default StyleSheet.create({
     button: {
@@ -9,7 +9,12 @@ export default StyleSheet.create({
         paddingLeft: gutter,
         paddingRight: gutter,
     },
+    textContainer: {
+        borderBottomWidth: 1,
+        borderBottomColor: teal,
+    },
     text: {
-        color: `blue`,
+        fontFamily: openSans.bold,
+        color: teal,
     },
 });

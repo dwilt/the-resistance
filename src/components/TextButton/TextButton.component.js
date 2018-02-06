@@ -1,6 +1,11 @@
 import React, { PureComponent } from 'react';
 
-import { TouchableOpacity, ViewPropTypes, Text as RNText } from 'react-native';
+import {
+    View,
+    TouchableOpacity,
+    ViewPropTypes,
+    Text as RNText,
+} from 'react-native';
 
 import PropTypes from 'prop-types';
 
@@ -25,12 +30,10 @@ export default class TextButton extends PureComponent {
         const { onPress, children, style, textStyles } = this.props;
 
         return (
-            <TouchableOpacity
-                onPress={onPress}
-                style={[styles.button, style]}
-                I
-            >
-                <Text style={[styles.text, textStyles]}>{children}</Text>
+            <TouchableOpacity onPress={onPress} style={[styles.button, style]}>
+                <View style={styles.textContainer}>
+                    <Text style={[styles.text, textStyles]}>{children}</Text>
+                </View>
             </TouchableOpacity>
         );
     }

@@ -12,6 +12,8 @@ import {
     getUserRegisteredAction,
 } from 'store/user/user.actions';
 
+import { getToggleForgotPasswordMenuAction } from 'store/forgotPasswordMenu/forgotPasswordMenu.actions';
+
 import {
     loginEmailSelector,
     loginPasswordSelector,
@@ -80,9 +82,17 @@ export const getLoginOnPressAction = () => ({
     type: `LOGIN_SUBMIT_BUTTON_ON_PRESS`,
 });
 
+export const getForgotPasswordOnPressAction = () => ({
+    type: `LOGIN_FORGOT_PASSWORD_ON_PRESS`,
+});
+
 export const getToggleLoginRegisterAction = () => ({
     type: `LOGIN_TOGGLE_FORM`,
 });
+
+function* forgotPasswordOnPress() {
+    yield put(getToggleForgotPasswordMenuAction());
+}
 
 function* registerOnPress() {
     const email = yield select(loginEmailSelector);
@@ -158,4 +168,8 @@ export default function*() {
     yield takeEvery(getUserLoggedInAction().type, loggedIn);
     yield takeEvery(getUserLoginError().type, loginError);
     yield takeEvery(getToggleLoginRegisterAction().type, toggleForm);
+    yield takeEvery(
+        getForgotPasswordOnPressAction().type,
+        forgotPasswordOnPress,
+    );
 }

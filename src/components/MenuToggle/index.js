@@ -1,1 +1,1 @@
-export { default as MenuToggle } from './MenuToggle.container';
+export { default as MenuToggle } from './MenuToggle.component';
