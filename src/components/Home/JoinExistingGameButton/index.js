@@ -1,3 +1,3 @@
 export {
     default as JoinExistingGameButton,
-} from './JoinExistingGameButton.container';
+} from "./JoinExistingGameButton.container";

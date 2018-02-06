@@ -1,1 +1,1 @@
-export { default as PlayerIconList } from './PlayerIconList.component';
+export { default as PlayerIconList } from "./PlayerIconList.component";

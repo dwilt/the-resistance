@@ -1,13 +1,13 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { missionTeamVoteCastSelector } from 'selectors';
+import { missionTeamVoteCastSelector } from "selectors";
 
-import { submitProposedMissionTeamApprovalAction as onPress } from 'store/missionTeamVote/missionTeamVote.actions';
+import { submitProposedMissionTeamApprovalAction as onPress } from "store/missionTeamVote/missionTeamVote.actions";
 
-import SubmitVoteButton from './SubmitVoteButton.component';
+import SubmitVoteButton from "./SubmitVoteButton.component";
 
 export default connect(
-    (state) => {
+    state => {
         const disabled = !missionTeamVoteCastSelector(state);
 
         return {
@@ -16,5 +16,5 @@ export default connect(
     },
     {
         onPress,
-    },
+    }
 )(SubmitVoteButton);

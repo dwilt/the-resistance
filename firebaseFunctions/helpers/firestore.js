@@ -46,7 +46,7 @@ export async function getPlayers(gameId) {
         .collection(`players`)
         .get();
 
-    return docs.map((doc) => ({
+    return docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
     }));
@@ -112,7 +112,7 @@ export async function getCompletedMissions(gameId) {
         .collection(`completedMissions`)
         .get();
 
-    return docs.map((doc) => ({
+    return docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
     }));

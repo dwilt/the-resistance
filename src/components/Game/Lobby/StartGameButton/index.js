@@ -1,1 +1,1 @@
-export { default as StartGameButton } from './StartGameButton.container';
+export { default as StartGameButton } from "./StartGameButton.container";

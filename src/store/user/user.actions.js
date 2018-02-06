@@ -1,18 +1,18 @@
-import { rsf } from 'services';
+import { rsf } from "services";
 
-import firebase from 'firebase';
+import firebase from "firebase";
 
-import { buffers, eventChannel } from 'redux-saga';
+import { buffers, eventChannel } from "redux-saga";
 
-import { call, take, put, takeEvery } from 'redux-saga/effects';
+import { call, take, put, takeEvery } from "redux-saga/effects";
 
-import { db } from 'services';
+import { db } from "services";
 
-import { Actions } from 'react-native-router-flux';
+import { Actions } from "react-native-router-flux";
 
-import { Login } from 'components';
+import { Login } from "components";
 
-export const setUserAction = (user) => ({
+export const setUserAction = user => ({
     type: `SET_USER`,
     payload: {
         user,
@@ -60,14 +60,14 @@ export const getUserRegisteredAction = () => ({
     type: `USER_REGISTERED`,
 });
 
-export const getUserLoginError = (error) => ({
+export const getUserLoginError = error => ({
     type: `USER_LOGIN_ERROR`,
     payload: {
         error,
     },
 });
 
-export const setIsLoggedInAction = (isLoggedIn) => ({
+export const setIsLoggedInAction = isLoggedIn => ({
     type: `SET_USER_IS_LOGGED_IN`,
     payload: {
         isLoggedIn,

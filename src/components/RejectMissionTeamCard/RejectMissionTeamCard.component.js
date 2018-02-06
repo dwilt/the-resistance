@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import { PlayingCard } from 'components';
+import { PlayingCard } from "components";
 
 const rejectCard = require(`assets/images/reject-mission-team-card.png`);
 

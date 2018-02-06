@@ -1,1 +1,1 @@
-export { default as LoginPassword } from './LoginPassword.container';
+export { default as LoginPassword } from "./LoginPassword.container";

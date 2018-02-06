@@ -1,12 +1,12 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import { View } from 'react-native';
+import { View } from "react-native";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { Text } from 'components';
+import { Text } from "components";
 
-import styles from './StartGameCountdown.styles';
+import styles from "./StartGameCountdown.styles";
 
 export default class StartGameCountdown extends PureComponent {
     static propTypes = {

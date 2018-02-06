@@ -15,7 +15,7 @@ import {
     confirmPlayerIdentity,
     updateProposedMissionTeam,
     conductMission,
-} from './games';
+} from "./games";
 
 function functionCreator(method) {
     return async function(req, res) {
@@ -25,7 +25,7 @@ function functionCreator(method) {
             res.type(`json`).send(
                 payload || {
                     success: true,
-                },
+                }
             );
         } catch (error) {
             console.log(`error`, error);
@@ -55,41 +55,41 @@ exports.quitGame = functions.https.onRequest(functionCreator(quitGame));
 exports.startGame = functions.https.onRequest(functionCreator(startGame));
 
 exports.updateProposedMissionTeam = functions.https.onRequest(
-    functionCreator(updateProposedMissionTeam),
+    functionCreator(updateProposedMissionTeam)
 );
 
 exports.confirmSelectedMissionTeam = functions.https.onRequest(
-    functionCreator(confirmSelectedMissionTeam),
+    functionCreator(confirmSelectedMissionTeam)
 );
 
 exports.submitProposedMissionTeamApproval = functions.https.onRequest(
-    functionCreator(submitProposedMissionTeamApproval),
+    functionCreator(submitProposedMissionTeamApproval)
 );
 
 exports.retractProposedMissionTeamApproval = functions.https.onRequest(
-    functionCreator(retractProposedMissionTeamApproval),
+    functionCreator(retractProposedMissionTeamApproval)
 );
 
 exports.submitMissionPasses = functions.https.onRequest(
-    functionCreator(submitMissionPasses),
+    functionCreator(submitMissionPasses)
 );
 
 exports.revealProposedMissionTeamVote = functions.https.onRequest(
-    functionCreator(revealProposedMissionTeamVote),
+    functionCreator(revealProposedMissionTeamVote)
 );
 
 exports.startNextRound = functions.https.onRequest(
-    functionCreator(startNextRound),
+    functionCreator(startNextRound)
 );
 
 exports.buildNewMissionTeam = functions.https.onRequest(
-    functionCreator(buildNewMissionTeam),
+    functionCreator(buildNewMissionTeam)
 );
 
 exports.confirmPlayerIdentity = functions.https.onRequest(
-    functionCreator(confirmPlayerIdentity),
+    functionCreator(confirmPlayerIdentity)
 );
 
 exports.conductMission = functions.https.onRequest(
-    functionCreator(conductMission),
+    functionCreator(conductMission)
 );

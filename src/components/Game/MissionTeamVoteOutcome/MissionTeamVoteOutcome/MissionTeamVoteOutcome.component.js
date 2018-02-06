@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
 import {
     ConductMissionButton,
@@ -7,13 +7,13 @@ import {
     SelectNewLeaderButton,
     RejectMissionTeamCard,
     ApproveMissionTeamCard,
-} from 'components/index';
+} from "components/index";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { View } from 'react-native';
+import { View } from "react-native";
 
-import styles from './MissionTeamVoteOutcome.styles';
+import styles from "./MissionTeamVoteOutcome.styles";
 
 export default class MissionTeamVoteOutcome extends PureComponent {
     static propTypes = {

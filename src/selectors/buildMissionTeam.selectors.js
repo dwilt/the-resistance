@@ -1,13 +1,13 @@
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect";
 
-const buildMissionTeamSelector = (state) => state.buildMissionTeam;
+const buildMissionTeamSelector = state => state.buildMissionTeam;
 
 export const buildMissionTeamIsConfirmingSelector = createSelector(
     buildMissionTeamSelector,
-    (buildMissionTeam) => buildMissionTeam.isConfirming,
+    buildMissionTeam => buildMissionTeam.isConfirming
 );
 
 export const buildMissionTeamConfirmedIdentitySelector = createSelector(
     buildMissionTeamSelector,
-    (buildMissionTeam) => buildMissionTeam.confirmedIdentity,
+    buildMissionTeam => buildMissionTeam.confirmedIdentity
 );

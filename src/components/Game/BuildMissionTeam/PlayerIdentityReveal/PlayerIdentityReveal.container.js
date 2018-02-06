@@ -1,13 +1,13 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { isSpySelector, spiesSelector, userIdSelector } from 'selectors';
+import { isSpySelector, spiesSelector, userIdSelector } from "selectors";
 
-import { confirmPlayerIdentityAction as onConfirm } from 'store/buildMissionTeam/buildMissionTeam.actions';
+import { confirmPlayerIdentityAction as onConfirm } from "store/buildMissionTeam/buildMissionTeam.actions";
 
-import PlayerIdentityReveal from './PlayerIdentityReveal.component';
+import PlayerIdentityReveal from "./PlayerIdentityReveal.component";
 
 export default connect(
-    (state) => {
+    state => {
         const spies = spiesSelector(state);
         const isSpy = isSpySelector(state);
         const userId = userIdSelector(state);
@@ -20,5 +20,5 @@ export default connect(
     },
     {
         onConfirm,
-    },
+    }
 )(PlayerIdentityReveal);

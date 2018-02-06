@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 import {
     gutter,
@@ -7,7 +7,7 @@ import {
     openSans,
     centerChildren,
     yellow,
-} from 'styles';
+} from "styles";
 
 export const checkColor = yellow;
 export const checkSize = gutter * 2;

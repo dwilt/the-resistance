@@ -1,13 +1,13 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { missionTeamVoteOutcomeIsConductingSelector } from 'selectors';
+import { missionTeamVoteOutcomeIsConductingSelector } from "selectors";
 
-import { conductMissionAction as onPress } from 'store/missionTeamVoteOutcome/missionTeamVoteOutcome.actions';
+import { conductMissionAction as onPress } from "store/missionTeamVoteOutcome/missionTeamVoteOutcome.actions";
 
-import ConductMissionButton from './ConductMissionButton.component';
+import ConductMissionButton from "./ConductMissionButton.component";
 
 export default connect(
-    (state) => {
+    state => {
         const isLoading = missionTeamVoteOutcomeIsConductingSelector(state);
 
         return {
@@ -16,5 +16,5 @@ export default connect(
     },
     {
         onPress,
-    },
+    }
 )(ConductMissionButton);

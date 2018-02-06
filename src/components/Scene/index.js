@@ -1,1 +1,1 @@
-export { default as Scene } from './Scene.component';
+export { default as Scene } from "./Scene.component";

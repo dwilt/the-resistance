@@ -1,9 +1,9 @@
 import {
     setIsConfirmingAction,
     setConfirmedIdentityAction,
-} from './buildMissionTeam.actions';
+} from "./buildMissionTeam.actions";
 
-import { createReducer } from 'helpers';
+import { createReducer } from "helpers";
 
 export default createReducer(
     {
@@ -13,7 +13,7 @@ export default createReducer(
     {
         [setConfirmedIdentityAction().type]: (
             state,
-            { confirmedIdentity },
+            { confirmedIdentity }
         ) => ({
             ...state,
             confirmedIdentity,
@@ -22,5 +22,5 @@ export default createReducer(
             ...state,
             isConfirming,
         }),
-    },
+    }
 );

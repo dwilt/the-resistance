@@ -1,19 +1,19 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import { capitalize } from 'lodash';
+import { capitalize } from "lodash";
 
 import {
     ActivityIndicator,
     TouchableOpacity,
     View,
     ViewPropTypes,
-} from 'react-native';
+} from "react-native";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import styles from './ActionButton.styles';
+import styles from "./ActionButton.styles";
 
-import { Text } from 'components';
+import { Text } from "components";
 
 export default class ActionButton extends PureComponent {
     static propTypes = {

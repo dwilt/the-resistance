@@ -1,19 +1,19 @@
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from "redux-saga/effects";
 import {
     approvesProposedMissionTeamSelector,
     gameIdSelector,
     userIdSelector,
-} from 'selectors';
-import { fireFetch } from 'services';
+} from "selectors";
+import { fireFetch } from "services";
 
-export const setCastVoteAction = (castVote) => ({
+export const setCastVoteAction = castVote => ({
     type: `SET_MISSION_TEAM_VOTE_CAST_VOTE`,
     payload: {
         castVote,
     },
 });
 
-export const setIsRevealingAction = (isRevealing) => ({
+export const setIsRevealingAction = isRevealing => ({
     type: `SET_MISSION_TEAM_VOTE_IS_REVEALING`,
     payload: {
         isRevealing,
@@ -93,15 +93,15 @@ function* revealProposedMissionTeamVote() {
 export default function*() {
     yield takeEvery(
         revealProposedMissionTeamVoteAction().type,
-        revealProposedMissionTeamVote,
+        revealProposedMissionTeamVote
     );
     yield takeEvery(resetMissionTeamVote().type, resetVote);
     yield takeEvery(
         submitProposedMissionTeamApprovalAction().type,
-        submitProposedMissionTeamApproval,
+        submitProposedMissionTeamApproval
     );
     yield takeEvery(
         retractProposedMissionTeamApprovalAction().type,
-        retractProposedMissionTeamApproval,
+        retractProposedMissionTeamApproval
     );
 }

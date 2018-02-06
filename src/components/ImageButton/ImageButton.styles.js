@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 import {
     centerChildren,
@@ -6,7 +6,7 @@ import {
     getUniversalFont,
     openSans,
     yellow,
-} from 'styles';
+} from "styles";
 
 const imageWidth = 100;
 

@@ -1,13 +1,13 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { homeIsCreatingGameSelector } from 'selectors';
+import { homeIsCreatingGameSelector } from "selectors";
 
-import { createNewGameAction as onPress } from 'store/home/home.actions';
+import { createNewGameAction as onPress } from "store/home/home.actions";
 
-import CreateGameButton from './CreateGameButton.component';
+import CreateGameButton from "./CreateGameButton.component";
 
 export default connect(
-    (state) => {
+    state => {
         const isLoading = homeIsCreatingGameSelector(state);
 
         return {
@@ -16,5 +16,5 @@ export default connect(
     },
     {
         onPress,
-    },
+    }
 )(CreateGameButton);

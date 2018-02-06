@@ -1,10 +1,10 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { victoryTypeSelector, spiesSelector } from 'selectors';
+import { victoryTypeSelector, spiesSelector } from "selectors";
 
-import Completed from './Completed.component';
+import Completed from "./Completed.component";
 
-export default connect((state) => {
+export default connect(state => {
     const victoryType = victoryTypeSelector(state);
     const spies = spiesSelector(state);
 

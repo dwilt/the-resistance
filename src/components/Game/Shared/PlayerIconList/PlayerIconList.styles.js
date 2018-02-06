@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
-import { getUniversalFont, centerChildren, gutter } from 'styles';
+import { getUniversalFont, centerChildren, gutter } from "styles";
 
 export default StyleSheet.create({
     container: {

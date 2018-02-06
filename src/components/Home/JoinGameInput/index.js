@@ -1,1 +1,1 @@
-export { default as JoinGameInput } from './JoinGameInput.container';
+export { default as JoinGameInput } from "./JoinGameInput.container";

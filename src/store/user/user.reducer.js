@@ -1,6 +1,6 @@
-import { setUserAction, setIsLoggedInAction } from './user.actions';
+import { setUserAction, setIsLoggedInAction } from "./user.actions";
 
-import { createReducer } from 'helpers';
+import { createReducer } from "helpers";
 
 export default createReducer(
     {
@@ -16,5 +16,5 @@ export default createReducer(
             ...state,
             isLoggedIn,
         }),
-    },
+    }
 );

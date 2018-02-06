@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
-import { centerChildren, gutter, blackOverlay } from 'styles/index';
+import { centerChildren, gutter, blackOverlay } from "styles/index";
 
 const logoWidth = 275;
 

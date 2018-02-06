@@ -1,40 +1,40 @@
-import { takeEvery, put, select, call, all, take } from 'redux-saga/effects';
+import { takeEvery, put, select, call, all, take } from "redux-saga/effects";
 
-import { joinGameInputSelector, userIdSelector } from 'selectors';
+import { joinGameInputSelector, userIdSelector } from "selectors";
 
-import { db, fireFetch } from 'services';
+import { db, fireFetch } from "services";
 
-import { join } from 'store/game/game.actions';
+import { join } from "store/game/game.actions";
 
-export const setHomeErrorAction = (error) => ({
+export const setHomeErrorAction = error => ({
     type: `SET_HOME_ERROR`,
     payload: {
         error,
     },
 });
 
-export const setIsCreatingGameAction = (isCreatingGame) => ({
+export const setIsCreatingGameAction = isCreatingGame => ({
     type: `SET_HOME_IS_CREATING_GAME`,
     payload: {
         isCreatingGame,
     },
 });
 
-export const setIsJoiningGameAction = (isJoiningGame) => ({
+export const setIsJoiningGameAction = isJoiningGame => ({
     type: `SET_HOME_IS_JOINING_GAME`,
     payload: {
         isJoiningGame,
     },
 });
 
-export const setShowJoinOverlayAction = (showJoinGameOverlay) => ({
+export const setShowJoinOverlayAction = showJoinGameOverlay => ({
     type: `SET_SHOW_JOIN_OVERLAY`,
     payload: {
         showJoinGameOverlay,
     },
 });
 
-export const setJoinGameInputAction = (joinGameInput) => ({
+export const setJoinGameInputAction = joinGameInput => ({
     type: `SET_HOME_JOIN_GAME_INPUT`,
     payload: {
         joinGameInput,
@@ -65,7 +65,7 @@ function* joinGame() {
         {
             gameCode,
             userId,
-        },
+        }
     );
 
     yield* join({ id, data, players, completedMissions });
@@ -83,7 +83,7 @@ function* createNewGame() {
         `createGame`,
         {
             userId,
-        },
+        }
     );
 
     yield* join({ id, data, players, completedMissions });

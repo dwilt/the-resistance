@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import { Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { Keyboard, TouchableWithoutFeedback } from "react-native";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export default class DismissKeyboardView extends PureComponent {
     static propTypes = {

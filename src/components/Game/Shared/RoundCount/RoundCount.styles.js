@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 import {
     getUniversalFont,
@@ -9,7 +9,7 @@ import {
     yellow,
     red,
     darkGray,
-} from 'styles/index';
+} from "styles/index";
 
 export default StyleSheet.create({
     container: {

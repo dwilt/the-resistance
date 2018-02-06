@@ -1,1 +1,1 @@
-export { default as QuitButton } from './QuitButton.component';
+export { default as QuitButton } from "./QuitButton.component";

@@ -1,10 +1,10 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { loginErrorSelector } from 'selectors';
+import { loginErrorSelector } from "selectors";
 
-import LoginError from './LoginError.component';
+import LoginError from "./LoginError.component";
 
-export default connect((state) => {
+export default connect(state => {
     const error = loginErrorSelector(state);
 
     return {

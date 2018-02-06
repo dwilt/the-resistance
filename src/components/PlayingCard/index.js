@@ -1,1 +1,1 @@
-export { default as PlayingCard } from './PlayingCard.component';
+export { default as PlayingCard } from "./PlayingCard.component";

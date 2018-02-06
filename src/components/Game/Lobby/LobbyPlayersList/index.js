@@ -1,1 +1,1 @@
-export { default as LobbyPlayersList } from './LobbyPlayersList.container';
+export { default as LobbyPlayersList } from "./LobbyPlayersList.container";

@@ -1,10 +1,10 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { showJoinGameOverlaySelector } from 'selectors';
+import { showJoinGameOverlaySelector } from "selectors";
 
-import Home from './Home.component';
+import Home from "./Home.component";
 
-export default connect((state) => {
+export default connect(state => {
     const showJoinGameOverlay = showJoinGameOverlaySelector(state);
 
     return {

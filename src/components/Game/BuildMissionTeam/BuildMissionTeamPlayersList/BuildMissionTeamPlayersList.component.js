@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { PlayersList } from 'components';
+import { PlayersList } from "components";
 
 export default class BuildMissionTeamPlayersList extends Component {
     static propTypes = {
@@ -14,7 +14,7 @@ export default class BuildMissionTeamPlayersList extends Component {
             PropTypes.shape({
                 id: PropTypes.string.isRequired,
                 name: PropTypes.string.isRequired,
-            }),
+            })
         ).isRequired,
     };
 
@@ -29,7 +29,7 @@ export default class BuildMissionTeamPlayersList extends Component {
 
         return (
             <PlayersList
-                players={players.map((player) => ({
+                players={players.map(player => ({
                     ...player,
                     selected: proposedTeam.indexOf(player.id) !== -1,
                 }))}

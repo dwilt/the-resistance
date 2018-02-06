@@ -1,14 +1,14 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 
-import { Scene, Router } from 'react-native-router-flux';
+import { Scene, Router } from "react-native-router-flux";
 
-import { Home, Game, Login } from 'components';
+import { Home, Game, Login } from "components";
 
-import store from 'store';
+import store from "store";
 
-import styles from './TheResistance.styles';
+import styles from "./TheResistance.styles";
 
 export default class TheResistance extends PureComponent {
     render() {

@@ -1,1 +1,1 @@
-export { default as RejectTeamButton } from './RejectTeamButton.container';
+export { default as RejectTeamButton } from "./RejectTeamButton.container";

@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
-import { getUniversalFont, white, openSans, gutter, yellow } from 'styles';
+import { getUniversalFont, white, openSans, gutter, yellow } from "styles";
 
 export default StyleSheet.create({
     title: {

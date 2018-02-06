@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { ActionButton } from 'components';
+import { ActionButton } from "components";
 
 class GameCode extends Component {
     static propTypes = {

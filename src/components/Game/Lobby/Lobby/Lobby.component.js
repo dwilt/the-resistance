@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { View } from 'react-native';
+import { View } from "react-native";
 
-import { GameCode, Text, StartGameButton, LobbyPlayersList } from 'components';
+import { GameCode, Text, StartGameButton, LobbyPlayersList } from "components";
 
-import styles from './Lobby.styles';
+import styles from "./Lobby.styles";
 
 class Lobby extends Component {
     static propTypes = {

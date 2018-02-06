@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { View } from 'react-native';
+import { View } from "react-native";
 
 import {
     BuildMissionTeamPlayersList,
@@ -10,11 +10,11 @@ import {
     GameFooter,
     Text,
     PlayerIdentityReveal,
-} from 'components';
+} from "components";
 
-import styles from './BuildMissionTeam.styles';
+import styles from "./BuildMissionTeam.styles";
 
-import { getMissionMembersCount } from 'src/gameStructure';
+import { getMissionMembersCount } from "src/gameStructure";
 
 export default class BuildMissionTeam extends Component {
     static propTypes = {

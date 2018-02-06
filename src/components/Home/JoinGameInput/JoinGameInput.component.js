@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { CodeInput } from 'components/index';
+import { CodeInput } from "components/index";
 
 export default class JoinGameInput extends PureComponent {
     static propTypes = {

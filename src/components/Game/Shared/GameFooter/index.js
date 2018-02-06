@@ -1,1 +1,1 @@
-export { default as GameFooter } from './GameFooter.component';
+export { default as GameFooter } from "./GameFooter.component";

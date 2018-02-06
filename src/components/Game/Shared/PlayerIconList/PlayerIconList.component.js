@@ -1,14 +1,14 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import { Image, View } from 'react-native';
+import { Image, View } from "react-native";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { Text } from 'components';
+import { Text } from "components";
 
 const userIcon = require(`assets/images/user-icon.png`);
 
-import styles from './PlayerIconList.styles';
+import styles from "./PlayerIconList.styles";
 
 export default class PlayerIconList extends PureComponent {
     static propTypes = {
@@ -16,7 +16,7 @@ export default class PlayerIconList extends PureComponent {
             PropTypes.shape({
                 id: PropTypes.string.isRequired,
                 name: PropTypes.string.isRequired,
-            }),
+            })
         ),
     };
 
@@ -43,7 +43,7 @@ export default class PlayerIconList extends PureComponent {
                             (i === 3 && players.length === 5)
                         ) {
                             playerContainerStyles.push(
-                                styles.offsetPlayerContainer,
+                                styles.offsetPlayerContainer
                             );
                         }
                     }

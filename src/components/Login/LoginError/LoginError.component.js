@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { ErrorMessage } from 'components';
+import { ErrorMessage } from "components";
 
 export default class LoginError extends PureComponent {
     static propTypes = {

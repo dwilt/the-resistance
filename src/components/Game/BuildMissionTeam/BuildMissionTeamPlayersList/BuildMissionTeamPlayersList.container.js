@@ -1,18 +1,18 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 import {
     playersSelector,
     isLeaderSelector,
     proposedMissionTeamSelector,
     proposedMissionTeamIsFilledSelector,
-} from 'selectors';
+} from "selectors";
 
-import { toggleMissionTeamMemberAction as onPlayerTap } from 'store/buildMissionTeam/buildMissionTeam.actions';
+import { toggleMissionTeamMemberAction as onPlayerTap } from "store/buildMissionTeam/buildMissionTeam.actions";
 
-import BuildMissionTeamPlayersList from './BuildMissionTeamPlayersList.component';
+import BuildMissionTeamPlayersList from "./BuildMissionTeamPlayersList.component";
 
 export default connect(
-    (st) => {
+    st => {
         const players = playersSelector(st);
         const isLeader = isLeaderSelector(st);
         const proposedTeam = proposedMissionTeamSelector(st);
@@ -27,5 +27,5 @@ export default connect(
     },
     {
         onPlayerTap,
-    },
+    }
 )(BuildMissionTeamPlayersList);

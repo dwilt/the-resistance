@@ -1,1 +1,1 @@
-export { default as MissionTeamVote } from './MissionTeamVote.container';
+export { default as MissionTeamVote } from "./MissionTeamVote.container";

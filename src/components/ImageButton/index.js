@@ -1,1 +1,1 @@
-export { default as ImageButton } from './ImageButton.component';
+export { default as ImageButton } from "./ImageButton.component";

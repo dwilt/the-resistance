@@ -1,6 +1,6 @@
-import { setIsStartingGameAction } from './lobby.actions';
+import { setIsStartingGameAction } from "./lobby.actions";
 
-import { createReducer } from 'helpers';
+import { createReducer } from "helpers";
 
 export default createReducer(
     {
@@ -11,5 +11,5 @@ export default createReducer(
             ...state,
             isStartingGame,
         }),
-    },
+    }
 );

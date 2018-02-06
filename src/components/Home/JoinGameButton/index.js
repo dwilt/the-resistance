@@ -1,1 +1,1 @@
-export { default as JoinGameButton } from './JoinGameButton.container';
+export { default as JoinGameButton } from "./JoinGameButton.container";

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 import {
     openSans,
@@ -8,7 +8,7 @@ import {
     centerChildren,
     subtitle,
     yellowTitle,
-} from 'styles';
+} from "styles";
 
 export default StyleSheet.create({
     container: {

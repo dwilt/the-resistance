@@ -1,1 +1,1 @@
-export { default as JoinGameOverlay } from './JoinGameOverlay.container';
+export { default as JoinGameOverlay } from "./JoinGameOverlay.container";

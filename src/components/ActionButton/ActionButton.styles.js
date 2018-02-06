@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 import {
     getUniversalFont,
@@ -9,7 +9,7 @@ import {
     yellow,
     teal,
     openSans,
-} from 'styles';
+} from "styles";
 
 export default StyleSheet.create({
     container: {

@@ -1,3 +1,3 @@
 export {
     default as MissionTeamVoteOutcome,
-} from './MissionTeamVoteOutcome.container';
+} from "./MissionTeamVoteOutcome.container";

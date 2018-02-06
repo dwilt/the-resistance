@@ -1,8 +1,8 @@
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect";
 
-const missionOutcomeSelector = (state) => state.missionOutcome;
+const missionOutcomeSelector = state => state.missionOutcome;
 
 export const missionOutcomeIsStartingNextRoundSelector = createSelector(
     missionOutcomeSelector,
-    (missionOutcome) => missionOutcome.isStartingNextRound,
+    missionOutcome => missionOutcome.isStartingNextRound
 );

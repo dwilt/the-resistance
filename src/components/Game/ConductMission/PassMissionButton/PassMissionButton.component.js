@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { ImageButton, PassedMissionCard } from 'components';
+import { ImageButton, PassedMissionCard } from "components";
 
 export default class PassMissionButton extends PureComponent {
     static propTypes = {

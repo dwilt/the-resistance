@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { Image, View } from 'react-native';
+import { Image, View } from "react-native";
 
 import {
     CreateGameButton,
@@ -10,9 +10,9 @@ import {
     JoinGameOverlay,
     HomeError,
     LogoutButton,
-} from 'components';
+} from "components";
 
-import styles from './Home.styles';
+import styles from "./Home.styles";
 
 const logo = require(`assets/images/resistance-logo.png`);
 

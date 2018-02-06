@@ -1,13 +1,13 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 import {
     isOnMissionTeamSelector,
     submittedMissionPassVoteSelector,
-} from 'selectors';
+} from "selectors";
 
-import ConductMission from './ConductMission.component';
+import ConductMission from "./ConductMission.component";
 
-export default connect((state) => {
+export default connect(state => {
     const submittedVote = submittedMissionPassVoteSelector(state);
     const canVote = isOnMissionTeamSelector(state);
 

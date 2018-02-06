@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { TextInput as RNTextInput, ViewPropTypes, View } from 'react-native';
+import { TextInput as RNTextInput, ViewPropTypes, View } from "react-native";
 
-import styles from './TextInput.styles';
+import styles from "./TextInput.styles";
 
 export default class TextInput extends PureComponent {
     static propTypes = {
@@ -33,7 +33,7 @@ export default class TextInput extends PureComponent {
         };
     }
 
-    inputRef = (input) => {
+    inputRef = input => {
         const { autoFocus } = this.props;
 
         if (autoFocus && input) {

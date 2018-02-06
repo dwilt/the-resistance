@@ -1,15 +1,15 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { selectNewLeaderAction as onPress } from 'store/missionTeamVoteOutcome/missionTeamVoteOutcome.actions';
+import { selectNewLeaderAction as onPress } from "store/missionTeamVoteOutcome/missionTeamVoteOutcome.actions";
 
-import { missionTeamVoteOutcomeIsSelectingNewLeaderSelector } from 'selectors';
+import { missionTeamVoteOutcomeIsSelectingNewLeaderSelector } from "selectors";
 
-import SelectNewLeaderButton from './SelectNewLeaderButton.component';
+import SelectNewLeaderButton from "./SelectNewLeaderButton.component";
 
 export default connect(
-    (st) => {
+    st => {
         const isLoading = missionTeamVoteOutcomeIsSelectingNewLeaderSelector(
-            st,
+            st
         );
 
         return {
@@ -18,5 +18,5 @@ export default connect(
     },
     {
         onPress,
-    },
+    }
 )(SelectNewLeaderButton);

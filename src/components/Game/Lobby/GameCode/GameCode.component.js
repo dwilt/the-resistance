@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { Text } from 'components';
+import { Text } from "components";
 
-import { View } from 'react-native';
+import { View } from "react-native";
 
-import styles from './GameCode.styles';
+import styles from "./GameCode.styles";
 
 export default class GameCode extends Component {
     static propTypes = {

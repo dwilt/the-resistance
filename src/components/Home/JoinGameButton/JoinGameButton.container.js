@@ -1,13 +1,13 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { homeIsJoiningGameSelector } from 'selectors';
+import { homeIsJoiningGameSelector } from "selectors";
 
-import { joinGameAction as onPress } from 'store/home/home.actions';
+import { joinGameAction as onPress } from "store/home/home.actions";
 
-import JoinGameButton from './JoinGameButton.component';
+import JoinGameButton from "./JoinGameButton.component";
 
 export default connect(
-    (state) => {
+    state => {
         const isLoading = homeIsJoiningGameSelector(state);
 
         return {
@@ -16,5 +16,5 @@ export default connect(
     },
     {
         onPress,
-    },
+    }
 )(JoinGameButton);
