@@ -2,13 +2,11 @@ import React, { PureComponent } from 'react';
 
 import { View, Image } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
-
 import PropTypes from 'prop-types';
 
-import { Text } from 'components';
+import { Text, MenuToggle } from 'components';
 
-import styles, { menuIconColor, menuIconSize } from './Header.styles';
+import styles from './Header.styles';
 
 const userIcon = require(`assets/images/user-icon.png`);
 
@@ -24,12 +22,7 @@ export default class Header extends PureComponent {
             <View style={styles.container}>
                 <Image style={styles.icon} source={userIcon} />
                 <Text style={styles.username}>{username}</Text>
-                <Icon
-                    name={`times`}
-                    size={menuIconSize}
-                    color={menuIconColor}
-                />
-                <Icon name={`bars`} size={menuIconSize} color={menuIconColor} />
+                <MenuToggle />
             </View>
         );
     }
