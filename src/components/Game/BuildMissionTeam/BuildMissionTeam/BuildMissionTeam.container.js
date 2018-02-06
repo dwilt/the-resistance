@@ -1,4 +1,4 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 import {
     isLeaderSelector,
@@ -6,11 +6,11 @@ import {
     playersSelector,
     playerConfirmedIdentitySelector,
     leaderNameSelector,
-} from "selectors";
+} from 'selectors';
 
-import BuildMissionTeam from "./BuildMissionTeam.component";
+import BuildMissionTeam from './BuildMissionTeam.component';
 
-export default connect(state => {
+export default connect((state) => {
     const isLeader = isLeaderSelector(state);
     const players = playersSelector(state);
     const roundCount = roundCountSelector(state);

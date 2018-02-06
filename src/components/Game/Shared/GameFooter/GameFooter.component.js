@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { MissionLeader, RoundCount } from "components/index";
+import { MissionLeader, RoundCount } from 'components/index';
 
-import { View } from "react-native";
+import { View } from 'react-native';
 
-import styles from "./GameFooter.styles";
+import styles from './GameFooter.styles';
 
 export default class GameFooter extends Component {
     render() {

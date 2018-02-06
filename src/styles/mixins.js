@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import { Platform } from 'react-native';
 
 import {
     gutter,
@@ -6,8 +6,8 @@ import {
     viewSize,
     windowWidth,
     windowHeight,
-} from "./structure";
-import { openSans, yellow } from "./index";
+} from './structure';
+import { openSans, yellow } from './index';
 
 export const minTouchSize = gutter * 3.5;
 

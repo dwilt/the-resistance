@@ -1,10 +1,10 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { gameStateSelector } from "selectors";
+import { gameStateSelector } from 'selectors';
 
-import Game from "./Game.component";
+import Game from './Game.component';
 
-export default connect(st => {
+export default connect((st) => {
     const state = gameStateSelector(st);
 
     return {

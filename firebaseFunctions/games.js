@@ -5,9 +5,9 @@ import {
     totalRounds,
     victoryTypes,
     didMissionFail,
-} from "./gameStructure";
+} from './gameStructure';
 
-import { sampleSize, difference } from "lodash";
+import { sampleSize, difference } from 'lodash';
 
 import {
     addCompletedMission,
@@ -23,9 +23,9 @@ import {
     getUser,
     updateGame,
     updatePlayer,
-} from "./helpers/firestore";
+} from './helpers/firestore';
 
-import { getMajority } from "./helpers/numbers";
+import { getMajority } from './helpers/numbers';
 
 export async function joinGame({ userId, gameCode }) {
     const gameDoc = await getOpenGameByCode(parseInt(gameCode));
@@ -92,10 +92,10 @@ export async function startGame({ gameId }) {
     const spies = sampleSize(players, totalSpies);
 
     await Promise.all([
-        ...players.map(player =>
+        ...players.map((player) =>
             updatePlayer(gameId, player.id, {
                 isSpy: spies.indexOf(player) !== -1,
-            })
+            }),
         ),
     ]);
 
@@ -201,7 +201,7 @@ export async function revealProposedMissionTeamVote({ gameId }) {
     let approvedVotes = 0;
     let rejectedVotes = 0;
 
-    Object.keys(missionTeamVotes).forEach(user => {
+    Object.keys(missionTeamVotes).forEach((user) => {
         const approved = missionTeamVotes[user];
 
         if (approved) {
@@ -271,7 +271,7 @@ export async function submitMissionPasses({ gameId, userId, passes }) {
     const { missionTeam = {} } = currentMission;
 
     const nonVoters = Object.keys(missionTeam).filter(
-        userId => missionTeam[userId] === null
+        (userId) => missionTeam[userId] === null,
     );
 
     if (!nonVoters.length) {
@@ -292,7 +292,7 @@ export async function submitMissionPasses({ gameId, userId, passes }) {
         completedMissions.forEach(({ missionTeam }, i) => {
             const roundCount = i + 1;
             const failedVotes = Object.keys(missionTeam).filter(
-                userId => !missionTeam[userId]
+                (userId) => !missionTeam[userId],
             ).length;
 
             const failed = didMissionFail({

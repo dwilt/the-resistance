@@ -4,9 +4,9 @@ import {
     setIsCreatingGameAction,
     setHomeErrorAction,
     setJoinGameInputAction,
-} from "./home.actions";
+} from './home.actions';
 
-import { createReducer } from "helpers";
+import { createReducer } from 'helpers';
 
 export default createReducer(
     {
@@ -35,10 +35,10 @@ export default createReducer(
         }),
         [setShowJoinOverlayAction().type]: (
             state,
-            { showJoinGameOverlay }
+            { showJoinGameOverlay },
         ) => ({
             ...state,
             showJoinGameOverlay,
         }),
-    }
+    },
 );

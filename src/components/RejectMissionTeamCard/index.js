@@ -1,3 +1,3 @@
 export {
     default as RejectMissionTeamCard,
-} from "./RejectMissionTeamCard.component";
+} from './RejectMissionTeamCard.component';

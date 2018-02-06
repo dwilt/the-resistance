@@ -1,16 +1,16 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { View } from "react-native";
+import { View } from 'react-native';
 
-import styles from "./Completed.styles";
+import styles from './Completed.styles';
 
-import { createCommaSentenceFromArray } from "helpers";
+import { createCommaSentenceFromArray } from 'helpers';
 
-import { Text, PlayerCard, GameFooter } from "components";
+import { Text, PlayerCard, GameFooter } from 'components';
 
-import { victoryTypes } from "src/gameStructure";
+import { victoryTypes } from 'src/gameStructure';
 
 export default class Completed extends Component {
     static propTypes = {
@@ -18,7 +18,7 @@ export default class Completed extends Component {
         spies: PropTypes.arrayOf(
             PropTypes.shape({
                 name: PropTypes.string,
-            })
+            }),
         ).isRequired,
     };
 
@@ -62,7 +62,7 @@ export default class Completed extends Component {
                     <Text
                         style={styles.spiesText}
                     >{`Spies: ${createCommaSentenceFromArray(
-                            spiesNames
+                            spiesNames,
                         )}`}</Text>
                 </View>
                 <GameFooter />

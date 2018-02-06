@@ -1,10 +1,10 @@
-import { call, put, select, takeEvery } from "redux-saga/effects";
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 
-import { gameIdSelector } from "selectors";
+import { gameIdSelector } from 'selectors';
 
-import { fireFetch } from "services";
+import { fireFetch } from 'services';
 
-export const setIsStartingGameAction = isStartingGame => ({
+export const setIsStartingGameAction = (isStartingGame) => ({
     type: `SET_LOBBY_IS_STARTING_GAME`,
     payload: {
         isStartingGame,

@@ -1,6 +1,6 @@
-import { put, select, takeEvery } from "redux-saga/effects";
+import { put, select, takeEvery } from 'redux-saga/effects';
 
-import { Keyboard } from "react-native";
+import { Keyboard } from 'react-native';
 
 import {
     getLoginAction,
@@ -10,62 +10,62 @@ import {
     getRegisterAction,
     getUserRegisteringAction,
     getUserRegisteredAction,
-} from "store/user/user.actions";
+} from 'store/user/user.actions';
 
 import {
     loginEmailSelector,
     loginPasswordSelector,
     loginNameSelector,
     loginShowingRegisterFormSelector,
-} from "selectors";
+} from 'selectors';
 
-import { Home } from "components";
+import { Home } from 'components';
 
-import { Actions } from "react-native-router-flux";
+import { Actions } from 'react-native-router-flux';
 
-export const setPasswordAction = password => ({
+export const setPasswordAction = (password) => ({
     type: `SET_LOGIN_PASSWORD`,
     payload: {
         password,
     },
 });
 
-export const setEmailAction = email => ({
+export const setEmailAction = (email) => ({
     type: `SET_LOGIN_EMAIL`,
     payload: {
         email,
     },
 });
 
-export const setNameAction = name => ({
+export const setNameAction = (name) => ({
     type: `SET_LOGIN_NAME`,
     payload: {
         name,
     },
 });
 
-export const setShowRegisterAction = showRegister => ({
+export const setShowRegisterAction = (showRegister) => ({
     type: `SET_LOGIN_SHOW_REGISTER`,
     payload: {
         showRegister,
     },
 });
 
-export const setIsRegisteringAction = isRegistering => ({
+export const setIsRegisteringAction = (isRegistering) => ({
     type: `SET_LOGIN_IS_REGISTERING`,
     payload: {
         isRegistering,
     },
 });
 
-export const setIsLoggingInAction = isLoggingIn => ({
+export const setIsLoggingInAction = (isLoggingIn) => ({
     type: `SET_LOGIN_IS_LOGGING_IN`,
     payload: {
         isLoggingIn,
     },
 });
 
-export const setErrorAction = error => ({
+export const setErrorAction = (error) => ({
     type: `SET_LOGIN_ERROR`,
     payload: {
         error,
@@ -94,7 +94,7 @@ function* registerOnPress() {
             email,
             password,
             name,
-        })
+        }),
     );
 }
 

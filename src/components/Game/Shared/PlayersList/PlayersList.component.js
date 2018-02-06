@@ -1,14 +1,14 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Image, TouchableOpacity, View } from "react-native";
+import { Image, TouchableOpacity, View } from 'react-native';
 
-import { Text } from "components";
+import { Text } from 'components';
 
 const userIcon = require(`assets/images/user-icon.png`);
 
-import styles from "./PlayersList.styles";
+import styles from './PlayersList.styles';
 
 class PlayersList extends Component {
     static propTypes = {
@@ -16,7 +16,7 @@ class PlayersList extends Component {
             PropTypes.shape({
                 id: PropTypes.string.isRequired,
                 name: PropTypes.string.isRequired,
-            })
+            }),
         ).isRequired,
         onPlayerTap: PropTypes.func,
         disabled: PropTypes.bool.isRequired,

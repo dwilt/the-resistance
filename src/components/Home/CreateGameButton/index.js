@@ -1,1 +1,1 @@
-export { default as CreateGameButton } from "./CreateGameButton.container";
+export { default as CreateGameButton } from './CreateGameButton.container';

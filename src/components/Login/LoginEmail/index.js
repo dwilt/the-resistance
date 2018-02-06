@@ -1,1 +1,1 @@
-export { default as LoginEmail } from "./LoginEmail.container";
+export { default as LoginEmail } from './LoginEmail.container';

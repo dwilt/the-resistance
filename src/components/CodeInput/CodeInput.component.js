@@ -1,12 +1,12 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Text } from "components";
+import { Text } from 'components';
 
-import { TextInput as RNTextInput, View } from "react-native";
+import { TextInput as RNTextInput, View } from 'react-native';
 
-import styles from "./CodeInput.styles";
+import styles from './CodeInput.styles';
 
 class CodeInput extends PureComponent {
     static propTypes = {
@@ -56,7 +56,7 @@ class CodeInput extends PureComponent {
 
         const completeString = Object.keys(this.text).reduce(
             (current, key) => current + this.text[key],
-            ``
+            ``,
         );
 
         onChangeText(completeString);
@@ -76,10 +76,10 @@ class CodeInput extends PureComponent {
                         .fill(1)
                         .map((number, i) => (
                             <RNTextInput
-                                onChangeText={text =>
+                                onChangeText={(text) =>
                                     this.onChangeText(text, i)
                                 }
-                                ref={el => this.inputRef(el, i)}
+                                ref={(el) => this.inputRef(el, i)}
                                 style={styles.input}
                                 value={this.text[i]}
                                 key={i}

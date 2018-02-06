@@ -1,13 +1,13 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { loginShowingRegisterFormSelector } from "selectors";
+import { loginShowingRegisterFormSelector } from 'selectors';
 
-import { getToggleLoginRegisterAction as toggleForm } from "store/login/login.actions";
+import { getToggleLoginRegisterAction as toggleForm } from 'store/login/login.actions';
 
-import LoginTitle from "./LoginTitle.component";
+import LoginTitle from './LoginTitle.component';
 
 export default connect(
-    state => {
+    (state) => {
         const isRegistering = loginShowingRegisterFormSelector(state);
 
         return {
@@ -16,5 +16,5 @@ export default connect(
     },
     {
         toggleForm,
-    }
+    },
 )(LoginTitle);

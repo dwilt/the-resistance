@@ -1,1 +1,1 @@
-export { default as MissionLeader } from "./MissionLeader.container";
+export { default as MissionLeader } from './MissionLeader.container';

@@ -1,1 +1,1 @@
-export { default as MissionOutcome } from "./MissionOutcome.container";
+export { default as MissionOutcome } from './MissionOutcome.container';

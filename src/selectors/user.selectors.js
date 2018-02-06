@@ -1,8 +1,10 @@
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
-const userSelector = state => state.user;
+export const userSelector = (state) => state.user.user;
 
-export const userIdSelector = createSelector(
+export const userIdSelector = createSelector(userSelector, (user) => user.uid);
+
+export const userDisplayNameSelector = createSelector(
     userSelector,
-    user => user.user.uid
+    (user) => user.displayName,
 );

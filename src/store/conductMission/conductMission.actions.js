@@ -1,14 +1,14 @@
-import { put, takeEvery, select, call } from "redux-saga/effects";
+import { put, takeEvery, select, call } from 'redux-saga/effects';
 
-import { isSpySelector } from "selectors";
+import { isSpySelector } from 'selectors';
 import {
     gameIdSelector,
     passesMissionSelector,
     userIdSelector,
-} from "selectors";
-import { fireFetch } from "services";
+} from 'selectors';
+import { fireFetch } from 'services';
 
-export const setCastVoteAction = castVote => ({
+export const setCastVoteAction = (castVote) => ({
     type: `SET_CONDUCT_MISSION_CAST_VOTE`,
     payload: {
         castVote,

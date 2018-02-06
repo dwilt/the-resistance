@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform } from 'react-native';
 
 import {
     gutter,
@@ -7,7 +7,7 @@ import {
     baseFontSize,
     minTouchSize,
     black,
-} from "styles";
+} from 'styles';
 
 export default StyleSheet.create({
     container: {

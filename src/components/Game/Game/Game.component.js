@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 import {
     BuildMissionTeam,
@@ -11,9 +11,9 @@ import {
     MissionTeamVote,
     MissionTeamVoteOutcome,
     Scene,
-} from "components";
+} from 'components';
 
-import { gameStates } from "src/gameStructure";
+import { gameStates } from 'src/gameStructure';
 
 class Game extends Component {
     static propTypes = {

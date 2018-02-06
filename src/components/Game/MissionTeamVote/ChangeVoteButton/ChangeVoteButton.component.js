@@ -1,12 +1,12 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from 'react-native';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Text } from "components";
+import { Text } from 'components';
 
-import styles from "./ChangeVoteButton.styles";
+import styles from './ChangeVoteButton.styles';
 
 export default class ChangeVoteButton extends PureComponent {
     static propTypes = {

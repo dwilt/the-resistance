@@ -1,3 +1,3 @@
 export {
     default as PlayerIdentityReveal,
-} from "./PlayerIdentityReveal.container";
+} from './PlayerIdentityReveal.container';

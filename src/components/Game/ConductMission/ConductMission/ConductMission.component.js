@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { View } from "react-native";
+import { View } from 'react-native';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 import {
     Text,
@@ -11,9 +11,9 @@ import {
     FailMissionButton,
     SubmitMissionVoteButton,
     ConductMissionPlayersList,
-} from "components/index";
+} from 'components/index';
 
-import styles from "./ConductMission.styles";
+import styles from './ConductMission.styles';
 
 export default class ConductMission extends Component {
     static propTypes = {

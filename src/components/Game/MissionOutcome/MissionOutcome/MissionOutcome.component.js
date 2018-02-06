@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 import {
     Text,
@@ -8,11 +8,11 @@ import {
     GameFooter,
     FailedMissionCard,
     PassedMissionCard,
-} from "components";
+} from 'components';
 
-import { View } from "react-native";
+import { View } from 'react-native';
 
-import styles from "./MissionOutcome.styles";
+import styles from './MissionOutcome.styles';
 
 export default class MissionOutcome extends Component {
     static propTypes = {

@@ -1,1 +1,1 @@
-export { default as PassedMissionCard } from "./PassedMissionCard.component";
+export { default as PassedMissionCard } from './PassedMissionCard.component';

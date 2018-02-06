@@ -1,10 +1,10 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { playersSelector } from "selectors";
+import { playersSelector } from 'selectors';
 
-import LobbyPlayersList from "./LobbyPlayersList.component";
+import LobbyPlayersList from './LobbyPlayersList.component';
 
-export default connect(st => {
+export default connect((st) => {
     const players = playersSelector(st);
 
     return {

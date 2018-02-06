@@ -1,17 +1,17 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 import {
     proposedMissionTeamIsFilledSelector,
     allPlayersConfirmedIdentitySelector,
     buildMissionTeamIsConfirmingSelector,
-} from "selectors";
+} from 'selectors';
 
-import { confirmMissionTeamAction as onPress } from "store/buildMissionTeam/buildMissionTeam.actions";
+import { confirmMissionTeamAction as onPress } from 'store/buildMissionTeam/buildMissionTeam.actions';
 
-import ConfirmMissionTeamButton from "./ConfirmMissionTeamButton.component";
+import ConfirmMissionTeamButton from './ConfirmMissionTeamButton.component';
 
 export default connect(
-    state => {
+    (state) => {
         const disabled =
             !proposedMissionTeamIsFilledSelector(state) ||
             !allPlayersConfirmedIdentitySelector(state);
@@ -24,5 +24,5 @@ export default connect(
     },
     {
         onPress,
-    }
+    },
 )(ConfirmMissionTeamButton);

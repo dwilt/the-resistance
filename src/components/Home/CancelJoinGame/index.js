@@ -1,1 +1,1 @@
-export { default as CancelJoinGame } from "./CancelJoinGame.container";
+export { default as CancelJoinGame } from './CancelJoinGame.container';

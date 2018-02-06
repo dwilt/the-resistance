@@ -1,17 +1,17 @@
-import { resetMissionTeamVote } from "store/missionTeamVote/missionTeamVote.actions";
+import { resetMissionTeamVote } from 'store/missionTeamVote/missionTeamVote.actions';
 
-import { call, put, select, takeEvery } from "redux-saga/effects";
-import { gameIdSelector } from "selectors";
-import { fireFetch } from "services";
+import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { gameIdSelector } from 'selectors';
+import { fireFetch } from 'services';
 
-export const setIsConductingAction = isConducting => ({
+export const setIsConductingAction = (isConducting) => ({
     type: `SET_MISSION_TEAM_VOTE_OUTCOME_IS_CONDUCTING`,
     payload: {
         isConducting,
     },
 });
 
-export const setIsSelectingNewLeaderAction = isSelectingNewLeader => ({
+export const setIsSelectingNewLeaderAction = (isSelectingNewLeader) => ({
     type: `SET_MISSION_TEAM_VOTE_OUTCOME_IS_SELECTING_NEW_LEADER`,
     payload: {
         isSelectingNewLeader,

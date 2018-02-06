@@ -1,13 +1,13 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { loginEmailSelector } from "selectors";
+import { loginEmailSelector } from 'selectors';
 
-import { setEmailAction as onChangeText } from "store/login/login.actions";
+import { setEmailAction as onChangeText } from 'store/login/login.actions';
 
-import LoginEmail from "./LoginEmail.component";
+import LoginEmail from './LoginEmail.component';
 
 export default connect(
-    state => {
+    (state) => {
         const value = loginEmailSelector(state);
 
         return {
@@ -16,5 +16,5 @@ export default connect(
     },
     {
         onChangeText,
-    }
+    },
 )(LoginEmail);

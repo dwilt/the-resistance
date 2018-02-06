@@ -1,6 +1,6 @@
-import { setIsStartingNextRoundAction } from "./missionOutcome.actions";
+import { setIsStartingNextRoundAction } from './missionOutcome.actions';
 
-import { createReducer } from "helpers";
+import { createReducer } from 'helpers';
 
 export default createReducer(
     {
@@ -9,10 +9,10 @@ export default createReducer(
     {
         [setIsStartingNextRoundAction().type]: (
             state,
-            { isStartingNextRound }
+            { isStartingNextRound },
         ) => ({
             ...state,
             isStartingNextRound,
         }),
-    }
+    },
 );

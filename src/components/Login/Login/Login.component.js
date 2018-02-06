@@ -1,6 +1,6 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
-import { View } from "react-native";
+import { View } from 'react-native';
 
 import {
     LoginEmail,
@@ -11,9 +11,9 @@ import {
     LoginError,
     LoginRegisterButton,
     LoginSubmitButton,
-} from "components";
+} from 'components';
 
-import styles from "./Login.styles";
+import styles from './Login.styles';
 
 class Login extends PureComponent {
     render() {

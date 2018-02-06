@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 import {
     GameFooter,
@@ -11,11 +11,11 @@ import {
     RevealVotesButton,
     SubmitVoteButton,
     ChangeVoteButton,
-} from "components";
+} from 'components';
 
-import { View } from "react-native";
+import { View } from 'react-native';
 
-import styles from "./MissionTeamVote.styles";
+import styles from './MissionTeamVote.styles';
 
 export default class MissionTeamVote extends Component {
     static propTypes = {

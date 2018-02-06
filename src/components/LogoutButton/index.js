@@ -1,1 +1,1 @@
-export { default as LogoutButton } from "./LogoutButton.container";
+export { default as LogoutButton } from './LogoutButton.container';

@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-import { blackOverlay, centerChildren, gutter } from "styles";
+import { StyleSheet } from 'react-native';
+import { blackOverlay, centerChildren, gutter } from 'styles';
 
 export default StyleSheet.create({
     container: {

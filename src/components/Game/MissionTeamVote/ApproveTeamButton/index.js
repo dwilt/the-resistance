@@ -1,1 +1,1 @@
-export { default as ApproveTeamButton } from "./ApproveTeamButton.container";
+export { default as ApproveTeamButton } from './ApproveTeamButton.container';

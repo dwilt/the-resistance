@@ -1,1 +1,1 @@
-export { default as FailMissionButton } from "./FailMissionButton.container";
+export { default as FailMissionButton } from './FailMissionButton.container';

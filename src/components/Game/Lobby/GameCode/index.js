@@ -1,1 +1,1 @@
-export { default as GameCode } from "./GameCode.container";
+export { default as GameCode } from './GameCode.container';

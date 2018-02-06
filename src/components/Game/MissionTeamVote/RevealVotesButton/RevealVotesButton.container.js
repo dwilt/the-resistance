@@ -1,16 +1,16 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 import {
     missionTeamVotingCompleteSelector,
     missionTeamVoteIsRevealingSelector,
-} from "selectors";
+} from 'selectors';
 
-import { revealProposedMissionTeamVoteAction as onPress } from "store/missionTeamVote/missionTeamVote.actions";
+import { revealProposedMissionTeamVoteAction as onPress } from 'store/missionTeamVote/missionTeamVote.actions';
 
-import RevealVotesButton from "./RevealVotesButton.component";
+import RevealVotesButton from './RevealVotesButton.component';
 
 export default connect(
-    state => {
+    (state) => {
         const disabled = !missionTeamVotingCompleteSelector(state);
         const isLoading = missionTeamVoteIsRevealingSelector(state);
 
@@ -21,5 +21,5 @@ export default connect(
     },
     {
         onPress,
-    }
+    },
 )(RevealVotesButton);

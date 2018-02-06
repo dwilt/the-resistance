@@ -1,28 +1,28 @@
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
-const homeSelector = state => state.home;
+const homeSelector = (state) => state.home;
 
 export const homeIsJoiningGameSelector = createSelector(
     homeSelector,
-    home => home.isJoiningGame
+    (home) => home.isJoiningGame,
 );
 
 export const homeIsCreatingGameSelector = createSelector(
     homeSelector,
-    home => home.isCreatingGame
+    (home) => home.isCreatingGame,
 );
 
 export const showJoinGameOverlaySelector = createSelector(
     homeSelector,
-    home => home.showJoinGameOverlay
+    (home) => home.showJoinGameOverlay,
 );
 
 export const homeErrorSelector = createSelector(
     homeSelector,
-    home => home.error
+    (home) => home.error,
 );
 
 export const joinGameInputSelector = createSelector(
     homeSelector,
-    home => home.joinGameInput
+    (home) => home.joinGameInput,
 );

@@ -1,13 +1,13 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { failMissionAction as onPress } from "store/conductMission/conductMission.actions";
+import { failMissionAction as onPress } from 'store/conductMission/conductMission.actions';
 
-import { failsMissionSelector } from "selectors";
+import { failsMissionSelector } from 'selectors';
 
-import FailMissionButton from "./FailMissionButton.component";
+import FailMissionButton from './FailMissionButton.component';
 
 export default connect(
-    state => {
+    (state) => {
         const selected = failsMissionSelector(state);
 
         return {
@@ -16,5 +16,5 @@ export default connect(
     },
     {
         onPress,
-    }
+    },
 )(FailMissionButton);

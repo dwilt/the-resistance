@@ -1,10 +1,10 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { isHostSelector } from "selectors";
+import { isHostSelector } from 'selectors';
 
-import Lobby from "./Lobby.component";
+import Lobby from './Lobby.component';
 
-export default connect(st => {
+export default connect((st) => {
     const isHost = isHostSelector(st);
 
     return {

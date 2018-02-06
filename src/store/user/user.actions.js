@@ -1,18 +1,16 @@
-import { rsf } from "services";
+import { rsf } from 'services';
 
-import firebase from "firebase";
+import firebase from 'firebase';
 
-import { buffers, eventChannel } from "redux-saga";
+import { call, take, put, takeEvery, all, select } from 'redux-saga/effects';
 
-import { call, take, put, takeEvery } from "redux-saga/effects";
+import { Actions } from 'react-native-router-flux';
 
-import { db } from "services";
+import { Login } from 'components';
 
-import { Actions } from "react-native-router-flux";
+import { userSelector } from 'selectors';
 
-import { Login } from "components";
-
-export const setUserAction = user => ({
+export const setUserAction = (user = {}) => ({
     type: `SET_USER`,
     payload: {
         user,
@@ -60,14 +58,14 @@ export const getUserRegisteredAction = () => ({
     type: `USER_REGISTERED`,
 });
 
-export const getUserLoginError = error => ({
+export const getUserLoginError = (error) => ({
     type: `USER_LOGIN_ERROR`,
     payload: {
         error,
     },
 });
 
-export const setIsLoggedInAction = isLoggedIn => ({
+export const setIsLoggedInAction = (isLoggedIn) => ({
     type: `SET_USER_IS_LOGGED_IN`,
     payload: {
         isLoggedIn,
@@ -94,12 +92,27 @@ function* register({ payload: { email, password, name } }) {
     try {
         yield put(getUserRegisteringAction());
 
+        // TODO: this is bs because the currentUser.updateProfile method can't take an initial profile object
+        // https://github.com/firebase/firebase-functions/issues/95#issuecomment-363457520
+        yield put(
+            setUserAction({
+                displayName: name,
+            }),
+        );
+
         yield call(rsf.auth.createUserWithEmailAndPassword, email, password);
 
-        const userId = firebase.auth().currentUser.uid;
+        const currentUser = firebase.auth().currentUser;
 
-        yield call(rsf.firestore.setDocument, `users/${userId}`, {
-            name,
+        yield all([
+            call(rsf.firestore.setDocument, `users/${currentUser.uid}`, {
+                name,
+            }),
+        ]);
+
+        // TODO: temporarily here until support - https://github.com/n6g7/redux-saga-firebase/issues/48
+        yield currentUser.updateProfile({
+            displayName: name,
         });
 
         yield put(getUserRegisteredAction());
@@ -118,12 +131,23 @@ export default function*() {
     while (true) {
         const { user } = yield take(channel);
 
-        yield put(setUserAction(user));
-
         if (user) {
+            const currentUser = yield select(userSelector);
+            const { uid, displayName } = user;
+
+            yield put(
+                setUserAction({
+                    ...currentUser,
+                    uid,
+                    // TODO more bs hacks because of https://github.com/firebase/firebase-functions/issues/95#issuecomment-363457520
+                    displayName: displayName || currentUser.displayName,
+                }),
+            );
+
             yield put(getUserLoggedInAction());
             yield put(setIsLoggedInAction(true));
         } else {
+            yield put(setUserAction());
             yield put(getUserLoggedOutAction());
             yield put(setIsLoggedInAction(false));
         }

@@ -1,13 +1,13 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { loginPasswordSelector } from "selectors";
+import { loginPasswordSelector } from 'selectors';
 
-import { setPasswordAction as onChangeText } from "store/login/login.actions";
+import { setPasswordAction as onChangeText } from 'store/login/login.actions';
 
-import LoginPassword from "./LoginPassword.component";
+import LoginPassword from './LoginPassword.component';
 
 export default connect(
-    state => {
+    (state) => {
         const value = loginPasswordSelector(state);
 
         return {
@@ -16,5 +16,5 @@ export default connect(
     },
     {
         onChangeText,
-    }
+    },
 )(LoginPassword);

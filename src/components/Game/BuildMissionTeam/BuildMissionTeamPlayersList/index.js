@@ -1,3 +1,3 @@
 export {
     default as BuildMissionTeamPlayersList,
-} from "./BuildMissionTeamPlayersList.container";
+} from './BuildMissionTeamPlayersList.container';

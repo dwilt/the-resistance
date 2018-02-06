@@ -1,8 +1,8 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
-import { ImageButton, RejectMissionTeamCard } from "components";
+import { ImageButton, RejectMissionTeamCard } from 'components';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export default class RejectTeamButton extends PureComponent {
     static propTypes = {

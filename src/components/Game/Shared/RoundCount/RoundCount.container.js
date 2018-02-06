@@ -1,15 +1,15 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 import {
     roundCountSelector,
     failedMissionsSelector,
     passedMissionsSelector,
     gameStateSelector,
-} from "selectors";
+} from 'selectors';
 
-import RoundCount from "./RoundCount.component";
+import RoundCount from './RoundCount.component';
 
-export default connect(st => {
+export default connect((st) => {
     const roundCount = roundCountSelector(st);
     const passedMissions = passedMissionsSelector(st);
     const failedMissions = failedMissionsSelector(st);

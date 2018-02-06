@@ -1,8 +1,8 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { PlayerIconList } from "components";
+import { PlayerIconList } from 'components';
 
 export default class MissionTeamVotePlayersList extends PureComponent {
     static propTypes = {

@@ -1,10 +1,10 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import styles from "./Scene.styles";
+import styles from './Scene.styles';
 
-import { Image, View } from "react-native";
+import { Image, View } from 'react-native';
 
 const blurImage = require(`assets/images/blur-bg.png`);
 

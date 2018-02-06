@@ -1,4 +1,4 @@
-import isObject from "is-object";
+import isObject from 'is-object';
 
 export const createReducer = (initialState, actions = {}) => {
     let is = initialState;

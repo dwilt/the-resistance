@@ -1,14 +1,14 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Text } from "components";
+import { Text } from 'components';
 
-import { TouchableWithoutFeedback, View } from "react-native";
+import { TouchableWithoutFeedback, View } from 'react-native';
 
-import styles, { checkColor, checkSize } from "./Checkbox.styles";
+import styles, { checkColor, checkSize } from './Checkbox.styles';
 
 export default class Checkbox extends PureComponent {
     static propTypes = {

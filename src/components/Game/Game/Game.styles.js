@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
-import { getUniversalFont, white } from "styles";
+import { getUniversalFont, white } from 'styles';
 
 export default StyleSheet.create({
     container: {

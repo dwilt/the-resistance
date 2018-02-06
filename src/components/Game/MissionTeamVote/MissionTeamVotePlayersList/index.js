@@ -1,3 +1,3 @@
 export {
     default as MissionTeamVotePlayersList,
-} from "./MissionTeamVotePlayersList.container";
+} from './MissionTeamVotePlayersList.container';

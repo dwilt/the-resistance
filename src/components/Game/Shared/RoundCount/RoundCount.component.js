@@ -1,14 +1,14 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Text } from "components/index";
+import { Text } from 'components/index';
 
-import { View } from "react-native";
+import { View } from 'react-native';
 
-import { gameStates } from "src/gameStructure";
+import { gameStates } from 'src/gameStructure';
 
-import styles from "./RoundCount.styles";
+import styles from './RoundCount.styles';
 
 export default class RoundCount extends Component {
     static propTypes = {

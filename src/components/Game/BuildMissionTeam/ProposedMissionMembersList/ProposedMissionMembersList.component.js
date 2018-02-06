@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Text } from "components";
+import { Text } from 'components';
 
-import { Switch, View } from "react-native";
-import styles from "./ProposedMissionMembersList.styles";
+import { Switch, View } from 'react-native';
+import styles from './ProposedMissionMembersList.styles';
 
 class ProposedMissionMembersList extends Component {
     static propTypes = {
@@ -13,7 +13,7 @@ class ProposedMissionMembersList extends Component {
             PropTypes.shape({
                 id: PropTypes.string.isRequired,
                 name: PropTypes.string.isRequired,
-            })
+            }),
         ).isRequired,
         filled: PropTypes.bool.isRequired,
         isLeader: PropTypes.bool.isRequired,
@@ -60,7 +60,7 @@ class ProposedMissionMembersList extends Component {
                                     <Switch
                                         disabled={disabled}
                                         value={selected}
-                                        onValueChange={value =>
+                                        onValueChange={(value) =>
                                             onPlayerSelectChange(id, value)
                                         }
                                     />

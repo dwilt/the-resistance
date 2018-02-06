@@ -1,10 +1,10 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Image } from "react-native";
+import { Image } from 'react-native';
 
-import styles from "./PlayingCard.styles";
+import styles from './PlayingCard.styles';
 
 export default class PlayingCard extends PureComponent {
     static propTypes = {

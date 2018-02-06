@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 import {
     gutter,
@@ -8,7 +8,7 @@ import {
     voteButtonsApprove,
     getUniversalFont,
     openSans,
-} from "styles";
+} from 'styles';
 
 export default StyleSheet.create({
     container: {

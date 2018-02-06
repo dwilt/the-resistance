@@ -1,1 +1,1 @@
-export { default as StartGameCountdown } from "./StartGameCountdown.component";
+export { default as StartGameCountdown } from './StartGameCountdown.component';

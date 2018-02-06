@@ -1,13 +1,13 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { rejectsProposedMissionTeamSelector } from "selectors";
+import { rejectsProposedMissionTeamSelector } from 'selectors';
 
-import { rejectProposedMissionTeamAction as onPress } from "store/missionTeamVote/missionTeamVote.actions";
+import { rejectProposedMissionTeamAction as onPress } from 'store/missionTeamVote/missionTeamVote.actions';
 
-import RejectTeamButton from "./RejectTeamButton.component";
+import RejectTeamButton from './RejectTeamButton.component';
 
 export default connect(
-    state => {
+    (state) => {
         const selected = rejectsProposedMissionTeamSelector(state);
 
         return {
@@ -16,5 +16,5 @@ export default connect(
     },
     {
         onPress,
-    }
+    },
 )(RejectTeamButton);

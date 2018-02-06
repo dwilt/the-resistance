@@ -1,10 +1,10 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { leaderNameSelector, gameStateSelector } from "selectors";
+import { leaderNameSelector, gameStateSelector } from 'selectors';
 
-import MissionLeader from "./MissionLeader.component";
+import MissionLeader from './MissionLeader.component';
 
-export default connect(st => {
+export default connect((st) => {
     const leader = leaderNameSelector(st);
     const gameState = gameStateSelector(st);
 

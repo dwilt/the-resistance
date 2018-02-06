@@ -1,8 +1,8 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
-import { Text } from "react-native";
+import { Text } from 'react-native';
 
-import styles from "./Text.styles";
+import styles from './Text.styles';
 
 export default class GJSText extends PureComponent {
     static propTypes = {

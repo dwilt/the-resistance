@@ -1,16 +1,16 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 import {
     joinGameAction as onPress,
     setJoinGameInputAction as onChangeText,
-} from "store/home/home.actions";
+} from 'store/home/home.actions';
 
-import { joinGameInputSelector } from "selectors";
+import { joinGameInputSelector } from 'selectors';
 
-import JoinGameInput from "./JoinGameInput.component";
+import JoinGameInput from './JoinGameInput.component';
 
 export default connect(
-    state => {
+    (state) => {
         const value = joinGameInputSelector(state);
 
         return {
@@ -20,5 +20,5 @@ export default connect(
     {
         onPress,
         onChangeText,
-    }
+    },
 )(JoinGameInput);

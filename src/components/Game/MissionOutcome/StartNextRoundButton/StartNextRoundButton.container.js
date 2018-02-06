@@ -1,13 +1,13 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { missionOutcomeIsStartingNextRoundSelector } from "selectors";
+import { missionOutcomeIsStartingNextRoundSelector } from 'selectors';
 
-import { startNextRoundAction as onPress } from "store/missionOutcome/missionOutcome.actions";
+import { startNextRoundAction as onPress } from 'store/missionOutcome/missionOutcome.actions';
 
-import StartNextRoundButton from "./StartNextRoundButton.component";
+import StartNextRoundButton from './StartNextRoundButton.component';
 
 export default connect(
-    st => {
+    (st) => {
         const isLoading = missionOutcomeIsStartingNextRoundSelector(st);
 
         return {
@@ -16,5 +16,5 @@ export default connect(
     },
     {
         onPress,
-    }
+    },
 )(StartNextRoundButton);

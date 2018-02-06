@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 import {
     getUniversalFont,
@@ -6,7 +6,7 @@ import {
     openSans,
     gutter,
     centerChildren,
-} from "styles/index";
+} from 'styles/index';
 
 const iconWidth = 30;
 

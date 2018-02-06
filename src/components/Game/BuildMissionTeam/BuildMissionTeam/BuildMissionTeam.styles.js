@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
-import { yellowTitle, subtitle, gutter, blackOverlay, yellow } from "styles";
+import { yellowTitle, subtitle, gutter, blackOverlay, yellow } from 'styles';
 
 export default StyleSheet.create({
     container: {

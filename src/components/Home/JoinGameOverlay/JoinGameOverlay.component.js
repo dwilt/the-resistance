@@ -1,12 +1,12 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
-import { View } from "react-native";
+import { View } from 'react-native';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { JoinGameInput, JoinGameButton, CancelJoinGame } from "components";
+import { JoinGameInput, JoinGameButton, CancelJoinGame } from 'components';
 
-import styles from "./JoinGameOverlay.styles";
+import styles from './JoinGameOverlay.styles';
 
 export default class JoinGameOverlay extends PureComponent {
     static propTypes = {

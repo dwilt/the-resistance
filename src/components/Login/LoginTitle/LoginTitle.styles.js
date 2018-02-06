@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
-import { yellowTitle, gutter, getUniversalFont, openSans, teal } from "styles";
+import { yellowTitle, gutter, getUniversalFont, openSans, teal } from 'styles';
 
 export default StyleSheet.create({
     container: {

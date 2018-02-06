@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 import {
     ActionButton,
@@ -8,13 +8,13 @@ import {
     PlayerCard,
     Checkbox,
     StartGameCountdown,
-} from "components";
+} from 'components';
 
-import { View } from "react-native";
+import { View } from 'react-native';
 
-import { createCommaSentenceFromArray } from "helpers";
+import { createCommaSentenceFromArray } from 'helpers';
 
-import styles from "./PlayerIdentityReveal.styles";
+import styles from './PlayerIdentityReveal.styles';
 
 export default class PlayerIdentityReveal extends Component {
     static propTypes = {
@@ -25,7 +25,7 @@ export default class PlayerIdentityReveal extends Component {
             PropTypes.shape({
                 id: PropTypes.string.isRequired,
                 name: PropTypes.string.isRequired,
-            })
+            }),
         ).isRequired,
     };
 
@@ -59,7 +59,7 @@ export default class PlayerIdentityReveal extends Component {
         });
     };
 
-    onConfirmAloneToggle = confirmedAlone => {
+    onConfirmAloneToggle = (confirmedAlone) => {
         this.setState({
             confirmedAlone,
         });
@@ -81,7 +81,7 @@ export default class PlayerIdentityReveal extends Component {
             let spiesText =
                 isSpy &&
                 `The other spies you’re working with are ${createCommaSentenceFromArray(
-                    otherSpies
+                    otherSpies,
                 )}`;
 
             if (otherSpies.length === 1) {

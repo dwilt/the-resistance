@@ -1,12 +1,12 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from 'react-native';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Text } from "components";
+import { Text } from 'components';
 
-import styles from "./ImageButton.styles";
+import styles from './ImageButton.styles';
 
 export default class ImageButton extends PureComponent {
     static propTypes = {

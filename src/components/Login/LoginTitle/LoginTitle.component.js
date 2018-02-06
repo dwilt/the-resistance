@@ -1,14 +1,14 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
-import { View, Image, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity } from 'react-native';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Text } from "components";
+import { Text } from 'components';
 
 const missionLeaderBadge = require(`assets/images/mission-leader-icon.png`);
 
-import styles from "./LoginTitle.styles";
+import styles from './LoginTitle.styles';
 
 export default class LoginTitle extends PureComponent {
     static propTypes = {

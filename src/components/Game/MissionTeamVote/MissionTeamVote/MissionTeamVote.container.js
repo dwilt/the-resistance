@@ -1,10 +1,10 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { missionTeamSubmittedVoteSelector, isHostSelector } from "selectors";
+import { missionTeamSubmittedVoteSelector, isHostSelector } from 'selectors';
 
-import MissionTeamVote from "./MissionTeamVote.component";
+import MissionTeamVote from './MissionTeamVote.component';
 
-export default connect(state => {
+export default connect((state) => {
     const submittedVote = missionTeamSubmittedVoteSelector(state);
     const isHost = isHostSelector(state);
 
