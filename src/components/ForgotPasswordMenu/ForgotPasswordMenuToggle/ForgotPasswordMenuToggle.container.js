@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { forgotPasswordMenuIsOpenSelector } from 'selectors';
+import { forgotPasswordMenuIsOpenSelector } from 'selectors/index';
 
 import { getToggleForgotPasswordMenuAction as onPress } from 'store/forgotPasswordMenu/forgotPasswordMenu.actions';
 

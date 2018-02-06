@@ -6,7 +6,6 @@ export * from './DismissKeyboardView';
 export * from './ErrorMessage';
 export * from './FailedMissionCard';
 export * from './ForgotPasswordMenu';
-export * from './ForgotPasswordMenuToggle';
 export * from './Game';
 export * from './Header';
 export * from './Home';

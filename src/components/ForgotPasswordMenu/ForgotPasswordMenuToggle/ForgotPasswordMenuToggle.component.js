@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { MenuToggle } from 'components';
+import { MenuToggle } from 'components/index';
 
 export default class ForgotPasswordMenuToggle extends PureComponent {
     static propTypes = {

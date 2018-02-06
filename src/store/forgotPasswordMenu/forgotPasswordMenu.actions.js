@@ -1,6 +1,12 @@
-import { put, select, takeEvery } from 'redux-saga/effects';
-import { forgotPasswordMenuIsOpenSelector } from 'selectors';
+import { put, select, takeEvery, call } from 'redux-saga/effects';
+import {
+    forgotPasswordMenuIsOpenSelector,
+    loginEmailSelector,
+} from 'selectors';
+
 import { Actions } from 'react-native-router-flux';
+
+import { rsf, alert } from 'services';
 
 export const setIsOpenAction = (isOpen) => ({
     type: `SET_FORGOT_PASSWORD_MENU_IS_OPEN`,
@@ -16,8 +22,19 @@ export const setIsSubmittingAction = (isSubmitting) => ({
     },
 });
 
+export const setErrorAction = (error) => ({
+    type: `SET_FORGOT_PASSWORD_MENU_ERROR`,
+    payload: {
+        error,
+    },
+});
+
 export const getToggleForgotPasswordMenuAction = () => ({
     type: `TOGGLE_MENU`,
+});
+
+export const getSubmitForgotPasswordAction = () => ({
+    type: `SUBMIT_FORGOT_PASSWORD`,
 });
 
 function* toggleMenu() {
@@ -32,6 +49,29 @@ function* toggleMenu() {
     }
 }
 
+function* submit() {
+    try {
+        const email = yield select(loginEmailSelector);
+
+        yield put(setIsSubmittingAction(true));
+
+        yield call(rsf.auth.sendPasswordResetEmail, email);
+
+        yield call(
+            alert,
+            `Sent!`,
+            `An email with instructions to reset your password has been sent to: ${email}`,
+        );
+
+        yield* toggleMenu();
+
+        yield put(setIsSubmittingAction(false));
+    } catch ({ message }) {
+        yield put(setErrorAction(message));
+    }
+}
+
 export default function*() {
     yield takeEvery(getToggleForgotPasswordMenuAction().type, toggleMenu);
+    yield takeEvery(getSubmitForgotPasswordAction().type, submit);
 }

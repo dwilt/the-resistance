@@ -1,1 +1,4 @@
-export { default as ForgotPasswordMenu } from './ForgotPasswordMenu.component';
+export * from './ForgotPasswordError';
+export * from './ForgotPasswordMenu';
+export * from './ForgotPasswordMenuToggle';
+export * from './ForgotPasswordSubmitButton';
