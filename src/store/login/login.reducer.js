@@ -15,7 +15,7 @@ export default createReducer(
         password: ``,
         email: ``,
         name: ``,
-        showRegister: true,
+        showRegister: false,
         isRegistering: false,
         isLoggingIn: false,
         error: null,
