@@ -1,14 +1,10 @@
-import { put, all, fork } from "redux-saga/effects";
+import { put, all, fork } from 'redux-saga/effects';
 
-import { rsf } from "services";
+import { rsf } from 'services';
 
-import {
-    Game
-} from 'components';
+import { Game } from 'components';
 
-import {
-    Actions
-} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 
 export const setGameDataAction = (data) => ({
     type: `SET_GAME_DATA`,
@@ -46,32 +42,29 @@ export function* join({ id, data, players, completedMissions }) {
 
     yield all([
         fork(rsf.firestore.syncCollection, `games/${id}/players`, {
-                successActionCreator: ({ docs }) => {
-                    const players = docs.map((doc) => ({
-                        id: doc.id,
-                        ...doc.data(),
-                    }));
+            successActionCreator: ({ docs }) => {
+                const players = docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
 
-                    return setGamePlayersAction(players);
-                }
+                return setGamePlayersAction(players);
             },
-        ),
+        }),
         fork(rsf.firestore.syncCollection, `games/${id}/completedMissions`, {
-                successActionCreator: ({ docs }) => {
-                    const missions = docs.map((doc) => doc.data());
+            successActionCreator: ({ docs }) => {
+                const missions = docs.map((doc) => doc.data());
 
-                    return setGameCompletedMissionsAction(missions);
-                }
+                return setGameCompletedMissionsAction(missions);
             },
-        ),
+        }),
         fork(rsf.firestore.syncDocument, `games/${id}`, {
-                successActionCreator: (snapshot) => {
-                    const data = snapshot.data();
+            successActionCreator: (snapshot) => {
+                const data = snapshot.data();
 
-                    return setGameDataAction(data);
-                }
+                return setGameDataAction(data);
             },
-        )
+        }),
     ]);
 
     Actions[Game.key]();

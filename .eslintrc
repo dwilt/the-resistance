@@ -2,11 +2,10 @@
     "parser": "babel-eslint",
     "env": {
         "browser": true,
-        "jest": true,
+        "jest": true
     },
     "plugins": [
-        "react",
-        "react-native"
+        "react"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -53,6 +52,7 @@
         "pit": false
     },
     "rules": {
+        "indent": ["error", 4],               // disallow trailing commas in object literals
         "comma-dangle": ["error", "always-multiline"],               // disallow trailing commas in object literals
         "no-cond-assign":["error"],             // disallow assignment in conditional expressions
         "no-console":["error"],                 // disallow use of console (off by default in the node environment)
@@ -159,7 +159,7 @@
 
         "key-spacing":["off"],
         "keyword-spacing":["error"],            // enforce spacing before and after keywords
-        "jsx-quotes": ["error", "prefer-double"],
+        "jsx-quotes": ["error", "prefer-single"],
         "comma-spacing":["off"],
         "no-multi-spaces":["off"],
         "brace-style":["off"],                // enforce one true brace style (off by default)
@@ -191,26 +191,17 @@
         "one-var":["off"],                    // allow just one var statement per function (off by default)
         "wrap-regex":["off"],                 // require regex literals to be wrapped in parentheses (off by default)
 
-        // Legacy
-        // The following rules are included for compatibility with JSHint and JSLint. While the names of the rules may not match up with the JSHint/JSLint counterpart, the functionality is the same.
-
-        "max-depth":["off"],                  // specify the maximum depth that blocks can be nested (off by default)
-        "max-len":["off"],                    // specify the maximum length of a line in your program (off by default)
-        "max-params":["off"],                 // limits the number of parameters that can be used in the function declaration. (off by default)
-        "max-statements":["off"],             // specify the maximum number of statement allowed in a function (off by default)
-        "no-bitwise":["error"],                 // disallow use of bitwise operators (off by default)
-        "no-plusplus":["off"],                // disallow use of unary operators, ++ and -- (off by default)
-
         // React Plugin
         // The following rules are made available via `eslint-plugin-react`.
 
-        "react/display-name":["off"],
+        "react/display-name":["error"],
         "react/jsx-boolean-value":["off"],
         "react/jsx-no-duplicate-props":["error"],
         "react/jsx-no-undef":["error"],
         "react/jsx-sort-props":["off"],
         "react/jsx-uses-react":["error"],
         "react/jsx-uses-vars":["error"],
+        "react/jsx-curly-brace-presence":["error", { "props": "always" }],
         "react/no-did-mount-set-state":["off"],
         "react/no-did-update-set-state":["error"],
         "react/no-multi-comp":["off"],
@@ -221,8 +212,5 @@
         "react/self-closing-comp":["error"],
         "react/wrap-multilines":["off"],
 
-        "react-native/no-unused-styles":["error"],
-        "react-native/no-inline-styles":["error"],
-        "react-native/no-color-literals":["error"]
     }
 }

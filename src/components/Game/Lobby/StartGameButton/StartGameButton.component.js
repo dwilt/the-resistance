@@ -10,7 +10,7 @@ class GameCode extends Component {
     };
 
     render() {
-        return <ActionButton {...this.props}>{`Start Game`}</ActionButton>;
+        return <ActionButton {...this.props}>Start Game</ActionButton>;
     }
 }
 

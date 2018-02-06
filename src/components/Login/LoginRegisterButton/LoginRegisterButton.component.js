@@ -1,12 +1,8 @@
-import React, {
-    PureComponent,
-} from 'react';
+import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
-import {
-    ActionButton,
-} from 'components';
+import { ActionButton } from 'components';
 
 export default class LoginRegisterButton extends PureComponent {
     static propTypes = {
@@ -19,10 +15,7 @@ export default class LoginRegisterButton extends PureComponent {
         const { registering, ...rest } = this.props;
 
         return registering ? (
-            <ActionButton
-                {...rest}
-                theme={`teal`}
-            >
+            <ActionButton {...rest} theme={`teal`}>
                 {`Register`}
             </ActionButton>
         ) : null;

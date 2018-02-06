@@ -1,15 +1,7 @@
 {
   "tabWidth": 4,
   "semi": true,
-  "arrow-parens": "always",
+  "arrowParens": "always",
   "singleQuote": true,
-  "trailingComma": "all",
-  "overrides": [
-    {
-      "files": ".prettierrc",
-      "options": {
-        "parser": "json"
-      }
-    }
-  ]
+  "trailingComma": "all"
 }

@@ -1,12 +1,10 @@
 import { takeEvery, put, select, call, all, take } from 'redux-saga/effects';
 
-import { joinGameInputSelector, userIdSelector } from "selectors";
+import { joinGameInputSelector, userIdSelector } from 'selectors';
 
-import { db, fireFetch } from "services";
+import { db, fireFetch } from 'services';
 
-import {
-   join
-} from 'store/game/game.actions';
+import { join } from 'store/game/game.actions';
 
 export const setHomeErrorAction = (error) => ({
     type: `SET_HOME_ERROR`,
@@ -73,7 +71,6 @@ function* joinGame() {
     yield* join({ id, data, players, completedMissions });
 
     yield put(setIsJoiningGameAction(false));
-
 }
 
 function* createNewGame() {
@@ -81,9 +78,13 @@ function* createNewGame() {
 
     yield put(setIsCreatingGameAction(true));
 
-    const { id, data, players, completedMissions } = yield call(fireFetch, `createGame`, {
-        userId,
-    });
+    const { id, data, players, completedMissions } = yield call(
+        fireFetch,
+        `createGame`,
+        {
+            userId,
+        },
+    );
 
     yield* join({ id, data, players, completedMissions });
 

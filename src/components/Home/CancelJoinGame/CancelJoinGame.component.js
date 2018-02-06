@@ -10,6 +10,6 @@ export default class CancelJoinGame extends PureComponent {
     };
 
     render() {
-        return <ActionButton {...this.props}>{`Cancel`}</ActionButton>;
+        return <ActionButton {...this.props}>Cancel</ActionButton>;
     }
 }

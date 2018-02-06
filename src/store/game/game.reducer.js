@@ -11,13 +11,9 @@ import {
     setConfirmedPlayerIdentityAction,
 } from 'store/buildMissionTeam/buildMissionTeam.actions';
 
-import {
-    setProposedMissionTeamApprovalAction
-} from 'store/missionTeamVote/missionTeamVote.actions';
+import { setProposedMissionTeamApprovalAction } from 'store/missionTeamVote/missionTeamVote.actions';
 
-import {
-    setMissionPassesAction
-} from 'store/conductMission/conductMission.actions';
+import { setMissionPassesAction } from 'store/conductMission/conductMission.actions';
 
 import { createReducer } from 'helpers';
 
@@ -37,10 +33,14 @@ export default createReducer(
     {
         [setConfirmedPlayerIdentityAction().type]: (state, { userId }) => ({
             ...state,
-            players: state.players.map((player) => player.id === userId ? ({
-                    ...player,
-                    confirmedIdentity: true,
-                }) : player
+            players: state.players.map(
+                (player) =>
+                    player.id === userId
+                        ? {
+                            ...player,
+                            confirmedIdentity: true,
+                        }
+                        : player,
             ),
         }),
         [setMissionPassesAction().type]: (state, { userId, passes }) => ({
@@ -56,8 +56,10 @@ export default createReducer(
                 },
             },
         }),
-        [setProposedMissionTeamApprovalAction().type]: (state,
-                                                        { userId, approves },) => ({
+        [setProposedMissionTeamApprovalAction().type]: (
+            state,
+            { userId, approves },
+        ) => ({
             ...state,
             data: {
                 ...state.data,
@@ -89,13 +91,17 @@ export default createReducer(
             ...state,
             players,
         }),
-        [setGameCompletedMissionsAction().type]: (state,
-                                                  { completedMissions },) => ({
+        [setGameCompletedMissionsAction().type]: (
+            state,
+            { completedMissions },
+        ) => ({
             ...state,
             completedMissions,
         }),
-        [toggleMissionTeamMemberAction().type]: (state,
-                                                 { userId, selected },) => ({
+        [toggleMissionTeamMemberAction().type]: (
+            state,
+            { userId, selected },
+        ) => ({
             ...state,
             data: {
                 ...state.data,

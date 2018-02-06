@@ -40,8 +40,6 @@ export default class QuitButton extends PureComponent {
     };
 
     render() {
-        return (
-            <ActionButton onPress={this.quitGame}>{`Quit Game`}</ActionButton>
-        );
+        return <ActionButton onPress={this.quitGame}>Quit Game</ActionButton>;
     }
 }

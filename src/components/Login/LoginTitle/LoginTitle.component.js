@@ -1,18 +1,10 @@
-import React, {
-    PureComponent,
-} from 'react';
+import React, { PureComponent } from 'react';
 
-import {
-    View,
-    Image,
-    TouchableOpacity,
-} from 'react-native';
+import { View, Image, TouchableOpacity } from 'react-native';
 
 import PropTypes from 'prop-types';
 
-import {
-    Text,
-} from 'components';
+import { Text } from 'components';
 
 const missionLeaderBadge = require(`assets/images/mission-leader-icon.png`);
 
@@ -35,27 +27,21 @@ export default class LoginTitle extends PureComponent {
                     {`Already have an account?`}
                 </Text>
                 <TouchableOpacity onPress={toggleForm}>
-                    <Text style={styles.toggleFormButton}>{`Login`}</Text>
+                    <Text style={styles.toggleFormButton}>Login</Text>
                 </TouchableOpacity>
             </View>
         ) : (
             <View style={styles.subtitleContainer}>
-                <Text style={styles.subtitle}>
-                    {`Don't have an account?`}
-                </Text>
+                <Text style={styles.subtitle}>Don't have an account?</Text>
                 <TouchableOpacity onPress={toggleForm}>
-                    <Text style={styles.toggleFormButton}>{`Sign Up`}</Text>
+                    <Text style={styles.toggleFormButton}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
         );
 
-
         return (
             <View style={styles.container}>
-                <Image
-                    style={styles.badge}
-                    source={missionLeaderBadge}
-                />
+                <Image style={styles.badge} source={missionLeaderBadge} />
                 <Text style={styles.title}>{text}</Text>
                 {subtitle}
             </View>

@@ -26,36 +26,36 @@ class Game extends Component {
         let content = null;
 
         switch (state) {
-            case gameStates.LOBBY:
-                content = <Lobby />;
-                break;
+        case gameStates.LOBBY:
+            content = <Lobby />;
+            break;
 
-            case gameStates.BUILD_MISSION_TEAM:
-                content = <BuildMissionTeam />;
-                break;
+        case gameStates.BUILD_MISSION_TEAM:
+            content = <BuildMissionTeam />;
+            break;
 
-            case gameStates.MISSION_TEAM_VOTE:
-                content = <MissionTeamVote />;
-                break;
+        case gameStates.MISSION_TEAM_VOTE:
+            content = <MissionTeamVote />;
+            break;
 
-            case gameStates.MISSION_TEAM_VOTE_OUTCOME:
-                content = <MissionTeamVoteOutcome />;
-                break;
+        case gameStates.MISSION_TEAM_VOTE_OUTCOME:
+            content = <MissionTeamVoteOutcome />;
+            break;
 
-            case gameStates.CONDUCT_MISSION:
-                content = <ConductMission />;
-                break;
+        case gameStates.CONDUCT_MISSION:
+            content = <ConductMission />;
+            break;
 
-            case gameStates.MISSION_OUTCOME:
-                content = <MissionOutcome />;
-                break;
+        case gameStates.MISSION_OUTCOME:
+            content = <MissionOutcome />;
+            break;
 
-            case gameStates.COMPLETED:
-                content = <Completed />;
-                break;
+        case gameStates.COMPLETED:
+            content = <Completed />;
+            break;
 
-            default:
-                content = null;
+        default:
+            content = null;
         }
 
         return <Scene>{content}</Scene>;

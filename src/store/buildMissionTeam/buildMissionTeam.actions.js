@@ -1,8 +1,12 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 
-import { gameIdSelector, userIdSelector, proposedMissionTeamSelector } from "selectors";
+import {
+    gameIdSelector,
+    userIdSelector,
+    proposedMissionTeamSelector,
+} from 'selectors';
 
-import { fireFetch } from "services";
+import { fireFetch } from 'services';
 
 export const setConfirmedIdentityAction = (confirmedIdentity) => ({
     type: `SET_BUILD_MISSION_TEAM_CONFIRMED_IDENTITY`,
@@ -78,5 +82,8 @@ function* confirmPlayerIdentity() {
 export default function*() {
     yield takeEvery(confirmMissionTeamAction().type, confirmMissionTeam);
     yield takeEvery(confirmPlayerIdentityAction().type, confirmPlayerIdentity);
-    yield takeEvery(toggleMissionTeamMemberAction().type, updateProposedMissionTeam);
+    yield takeEvery(
+        toggleMissionTeamMemberAction().type,
+        updateProposedMissionTeam,
+    );
 }

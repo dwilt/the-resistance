@@ -29,16 +29,16 @@ export default class MissionTeamVote extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.content}>
-                    <Text style={styles.title}>{`Vote on Mission Team`}</Text>
-                    <Text style={styles.subtitle}>{`Keep this secret!`}</Text>
+                    <Text style={styles.title}>Vote on Mission Team</Text>
+                    <Text style={styles.subtitle}>Keep this secret!</Text>
                     <View style={styles.players}>
                         <MissionTeamVotePlayersList />
                     </View>
                     {submittedVote && (
                         <View style={styles.submittedVoteContainer}>
-                            <Text
-                                style={styles.submittedVote}
-                            >{`Vote submitted!`}</Text>
+                            <Text style={styles.submittedVote}>
+                                Vote submitted!
+                            </Text>
                             <ChangeVoteButton />
                         </View>
                     )}

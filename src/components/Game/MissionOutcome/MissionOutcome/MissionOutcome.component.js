@@ -49,7 +49,7 @@ export default class MissionOutcome extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.content}>
-                    <Text style={styles.title}>{`Mission Result`}</Text>
+                    <Text style={styles.title}>Mission Result</Text>
                     {subtitle}
                     <View style={styles.innerContent}>
                         <Text style={styles.resultTitle}>

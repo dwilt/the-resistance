@@ -10,12 +10,6 @@ export default class LogoutButton extends PureComponent {
     };
 
     render() {
-        return (
-            <ActionButton
-                {...this.props}
-            >
-                {`Logout`}
-            </ActionButton>
-        );
+        return <ActionButton {...this.props}>Logout</ActionButton>;
     }
 }

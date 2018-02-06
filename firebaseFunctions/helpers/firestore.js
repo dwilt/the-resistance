@@ -1,5 +1,5 @@
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+const functions = require(`firebase-functions`);
+const admin = require(`firebase-admin`);
 
 admin.initializeApp(functions.config().firebase);
 
@@ -48,7 +48,7 @@ export async function getPlayers(gameId) {
 
     return docs.map((doc) => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data(),
     }));
 }
 
@@ -61,7 +61,7 @@ export async function addPlayer(gameId, userId, name) {
         .doc(userId);
 
     return newPlayer.set({
-        name
+        name,
     });
 }
 
@@ -114,7 +114,7 @@ export async function getCompletedMissions(gameId) {
 
     return docs.map((doc) => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data(),
     }));
 }
 

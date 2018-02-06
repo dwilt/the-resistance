@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import {
-   View,
-} from 'react-native';
+import { View } from 'react-native';
 
 import {
     LoginEmail,
@@ -22,13 +20,13 @@ class Login extends PureComponent {
         return (
             <Scene>
                 <View style={styles.container}>
-                    <LoginTitle/>
-                    <LoginError/>
-                    <LoginEmail/>
-                    <LoginPassword/>
-                    <LoginName/>
-                    <LoginRegisterButton/>
-                    <LoginSubmitButton/>
+                    <LoginTitle />
+                    <LoginError />
+                    <LoginEmail />
+                    <LoginPassword />
+                    <LoginName />
+                    <LoginRegisterButton />
+                    <LoginSubmitButton />
                 </View>
             </Scene>
         );

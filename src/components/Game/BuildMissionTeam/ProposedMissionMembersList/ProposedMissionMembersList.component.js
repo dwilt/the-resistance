@@ -41,7 +41,7 @@ class ProposedMissionMembersList extends Component {
                 {players.map(({ name, id, selected }, i) => {
                     const disabled = isSyncing || (filled && !selected);
                     const selectedText = selected &&
-                        !isLeader && <Text>{`(selected)`}</Text>;
+                        !isLeader && <Text>(selected)</Text>;
                     const playerNameStyles = [styles.playerName];
 
                     if (selected) {

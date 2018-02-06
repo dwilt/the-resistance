@@ -31,9 +31,7 @@ export default class ConductMission extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.content}>
-                    <Text
-                        style={styles.title}
-                    >{`Vote On Mission Success`}</Text>
+                    <Text style={styles.title}>Vote On Mission Success</Text>
                     <Text style={styles.subtitle}>{subtitle}</Text>
                     <ConductMissionPlayersList />
                     {canVote && (
@@ -51,16 +49,16 @@ export default class ConductMission extends Component {
                                     <View style={styles.submitButton}>
                                         <SubmitMissionVoteButton />
                                     </View>
-                                    <Text
-                                        style={styles.allyWarning}
-                                    >{`Allies cannot fail a mission`}</Text>
+                                    <Text style={styles.allyWarning}>
+                                        Allies cannot fail a mission
+                                    </Text>
                                 </View>
                             )}
                             {submittedVote && (
                                 <View style={styles.submittedVoteContainer}>
-                                    <Text
-                                        style={styles.submittedVote}
-                                    >{`Vote Submitted!`}</Text>
+                                    <Text style={styles.submittedVote}>
+                                        Vote Submitted!
+                                    </Text>
                                 </View>
                             )}
                         </View>

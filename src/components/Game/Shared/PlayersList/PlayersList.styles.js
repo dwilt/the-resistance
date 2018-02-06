@@ -1,6 +1,13 @@
 import { StyleSheet } from 'react-native';
 
-import { openSans, gutter, windowWidth, yellow, white, getUniversalFont } from 'styles';
+import {
+    openSans,
+    gutter,
+    windowWidth,
+    yellow,
+    white,
+    getUniversalFont,
+} from 'styles';
 
 const playerWidth = (windowWidth - gutter * 3) / 2;
 

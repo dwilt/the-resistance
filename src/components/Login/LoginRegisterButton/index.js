@@ -1,1 +1,3 @@
-export { default as LoginRegisterButton } from './LoginRegisterButton.container';
+export {
+    default as LoginRegisterButton,
+} from './LoginRegisterButton.container';

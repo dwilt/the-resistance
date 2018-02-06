@@ -4,14 +4,12 @@ import { missionTeamSubmittedVoteSelector, isHostSelector } from 'selectors';
 
 import MissionTeamVote from './MissionTeamVote.component';
 
-export default connect(
-    (state) => {
-        const submittedVote = missionTeamSubmittedVoteSelector(state);
-        const isHost = isHostSelector(state);
+export default connect((state) => {
+    const submittedVote = missionTeamSubmittedVoteSelector(state);
+    const isHost = isHostSelector(state);
 
-        return {
-            submittedVote,
-            isHost,
-        };
-    }
-)(MissionTeamVote);
+    return {
+        submittedVote,
+        isHost,
+    };
+})(MissionTeamVote);

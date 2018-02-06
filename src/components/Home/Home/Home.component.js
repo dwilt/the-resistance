@@ -33,7 +33,7 @@ class Home extends Component {
                     </View>
                     <JoinExistingGameButton />
                     <CreateGameButton />
-                    <LogoutButton/>
+                    <LogoutButton />
                 </View>
                 <JoinGameOverlay />
             </Scene>

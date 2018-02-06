@@ -101,7 +101,7 @@ export default class PlayerIdentityReveal extends Component {
                     <View style={styles.identityCard}>
                         <PlayerCard isSpy={isSpy} />
                     </View>
-                    <ActionButton onPress={onConfirm}>{`Got It!`}</ActionButton>
+                    <ActionButton onPress={onConfirm}>Got It!</ActionButton>
                 </View>
             );
         } else if (countdownCount) {
@@ -109,9 +109,9 @@ export default class PlayerIdentityReveal extends Component {
         } else {
             content = (
                 <View>
-                    <Text
-                        style={styles.subtitle}
-                    >{`Check the box to confirm you’re phone is hidden`}</Text>
+                    <Text style={styles.subtitle}>
+                        Check the box to confirm you’re phone is hidden
+                    </Text>
                     <View style={styles.aloneCheckbox}>
                         <Checkbox
                             checked={confirmedAlone}

@@ -10,6 +10,6 @@ export default class CreateGameButton extends PureComponent {
     };
 
     render() {
-        return <ActionButton {...this.props}>{`Host New Game`}</ActionButton>;
+        return <ActionButton {...this.props}>Host New Game</ActionButton>;
     }
 }

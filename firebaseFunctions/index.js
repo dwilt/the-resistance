@@ -1,4 +1,4 @@
-const functions = require('firebase-functions');
+const functions = require(`firebase-functions`);
 
 import {
     quitGame,
@@ -34,9 +34,9 @@ function functionCreator(method) {
                 error.code && error.message
                     ? error
                     : {
-                          code: `STANDARD_ERROR`,
-                          message: `Fuck. There was some kind of unexpected error and we're on it!`,
-                      };
+                        code: `STANDARD_ERROR`,
+                        message: `Fuck. There was some kind of unexpected error and we're on it!`,
+                    };
 
             res
                 .type(`json`)

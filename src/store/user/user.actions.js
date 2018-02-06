@@ -6,11 +6,11 @@ import { buffers, eventChannel } from 'redux-saga';
 
 import { call, take, put, takeEvery } from 'redux-saga/effects';
 
-import { db } from "services";
+import { db } from 'services';
 
-import { Actions } from "react-native-router-flux";
+import { Actions } from 'react-native-router-flux';
 
-import { Login } from "components";
+import { Login } from 'components';
 
 export const setUserAction = (user) => ({
     type: `SET_USER`,
@@ -108,7 +108,7 @@ function* register({ payload: { email, password, name } }) {
     }
 }
 
-export default function* () {
+export default function*() {
     const channel = yield call(rsf.auth.channel);
 
     yield takeEvery(getLoginAction().type, login);

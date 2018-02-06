@@ -35,24 +35,24 @@ export default class Completed extends Component {
         let title = null;
 
         switch (victoryType) {
-            case victoryTypes.ALLIES_COMPLETED_MISSIONS:
-                title = `Mission Passed!`;
-                break;
+        case victoryTypes.ALLIES_COMPLETED_MISSIONS:
+            title = `Mission Passed!`;
+            break;
 
-            case victoryTypes.SPIES_COMPLETED_MISSIONS:
-                title = `Mission Failed!`;
-                break;
+        case victoryTypes.SPIES_COMPLETED_MISSIONS:
+            title = `Mission Failed!`;
+            break;
 
-            case victoryTypes.SPIES_PREVENTED_MISSION_TEAM:
-                title = `5 mission teams rejected!`;
-                break;
+        case victoryTypes.SPIES_PREVENTED_MISSION_TEAM:
+            title = `5 mission teams rejected!`;
+            break;
         }
 
         return (
             <View style={styles.container}>
                 <View style={styles.content}>
                     <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.subtitle}>{`Game Over`}</Text>
+                    <Text style={styles.subtitle}>Game Over</Text>
                     <View style={styles.playerCard}>
                         <PlayerCard isSpy={!alliesWon} />
                     </View>
@@ -62,8 +62,8 @@ export default class Completed extends Component {
                     <Text
                         style={styles.spiesText}
                     >{`Spies: ${createCommaSentenceFromArray(
-                        spiesNames,
-                    )}`}</Text>
+                            spiesNames,
+                        )}`}</Text>
                 </View>
                 <GameFooter />
             </View>

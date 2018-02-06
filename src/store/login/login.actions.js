@@ -1,12 +1,6 @@
-import {
-    put,
-    select,
-    takeEvery,
-} from 'redux-saga/effects';
+import { put, select, takeEvery } from 'redux-saga/effects';
 
-import {
-    Keyboard,
-} from 'react-native';
+import { Keyboard } from 'react-native';
 
 import {
     getLoginAction,
@@ -19,15 +13,15 @@ import {
 } from 'store/user/user.actions';
 
 import {
-   loginEmailSelector,
-   loginPasswordSelector,
+    loginEmailSelector,
+    loginPasswordSelector,
     loginNameSelector,
     loginShowingRegisterFormSelector,
 } from 'selectors';
 
-import { Home } from "components";
+import { Home } from 'components';
 
-import { Actions } from "react-native-router-flux";
+import { Actions } from 'react-native-router-flux';
 
 export const setPasswordAction = (password) => ({
     type: `SET_LOGIN_PASSWORD`,
@@ -95,11 +89,13 @@ function* registerOnPress() {
     const password = yield select(loginPasswordSelector);
     const name = yield select(loginNameSelector);
 
-    yield put(getRegisterAction({
-        email,
-        password,
-        name,
-    }));
+    yield put(
+        getRegisterAction({
+            email,
+            password,
+            name,
+        }),
+    );
 }
 
 function* loginOnPress() {
@@ -153,7 +149,7 @@ function* toggleForm() {
     }
 }
 
-export default function* () {
+export default function*() {
     // yield takeEvery(setEmailAction().type, validateEmail);
     //
     // yield takeEvery([

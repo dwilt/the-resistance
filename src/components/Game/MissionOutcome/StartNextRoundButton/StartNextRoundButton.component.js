@@ -12,10 +12,9 @@ export default class StartNextRoundButton extends PureComponent {
 
     render() {
         return (
-            <ActionButton
-                {...this.props}
-                theme={`teal`}
-            >{`Start Next Round`}</ActionButton>
+            <ActionButton {...this.props} theme={`teal`}>
+                Start Next Round
+            </ActionButton>
         );
     }
 }

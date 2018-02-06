@@ -63,7 +63,7 @@ export default class MissionTeamVoteOutcome extends PureComponent {
         return (
             <View style={styles.container}>
                 <View style={styles.content}>
-                    <Text style={styles.title}>{`Mission Team Result`}</Text>
+                    <Text style={styles.title}>Mission Team Result</Text>
                     {subtitle}
                     <View style={styles.innerContent}>
                         <Text style={styles.resultTitle}>

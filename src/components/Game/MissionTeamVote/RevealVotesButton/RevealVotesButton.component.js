@@ -13,10 +13,9 @@ export default class RevealVotesButton extends PureComponent {
 
     render() {
         return (
-            <ActionButton
-                {...this.props}
-                theme={`teal`}
-            >{`Reveal Outcome`}</ActionButton>
+            <ActionButton {...this.props} theme={`teal`}>
+                Reveal Outcome
+            </ActionButton>
         );
     }
 }

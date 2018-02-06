@@ -59,9 +59,7 @@ export default class BuildMissionTeam extends Component {
                 {playerConfirmedIdentity && (
                     <View style={styles.content}>
                         <View style={styles.content}>
-                            <Text
-                                style={styles.title}
-                            >{`Build Mission Team`}</Text>
+                            <Text style={styles.title}>Build Mission Team</Text>
                             {subtitle}
                             <BuildMissionTeamPlayersList />
                             {isLeader && (

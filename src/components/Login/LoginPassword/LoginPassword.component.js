@@ -1,12 +1,8 @@
-import React, {
-    PureComponent,
-} from 'react';
+import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
-import {
-    TextInput,
-} from 'components';
+import { TextInput } from 'components';
 
 export default class LoginPassword extends PureComponent {
     static propTypes = {
@@ -15,11 +11,6 @@ export default class LoginPassword extends PureComponent {
     };
 
     render() {
-        return (
-            <TextInput
-                {...this.props}
-                label={`Password`}
-            />
-        );
+        return <TextInput {...this.props} label={`Password`} />;
     }
 }

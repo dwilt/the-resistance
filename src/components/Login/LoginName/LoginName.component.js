@@ -1,12 +1,8 @@
-import React, {
-    PureComponent,
-} from 'react';
+import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
-import {
-    TextInput,
-} from 'components';
+import { TextInput } from 'components';
 
 export default class LoginName extends PureComponent {
     static propTypes = {
@@ -18,12 +14,6 @@ export default class LoginName extends PureComponent {
     render() {
         const { show, ...rest } = this.props;
 
-
-        return show ? (
-            <TextInput
-                {...rest}
-                label={`Name`}
-            />
-        ) : null;
+        return show ? <TextInput {...rest} label={`Name`} /> : null;
     }
 }

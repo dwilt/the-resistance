@@ -28,9 +28,9 @@ class Lobby extends Component {
                     </View>
                 )}
                 {!isHost && (
-                    <Text
-                        style={styles.waitingForHost}
-                    >{`Waiting for the host to start the game...`}</Text>
+                    <Text style={styles.waitingForHost}>
+                        Waiting for the host to start the game...
+                    </Text>
                 )}
             </View>
         );

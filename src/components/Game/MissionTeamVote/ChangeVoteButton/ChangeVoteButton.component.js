@@ -17,7 +17,7 @@ export default class ChangeVoteButton extends PureComponent {
         return (
             <TouchableOpacity {...this.props} style={styles.container}>
                 <View style={styles.textContainer}>
-                    <Text style={styles.text}>{`Change Vote`}</Text>
+                    <Text style={styles.text}>Change Vote</Text>
                 </View>
             </TouchableOpacity>
         );

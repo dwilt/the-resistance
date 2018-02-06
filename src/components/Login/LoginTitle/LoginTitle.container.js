@@ -1,23 +1,20 @@
-import {
-    connect,
-} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {
-    loginShowingRegisterFormSelector,
-} from 'selectors';
+import { loginShowingRegisterFormSelector } from 'selectors';
 
-import {
-    getToggleLoginRegisterAction as toggleForm,
-} from 'store/login/login.actions';
+import { getToggleLoginRegisterAction as toggleForm } from 'store/login/login.actions';
 
 import LoginTitle from './LoginTitle.component';
 
-export default connect(state => {
-    const isRegistering = loginShowingRegisterFormSelector(state);
+export default connect(
+    (state) => {
+        const isRegistering = loginShowingRegisterFormSelector(state);
 
-    return {
-        isRegistering,
-    };
-}, {
-    toggleForm,
-})(LoginTitle);
+        return {
+            isRegistering,
+        };
+    },
+    {
+        toggleForm,
+    },
+)(LoginTitle);

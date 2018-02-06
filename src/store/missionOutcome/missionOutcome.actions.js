@@ -1,8 +1,8 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 
-import { gameIdSelector } from "selectors";
+import { gameIdSelector } from 'selectors';
 
-import { fireFetch } from "services";
+import { fireFetch } from 'services';
 
 export const setIsStartingNextRoundAction = (isStartingNextRound) => ({
     type: `SET_MISSION_OUTCOME_IS_STARTING_NEXT_ROUND`,
