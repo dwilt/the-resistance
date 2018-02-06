@@ -18,7 +18,7 @@ import styles from './Login.styles';
 class Login extends PureComponent {
     render() {
         return (
-            <Scene>
+            <Scene showMenuToggle={false}>
                 <View style={styles.container}>
                     <LoginTitle />
                     <LoginError />

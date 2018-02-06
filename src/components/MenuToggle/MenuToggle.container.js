@@ -1,11 +1,15 @@
 import { connect } from 'react-redux';
 
-import {} from 'selectors';
+import { menuIsOpenSelector } from 'selectors';
 
-import {} from 'store/';
+import { getToggleMenuAction as onPress } from 'store/menu/menu.actions';
 
 import MenuToggle from './MenuToggle.component';
 
-export default connect((state) => {
-    return {};
-}, {})(MenuToggle);
+export default connect(
+    (state) => {
+        const isOpen = menuIsOpenSelector(state);
+        return { isOpen };
+    },
+    { onPress },
+)(MenuToggle);

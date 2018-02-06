@@ -11,7 +11,10 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         position: `relative`,
-        paddingTop: statusBarHeight,
+    },
+    menu: {
+        flexDirection: `row`,
+        justifyContent: `flex-end`,
     },
     bgContainer: {
         ...centerChildren(),

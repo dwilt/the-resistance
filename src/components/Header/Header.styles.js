@@ -1,14 +1,12 @@
 import { StyleSheet } from 'react-native';
 
-import { minTouchSize, white, getUniversalFont, gutter } from 'styles';
+import { getUniversalFont, gutter } from 'styles';
 
 const iconSize = gutter * 1.5;
 
-export const menuIconSize = iconSize;
-export const menuIconColor = white;
-
 export default StyleSheet.create({
     container: {
+        paddingLeft: gutter,
         flexDirection: `row`,
         justifyContent: `space-between`,
         alignItems: `center`,

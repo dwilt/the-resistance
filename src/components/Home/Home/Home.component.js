@@ -10,7 +10,6 @@ import {
     JoinGameOverlay,
     HomeError,
     LogoutButton,
-    Header,
 } from 'components';
 
 import styles from './Home.styles';
@@ -22,7 +21,6 @@ class Home extends Component {
         return (
             <Scene>
                 <View style={styles.container}>
-                    <Header />
                     <HomeError />
                     <View style={styles.logoContainer}>
                         <Image source={logo} style={styles.logo} />

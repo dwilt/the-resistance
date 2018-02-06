@@ -11,6 +11,7 @@ export * from './Home';
 export * from './ImageButton';
 export * from './Login';
 export * from './LogoutButton';
+export * from './Menu';
 export * from './MenuToggle';
 export * from './PassedMissionCard';
 export * from './PlayerCard';

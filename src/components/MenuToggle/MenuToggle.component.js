@@ -1,28 +1,32 @@
 import React, { PureComponent } from 'react';
 
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import PropTypes from 'prop-types';
 
-import { iconSize, iconColor } from './MenuToggle.styles';
+import styles, { iconSize, iconColor } from './MenuToggle.styles';
 
 export default class MenuToggle extends PureComponent {
     static propTypes = {
-        open: PropTypes.bool.isRequired,
+        isOpen: PropTypes.bool.isRequired,
         onPress: PropTypes.func.isRequired,
     };
 
     render() {
-        const { open, onPress } = this.props;
+        const { isOpen, onPress } = this.props;
 
-        const icon = open ? (
+        const icon = isOpen ? (
             <Icon name={`times`} size={iconSize} color={iconColor} />
         ) : (
             <Icon name={`bars`} size={iconSize} color={iconColor} />
         );
 
-        return <TouchableOpacity onPress={onPress}>{icon}</TouchableOpacity>;
+        return (
+            <TouchableOpacity onPress={onPress}>
+                <View style={styles.container}>{icon}</View>
+            </TouchableOpacity>
+        );
     }
 }
