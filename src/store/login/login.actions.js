@@ -150,15 +150,7 @@ function* toggleForm() {
 }
 
 export default function*() {
-    // yield takeEvery(setEmailAction().type, validateEmail);
-    //
-    // yield takeEvery([
-    //     setEmailAction().type,
-    //     setPasswordAction().type,
-    // ], validateForm);
-
     yield takeEvery(getLoginOnPressAction().type, loginOnPress);
-    // yield takeEvery(getForgotPasswordOnPressAction().type, forgotPasswordOnPress);
     yield takeEvery(getRegisterOnPressAction().type, registerOnPress);
     yield takeEvery(getUserRegisteringAction().type, registering);
     yield takeEvery(getUserRegisteredAction().type, registered);
