@@ -3,8 +3,8 @@ import {
 } from 'store/missionTeamVote/missionTeamVote.actions';
 
 import { call, put, select, takeEvery } from 'redux-saga/effects';
-import { gameIdSelector } from "../../selectors";
-import { fireFetch } from "../../services";
+import { gameIdSelector } from "selectors";
+import { fireFetch } from "services";
 
 export const setIsConductingAction = (isConducting) => ({
     type: `SET_MISSION_TEAM_VOTE_OUTCOME_IS_CONDUCTING`,

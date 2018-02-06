@@ -1,8 +1,8 @@
 import { takeEvery, put, select, call, all, take } from 'redux-saga/effects';
 
-import { joinGameInputSelector, userIdSelector } from "../../selectors";
+import { joinGameInputSelector, userIdSelector } from "selectors";
 
-import { db, fireFetch } from "../../services";
+import { db, fireFetch } from "services";
 
 import {
    join

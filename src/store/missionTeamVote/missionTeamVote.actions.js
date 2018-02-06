@@ -1,6 +1,6 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
-import { approvesProposedMissionTeamSelector, gameIdSelector, userIdSelector } from "../../selectors";
-import { fireFetch } from "../../services";
+import { approvesProposedMissionTeamSelector, gameIdSelector, userIdSelector } from "selectors";
+import { fireFetch } from "services";
 
 export const setCastVoteAction = (castVote) => ({
     type: `SET_MISSION_TEAM_VOTE_CAST_VOTE`,
