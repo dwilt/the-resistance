@@ -1,0 +1,10 @@
+app_identifier "com.sixtyfourinteractive.theresistance" # The bundle identifier of your app
+apple_id "dwilt4rville@gmail.com" # Your Apple email address
+
+itc_team_id "117749437" # iTunes Connect Team ID
+team_id "YH4U5ZQJ98" # Developer Portal Team ID
+itc_team_id "117749437" # iTunes Connect Team ID
+team_id "YH4U5ZQJ98" # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
