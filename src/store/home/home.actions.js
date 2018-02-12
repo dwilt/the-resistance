@@ -57,21 +57,27 @@ function* joinGame() {
     const userId = yield select(userIdSelector);
     const gameCode = yield select(joinGameInputSelector);
 
-    yield put(setIsJoiningGameAction(true));
+    try {
+        yield put(setHomeErrorAction(null));
+        yield put(setIsJoiningGameAction(true));
 
-    const { id, data, players, completedMissions } = yield call(
-        fireFetch,
-        `joinGame`,
-        {
-            gameCode,
-            userId,
-        },
-    );
+        const { id, data, players, completedMissions } = yield call(
+            fireFetch,
+            `joinGame`,
+            {
+                gameCode,
+                userId,
+            },
+        );
 
-    yield* join({ id, data, players, completedMissions });
+        yield* join({ id, data, players, completedMissions });
 
-    yield put(hideJoinOverlayAction());
-    yield put(setIsJoiningGameAction(false));
+        yield put(hideJoinOverlayAction());
+    } catch ({ message }) {
+        yield put(setHomeErrorAction(message));
+    } finally {
+        yield put(setIsJoiningGameAction(false));
+    }
 }
 
 function* createNewGame() {

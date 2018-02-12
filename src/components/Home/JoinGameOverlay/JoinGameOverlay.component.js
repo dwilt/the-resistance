@@ -4,7 +4,12 @@ import { View } from 'react-native';
 
 import PropTypes from 'prop-types';
 
-import { JoinGameInput, JoinGameButton, CancelJoinGame } from 'components';
+import {
+    JoinGameInput,
+    JoinGameButton,
+    CancelJoinGame,
+    HomeError,
+} from 'components';
 
 import styles from './JoinGameOverlay.styles';
 
@@ -18,6 +23,7 @@ export default class JoinGameOverlay extends PureComponent {
 
         return show ? (
             <View style={styles.container}>
+                <HomeError />
                 <View style={styles.joinCodeInput}>
                     <JoinGameInput />
                 </View>

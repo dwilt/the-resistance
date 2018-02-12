@@ -21,7 +21,6 @@ class Home extends Component {
         return (
             <Scene>
                 <View style={styles.container}>
-                    <HomeError />
                     <View style={styles.logoContainer}>
                         <Image source={logo} style={styles.logo} />
                     </View>

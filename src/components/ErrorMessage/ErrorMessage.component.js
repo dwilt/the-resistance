@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 
+import { View } from 'react-native';
+
 import PropTypes from 'prop-types';
 
 import { Text } from 'components';
@@ -14,6 +16,10 @@ export default class ErrorMessage extends PureComponent {
     render() {
         const { error } = this.props;
 
-        return error ? <Text style={styles.error}>{error}</Text> : null;
+        return error ? (
+            <View style={styles.container}>
+                <Text style={styles.error}>{error}</Text>
+            </View>
+        ) : null;
     }
 }

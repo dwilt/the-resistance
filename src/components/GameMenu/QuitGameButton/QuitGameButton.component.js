@@ -11,10 +11,9 @@ export default class QuitGameButton extends PureComponent {
 
     render() {
         return (
-            <ActionButton
-                {...this.props}
-                theme={`teal`}
-            >Quit Game</ActionButton>
+            <ActionButton {...this.props} theme={`teal`}>
+                Quit Game
+            </ActionButton>
         );
     }
 }
