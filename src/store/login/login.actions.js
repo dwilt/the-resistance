@@ -99,6 +99,8 @@ function* registerOnPress() {
     const password = yield select(loginPasswordSelector);
     const name = yield select(loginNameSelector);
 
+    yield put(getUserLoginError(null));
+
     yield put(
         getRegisterAction({
             email,
@@ -146,6 +148,7 @@ function* loggedIn() {
 
 function* loginError({ payload: { error } }) {
     yield put(setIsLoggingInAction(false));
+    yield put(setIsRegisteringAction(false));
     yield put(setErrorAction(error));
 }
 

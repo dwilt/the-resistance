@@ -8,6 +8,7 @@ export default class LoginSubmitButton extends PureComponent {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
+        disabled: PropTypes.bool.isRequired,
         registering: PropTypes.bool.isRequired,
     };
 
