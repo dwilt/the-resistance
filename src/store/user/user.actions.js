@@ -75,7 +75,7 @@ export const setIsLoggedInAction = (isLoggedIn) => ({
 });
 
 function* logout() {
-    Actions.reset();
+    Actions[Login.key]();
 
     yield call(rsf.auth.signOut);
 }
