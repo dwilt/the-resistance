@@ -8,30 +8,39 @@ import {
     openSans,
     gutter,
     subtitle,
+    windowWidth
 } from 'styles';
+
+const stampWidth = windowWidth - (gutter * 4);
+const stampHeight = stampWidth * .450920245;
 
 export default StyleSheet.create({
     container: {
         flex: 1,
     },
     content: {
-        flex: 1,
-    },
-    title: {
-        ...yellowTitle,
-    },
-    subtitle: {
-        ...subtitle,
-    },
-    innerContent: {
         ...centerChildren(true),
         flex: 1,
     },
-    resultTitle: {
-        ...getUniversalFont(3),
-        color: yellow,
-        fontFamily: openSans.boldItalic,
+    playersListContainer: {
+        position: `relative`,
         marginBottom: gutter,
+        marginLeft: gutter * 2,
+        marginRight: gutter * 2,
+    },
+    playersList: {
+        ...centerChildren(),
+        position: `absolute`,
+        left: gutter,
+        top: 0,
+        right: gutter,
+        bottom: 0,
+        opacity: 0.3,
+    },
+    stamp: {
+        resizeMode: `contain`,
+        width: stampWidth,
+        height: stampHeight
     },
     cards: {
         flexDirection: `row`,

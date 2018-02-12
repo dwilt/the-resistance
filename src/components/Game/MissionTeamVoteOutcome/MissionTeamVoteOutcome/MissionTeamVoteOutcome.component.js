@@ -7,11 +7,15 @@ import {
     SelectNewLeaderButton,
     RejectMissionTeamCard,
     ApproveMissionTeamCard,
-} from 'components/index';
+    MissionTeamVotePlayersList,
+} from 'components';
 
 import PropTypes from 'prop-types';
 
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
+
+const approvedStamp = require(`assets/images/mission-team-approved-stamp.png`);
+const rejectedStamp = require(`assets/images/mission-team-rejected-stamp.png`);
 
 import styles from './MissionTeamVoteOutcome.styles';
 
@@ -31,19 +35,7 @@ export default class MissionTeamVoteOutcome extends PureComponent {
             isHost,
         } = this.props;
 
-        let subtitleText = null;
-
-        if (!isHost) {
-            subtitleText = approved
-                ? `Host will start mission phase`
-                : `Waiting for host`;
-        }
-
-        const subtitle = subtitleText && (
-            <Text style={styles.subtitle}>{subtitleText}</Text>
-        );
-
-        const resultTitle = approved ? `approved` : `rejected`;
+        const stamp = approved ? approvedStamp : rejectedStamp;
 
         const conductMissionButton = approved &&
             isHost && <ConductMissionButton />;
@@ -63,29 +55,28 @@ export default class MissionTeamVoteOutcome extends PureComponent {
         return (
             <View style={styles.container}>
                 <View style={styles.content}>
-                    <Text style={styles.title}>Mission Team Result</Text>
-                    {subtitle}
-                    <View style={styles.innerContent}>
-                        <Text style={styles.resultTitle}>
-                            {resultTitle.toUpperCase()}
-                        </Text>
-                        <View style={styles.cards}>
-                            <View style={styles.firstCard}>
-                                <ApproveMissionTeamCard />
-                                <Text style={approvedNumberStyles}>
-                                    {totalApprovedVotes}
-                                </Text>
-                            </View>
-                            <View>
-                                <RejectMissionTeamCard />
-                                <Text style={rejectedNumberStyles}>
-                                    {totalRejectedVotes}
-                                </Text>
-                            </View>
+                    <View style={styles.playersListContainer}>
+                        <View style={styles.playersList}>
+                            <MissionTeamVotePlayersList />
                         </View>
-                        {conductMissionButton}
-                        {startNextRoundButton}
+                        <Image style={styles.stamp} source={stamp} />
                     </View>
+                    <View style={styles.cards}>
+                        <View style={styles.firstCard}>
+                            <ApproveMissionTeamCard width={50} />
+                            <Text style={approvedNumberStyles}>
+                                {totalApprovedVotes}
+                            </Text>
+                        </View>
+                        <View>
+                            <RejectMissionTeamCard width={50} />
+                            <Text style={rejectedNumberStyles}>
+                                {totalRejectedVotes}
+                            </Text>
+                        </View>
+                    </View>
+                    {conductMissionButton}
+                    {startNextRoundButton}
                 </View>
                 <GameFooter />
             </View>

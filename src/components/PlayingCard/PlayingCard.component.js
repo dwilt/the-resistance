@@ -4,14 +4,29 @@ import PropTypes from 'prop-types';
 
 import { Image } from 'react-native';
 
-import styles from './PlayingCard.styles';
+import { cardWidth, getCardHeight } from './PlayingCard.styles';
 
 export default class PlayingCard extends PureComponent {
     static propTypes = {
         source: PropTypes.number.isRequired,
+        width: PropTypes.number.isRequired,
+    };
+
+    static defaultProps = {
+        width: cardWidth,
     };
 
     render() {
-        return <Image {...this.props} style={styles.image} />;
+        const { width } = this.props;
+
+        return (
+            <Image
+                {...this.props}
+                style={{
+                    width,
+                    height: getCardHeight(width),
+                }}
+            />
+        );
     }
 }
