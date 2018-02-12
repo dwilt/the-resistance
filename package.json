@@ -25,7 +25,7 @@
     "deploy:functions": "yarn run package:functions; firebase deploy",
     "package:functions": "babel firebaseFunctions --out-dir functions --copy-files --ignore firebaseFunctions/node_modules",
     "postinstall": "rm ./node_modules/react-native/local-cli/core/fixtures/files/package.json; rm ./node_modules/react-native/local-cli/core/__fixtures__/files/package.json;",
-    "upload-to-test-flight": "cd ios; FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=khqj-ovuq-cvsv-blng fastlane beta;"
+    "upload-to-test-flight": "cd ios; fastlane beta;"
   },
   "jest": {
     "preset": "jest-expo"
