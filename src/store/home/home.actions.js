@@ -83,20 +83,23 @@ function* joinGame() {
 function* createNewGame() {
     const userId = yield select(userIdSelector);
 
-    yield put(setIsCreatingGameAction(true));
+    try {
+        yield put(setIsCreatingGameAction(true));
 
-    const { id, data, players, completedMissions } = yield call(
-        fireFetch,
-        `createGame`,
-        {
-            userId,
-        },
-    );
+        const { id, data, players, completedMissions } = yield call(
+            fireFetch,
+            `createGame`,
+            {
+                userId,
+            },
+        );
 
-    yield* join({ id, data, players, completedMissions });
+        yield* join({ id, data, players, completedMissions });
+    } catch({ message }) {
 
-    yield put(hideJoinOverlayAction());
-    yield put(setIsCreatingGameAction(true));
+    } finally {
+        yield put(setIsCreatingGameAction(false));
+    }
 }
 
 export default function*() {
