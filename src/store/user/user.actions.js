@@ -8,6 +8,8 @@ import { Actions } from 'react-native-router-flux';
 
 import { Login } from 'components';
 
+import SplashScreen from 'react-native-splash-screen';
+
 import { runAfterInteractions } from 'services';
 
 import { userSelector } from 'selectors';
@@ -153,5 +155,9 @@ export default function*() {
             yield put(getUserLoggedOutAction());
             yield put(setIsLoggedInAction(false));
         }
+
+        yield call(runAfterInteractions);
+
+        yield call(setTimeout, SplashScreen.hide, 200);
     }
 }
