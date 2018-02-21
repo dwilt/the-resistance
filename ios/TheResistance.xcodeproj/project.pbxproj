@@ -1473,7 +1473,7 @@
 				CODE_SIGN_ENTITLEMENTS = TheResistance/TheResistance.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Dan Wilt (WSUM88KWQ5)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 16;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YH4U5ZQJ98;
 				DISPLAY_NAME = "The Resistance";
@@ -1505,7 +1505,7 @@
 				CODE_SIGN_ENTITLEMENTS = TheResistance/TheResistance.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dan Wilt (YH4U5ZQJ98)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = YH4U5ZQJ98;
 				DISPLAY_NAME = "The Resistance";
 				HEADER_SEARCH_PATHS = (
