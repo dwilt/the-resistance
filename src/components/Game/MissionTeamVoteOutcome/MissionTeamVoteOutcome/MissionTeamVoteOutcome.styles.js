@@ -8,11 +8,11 @@ import {
     openSans,
     gutter,
     subtitle,
-    windowWidth
+    windowWidth,
 } from 'styles';
 
-const stampWidth = windowWidth - (gutter * 4);
-const stampHeight = stampWidth * .450920245;
+const stampWidth = windowWidth - gutter * 4;
+const stampHeight = stampWidth * 0.450920245;
 
 export default StyleSheet.create({
     container: {
@@ -40,7 +40,7 @@ export default StyleSheet.create({
     stamp: {
         resizeMode: `contain`,
         width: stampWidth,
-        height: stampHeight
+        height: stampHeight,
     },
     cards: {
         flexDirection: `row`,

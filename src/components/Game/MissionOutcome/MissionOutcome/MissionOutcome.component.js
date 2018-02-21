@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Image } from 'react-native';
+
 import PropTypes from 'prop-types';
 
 import {
@@ -8,9 +10,13 @@ import {
     GameFooter,
     FailedMissionCard,
     PassedMissionCard,
+    ConductMissionPlayersList,
 } from 'components';
 
 import { View } from 'react-native';
+
+const passedStamp = require(`assets/images/mission-passed-stamp.png`);
+const failedStamp = require(`assets/images/mission-failed-stamp.png`);
 
 import styles from './MissionOutcome.styles';
 
@@ -29,13 +35,7 @@ export default class MissionOutcome extends Component {
             totalPassedVotes,
         } = this.props;
 
-        let subtitleText = !isHost && `Host will start next round`;
-
-        const subtitle = subtitleText && (
-            <Text style={styles.subtitle}>{subtitleText}</Text>
-        );
-
-        const resultTitle = passed ? `success` : `fail`;
+        const stamp = passed ? passedStamp : failedStamp;
 
         const successNumberStyles = [styles.voteNumber];
         const failNumberStyles = [styles.voteNumber];
@@ -49,21 +49,22 @@ export default class MissionOutcome extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.content}>
-                    <Text style={styles.title}>Mission Result</Text>
-                    {subtitle}
                     <View style={styles.innerContent}>
-                        <Text style={styles.resultTitle}>
-                            {resultTitle.toUpperCase()}
-                        </Text>
+                        <View style={styles.playersListContainer}>
+                            <View style={styles.playersList}>
+                                <ConductMissionPlayersList />
+                            </View>
+                            <Image style={styles.stamp} source={stamp} />
+                        </View>
                         <View style={styles.cards}>
                             <View style={styles.firstCard}>
-                                <PassedMissionCard />
+                                <PassedMissionCard width={50} />
                                 <Text style={successNumberStyles}>
                                     {totalPassedVotes}
                                 </Text>
                             </View>
                             <View>
-                                <FailedMissionCard />
+                                <FailedMissionCard width={50} />
                                 <Text style={failNumberStyles}>
                                     {totalFailedVotes}
                                 </Text>

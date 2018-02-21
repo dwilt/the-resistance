@@ -95,8 +95,7 @@ function* createNewGame() {
         );
 
         yield* join({ id, data, players, completedMissions });
-    } catch({ message }) {
-
+    } catch ({ message }) {
     } finally {
         yield put(setIsCreatingGameAction(false));
     }
